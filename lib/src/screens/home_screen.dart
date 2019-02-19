@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:eyehelper/src/item.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -6,6 +7,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final List<Item> _items = items;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,18 +16,28 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text('Eyehelper'),
       ),
       body: Container(
-        child: Center(
-          child: Text("Home screen"),
+        child: Padding(
+          padding: const EdgeInsets.only(top: 16.0),
+          child: Column(
+            children: _items.map(_buildItem).toList(),
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        child: IconButton(
-          icon: Icon(Icons.person),
-          onPressed: () {
-            Navigator.of(context).pushReplacementNamed('/profile');
-          },
-        ),
+        onPressed: () {
+          Navigator.of(context).pushReplacementNamed('/profile');
+        },
+        child: Icon(Icons.import_contacts),
       ),
     );
   }
+
+  Widget _buildItem(Item item) => Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+    child: ListTile(
+      title: Text(item.name),
+      subtitle: Text(item.description),
+      onTap: () {},
+    ),
+  );
 }

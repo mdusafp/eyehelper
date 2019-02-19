@@ -11,7 +11,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       body: Container(
         child: Center(
-          child: Text("Profile"),
+          child: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.of(context).pushReplacementNamed("/");
+            },
+          ),
         ),
       ),
     );
