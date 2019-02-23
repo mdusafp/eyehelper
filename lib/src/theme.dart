@@ -1,14 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:eyehelper/src/constants.dart';
-
+import 'package:flutter/material.dart';
 
 class EyeHelperTheme {
   static ThemeData get theme {
-    return ThemeData.light()
-      .copyWith(
-        accentColor: const Color(PRIMARY_COLOR),
-        primaryColor: const Color(PRIMARY_COLOR),
-        scaffoldBackgroundColor: const Color(SECONDARY_COLOR),
-      );
+    return ThemeData(
+        primaryColor: PRIMARY_COLOR, secondaryHeaderColor: SECONDARY_COLOR);
   }
 }

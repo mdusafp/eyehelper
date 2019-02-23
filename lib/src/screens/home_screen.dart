@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:eyehelper/src/item.dart';
 
-
 class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -25,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).pushReplacementNamed('/profile');
+          Navigator.of(context).pushNamed('/profile');
         },
         child: Icon(Icons.import_contacts),
       ),
@@ -33,11 +32,11 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildItem(Item item) => Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-    child: ListTile(
-      title: Text(item.name),
-      subtitle: Text(item.description),
-      onTap: () {},
-    ),
-  );
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+        child: ListTile(
+          title: Text(item.name),
+          subtitle: Text(item.description),
+          onTap: () {},
+        ),
+      );
 }
