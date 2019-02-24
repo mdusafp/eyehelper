@@ -1,3 +1,4 @@
+import 'package:eyehelper/src/custom_elements/bootombar.dart';
 import 'package:eyehelper/src/custom_elements/toolbar.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +11,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ToolbarWavy("Упражнения"),
+      bottomNavigationBar: BottomWavy(),
     );
   }
 }
