@@ -28,11 +28,14 @@ class _ClipShadowShadowPainter extends CustomPainter {
   final Shadow shadow;
   final CustomClipper<Path> clipper;
 
-  _ClipShadowShadowPainter({@required this.shadow, @required this.clipper});
+  _ClipShadowShadowPainter({
+    @required this.shadow,
+    @required this.clipper,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
-    var paint = shadow.toPaint();
+    final paint = shadow.toPaint();
     canvas.drawPath(clipper.getClip(size), paint);
   }
 

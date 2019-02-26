@@ -2,7 +2,7 @@ import 'package:eyehelper/src/custom_elements/clip_shadow_path.dart';
 import 'package:flutter/material.dart';
 
 class ToolbarWavy extends StatelessWidget {
-  String title = "Упражнения";
+  final String title;
 
   ToolbarWavy(this.title);
 
@@ -19,9 +19,10 @@ class ToolbarWavy extends StatelessWidget {
             child: Text(
               this.title,
               style: TextStyle(
-                  fontSize: 25.0,
-                  color: Colors.red,
-                  fontWeight: FontWeight.bold),
+                fontSize: 25.0,
+                color: Colors.red,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),
@@ -33,18 +34,26 @@ class ToolbarWavy extends StatelessWidget {
 class BottomWaveClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
-    var path = new Path();
+    final path = new Path();
     path.lineTo(0.0, size.height - 40);
 
-    var firstControlPoint = Offset(size.width / 4, size.height);
-    var firstEndPoint = Offset(size.width / 2, size.height);
-    path.quadraticBezierTo(firstControlPoint.dx, firstControlPoint.dy,
-        firstEndPoint.dx, firstEndPoint.dy);
-
-    var sControlPoint = Offset(size.width * 0.75, size.height);
-    var sEndPoint = Offset(size.width, size.height - 40);
+    final firstControlPoint = Offset(size.width / 4, size.height);
+    final firstEndPoint = Offset(size.width / 2, size.height);
     path.quadraticBezierTo(
-        sControlPoint.dx, sControlPoint.dy, sEndPoint.dx, sEndPoint.dy);
+      firstControlPoint.dx,
+      firstControlPoint.dy,
+      firstEndPoint.dx,
+      firstEndPoint.dy,
+    );
+
+    final sControlPoint = Offset(size.width * 0.75, size.height);
+    final sEndPoint = Offset(size.width, size.height - 40);
+    path.quadraticBezierTo(
+      sControlPoint.dx,
+      sControlPoint.dy,
+      sEndPoint.dx,
+      sEndPoint.dy,
+    );
 
     path.lineTo(size.width, size.height - 40);
     path.lineTo(size.width, 0.0);
