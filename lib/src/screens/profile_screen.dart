@@ -10,8 +10,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ToolbarWavy("Упражнения"),
-      bottomNavigationBar: BottomWavy(),
+      body: ToolbarWavy(title: "Упражнения"),
+      bottomNavigationBar: BottomWavy(onBottomBarTap: (value) {
+        print(value);
+      }),
     );
   }
 }

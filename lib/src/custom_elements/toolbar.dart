@@ -1,28 +1,66 @@
 import 'package:eyehelper/src/custom_elements/clip_shadow_path.dart';
 import 'package:flutter/material.dart';
 
-class ToolbarWavy extends StatelessWidget {
+class ToolbarWavy extends StatefulWidget {
   final String title;
 
-  ToolbarWavy(this.title);
+  ToolbarWavy({Key key, this.title}) : super(key: key);
+
+  _ToolbarWavyState createState() => _ToolbarWavyState();
+}
+
+class _ToolbarWavyState extends State<ToolbarWavy> {
+  bool isVibrationActive = true;
+  bool isSoundOff = false;
 
   @override
   Widget build(BuildContext context) {
     return ClipShadowPath(
-      clipper: BottomWaveClipper(),
+      clipper: TopWaveClipper(),
       shadow: Shadow(blurRadius: 10, color: Colors.grey),
       child: SizedBox(
-        height: 120.0,
+        height: 100.0,
         child: Container(
           decoration: BoxDecoration(color: Colors.white),
           child: Center(
-            child: Text(
-              this.title,
-              style: TextStyle(
-                fontSize: 25.0,
-                color: Colors.red,
-                fontWeight: FontWeight.bold,
-              ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                SizedBox(
+                  height: 100.0,
+                  width: MediaQuery.of(context).size.width / 5,
+                ),
+                Text(
+                  widget.title,
+                  style: TextStyle(
+                    fontSize: 25.0,
+                    color: Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      isVibrationActive = !isVibrationActive;
+                    });
+                  },
+                  child: Icon(
+                    Icons.vibration,
+                    color: isVibrationActive ? Colors.red : Colors.grey,
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      isSoundOff = !isSoundOff;
+                    });
+                  },
+                  child: Icon(
+                    Icons.volume_off,
+                    color: isSoundOff ? Colors.red : Colors.grey,
+                  ),
+                ),
+              ],
             ),
           ),
         ),
@@ -31,7 +69,7 @@ class ToolbarWavy extends StatelessWidget {
   }
 }
 
-class BottomWaveClipper extends CustomClipper<Path> {
+class TopWaveClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     final path = new Path();
