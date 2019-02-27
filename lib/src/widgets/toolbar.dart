@@ -1,4 +1,4 @@
-import 'package:eyehelper/src/custom_elements/clip_shadow_path.dart';
+import 'package:eyehelper/src/widgets/clip_shadow_path.dart';
 import 'package:flutter/material.dart';
 
 class ToolbarWavy extends StatefulWidget {

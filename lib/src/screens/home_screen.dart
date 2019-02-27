@@ -1,42 +1,41 @@
+import 'package:eyehelper/src/widgets/bootombar.dart';
+import 'package:eyehelper/src/widgets/toolbar.dart';
 import 'package:flutter/material.dart';
-import 'package:eyehelper/src/item.dart';
 
 class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final List<Item> _items = items;
+  Widget content = Text('hello world');
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Eyehelper'),
+        elevation: 0.0,
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.transparent,
+        flexibleSpace: ToolbarWavy(title: "Упражнения"),
       ),
-      body: Container(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 16.0),
-          child: Column(
-            children: _items.map(_buildItem).toList(),
-          ),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).pushNamed('/profile');
+      body: content,
+      bottomNavigationBar: BottomWavy(
+        onEyePress: () {
+          setState(() {
+            content = Text('Eye');
+          });
         },
-        child: Icon(Icons.import_contacts),
+        onStatisticsPress: () {
+          setState(() {
+            content = Text('Statistic');
+          });
+        },
+        onNotificationPress: () {
+          setState(() {
+            content = Text('Notifications');
+          });
+        },
       ),
     );
   }
-
-  Widget _buildItem(Item item) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-        child: ListTile(
-          title: Text(item.name),
-          subtitle: Text(item.description),
-          onTap: () {},
-        ),
-      );
 }
