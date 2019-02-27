@@ -1,4 +1,4 @@
-import 'package:eyehelper/src/widgets/bootombar.dart';
+import 'package:eyehelper/src/widgets/bootom_bar.dart';
 import 'package:eyehelper/src/widgets/toolbar.dart';
 import 'package:flutter/material.dart';
 
@@ -7,6 +7,16 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  int _currentIndex = 1;
+
+  Map screens = {
+    0: Text('Statistic'),
+    1: Text('Eye'),
+    2: Text('Notifications'),
+  };
+
+
   Widget content = Text('hello world');
 
   @override
@@ -18,23 +28,10 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.transparent,
         flexibleSpace: ToolbarWavy(title: "Упражнения"),
       ),
-      body: content,
+      body: screens[_currentIndex],
       bottomNavigationBar: BottomWavy(
-        onEyePress: () {
-          setState(() {
-            content = Text('Eye');
-          });
-        },
-        onStatisticsPress: () {
-          setState(() {
-            content = Text('Statistic');
-          });
-        },
-        onNotificationPress: () {
-          setState(() {
-            content = Text('Notifications');
-          });
-        },
+        currentIndex: _currentIndex,
+        onTap: (index) => setState(() => _currentIndex = index),
       ),
     );
   }

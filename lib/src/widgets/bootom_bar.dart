@@ -5,14 +5,16 @@ import 'package:flutter/material.dart';
 class BottomWavy extends StatefulWidget {
   BottomWavy({
     Key key,
-    this.onEyePress,
-    this.onStatisticsPress,
-    this.onNotificationPress,
+    this.onTap,
+    this.currentIndex,
   }) : super(key: key);
 
-  final Function onEyePress;
-  final Function onStatisticsPress;
-  final Function onNotificationPress;
+  final Function onTap;
+  final int currentIndex;
+
+  static int INDEX_STATISTICS_SCREEN = 0;
+  static int INDEX_EYE_SCREEN = 1;
+  static int INDEX_NOTIFICATIONS_SCREEN = 2;
 
   _BottomWavyState createState() => _BottomWavyState();
 }
@@ -38,25 +40,19 @@ class _BottomWavyState extends State<BottomWavy> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   InkWell(
-                    onTap: () {
-                      selectedScreen = Screens.statistic;
-                      widget.onStatisticsPress();
-                    },
+                    onTap: () => widget.onTap(BottomWavy.INDEX_STATISTICS_SCREEN),
                     child: Icon(
                       Icons.data_usage,
-                      color: selectedScreen == Screens.statistic
+                      color: widget.currentIndex == BottomWavy.INDEX_STATISTICS_SCREEN
                           ? Colors.red
                           : Colors.grey,
                     ),
                   ),
                   InkWell(
-                    onTap: () {
-                      selectedScreen = Screens.notification;
-                      widget.onNotificationPress();
-                    },
+                    onTap: () => widget.onTap(BottomWavy.INDEX_NOTIFICATIONS_SCREEN),
                     child: Icon(
                       Icons.notifications,
-                      color: selectedScreen == Screens.notification
+                      color: widget.currentIndex == BottomWavy.INDEX_NOTIFICATIONS_SCREEN
                           ? Colors.red
                           : Colors.grey,
                     ),
@@ -89,10 +85,7 @@ class _BottomWavyState extends State<BottomWavy> {
                             color: Colors.white,
                             size: 28.0,
                           ),
-                          onPressed: () {
-                            selectedScreen = Screens.main;
-                            widget.onEyePress();
-                          },
+                          onPressed: () => widget.onTap(BottomWavy.INDEX_EYE_SCREEN),
                         ),
                       ),
                     ),
