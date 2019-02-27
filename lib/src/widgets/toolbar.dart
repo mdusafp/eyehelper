@@ -1,6 +1,8 @@
 import 'package:eyehelper/src/widgets/clip_shadow_path.dart';
 import 'package:flutter/material.dart';
 
+const double PREFERED_HEIGHT_FOR_CUSTOM_APPBAR = 130.0;
+
 class ToolbarWavy extends StatefulWidget {
   final String title;
 
@@ -19,7 +21,7 @@ class _ToolbarWavyState extends State<ToolbarWavy> {
       clipper: TopWaveClipper(),
       shadow: Shadow(blurRadius: 10, color: Colors.grey),
       child: SizedBox(
-        height: 100.0,
+        height: PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
         child: Container(
           decoration: BoxDecoration(color: Colors.white),
           child: Center(

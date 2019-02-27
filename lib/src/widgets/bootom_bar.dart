@@ -33,26 +33,30 @@ class _BottomWavyState extends State<BottomWavy> {
           shadow: Shadow(blurRadius: 10, color: Colors.grey),
           child: Container(
             color: Colors.white,
-            height: 100.0,
+            height: 90.0,
             child: Padding(
               padding: EdgeInsets.only(left: 30.0, right: 30.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   InkWell(
-                    onTap: () => widget.onTap(BottomWavy.INDEX_STATISTICS_SCREEN),
+                    onTap: () =>
+                        widget.onTap(BottomWavy.INDEX_STATISTICS_SCREEN),
                     child: Icon(
                       Icons.data_usage,
-                      color: widget.currentIndex == BottomWavy.INDEX_STATISTICS_SCREEN
+                      color: widget.currentIndex ==
+                          BottomWavy.INDEX_STATISTICS_SCREEN
                           ? Colors.red
                           : Colors.grey,
                     ),
                   ),
                   InkWell(
-                    onTap: () => widget.onTap(BottomWavy.INDEX_NOTIFICATIONS_SCREEN),
+                    onTap: () =>
+                        widget.onTap(BottomWavy.INDEX_NOTIFICATIONS_SCREEN),
                     child: Icon(
                       Icons.notifications,
-                      color: widget.currentIndex == BottomWavy.INDEX_NOTIFICATIONS_SCREEN
+                      color: widget.currentIndex ==
+                          BottomWavy.INDEX_NOTIFICATIONS_SCREEN
                           ? Colors.red
                           : Colors.grey,
                     ),
@@ -85,7 +89,8 @@ class _BottomWavyState extends State<BottomWavy> {
                             color: Colors.white,
                             size: 28.0,
                           ),
-                          onPressed: () => widget.onTap(BottomWavy.INDEX_EYE_SCREEN),
+                          onPressed: () =>
+                              widget.onTap(BottomWavy.INDEX_EYE_SCREEN),
                         ),
                       ),
                     ),

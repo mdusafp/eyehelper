@@ -7,7 +7,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   int _currentIndex = 1;
 
   Map screens = {
@@ -16,18 +15,19 @@ class _HomeScreenState extends State<HomeScreen> {
     2: Text('Notifications'),
   };
 
-
   Widget content = Text('hello world');
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0.0,
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.transparent,
-        flexibleSpace: ToolbarWavy(title: "Упражнения"),
-      ),
+      appBar: PreferredSize(
+          preferredSize: Size.fromHeight(PREFERED_HEIGHT_FOR_CUSTOM_APPBAR),
+          child: AppBar(
+            elevation: 0.0,
+            automaticallyImplyLeading: false,
+            backgroundColor: Colors.transparent,
+            flexibleSpace: ToolbarWavy(title: "Упражнения"),
+          )),
       body: screens[_currentIndex],
       bottomNavigationBar: BottomWavy(
         currentIndex: _currentIndex,
