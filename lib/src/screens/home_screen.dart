@@ -19,20 +19,34 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
-          preferredSize: Size.fromHeight(PREFERED_HEIGHT_FOR_CUSTOM_APPBAR),
-          child: AppBar(
-            elevation: 0.0,
-            automaticallyImplyLeading: false,
-            backgroundColor: Colors.transparent,
-            flexibleSpace: ToolbarWavy(title: "Упражнения"),
-          )),
-      body: screens[_currentIndex],
-      bottomNavigationBar: BottomWavy(
-        currentIndex: _currentIndex,
-        onTap: (index) => setState(() => _currentIndex = index),
-      ),
+    return Stack(
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(top: 80.0, bottom: 40.0),
+          child: Scaffold(
+            body: screens[_currentIndex],
+          ),
+        ),
+
+        PreferredSize(
+            preferredSize: Size.fromHeight(PREFERED_HEIGHT_FOR_CUSTOM_APPBAR),
+            child: AppBar(
+              elevation: 0.0,
+              automaticallyImplyLeading: false,
+              backgroundColor: Colors.transparent,
+              flexibleSpace: ToolbarWavy(title: "Упражнения"),
+            )
+        ),
+
+        Positioned(
+          bottom: 0.0,
+          child: BottomWavy(
+            currentIndex: _currentIndex,
+            onTap: (index) => setState(() => _currentIndex = index),
+          ),
+        )
+      ],
     );
   }
 }
+
