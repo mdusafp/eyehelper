@@ -13,7 +13,6 @@ class _EyeScreenState extends State<EyeScreen> {
   Widget build(BuildContext context) {
 
     return Container(
-      color: Colors.red,
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

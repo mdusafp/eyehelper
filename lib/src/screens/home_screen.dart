@@ -23,20 +23,20 @@ class _HomeScreenState extends State<HomeScreen> {
     return Stack(
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.only(top: 80.0, bottom: 40.0),
+          padding: EdgeInsets.only(top: 60.0, bottom: 40.0),
           child: Scaffold(
             body: screens[_currentIndex],
           ),
         ),
 
         PreferredSize(
-            preferredSize: Size.fromHeight(PREFERED_HEIGHT_FOR_CUSTOM_APPBAR),
-            child: AppBar(
-              elevation: 0.0,
-              automaticallyImplyLeading: false,
-              backgroundColor: Colors.transparent,
-              flexibleSpace: ToolbarWavy(title: "Упражнения"),
-            )
+          preferredSize: Size.fromHeight(PREFERED_HEIGHT_FOR_CUSTOM_APPBAR),
+          child: AppBar(
+            elevation: 0.0,
+            automaticallyImplyLeading: false,
+            backgroundColor: Colors.transparent,
+            flexibleSpace: ToolbarWavy(title: "Упражнения"),
+          )
         ),
 
         Positioned(
