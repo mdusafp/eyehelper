@@ -1,3 +1,4 @@
+import 'package:eyehelper/src/screens/eye_screen.dart';
 import 'package:eyehelper/src/widgets/bootom_bar.dart';
 import 'package:eyehelper/src/widgets/toolbar.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Map screens = {
     0: Text('Statistic'),
-    1: Text('Eye'),
+    1: EyeScreen(),
     2: Text('Notifications'),
   };
 
