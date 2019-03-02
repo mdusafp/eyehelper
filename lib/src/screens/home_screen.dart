@@ -29,8 +29,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
 
-        PreferredSize(
-          preferredSize: Size.fromHeight(PREFERED_HEIGHT_FOR_CUSTOM_APPBAR),
+        Container(
+          height: PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
           child: AppBar(
             elevation: 0.0,
             automaticallyImplyLeading: false,

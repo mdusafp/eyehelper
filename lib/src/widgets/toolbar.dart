@@ -24,7 +24,75 @@ class _ToolbarWavyState extends State<ToolbarWavy> {
         height: PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
         child: Container(
           decoration: BoxDecoration(color: Colors.white),
-          child: Center(
+          child: Stack(
+            children: <Widget>[
+
+              Container(
+                width: MediaQuery.of(context).size.width,
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 10.0),
+                  child: Center(
+                    child: Text(
+                      widget.title,
+                      style: TextStyle(
+                        fontSize: 25.0,
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                )
+              ),
+
+
+              Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 10.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+
+                        Padding(
+                          padding: EdgeInsets.only(right: 15.0),
+                          child: InkWell(
+                            onTap: () {
+                              setState(() {
+                                isVibrationActive = !isVibrationActive;
+                              });
+                            },
+                            child: Icon(
+                              Icons.vibration,
+                              size: 24.0,
+                              color: isVibrationActive ? Colors.red : Colors.grey,
+                            ),
+                          ),
+                        ),
+
+                        Padding(
+                          padding: EdgeInsets.only(right: 15.0),
+                          child: InkWell(
+                            onTap: () {
+                              setState(() {
+                                isSoundOff = !isSoundOff;
+                              });
+                            },
+                            child: Icon(
+                              Icons.volume_off,
+                              size: 24.0,
+                              color: isSoundOff ? Colors.red : Colors.grey,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+              ),
+
+              /*
+              Center(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -32,39 +100,14 @@ class _ToolbarWavyState extends State<ToolbarWavy> {
                   height: 75.0,
                   width: MediaQuery.of(context).size.width / 5,
                 ),
-                Text(
-                  widget.title,
-                  style: TextStyle(
-                    fontSize: 25.0,
-                    color: Colors.red,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      isVibrationActive = !isVibrationActive;
-                    });
-                  },
-                  child: Icon(
-                    Icons.vibration,
-                    color: isVibrationActive ? Colors.red : Colors.grey,
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      isSoundOff = !isSoundOff;
-                    });
-                  },
-                  child: Icon(
-                    Icons.volume_off,
-                    color: isSoundOff ? Colors.red : Colors.grey,
-                  ),
-                ),
+
+
               ],
             ),
           ),
+               */
+            ],
+          )
         ),
       ),
     );
