@@ -1,4 +1,4 @@
-import 'package:eyehelper/src/screens/eye_screen.dart';
+import 'package:eyehelper/src/screens/eye_screen/eye_screen.dart';
 import 'package:eyehelper/src/widgets/bootom_bar.dart';
 import 'package:eyehelper/src/widgets/toolbar.dart';
 import 'package:flutter/material.dart';

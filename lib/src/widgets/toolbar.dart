@@ -90,22 +90,6 @@ class _ToolbarWavyState extends State<ToolbarWavy> {
                     ),
                   )
               ),
-
-              /*
-              Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                SizedBox(
-                  height: 75.0,
-                  width: MediaQuery.of(context).size.width / 5,
-                ),
-
-
-              ],
-            ),
-          ),
-               */
             ],
           )
         ),
