@@ -1,3 +1,4 @@
+import 'package:eyehelper/src/screens/eye_screen/eye_screen.dart';
 import 'package:eyehelper/src/widgets/bootom_bar.dart';
 import 'package:eyehelper/src/widgets/toolbar.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Map screens = {
     0: Text('Statistic'),
-    1: Text('Eye'),
+    1: EyeScreen(),
     2: Text('Notifications'),
   };
 
@@ -19,20 +20,34 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
-          preferredSize: Size.fromHeight(PREFERED_HEIGHT_FOR_CUSTOM_APPBAR),
+    return Stack(
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(top: 60.0, bottom: 40.0),
+          child: Scaffold(
+            body: screens[_currentIndex],
+          ),
+        ),
+
+        Container(
+          height: PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
           child: AppBar(
             elevation: 0.0,
             automaticallyImplyLeading: false,
             backgroundColor: Colors.transparent,
             flexibleSpace: ToolbarWavy(title: "Упражнения"),
-          )),
-      body: screens[_currentIndex],
-      bottomNavigationBar: BottomWavy(
-        currentIndex: _currentIndex,
-        onTap: (index) => setState(() => _currentIndex = index),
-      ),
+          )
+        ),
+
+        Positioned(
+          bottom: 0.0,
+          child: BottomWavy(
+            currentIndex: _currentIndex,
+            onTap: (index) => setState(() => _currentIndex = index),
+          ),
+        )
+      ],
     );
   }
 }
+

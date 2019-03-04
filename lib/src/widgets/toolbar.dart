@@ -1,7 +1,7 @@
 import 'package:eyehelper/src/widgets/clip_shadow_path.dart';
 import 'package:flutter/material.dart';
 
-const double PREFERED_HEIGHT_FOR_CUSTOM_APPBAR = 130.0;
+const double PREFERED_HEIGHT_FOR_CUSTOM_APPBAR = 110.0;
 
 class ToolbarWavy extends StatefulWidget {
   final String title;
@@ -24,47 +24,74 @@ class _ToolbarWavyState extends State<ToolbarWavy> {
         height: PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
         child: Container(
           decoration: BoxDecoration(color: Colors.white),
-          child: Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                SizedBox(
-                  height: 100.0,
-                  width: MediaQuery.of(context).size.width / 5,
-                ),
-                Text(
-                  widget.title,
-                  style: TextStyle(
-                    fontSize: 25.0,
-                    color: Colors.red,
-                    fontWeight: FontWeight.bold,
+          child: Stack(
+            children: <Widget>[
+
+              Container(
+                width: MediaQuery.of(context).size.width,
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 10.0),
+                  child: Center(
+                    child: Text(
+                      widget.title,
+                      style: TextStyle(
+                        fontSize: 25.0,
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
-                ),
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      isVibrationActive = !isVibrationActive;
-                    });
-                  },
-                  child: Icon(
-                    Icons.vibration,
-                    color: isVibrationActive ? Colors.red : Colors.grey,
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      isSoundOff = !isSoundOff;
-                    });
-                  },
-                  child: Icon(
-                    Icons.volume_off,
-                    color: isSoundOff ? Colors.red : Colors.grey,
-                  ),
-                ),
-              ],
-            ),
-          ),
+                )
+              ),
+
+
+              Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 10.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+
+                        Padding(
+                          padding: EdgeInsets.only(right: 15.0),
+                          child: InkWell(
+                            onTap: () {
+                              setState(() {
+                                isVibrationActive = !isVibrationActive;
+                              });
+                            },
+                            child: Icon(
+                              Icons.vibration,
+                              size: 24.0,
+                              color: isVibrationActive ? Colors.red : Colors.grey,
+                            ),
+                          ),
+                        ),
+
+                        Padding(
+                          padding: EdgeInsets.only(right: 15.0),
+                          child: InkWell(
+                            onTap: () {
+                              setState(() {
+                                isSoundOff = !isSoundOff;
+                              });
+                            },
+                            child: Icon(
+                              Icons.volume_off,
+                              size: 24.0,
+                              color: isSoundOff ? Colors.red : Colors.grey,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+              ),
+            ],
+          )
         ),
       ),
     );
@@ -97,6 +124,7 @@ class TopWaveClipper extends CustomClipper<Path> {
 
     path.lineTo(size.width, size.height - 40);
     path.lineTo(size.width, 0.0);
+
     path.close();
 
     return path;

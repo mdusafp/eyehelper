@@ -28,50 +28,61 @@ class _BottomWavyState extends State<BottomWavy> {
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
+
         ClipShadowPath(
           clipper: BottomWaveClipper(),
           shadow: Shadow(blurRadius: 10, color: Colors.grey),
           child: Container(
-            color: Colors.white,
-            height: 90.0,
-            child: Padding(
-              padding: EdgeInsets.only(left: 30.0, right: 30.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  InkWell(
-                    onTap: () =>
-                        widget.onTap(BottomWavy.INDEX_STATISTICS_SCREEN),
-                    child: Icon(
-                      Icons.data_usage,
-                      color: widget.currentIndex ==
-                          BottomWavy.INDEX_STATISTICS_SCREEN
-                          ? Colors.red
-                          : Colors.grey,
-                    ),
+              color: Colors.white,
+              height: 75.0,
+              width: MediaQuery.of(context).size.width,
+              child: Material(
+                type: MaterialType.transparency,
+                child: Padding(
+                  padding: EdgeInsets.only(top: 10.0, left: 30.0, right: 30.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      InkWell(
+                          onTap: () =>
+                              widget.onTap(BottomWavy.INDEX_STATISTICS_SCREEN),
+                          child: Image.asset(
+                            'assets/stat_menu_icon.png',
+                            height: 25.0,
+                            color: widget.currentIndex ==
+                                BottomWavy.INDEX_STATISTICS_SCREEN
+                                ? Colors.red
+                                : Colors.grey,
+                          )
+                      ),
+
+                      InkWell(
+                        onTap: () =>
+                            widget.onTap(BottomWavy.INDEX_NOTIFICATIONS_SCREEN),
+                        child: Image.asset(
+                          'assets/notif_menu_icon.png',
+                          height: 22.0,
+                          color: widget.currentIndex ==
+                              BottomWavy.INDEX_NOTIFICATIONS_SCREEN
+                              ? Colors.red
+                              : Colors.grey,
+                        )
+                      ),
+                    ],
                   ),
-                  InkWell(
-                    onTap: () =>
-                        widget.onTap(BottomWavy.INDEX_NOTIFICATIONS_SCREEN),
-                    child: Icon(
-                      Icons.notifications,
-                      color: widget.currentIndex ==
-                          BottomWavy.INDEX_NOTIFICATIONS_SCREEN
-                          ? Colors.red
-                          : Colors.grey,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                ),
+              )
           ),
         ),
+        
+        
         Positioned(
           bottom: 0.0,
           left: MediaQuery.of(context).size.width / 2 - eyeWidth / 2,
           child: Container(
+            height: 75,
             child: Padding(
-              padding: EdgeInsets.only(bottom: 30.0),
+              padding: EdgeInsets.only(bottom: 17.0),
               child: Material(
                 type: MaterialType.transparency,
                 child: Row(
@@ -87,7 +98,7 @@ class _BottomWavyState extends State<BottomWavy> {
                           child: Icon(
                             Icons.remove_red_eye,
                             color: Colors.white,
-                            size: 28.0,
+                            size: 30.0,
                           ),
                           onPressed: () =>
                               widget.onTap(BottomWavy.INDEX_EYE_SCREEN),
@@ -110,8 +121,8 @@ class BottomWaveClipper extends CustomClipper<Path> {
   Path getClip(Size size) {
     final path = new Path();
 
-    final firstControlPoint = Offset(size.width * .25, size.height - 55);
-    final firstEndPoint = Offset(size.width * .5, size.height - 55);
+    final firstControlPoint = Offset(size.width * .25, size.height * 0.45);
+    final firstEndPoint = Offset(size.width * .5, size.height * 0.45);
     path.quadraticBezierTo(
       firstControlPoint.dx,
       firstControlPoint.dy,
@@ -119,7 +130,7 @@ class BottomWaveClipper extends CustomClipper<Path> {
       firstEndPoint.dy,
     );
 
-    final sControlPoint = Offset(size.width * .75, size.height - 55);
+    final sControlPoint = Offset(size.width * .75, size.height * 0.45);
     final sEndPoint = Offset(size.width, 0);
     path.quadraticBezierTo(
       sControlPoint.dx,
