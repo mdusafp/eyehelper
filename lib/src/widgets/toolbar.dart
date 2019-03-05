@@ -1,3 +1,5 @@
+import 'package:eyehelper/src/colors.dart';
+import 'package:eyehelper/src/constants.dart';
 import 'package:eyehelper/src/widgets/clip_shadow_path.dart';
 import 'package:flutter/material.dart';
 
@@ -5,8 +7,9 @@ const double PREFERED_HEIGHT_FOR_CUSTOM_APPBAR = 110.0;
 
 class ToolbarWavy extends StatefulWidget {
   final String title;
+  final int currentIndex;
 
-  ToolbarWavy({Key key, this.title}) : super(key: key);
+  ToolbarWavy({Key key, this.title, this.currentIndex}) : super(key: key);
 
   _ToolbarWavyState createState() => _ToolbarWavyState();
 }
@@ -19,11 +22,11 @@ class _ToolbarWavyState extends State<ToolbarWavy> {
   Widget build(BuildContext context) {
     return ClipShadowPath(
       clipper: TopWaveClipper(),
-      shadow: Shadow(blurRadius: 10, color: Colors.grey),
+      shadow: Shadow(blurRadius: 10, color: StandartStyle.lightGrey),
       child: SizedBox(
         height: PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
         child: Container(
-          decoration: BoxDecoration(color: Colors.white),
+          decoration: BoxDecoration(color: StandartStyle.backgroundWhite),
           child: Stack(
             children: <Widget>[
 
@@ -36,7 +39,7 @@ class _ToolbarWavyState extends State<ToolbarWavy> {
                       widget.title,
                       style: TextStyle(
                         fontSize: 25.0,
-                        color: Colors.red,
+                        color: StandartStyle.activeColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -45,7 +48,7 @@ class _ToolbarWavyState extends State<ToolbarWavy> {
               ),
 
 
-              Container(
+              widget.currentIndex == INDEX_EYE_SCREEN ? Container(
                   width: MediaQuery.of(context).size.width,
                   height: PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
                   child: Padding(
@@ -66,7 +69,7 @@ class _ToolbarWavyState extends State<ToolbarWavy> {
                             child: Icon(
                               Icons.vibration,
                               size: 24.0,
-                              color: isVibrationActive ? Colors.red : Colors.grey,
+                              color: isVibrationActive ? StandartStyle.activeColor : StandartStyle.lightGrey,
                             ),
                           ),
                         ),
@@ -82,14 +85,14 @@ class _ToolbarWavyState extends State<ToolbarWavy> {
                             child: Icon(
                               Icons.volume_off,
                               size: 24.0,
-                              color: isSoundOff ? Colors.red : Colors.grey,
+                              color: isSoundOff ? StandartStyle.activeColor : StandartStyle.lightGrey,
                             ),
                           ),
                         )
                       ],
                     ),
                   )
-              ),
+              ) : Container()
             ],
           )
         ),

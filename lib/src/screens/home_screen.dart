@@ -1,3 +1,5 @@
+import 'package:eyehelper/src/colors.dart';
+import 'package:eyehelper/src/constants.dart';
 import 'package:eyehelper/src/screens/eye_screen/eye_screen.dart';
 import 'package:eyehelper/src/widgets/bootom_bar.dart';
 import 'package:eyehelper/src/widgets/toolbar.dart';
@@ -10,10 +12,16 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 1;
 
+  Map titles = {
+    INDEX_STATISTICS_SCREEN: 'Статистика',
+    INDEX_EYE_SCREEN: 'Упражнения',
+    INDEX_NOTIFICATIONS_SCREEN: 'Уведомления'
+  };
+
   Map screens = {
-    0: Text('Statistic'),
-    1: EyeScreen(),
-    2: Text('Notifications'),
+    INDEX_STATISTICS_SCREEN: Container(),
+    INDEX_EYE_SCREEN: EyeScreen(),
+    INDEX_NOTIFICATIONS_SCREEN: Container(),
   };
 
   Widget content = Text('hello world');
@@ -34,8 +42,11 @@ class _HomeScreenState extends State<HomeScreen> {
           child: AppBar(
             elevation: 0.0,
             automaticallyImplyLeading: false,
-            backgroundColor: Colors.transparent,
-            flexibleSpace: ToolbarWavy(title: "Упражнения"),
+            backgroundColor: StandartStyle.transparent,
+            flexibleSpace: ToolbarWavy(
+                title: titles[_currentIndex],
+                currentIndex: _currentIndex
+            ),
           )
         ),
 
