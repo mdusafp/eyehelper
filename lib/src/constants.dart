@@ -1,4 +1,3 @@
-import 'dart:ui';
-
-final PRIMARY_COLOR = const Color(0xff2c2c54);
-final SECONDARY_COLOR = const Color(0xffd1ccc0);
+final int INDEX_STATISTICS_SCREEN = 0;
+final int INDEX_EYE_SCREEN = 1;
+final int INDEX_NOTIFICATIONS_SCREEN = 2;

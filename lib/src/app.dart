@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:eyehelper/src/theme.dart';
 import 'package:eyehelper/src/routes.dart';
 import 'package:flutter/services.dart';
 
@@ -16,7 +15,6 @@ class EyeHelperApp extends StatelessWidget {
     return MaterialApp(
       title: 'Eyehelper',
       debugShowCheckedModeBanner: false,
-      theme: EyeHelperTheme.theme,
       routes: EyeHelperRoutes.routes,
     );
   }

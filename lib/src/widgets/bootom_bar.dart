@@ -1,3 +1,5 @@
+import 'package:eyehelper/src/colors.dart';
+import 'package:eyehelper/src/constants.dart';
 import 'package:eyehelper/src/enums/screens.enum.dart';
 import 'package:eyehelper/src/widgets/clip_shadow_path.dart';
 import 'package:flutter/material.dart';
@@ -11,10 +13,6 @@ class BottomWavy extends StatefulWidget {
 
   final Function onTap;
   final int currentIndex;
-
-  static int INDEX_STATISTICS_SCREEN = 0;
-  static int INDEX_EYE_SCREEN = 1;
-  static int INDEX_NOTIFICATIONS_SCREEN = 2;
 
   _BottomWavyState createState() => _BottomWavyState();
 }
@@ -31,9 +29,9 @@ class _BottomWavyState extends State<BottomWavy> {
 
         ClipShadowPath(
           clipper: BottomWaveClipper(),
-          shadow: Shadow(blurRadius: 10, color: Colors.grey),
+          shadow: Shadow(blurRadius: 10, color: StandartStyle.lightGrey),
           child: Container(
-              color: Colors.white,
+              color: StandartStyle.backgroundWhite,
               height: 75.0,
               width: MediaQuery.of(context).size.width,
               child: Material(
@@ -45,27 +43,27 @@ class _BottomWavyState extends State<BottomWavy> {
                     children: <Widget>[
                       InkWell(
                           onTap: () =>
-                              widget.onTap(BottomWavy.INDEX_STATISTICS_SCREEN),
+                              widget.onTap(INDEX_STATISTICS_SCREEN),
                           child: Image.asset(
                             'assets/stat_menu_icon.png',
                             height: 25.0,
                             color: widget.currentIndex ==
-                                BottomWavy.INDEX_STATISTICS_SCREEN
-                                ? Colors.red
-                                : Colors.grey,
+                                INDEX_STATISTICS_SCREEN
+                                ? StandartStyle.activeColor
+                                : StandartStyle.lightGrey,
                           )
                       ),
 
                       InkWell(
                         onTap: () =>
-                            widget.onTap(BottomWavy.INDEX_NOTIFICATIONS_SCREEN),
+                            widget.onTap(INDEX_NOTIFICATIONS_SCREEN),
                         child: Image.asset(
                           'assets/notif_menu_icon.png',
                           height: 22.0,
                           color: widget.currentIndex ==
-                              BottomWavy.INDEX_NOTIFICATIONS_SCREEN
-                              ? Colors.red
-                              : Colors.grey,
+                              INDEX_NOTIFICATIONS_SCREEN
+                              ? StandartStyle.activeColor
+                              : StandartStyle.lightGrey,
                         )
                       ),
                     ],
@@ -93,15 +91,15 @@ class _BottomWavyState extends State<BottomWavy> {
                       width: eyeWidth,
                       child: FittedBox(
                         child: FloatingActionButton(
-                          backgroundColor: Colors.red,
+                          backgroundColor: StandartStyle.activeColor,
                           heroTag: 'mainBtn',
                           child: Icon(
                             Icons.remove_red_eye,
-                            color: Colors.white,
+                            color: StandartStyle.backgroundWhite,
                             size: 30.0,
                           ),
                           onPressed: () =>
-                              widget.onTap(BottomWavy.INDEX_EYE_SCREEN),
+                              widget.onTap(INDEX_EYE_SCREEN),
                         ),
                       ),
                     ),
