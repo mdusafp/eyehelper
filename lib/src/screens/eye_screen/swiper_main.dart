@@ -1,3 +1,4 @@
+import 'package:eyehelper/src/colors.dart';
 import 'package:eyehelper/src/widgets/custom_rounded_button.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
@@ -87,7 +88,7 @@ class _SwiperMainState extends State<SwiperMain> {
                 space: 10.0,
                 size: 8.0,
                 activeSize: 8.0,
-                activeColor: Colors.red
+                activeColor: StandartStyle.activeColor
             )
         ),
         itemBuilder: (BuildContext context, int index) {

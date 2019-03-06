@@ -1,6 +1,5 @@
 import 'package:eyehelper/src/screens/eye_screen/swiper_main.dart';
 import 'package:flutter/material.dart';
-import 'package:flare_flutter/flare_actor.dart';
 
 class EyeScreen extends StatefulWidget {
   @override
