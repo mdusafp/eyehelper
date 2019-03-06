@@ -1,5 +1,6 @@
 import 'package:eyehelper/src/colors.dart';
 import 'package:eyehelper/src/constants.dart';
+import 'package:eyehelper/src/helpers/notification.dart';
 import 'package:eyehelper/src/screens/eye_screen/eye_screen.dart';
 import 'package:eyehelper/src/widgets/bootom_bar.dart';
 import 'package:eyehelper/src/widgets/toolbar.dart';
@@ -11,6 +12,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 1;
+  NotificationsHelper notificationHelper;
+
+  @override
+  initState() {
+    super.initState();
+    notificationHelper = NotificationsHelper(context);
+  }
 
   Map titles = {
     INDEX_STATISTICS_SCREEN: 'Статистика',
@@ -24,8 +32,6 @@ class _HomeScreenState extends State<HomeScreen> {
     INDEX_NOTIFICATIONS_SCREEN: Container(),
   };
 
-  Widget content = Text('hello world');
-
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -36,29 +42,27 @@ class _HomeScreenState extends State<HomeScreen> {
             body: screens[_currentIndex],
           ),
         ),
-
         Container(
-          height: PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
-          child: AppBar(
-            elevation: 0.0,
-            automaticallyImplyLeading: false,
-            backgroundColor: StandartStyle.transparent,
-            flexibleSpace: ToolbarWavy(
-                title: titles[_currentIndex],
-                currentIndex: _currentIndex
-            ),
-          )
-        ),
-
+            height: PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
+            child: AppBar(
+              elevation: 0.0,
+              automaticallyImplyLeading: false,
+              backgroundColor: StandartStyle.transparent,
+              flexibleSpace: ToolbarWavy(
+                  title: titles[_currentIndex], currentIndex: _currentIndex),
+            )),
         Positioned(
           bottom: 0.0,
           child: BottomWavy(
             currentIndex: _currentIndex,
-            onTap: (index) => setState(() => _currentIndex = index),
+            onTap: (index) =>
+                setState(() {
+                  _currentIndex = index;
+                  notificationHelper.scheduleNotification();
+                }),
           ),
         )
       ],
     );
   }
 }
-
