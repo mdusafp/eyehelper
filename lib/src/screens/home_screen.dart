@@ -1,6 +1,7 @@
 import 'package:eyehelper/src/colors.dart';
 import 'package:eyehelper/src/constants.dart';
 import 'package:eyehelper/src/screens/eye_screen/eye_screen.dart';
+import 'package:eyehelper/src/screens/notification_screen.dart';
 import 'package:eyehelper/src/widgets/bootom_bar.dart';
 import 'package:eyehelper/src/widgets/toolbar.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Map screens = {
     INDEX_STATISTICS_SCREEN: Container(),
     INDEX_EYE_SCREEN: EyeScreen(),
-    INDEX_NOTIFICATIONS_SCREEN: Container(),
+    INDEX_NOTIFICATIONS_SCREEN: NotificationScreen(),
   };
 
   Widget content = Text('hello world');
@@ -36,7 +37,6 @@ class _HomeScreenState extends State<HomeScreen> {
             body: screens[_currentIndex],
           ),
         ),
-
         Container(
           height: PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
           child: AppBar(
@@ -44,12 +44,11 @@ class _HomeScreenState extends State<HomeScreen> {
             automaticallyImplyLeading: false,
             backgroundColor: StandartStyle.transparent,
             flexibleSpace: ToolbarWavy(
-                title: titles[_currentIndex],
-                currentIndex: _currentIndex
+              title: titles[_currentIndex],
+              currentIndex: _currentIndex,
             ),
-          )
+          ),
         ),
-
         Positioned(
           bottom: 0.0,
           child: BottomWavy(
@@ -61,4 +60,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
