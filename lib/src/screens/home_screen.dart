@@ -24,8 +24,6 @@ class _HomeScreenState extends State<HomeScreen> {
     INDEX_NOTIFICATIONS_SCREEN: Container(),
   };
 
-  Widget content = Text('hello world');
-
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -42,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: AppBar(
             elevation: 0.0,
             automaticallyImplyLeading: false,
-            backgroundColor: StandartStyle.transparent,
+            backgroundColor: StandardStyleColors.transparent,
             flexibleSpace: ToolbarWavy(
                 title: titles[_currentIndex],
                 currentIndex: _currentIndex

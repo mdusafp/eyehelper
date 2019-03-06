@@ -88,60 +88,51 @@ class _SwiperMainState extends State<SwiperMain> {
                 space: 10.0,
                 size: 8.0,
                 activeSize: 8.0,
-                activeColor: StandartStyle.activeColor
+                activeColor: StandardStyleColors.activeColor
             )
         ),
         itemBuilder: (BuildContext context, int index) {
           SwiperScreenInfo info = flareActorByIndex[index];
 
-          return SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
+          return Stack(
+            children: <Widget>[
+              Container(
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
 
-                Container(
-                  height: 30.0,
-                ),
+                      Container(
+                        height: 30.0,
+                      ),
 
-                Text(info.title),
-                Text(info.mainText),
-                Text(info.durationText),
+                      Text(info.title, style: StandardStyleTexts.eyeScreenHeader, textAlign: TextAlign.center),
+                      Text(info.mainText, style: StandardStyleTexts.eyeScreenMainText, textAlign: TextAlign.center),
+                      Text(info.durationText, style: StandardStyleTexts.eyeScreenCountTxt, textAlign: TextAlign.center),
 
+                      getFace(info),
 
-                SizedBox(
-                    height: 180,
-                    width: 180,
-                    child: Stack(
-                      children: <Widget>[
-                        Image.asset(info.fakeImgName),
-                        FlareActor(
-                          info.flareName,
-                          alignment: Alignment.center,
-                          fit: BoxFit.contain,
-                          animation: info.animationName,
-                        )
-                      ],
-                    )
-                ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 90.0, right: 90.0),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 50.0,
+                          child: RoundCustomButton(
+                            onPressed: (){},
+                            child: Text('НАЧАТЬ', style: StandardStyleTexts.mainBtnText),
+                          ),
+                        ),
+                      )
 
-                Padding(
-                  padding: EdgeInsets.only(left: 90.0, right: 90.0),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 50.0,
-                    child: RoundCustomButton(
-                      onPressed: (){},
-                      child: Text('НАЧАТЬ'),
-                    ),
+                    ],
                   ),
-                )
-
-              ],
-            ),
+                ),
+              )
+            ],
           );
         },
-      itemCount: 6,
+      itemCount: flareActorByIndex.length,
     );
 
     return new Scaffold(
@@ -153,7 +144,24 @@ class _SwiperMainState extends State<SwiperMain> {
             )
         )
     );
+  }
 
+  getFace(SwiperScreenInfo info){
+    return SizedBox(
+        height: 180,
+        width: 180,
+        child: Stack(
+          children: <Widget>[
+            Image.asset(info.fakeImgName),
+            FlareActor(
+              info.flareName,
+              alignment: Alignment.center,
+              fit: BoxFit.contain,
+              animation: info.animationName,
+            )
+          ],
+        )
+    );
   }
 
 }
