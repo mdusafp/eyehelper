@@ -26,54 +26,64 @@ class _BottomWavyState extends State<BottomWavy> {
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-
         ClipShadowPath(
           clipper: BottomWaveClipper(),
           shadow: Shadow(blurRadius: 10, color: StandartStyle.lightGrey),
           child: Container(
-              color: StandartStyle.backgroundWhite,
-              height: 75.0,
-              width: MediaQuery.of(context).size.width,
-              child: Material(
-                type: MaterialType.transparency,
-                child: Padding(
-                  padding: EdgeInsets.only(top: 10.0, left: 30.0, right: 30.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      InkWell(
-                          onTap: () =>
-                              widget.onTap(INDEX_STATISTICS_SCREEN),
-                          child: Image.asset(
-                            'assets/stat_menu_icon.png',
-                            height: 25.0,
-                            color: widget.currentIndex ==
-                                INDEX_STATISTICS_SCREEN
-                                ? StandartStyle.activeColor
-                                : StandartStyle.lightGrey,
-                          )
-                      ),
-
-                      InkWell(
-                        onTap: () =>
-                            widget.onTap(INDEX_NOTIFICATIONS_SCREEN),
+            color: StandartStyle.backgroundWhite,
+            height: 75.0,
+            width: MediaQuery.of(context).size.width,
+            child: Material(
+              type: MaterialType.transparency,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  InkWell(
+                    onTap: () => widget.onTap(INDEX_STATISTICS_SCREEN),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width / 3,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          top: 35.0,
+                          bottom: 15.0,
+                          right: 10.0,
+                        ),
                         child: Image.asset(
-                          'assets/notif_menu_icon.png',
-                          height: 22.0,
-                          color: widget.currentIndex ==
-                              INDEX_NOTIFICATIONS_SCREEN
+                          'assets/stat_menu_icon.png',
+                          height: 25.0,
+                          color: widget.currentIndex == INDEX_STATISTICS_SCREEN
                               ? StandartStyle.activeColor
                               : StandartStyle.lightGrey,
-                        )
+                        ),
                       ),
-                    ],
+                    ),
                   ),
-                ),
-              )
+                  InkWell(
+                    onTap: () => widget.onTap(INDEX_NOTIFICATIONS_SCREEN),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width / 3,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          top: 35.0,
+                          bottom: 15.0,
+                          left: 10.0,
+                        ),
+                        child: Image.asset(
+                          'assets/notif_menu_icon.png',
+                          height: 25.0,
+                          color:
+                              widget.currentIndex == INDEX_NOTIFICATIONS_SCREEN
+                                  ? StandartStyle.activeColor
+                                  : StandartStyle.lightGrey,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
-        
-        
         Positioned(
           bottom: 0.0,
           left: MediaQuery.of(context).size.width / 2 - eyeWidth / 2,
@@ -98,8 +108,7 @@ class _BottomWavyState extends State<BottomWavy> {
                             color: StandartStyle.backgroundWhite,
                             size: 30.0,
                           ),
-                          onPressed: () =>
-                              widget.onTap(INDEX_EYE_SCREEN),
+                          onPressed: () => widget.onTap(INDEX_EYE_SCREEN),
                         ),
                       ),
                     ),
