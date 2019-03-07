@@ -1,3 +1,4 @@
+import 'package:eyehelper/src/colors.dart';
 import 'package:eyehelper/src/locale/Localizer.dart';
 import 'package:flutter/material.dart';
 import 'package:eyehelper/src/routes.dart';
@@ -20,6 +21,7 @@ class EyeHelperApp extends StatelessWidget {
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
+      theme: StandardTheme.theme,
       supportedLocales: Localizer.supportedLangs,
       debugShowCheckedModeBanner: false,
       routes: EyeHelperRoutes.routes,
