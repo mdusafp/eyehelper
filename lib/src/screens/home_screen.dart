@@ -1,5 +1,6 @@
 import 'package:eyehelper/src/colors.dart';
 import 'package:eyehelper/src/constants.dart';
+import 'package:eyehelper/src/locale/Localizer.dart';
 import 'package:eyehelper/src/screens/eye_screen/eye_screen.dart';
 import 'package:eyehelper/src/widgets/bootom_bar.dart';
 import 'package:eyehelper/src/widgets/toolbar.dart';
@@ -13,9 +14,9 @@ class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 1;
 
   Map titles = {
-    INDEX_STATISTICS_SCREEN: 'Статистика',
-    INDEX_EYE_SCREEN: 'Упражнения',
-    INDEX_NOTIFICATIONS_SCREEN: 'Уведомления'
+    INDEX_STATISTICS_SCREEN: 'statistic',
+    INDEX_EYE_SCREEN: 'excercises',
+    INDEX_NOTIFICATIONS_SCREEN: 'notifications'
   };
 
   Map screens = {
@@ -42,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
             automaticallyImplyLeading: false,
             backgroundColor: StandardStyleColors.transparent,
             flexibleSpace: ToolbarWavy(
-                title: titles[_currentIndex],
+                title: Localizer.getLocaleById(titles[_currentIndex], context),
                 currentIndex: _currentIndex
             ),
           )
