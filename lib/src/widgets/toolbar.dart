@@ -22,11 +22,11 @@ class _ToolbarWavyState extends State<ToolbarWavy> {
   Widget build(BuildContext context) {
     return ClipShadowPath(
       clipper: TopWaveClipper(),
-      shadow: Shadow(blurRadius: 10, color: StandartStyle.lightGrey),
+      shadow: Shadow(blurRadius: 10, color: StandardStyleColors.lightGrey),
       child: SizedBox(
         height: PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
         child: Container(
-          decoration: BoxDecoration(color: StandartStyle.backgroundWhite),
+          decoration: BoxDecoration(color: StandardStyleColors.backgroundWhite),
           child: Stack(
             children: <Widget>[
 
@@ -37,11 +37,7 @@ class _ToolbarWavyState extends State<ToolbarWavy> {
                   child: Center(
                     child: Text(
                       widget.title,
-                      style: TextStyle(
-                        fontSize: 25.0,
-                        color: StandartStyle.activeColor,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: StandardStyleTexts.headerMain,
                     ),
                   ),
                 )
@@ -69,7 +65,7 @@ class _ToolbarWavyState extends State<ToolbarWavy> {
                             child: Icon(
                               Icons.vibration,
                               size: 24.0,
-                              color: isVibrationActive ? StandartStyle.activeColor : StandartStyle.lightGrey,
+                              color: isVibrationActive ? StandardStyleColors.activeColor : StandardStyleColors.lightGrey,
                             ),
                           ),
                         ),
@@ -85,7 +81,7 @@ class _ToolbarWavyState extends State<ToolbarWavy> {
                             child: Icon(
                               Icons.volume_off,
                               size: 24.0,
-                              color: isSoundOff ? StandartStyle.activeColor : StandartStyle.lightGrey,
+                              color: isSoundOff ? StandardStyleColors.activeColor : StandardStyleColors.lightGrey,
                             ),
                           ),
                         )

@@ -1,4 +1,5 @@
 import 'package:eyehelper/src/colors.dart';
+import 'package:eyehelper/src/locale/Localizer.dart';
 import 'package:eyehelper/src/widgets/custom_rounded_button.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
@@ -14,54 +15,54 @@ class SwiperMain extends StatefulWidget {
 class _SwiperMainState extends State<SwiperMain> {
 
 
-  Map<int, SwiperScreenInfo> flareActorByIndex = {
+  static const Map<int, SwiperScreenInfo> flareActorByIndex = {
     0: SwiperScreenInfo(
       flareName: 'assets/lrtbFaceFast.flr',
       animationName: 'fastTopBot',
       fakeImgName: 'assets/firstImageFace1.png',
-      title: '1. Вертикальные\n движения',
-      mainText: 'Поводите глазами снизу вверх и наоборот. ',
-      durationText: 'Повторить: 3 раза.'
+      title: 'vertical_movements',
+      mainText: 'turn_eyes_up_down',
+      durationText: 'retry_three_times'
     ),
     1: SwiperScreenInfo(
       flareName: 'assets/lrtbFaceFast.flr',
       animationName: 'fastLeftRight',
       fakeImgName: 'assets/firstImageFace1.png',
-      title: '2. Горизонтальные\n движения',
-      mainText: 'Поводите глазами слев направо и наоборот. ',
-      durationText: 'Повторить: 3 раза.'
+      title: 'horizontal_movements',
+      mainText: 'turn_eyes_left_right',
+      durationText: 'retry_three_times'
     ),
     2: SwiperScreenInfo(
         flareName: 'assets/screwUpFast.flr',
         animationName: 'screwUp',
         fakeImgName: 'assets/firstImageFace3.png',
-        title: '3. Жмурки',
-        mainText: 'Крепко зажмрурьте глаза\n на 10 секунд, не открывая\n глаза расслабьте мышцы\nна 10 секунд',
-        durationText: 'Повторить: 3 раза.'
+        title: 'screw_up_movements',
+        mainText: 'screw_up_your_eyes',
+        durationText: 'retry_three_times'
     ),
     3: SwiperScreenInfo(
         flareName: 'assets/blinkingFast.flr',
         animationName: 'blinkingFast',
         fakeImgName: 'assets/firstImageFace4.png',
-        title: '4. Моргание',
-        mainText: 'Быстро поморгайте 20-25 раз',
-        durationText: 'Повторить: 1 раз.'
+        title: 'blinking_movements',
+        mainText: 'blink_fast_20_times',
+        durationText: 'retry_one_time'
     ),
     4: SwiperScreenInfo(
         flareName: 'assets/farSeingFast.flr',
         animationName: 'farSeeing',
         fakeImgName: 'assets/firstImageFace5.png',
-        title: '5. Фокусировка',
-        mainText: 'Сфокусируйтесь сначала на\nближнем предмете (10 сек),\nпотом на дальнем (10 сек).',
-        durationText: 'Повторить: 3 раза.'
+        title: 'focus_movements',
+        mainText: 'focus_for_10_sec',
+        durationText: 'retry_three_times'
     ),
     5: SwiperScreenInfo(
         flareName: 'assets/palmingFast.flr',
         animationName: 'palming',
         fakeImgName: 'assets/firstImageFace6.png',
-        title: '6. Пальминг',
-        mainText: 'Потрите руки друг о друга до\nпоявления тепла. Приложите руки\nк глазам на 15 секунд (не давить).\mПодумайте о своей мечте.',
-        durationText: 'Повторить: 3 раза.'
+        title: 'palming_movements',
+        mainText: 'rub_hands_and_attach_to_eyes',
+        durationText: 'retry_three_times'
     ),
   };
 
@@ -88,60 +89,51 @@ class _SwiperMainState extends State<SwiperMain> {
                 space: 10.0,
                 size: 8.0,
                 activeSize: 8.0,
-                activeColor: StandartStyle.activeColor
+                activeColor: StandardStyleColors.activeColor
             )
         ),
         itemBuilder: (BuildContext context, int index) {
           SwiperScreenInfo info = flareActorByIndex[index];
 
-          return SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
+          return Stack(
+            children: <Widget>[
+              Container(
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
 
-                Container(
-                  height: 30.0,
-                ),
+                      Container(
+                        height: 30.0,
+                      ),
 
-                Text(info.title),
-                Text(info.mainText),
-                Text(info.durationText),
+                      Text(Localizer.getLocaleById(info.title, context), style: StandardStyleTexts.eyeScreenHeader, textAlign: TextAlign.center),
+                      Text(Localizer.getLocaleById(info.mainText, context), style: StandardStyleTexts.eyeScreenMainText, textAlign: TextAlign.center),
+                      Text(Localizer.getLocaleById(info.durationText, context), style: StandardStyleTexts.eyeScreenCountTxt, textAlign: TextAlign.center),
 
+                      getFace(info),
 
-                SizedBox(
-                    height: 180,
-                    width: 180,
-                    child: Stack(
-                      children: <Widget>[
-                        Image.asset(info.fakeImgName),
-                        FlareActor(
-                          info.flareName,
-                          alignment: Alignment.center,
-                          fit: BoxFit.contain,
-                          animation: info.animationName,
-                        )
-                      ],
-                    )
-                ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 90.0, right: 90.0),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 50.0,
+                          child: RoundCustomButton(
+                            onPressed: (){},
+                            child: Text(Localizer.getLocaleById('begin_btn_txt', context), style: StandardStyleTexts.mainBtnText),
+                          ),
+                        ),
+                      )
 
-                Padding(
-                  padding: EdgeInsets.only(left: 90.0, right: 90.0),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 50.0,
-                    child: RoundCustomButton(
-                      onPressed: (){},
-                      child: Text('НАЧАТЬ'),
-                    ),
+                    ],
                   ),
-                )
-
-              ],
-            ),
+                ),
+              )
+            ],
           );
         },
-      itemCount: 6,
+      itemCount: flareActorByIndex.length,
     );
 
     return new Scaffold(
@@ -153,7 +145,24 @@ class _SwiperMainState extends State<SwiperMain> {
             )
         )
     );
+  }
 
+  getFace(SwiperScreenInfo info){
+    return SizedBox(
+        height: 180,
+        width: 180,
+        child: Stack(
+          children: <Widget>[
+            Image.asset(info.fakeImgName),
+            FlareActor(
+              info.flareName,
+              alignment: Alignment.center,
+              fit: BoxFit.contain,
+              animation: info.animationName,
+            )
+          ],
+        )
+    );
   }
 
 }
@@ -161,14 +170,14 @@ class _SwiperMainState extends State<SwiperMain> {
 
 class SwiperScreenInfo{
 
-  String flareName;
-  String animationName;
-  String fakeImgName;
-  String title;
-  String mainText;
-  String durationText;
+  final String flareName;
+  final String animationName;
+  final String fakeImgName;
+  final String title;
+  final String mainText;
+  final String durationText;
 
-  SwiperScreenInfo({
+  const SwiperScreenInfo({
     @required this.flareName,
     @required this.animationName,
     @required this.fakeImgName,

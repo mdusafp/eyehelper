@@ -1,5 +1,6 @@
 import 'package:eyehelper/src/colors.dart';
 import 'package:eyehelper/src/constants.dart';
+import 'package:eyehelper/src/locale/Localizer.dart';
 import 'package:eyehelper/src/helpers/notification.dart';
 import 'package:eyehelper/src/screens/eye_screen/eye_screen.dart';
 import 'package:eyehelper/src/widgets/bootom_bar.dart';
@@ -21,9 +22,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Map titles = {
-    INDEX_STATISTICS_SCREEN: 'Статистика',
-    INDEX_EYE_SCREEN: 'Упражнения',
-    INDEX_NOTIFICATIONS_SCREEN: 'Уведомления'
+    INDEX_STATISTICS_SCREEN: 'statistic',
+    INDEX_EYE_SCREEN: 'excercises',
+    INDEX_NOTIFICATIONS_SCREEN: 'notifications'
   };
 
   Map screens = {
@@ -47,19 +48,25 @@ class _HomeScreenState extends State<HomeScreen> {
             child: AppBar(
               elevation: 0.0,
               automaticallyImplyLeading: false,
-              backgroundColor: StandartStyle.transparent,
+              backgroundColor: StandardStyleColors.transparent,
               flexibleSpace: ToolbarWavy(
-                  title: titles[_currentIndex], currentIndex: _currentIndex),
-            )),
+                  title: Localizer.getLocaleById(titles[_currentIndex], context),
+                  currentIndex: _currentIndex
+              ),
+            )
+        ),
         Positioned(
           bottom: 0.0,
           child: BottomWavy(
             currentIndex: _currentIndex,
-            onTap: (index) =>
-                setState(() {
-                  _currentIndex = index;
-                  notificationHelper.scheduleNotification();
-                }),
+            onTap: (index) {
+              if (index == INDEX_NOTIFICATIONS_SCREEN){
+                notificationHelper.scheduleNotification();
+              }
+              setState(() {
+                _currentIndex = index;
+              });
+            }
           ),
         )
       ],

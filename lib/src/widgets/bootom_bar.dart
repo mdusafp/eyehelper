@@ -29,9 +29,9 @@ class _BottomWavyState extends State<BottomWavy> {
 
         ClipShadowPath(
           clipper: BottomWaveClipper(),
-          shadow: Shadow(blurRadius: 10, color: StandartStyle.lightGrey),
+          shadow: Shadow(blurRadius: 10, color: StandardStyleColors.lightGrey),
           child: Container(
-              color: StandartStyle.backgroundWhite,
+              color: StandardStyleColors.backgroundWhite,
               height: 75.0,
               width: MediaQuery.of(context).size.width,
               child: Material(
@@ -49,8 +49,8 @@ class _BottomWavyState extends State<BottomWavy> {
                             height: 25.0,
                             color: widget.currentIndex ==
                                 INDEX_STATISTICS_SCREEN
-                                ? StandartStyle.activeColor
-                                : StandartStyle.lightGrey,
+                                 ? StandardStyleColors.activeColor
+                                : StandardStyleColors.lightGrey,
                           )
                       ),
 
@@ -62,8 +62,8 @@ class _BottomWavyState extends State<BottomWavy> {
                           height: 22.0,
                           color: widget.currentIndex ==
                               INDEX_NOTIFICATIONS_SCREEN
-                              ? StandartStyle.activeColor
-                              : StandartStyle.lightGrey,
+                              ? StandardStyleColors.activeColor
+                              : StandardStyleColors.lightGrey,
                         )
                       ),
                     ],
@@ -91,11 +91,11 @@ class _BottomWavyState extends State<BottomWavy> {
                       width: eyeWidth,
                       child: FittedBox(
                         child: FloatingActionButton(
-                          backgroundColor: StandartStyle.activeColor,
+                          backgroundColor: StandardStyleColors.activeColor,
                           heroTag: 'mainBtn',
                           child: Icon(
                             Icons.remove_red_eye,
-                            color: StandartStyle.backgroundWhite,
+                            color: StandardStyleColors.backgroundWhite,
                             size: 30.0,
                           ),
                           onPressed: () =>
