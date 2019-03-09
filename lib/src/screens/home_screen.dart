@@ -1,5 +1,6 @@
 import 'package:eyehelper/src/colors.dart';
 import 'package:eyehelper/src/constants.dart';
+import 'package:eyehelper/src/helpers/notification.dart';
 import 'package:eyehelper/src/screens/eye_screen/eye_screen.dart';
 import 'package:eyehelper/src/screens/notification_screen.dart';
 import 'package:eyehelper/src/widgets/bootom_bar.dart';
@@ -12,6 +13,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 1;
+  NotificationsHelper notificationHelper;
+
+  @override
+  initState() {
+    super.initState();
+    notificationHelper = NotificationsHelper(context);
+  }
 
   Map titles = {
     INDEX_STATISTICS_SCREEN: 'Статистика',
@@ -24,8 +32,6 @@ class _HomeScreenState extends State<HomeScreen> {
     INDEX_EYE_SCREEN: EyeScreen(),
     INDEX_NOTIFICATIONS_SCREEN: NotificationScreen(),
   };
-
-  Widget content = Text('hello world');
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +59,11 @@ class _HomeScreenState extends State<HomeScreen> {
           bottom: 0.0,
           child: BottomWavy(
             currentIndex: _currentIndex,
-            onTap: (index) => setState(() => _currentIndex = index),
+            onTap: (index) =>
+                setState(() {
+                  _currentIndex = index;
+                  notificationHelper.scheduleNotification();
+                }),
           ),
         )
       ],
