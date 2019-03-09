@@ -49,7 +49,7 @@ class _BottomWavyState extends State<BottomWavy> {
                             height: 25.0,
                             color: widget.currentIndex ==
                                 INDEX_STATISTICS_SCREEN
-                                ? StandardStyleColors.activeColor
+                                 ? StandardStyleColors.activeColor
                                 : StandardStyleColors.lightGrey,
                           )
                       ),
