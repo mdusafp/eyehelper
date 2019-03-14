@@ -1,9 +1,10 @@
 import 'package:eyehelper/src/colors.dart';
 import 'package:eyehelper/src/constants.dart';
+import 'package:eyehelper/src/utils/adaptive_utils.dart';
 import 'package:eyehelper/src/widgets/clip_shadow_path.dart';
 import 'package:flutter/material.dart';
 
-const double PREFERED_HEIGHT_FOR_CUSTOM_APPBAR = 110.0;
+const int PREFERED_HEIGHT_FOR_CUSTOM_APPBAR = 110;
 
 class ToolbarWavy extends StatefulWidget {
   final String title;
@@ -24,7 +25,7 @@ class _ToolbarWavyState extends State<ToolbarWavy> {
       clipper: TopWaveClipper(),
       shadow: Shadow(blurRadius: 10, color: StandardStyleColors.lightGrey),
       child: SizedBox(
-        height: PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
+        height: wv(PREFERED_HEIGHT_FOR_CUSTOM_APPBAR),
         child: Container(
           decoration: BoxDecoration(color: StandardStyleColors.backgroundWhite),
           child: Stack(
@@ -32,63 +33,15 @@ class _ToolbarWavyState extends State<ToolbarWavy> {
 
               Container(
                 width: MediaQuery.of(context).size.width,
-                child: Padding(
-                  padding: EdgeInsets.only(bottom: 10.0),
-                  child: Center(
-                    child: Text(
-                      widget.title,
-                      style: StandardStyleTexts.headerMain,
-                    ),
+                height: wv(PREFERED_HEIGHT_FOR_CUSTOM_APPBAR),
+                child: Center(
+                  child: Text(
+                    widget.title,
+                    style: StandardStyleTexts.headerMain,
                   ),
                 )
               ),
 
-
-              widget.currentIndex == INDEX_EYE_SCREEN ? Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
-                  child: Padding(
-                    padding: EdgeInsets.only(bottom: 10.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-
-                        Padding(
-                          padding: EdgeInsets.only(right: 15.0),
-                          child: InkWell(
-                            onTap: () {
-                              setState(() {
-                                isVibrationActive = !isVibrationActive;
-                              });
-                            },
-                            child: Icon(
-                              Icons.vibration,
-                              size: 24.0,
-                              color: isVibrationActive ? StandardStyleColors.activeColor : StandardStyleColors.lightGrey,
-                            ),
-                          ),
-                        ),
-
-                        Padding(
-                          padding: EdgeInsets.only(right: 15.0),
-                          child: InkWell(
-                            onTap: () {
-                              setState(() {
-                                isSoundOff = !isSoundOff;
-                              });
-                            },
-                            child: Icon(
-                              Icons.volume_off,
-                              size: 24.0,
-                              color: isSoundOff ? StandardStyleColors.activeColor : StandardStyleColors.lightGrey,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  )
-              ) : Container()
             ],
           )
         ),

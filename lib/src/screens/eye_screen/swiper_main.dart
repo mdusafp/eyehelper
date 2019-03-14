@@ -1,5 +1,6 @@
 import 'package:eyehelper/src/colors.dart';
 import 'package:eyehelper/src/locale/Localizer.dart';
+import 'package:eyehelper/src/utils/adaptive_utils.dart';
 import 'package:eyehelper/src/widgets/custom_rounded_button.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
@@ -83,50 +84,91 @@ class _SwiperMainState extends State<SwiperMain> {
         controller: swiperController,
         loop:false,
         pagination: new SwiperPagination(
-            margin: EdgeInsets.only(bottom: 10.0),
+            margin: EdgeInsets.only(bottom: wv(80.0)),
             builder: DotSwiperPaginationBuilder(
                 color: Colors.grey,
-                space: 10.0,
-                size: 8.0,
-                activeSize: 8.0,
+                space: hv(10.0),
+                size: wv(6.0),
+                activeSize: wv(8.0),
                 activeColor: StandardStyleColors.activeColor
             )
         ),
         itemBuilder: (BuildContext context, int index) {
           SwiperScreenInfo info = flareActorByIndex[index];
 
+
           return Stack(
             children: <Widget>[
-              Container(
+              Center(
                 child: SingleChildScrollView(
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-
-                      Container(
-                        height: 30.0,
-                      ),
-
-                      Text(Localizer.getLocaleById(info.title, context), style: StandardStyleTexts.eyeScreenHeader, textAlign: TextAlign.center),
-                      Text(Localizer.getLocaleById(info.mainText, context), style: StandardStyleTexts.eyeScreenMainText, textAlign: TextAlign.center),
-                      Text(Localizer.getLocaleById(info.durationText, context), style: StandardStyleTexts.eyeScreenCountTxt, textAlign: TextAlign.center),
-
-                      getFace(info),
-
+                    children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.only(left: 90.0, right: 90.0),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: 50.0,
-                          child: RoundCustomButton(
-                            onPressed: (){},
-                            child: Text(Localizer.getLocaleById('begin_btn_txt', context), style: StandardStyleTexts.mainBtnText),
-                          ),
-                        ),
-                      )
+                        padding: EdgeInsets.only(left: hv(10.0), right: hv(10.0)),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
 
+                            Container(
+                              height: wv(110.0),
+                            ),
+
+                            Padding(
+                             padding: EdgeInsets.only(top: wv(18.0), bottom: wv(6.0), left: hv(20.0), right: hv(20.0)),
+                              child: Center(
+                                child: Text(
+                                    Localizer.getLocaleById(info.title, context),
+                                    style: StandardStyleTexts.eyeScreenHeader,
+                                    textAlign: TextAlign.center)
+                                ),
+                            ),
+
+                            Padding(
+                              padding: EdgeInsets.only(top: wv(6.0), bottom: wv(6.0), left: hv(20.0), right: hv(20.0)),
+                              child: Center(
+                                  child: Text(
+                                      Localizer.getLocaleById(info.mainText, context),
+                                      style: StandardStyleTexts.eyeScreenMainText,
+                                      textAlign: TextAlign.center),
+                              ),
+                            ),
+
+                            Padding(
+                              padding: EdgeInsets.only(top: wv(6.0), bottom: wv(6.0), left: hv(20.0), right: hv(20.0)),
+                              child: Text(Localizer.getLocaleById(info.durationText, context), style: StandardStyleTexts.eyeScreenCountTxt, textAlign: TextAlign.center),
+                            ),
+
+                            Padding(
+                              padding: EdgeInsets.only(top: wv(6.0), bottom: wv(10.0)),
+                              child: getFace(info),
+                            ),
+
+                            Padding(
+                              padding: EdgeInsets.only(top: wv(10.0)),
+                              child: Container(
+                                width: MediaQuery.of(context).size.width,
+                                height: wv(160.0),
+                              ),
+                            )
+
+                          ],
+                        ),
+                      ),
                     ],
+                  ),
+                ),
+              ),
+
+              Positioned(
+                bottom: wv(125.0),
+                left: hv(70.0),
+                right: hv(70.0),
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: wv(50.0),
+                  child: RoundCustomButton(
+                    onPressed: (){},
+                    child: Text(Localizer.getLocaleById('begin_btn_txt', context), style: StandardStyleTexts.mainBtnText),
                   ),
                 ),
               )
@@ -149,11 +191,14 @@ class _SwiperMainState extends State<SwiperMain> {
 
   getFace(SwiperScreenInfo info){
     return SizedBox(
-        height: 180,
-        width: 180,
+        height: wv(160),
+        width: hv(160),
         child: Stack(
           children: <Widget>[
-            Image.asset(info.fakeImgName),
+            Padding(
+              padding: EdgeInsets.only(left: 2.0, right: 2.0),
+              child: Image.asset(info.fakeImgName, alignment: Alignment.center),
+            ),
             FlareActor(
               info.flareName,
               alignment: Alignment.center,
