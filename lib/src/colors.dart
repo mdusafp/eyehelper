@@ -1,3 +1,4 @@
+import 'package:eyehelper/src/utils/adaptive_utils.dart';
 import 'package:flutter/material.dart';
 
 class StandardStyleColors {
@@ -10,11 +11,11 @@ class StandardStyleColors {
 }
 
 class StandardStyleTexts {
-  static TextStyle headerMain = TextStyle( fontSize: 25.0, color: StandardStyleColors.activeColor, fontWeight: FontWeight.bold );
-  static TextStyle eyeScreenHeader = TextStyle( fontSize: 20.0, color: StandardStyleColors.mainDark, fontWeight: FontWeight.bold );
-  static TextStyle eyeScreenMainText = TextStyle( fontSize: 18.0, color: StandardStyleColors.mainDark, fontWeight: FontWeight.normal );
-  static TextStyle eyeScreenCountTxt = headerMain.copyWith( fontSize: 20 );
-  static TextStyle mainBtnText = TextStyle( fontSize: 16, color: StandardStyleColors.btnTextWhite, fontWeight: FontWeight.bold, letterSpacing: 1.1 );
+  static TextStyle headerMain = TextStyle( fontSize: sp(25), color: StandardStyleColors.activeColor, fontWeight: FontWeight.bold );
+  static TextStyle eyeScreenHeader = TextStyle( fontSize: sp(19), color: StandardStyleColors.mainDark, fontWeight: FontWeight.bold );
+  static TextStyle eyeScreenMainText = TextStyle( fontSize: sp(17), color: StandardStyleColors.mainDark, fontWeight: FontWeight.w600 );
+  static TextStyle eyeScreenCountTxt = headerMain.copyWith( fontSize: sp(19) );
+  static TextStyle mainBtnText = TextStyle( fontSize: sp(16), color: StandardStyleColors.btnTextWhite, fontWeight: FontWeight.bold, letterSpacing: 1.1 );
 }
 
 

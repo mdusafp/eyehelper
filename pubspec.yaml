@@ -17,7 +17,7 @@ dependencies:
   flutter_local_notifications: 0.5.2 # Notification
   path_provider: 0.4.1 # Notifications Sound
   shared_preferences: 0.4.3 # Statistic and notification
-
+  flutter_screenutil: 0.5.1 #For adaptive scaling on different screen sizes
 
 dev_dependencies:
   flutter_test:
