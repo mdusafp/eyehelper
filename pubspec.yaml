@@ -16,8 +16,10 @@ dependencies:
   flutter_swiper: 1.1.4 # Swipe on main screen
   flutter_local_notifications: 0.5.2 # Notification
   path_provider: 0.4.1 # Notifications Sound
-  shared_preferences: 0.4.3 # Statistic and notification
-  flutter_screenutil: 0.5.1 #For adaptive scaling on different screen sizes
+  flutter_datetime_picker: 1.2.1 # Select notification period
+  flutter_range_slider: 1.2.0 # Notifications working period range 
+  flutter_screenutil: 0.5.1 # For adaptive scaling on different screen sizes
+  shared_preferences: 0.5.2 # Statistic and notification
 
 dev_dependencies:
   flutter_test:
