@@ -3,6 +3,7 @@ import 'package:eyehelper/src/constants.dart';
 import 'package:eyehelper/src/locale/Localizer.dart';
 import 'package:eyehelper/src/helpers/notification.dart';
 import 'package:eyehelper/src/screens/eye_screen/eye_screen.dart';
+import 'package:eyehelper/src/screens/notification_screen.dart';
 import 'package:eyehelper/src/utils/adaptive_utils.dart';
 import 'package:eyehelper/src/widgets/bootom_bar.dart';
 import 'package:eyehelper/src/widgets/toolbar.dart';
@@ -32,13 +33,13 @@ class _HomeScreenState extends State<HomeScreen> {
   Map screens = {
     INDEX_STATISTICS_SCREEN: Container(),
     INDEX_EYE_SCREEN: EyeScreen(),
-    INDEX_NOTIFICATIONS_SCREEN: Container(),
+    INDEX_NOTIFICATIONS_SCREEN: NotificationScreen(),
   };
 
   @override
   Widget build(BuildContext context) {
-
-    ScreenUtil.instance = adaptiveUtils..init(context);  //height and width of design
+    ScreenUtil.instance = adaptiveUtils
+      ..init(context); //height and width of design
 
     return Stack(
       children: <Widget>[
@@ -46,29 +47,34 @@ class _HomeScreenState extends State<HomeScreen> {
           body: screens[_currentIndex],
         ),
         Container(
-            height: PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
-            child: AppBar(
-              elevation: 0.0,
-              automaticallyImplyLeading: false,
-              backgroundColor: StandardStyleColors.transparent,
-              flexibleSpace: ToolbarWavy(
-                  title: Localizer.getLocaleById(titles[_currentIndex], context),
-                  currentIndex: _currentIndex
+          height: wv(PREFERED_HEIGHT_FOR_CUSTOM_APPBAR),
+          child: AppBar(
+            elevation: 0.0,
+            automaticallyImplyLeading: false,
+            backgroundColor: StandardStyleColors.transparent,
+            flexibleSpace: ToolbarWavy(
+              title: Localizer.getLocaleById(
+                titles[_currentIndex],
+                context,
               ),
-            )
+              currentIndex: _currentIndex,
+            ),
+          ),
         ),
         Positioned(
           bottom: 0.0,
           child: BottomWavy(
             currentIndex: _currentIndex,
             onTap: (index) {
-              if (index == INDEX_NOTIFICATIONS_SCREEN){
+              if (index == INDEX_NOTIFICATIONS_SCREEN) {
                 notificationHelper.scheduleNotification();
               }
-              setState(() {
-                _currentIndex = index;
-              });
-            }
+              setState(
+                () {
+                  _currentIndex = index;
+                },
+              );
+            },
           ),
         )
       ],

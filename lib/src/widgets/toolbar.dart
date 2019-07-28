@@ -1,5 +1,4 @@
 import 'package:eyehelper/src/colors.dart';
-import 'package:eyehelper/src/constants.dart';
 import 'package:eyehelper/src/utils/adaptive_utils.dart';
 import 'package:eyehelper/src/widgets/clip_shadow_path.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +29,6 @@ class _ToolbarWavyState extends State<ToolbarWavy> {
           decoration: BoxDecoration(color: StandardStyleColors.backgroundWhite),
           child: Stack(
             children: <Widget>[
-
               Container(
                 width: MediaQuery.of(context).size.width,
                 height: PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
@@ -39,11 +37,10 @@ class _ToolbarWavyState extends State<ToolbarWavy> {
                     widget.title,
                     style: StandardStyleTexts.headerMain,
                   ),
-                )
+                ),
               ),
-
             ],
-          )
+          ),
         ),
       ),
     );

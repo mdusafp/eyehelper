@@ -27,57 +27,50 @@ class _BottomWavyState extends State<BottomWavy> {
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-
         ClipShadowPath(
           clipper: BottomWaveClipper(),
           shadow: Shadow(blurRadius: 10, color: StandardStyleColors.lightGrey),
           child: Container(
-              color: StandardStyleColors.backgroundWhite,
-              height: 100.0,
-              width: MediaQuery.of(context).size.width,
-              child: Material(
-                type: MaterialType.transparency,
-                child: Padding(
-                  padding: EdgeInsets.only(
-                      top: 10.0,
-                      left: 30.0,
-                      right: 30.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      InkWell(
-                          onTap: () =>
-                              widget.onTap(INDEX_STATISTICS_SCREEN),
-                          child: Image.asset(
-                            'assets/stat_menu_icon.png',
-                            height: 25.0,
-                            color: widget.currentIndex ==
-                                INDEX_STATISTICS_SCREEN
-                                 ? StandardStyleColors.activeColor
-                                : StandardStyleColors.lightGrey,
-                          )
-                      ),
-
-                      InkWell(
-                        onTap: () =>
-                            widget.onTap(INDEX_NOTIFICATIONS_SCREEN),
-                        child: Image.asset(
-                          'assets/notif_menu_icon.png',
-                          height: 22.0,
-                          color: widget.currentIndex ==
-                              INDEX_NOTIFICATIONS_SCREEN
-                              ? StandardStyleColors.activeColor
-                              : StandardStyleColors.lightGrey,
-                        )
-                      ),
-                    ],
-                  ),
+            color: StandardStyleColors.backgroundWhite,
+            height: 100.0,
+            width: MediaQuery.of(context).size.width,
+            child: Material(
+              type: MaterialType.transparency,
+              child: Padding(
+                padding: EdgeInsets.only(
+                  top: wv(10),
+                  left: hv(30),
+                  right: hv(30),
                 ),
-              )
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    InkWell(
+                      onTap: () => widget.onTap(INDEX_STATISTICS_SCREEN),
+                      child: Image.asset(
+                        'assets/stat_menu_icon.png',
+                        height: wv(25),
+                        color: widget.currentIndex == INDEX_STATISTICS_SCREEN
+                            ? StandardStyleColors.activeColor
+                            : StandardStyleColors.lightGrey,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () => widget.onTap(INDEX_NOTIFICATIONS_SCREEN),
+                      child: Image.asset(
+                        'assets/notif_menu_icon.png',
+                        height: wv(22),
+                        color: widget.currentIndex == INDEX_NOTIFICATIONS_SCREEN
+                            ? StandardStyleColors.activeColor
+                            : StandardStyleColors.lightGrey,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
         ),
-        
-        
         Positioned(
           bottom: 15.0,
           left: 80.0,
@@ -104,8 +97,7 @@ class _BottomWavyState extends State<BottomWavy> {
                             color: StandardStyleColors.backgroundWhite,
                             size: 30.0,
                           ),
-                          onPressed: () =>
-                              widget.onTap(INDEX_EYE_SCREEN),
+                          onPressed: () => widget.onTap(INDEX_EYE_SCREEN),
                         ),
                       ),
                     ),
