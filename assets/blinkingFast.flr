@@ -122,6 +122,34 @@
 			],
 			"animations": [
 				{
+					"name": "trainingBlinking",
+					"fps": 60,
+					"duration": 0.3333333333333333,
+					"isLooping": true,
+					"keyed": [
+						{
+							"component": 1,
+							"opacity": [
+								[
+									{
+										"time": 0,
+										"interpolatorType": 0,
+										"value": 1
+									},
+									{
+										"time": 0.16666666666666666,
+										"interpolatorType": 0,
+										"value": 0
+									}
+								]
+							]
+						}
+					],
+					"animationStart": 0,
+					"animationEnd": 0.16666666666666666,
+					"type": "animation"
+				},
+				{
 					"name": "blinkingFast",
 					"fps": 60,
 					"duration": 0.6666666666666666,

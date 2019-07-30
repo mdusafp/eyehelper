@@ -4,7 +4,6 @@ import 'package:eyehelper/src/enums/screens.enum.dart';
 import 'package:eyehelper/src/utils/adaptive_utils.dart';
 import 'package:eyehelper/src/widgets/clip_shadow_path.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BottomWavy extends StatefulWidget {
   BottomWavy({
@@ -20,8 +19,8 @@ class BottomWavy extends StatefulWidget {
 }
 
 class _BottomWavyState extends State<BottomWavy> {
-  final double eyeWidth = hv(60);
-  final double eyeHeight = wv(60);
+  final double eyeWidth = 60.0;
+  final double eyeHeight = 60.0;
   Screens selectedScreen = Screens.main;
 
   @override
@@ -34,15 +33,15 @@ class _BottomWavyState extends State<BottomWavy> {
           shadow: Shadow(blurRadius: 10, color: StandardStyleColors.lightGrey),
           child: Container(
               color: StandardStyleColors.backgroundWhite,
-              height: wv(75),
+              height: 100.0,
               width: MediaQuery.of(context).size.width,
               child: Material(
                 type: MaterialType.transparency,
                 child: Padding(
                   padding: EdgeInsets.only(
-                      top: wv(10),
-                      left: hv(30),
-                      right: hv(30)),
+                      top: 10.0,
+                      left: 30.0,
+                      right: 30.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -51,7 +50,7 @@ class _BottomWavyState extends State<BottomWavy> {
                               widget.onTap(INDEX_STATISTICS_SCREEN),
                           child: Image.asset(
                             'assets/stat_menu_icon.png',
-                            height: wv(25),
+                            height: 25.0,
                             color: widget.currentIndex ==
                                 INDEX_STATISTICS_SCREEN
                                  ? StandardStyleColors.activeColor
@@ -64,7 +63,7 @@ class _BottomWavyState extends State<BottomWavy> {
                             widget.onTap(INDEX_NOTIFICATIONS_SCREEN),
                         child: Image.asset(
                           'assets/notif_menu_icon.png',
-                          height: wv(22),
+                          height: 22.0,
                           color: widget.currentIndex ==
                               INDEX_NOTIFICATIONS_SCREEN
                               ? StandardStyleColors.activeColor
@@ -80,14 +79,14 @@ class _BottomWavyState extends State<BottomWavy> {
         
         
         Positioned(
-          bottom: 0.0,
-          left: hv(80),
-          right: hv(80),
+          bottom: 15.0,
+          left: 80.0,
+          right: 80.0,
           child: Container(
-            height: wv(75),
-            width: hv(75),
+            height: 75.0,
+            width: 75.0,
             child: Padding(
-              padding: EdgeInsets.only(bottom: wv(17)),
+              padding: EdgeInsets.only(bottom: 17.0),
               child: Material(
                 type: MaterialType.transparency,
                 child: Row(
@@ -103,7 +102,7 @@ class _BottomWavyState extends State<BottomWavy> {
                           child: Icon(
                             Icons.remove_red_eye,
                             color: StandardStyleColors.backgroundWhite,
-                            size: hv(30),
+                            size: 30.0,
                           ),
                           onPressed: () =>
                               widget.onTap(INDEX_EYE_SCREEN),

@@ -148,6 +148,34 @@
 					"animationStart": 0,
 					"animationEnd": 1.5333333333333334,
 					"type": "animation"
+				},
+				{
+					"name": "trainingScrewUp",
+					"fps": 60,
+					"duration": 18,
+					"isLooping": true,
+					"keyed": [
+						{
+							"component": 0,
+							"opacity": [
+								[
+									{
+										"time": 0,
+										"interpolatorType": 0,
+										"value": 0
+									},
+									{
+										"time": 10,
+										"interpolatorType": 0,
+										"value": 1
+									}
+								]
+							]
+						}
+					],
+					"animationStart": 0,
+					"animationEnd": 10,
+					"type": "animation"
 				}
 			],
 			"type": "artboard"

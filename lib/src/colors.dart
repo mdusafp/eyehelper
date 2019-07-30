@@ -8,14 +8,16 @@ class StandardStyleColors {
   static const Color backgroundWhite = Color(0xFFFFFFFF);
   static const Color btnTextWhite = Color(0xFFFFFFFF);
   static const Color transparent = Colors.transparent;
+  static Color black10 = Colors.black.withOpacity(0.1);
 }
 
 class StandardStyleTexts {
-  static TextStyle headerMain = TextStyle( fontSize: sp(25), color: StandardStyleColors.activeColor, fontWeight: FontWeight.bold );
-  static TextStyle eyeScreenHeader = TextStyle( fontSize: sp(19), color: StandardStyleColors.mainDark, fontWeight: FontWeight.bold );
-  static TextStyle eyeScreenMainText = TextStyle( fontSize: sp(17), color: StandardStyleColors.mainDark, fontWeight: FontWeight.w600 );
-  static TextStyle eyeScreenCountTxt = headerMain.copyWith( fontSize: sp(19) );
-  static TextStyle mainBtnText = TextStyle( fontSize: sp(16), color: StandardStyleColors.btnTextWhite, fontWeight: FontWeight.bold, letterSpacing: 1.1 );
+  static TextStyle headerMain = TextStyle( fontSize: 25, color: StandardStyleColors.activeColor, fontWeight: FontWeight.bold );
+  static TextStyle counterTextStyle = headerMain.copyWith();
+  static TextStyle eyeScreenHeader = TextStyle( fontSize: 19, color: StandardStyleColors.mainDark, fontWeight: FontWeight.bold );
+  static TextStyle eyeScreenMainText = TextStyle( fontSize: 17, color: StandardStyleColors.mainDark, fontWeight: FontWeight.w600 );
+  static TextStyle eyeScreenCountTxt = headerMain.copyWith( fontSize: 19 );
+  static TextStyle mainBtnText = TextStyle( fontSize: 16, color: StandardStyleColors.btnTextWhite, fontWeight: FontWeight.bold, letterSpacing: 1.1 );
 }
 
 
