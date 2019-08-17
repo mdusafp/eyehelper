@@ -30,10 +30,10 @@ class RoundCustomButton extends StatelessWidget {
 
     return Container(
       width: width,
-      height: wv(heightAbs),
+      height: heightAbs,
       decoration: BoxDecoration(
         color: StandardStyleColors.activeColor,
-        borderRadius: BorderRadius.all(Radius.circular(hv(30.0))),
+        borderRadius: BorderRadius.all(Radius.circular(30.0)),
         boxShadow: [
           shadow
         ]),
@@ -41,7 +41,7 @@ class RoundCustomButton extends StatelessWidget {
         type: MaterialType.transparency,
         child: InkWell(
             onTap: onPressed,
-            customBorder: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(hv(30.0))),
+            customBorder: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
             child: Center(
               child: child,
             )),

@@ -71,6 +71,59 @@
 					"type": "image"
 				},
 				{
+					"name": "Rectangle",
+					"parent": 0,
+					"translation": [
+						-1.8814359903335571,
+						-57
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"isVisible": true,
+					"blendMode": 3,
+					"drawOrder": 5,
+					"type": "shape"
+				},
+				{
+					"name": "Color",
+					"parent": 1,
+					"opacity": 1,
+					"color": [
+						0.250980406999588,
+						0.125490203499794,
+						0.062745101749897,
+						1
+					],
+					"fillRule": 1,
+					"type": "colorFill"
+				},
+				{
+					"name": "Rectangle Path",
+					"parent": 1,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"width": 58,
+					"height": 16,
+					"cornerRadius": 0,
+					"type": "rectangle"
+				},
+				{
 					"name": "eye",
 					"translation": [
 						384.9009704589844,
@@ -171,13 +224,138 @@
 			],
 			"animations": [
 				{
+					"name": "trainingTopBot",
+					"fps": 60,
+					"duration": 9,
+					"isLooping": true,
+					"keyed": [
+						{
+							"component": 4,
+							"posY": [
+								[
+									{
+										"time": 0,
+										"interpolatorType": 1,
+										"value": 266.63232421875
+									},
+									{
+										"time": 0.11666666666666667,
+										"interpolatorType": 1,
+										"value": 266.63232421875
+									},
+									{
+										"time": 0.6666666666666666,
+										"interpolatorType": 1,
+										"value": 204.63232421875
+									},
+									{
+										"time": 3.6666666666666665,
+										"interpolatorType": 1,
+										"value": 204.63232421875
+									},
+									{
+										"time": 4.45,
+										"interpolatorType": 1,
+										"value": 266.63232421875
+									},
+									{
+										"time": 4.616666666666666,
+										"interpolatorType": 1,
+										"value": 266.63232421875
+									},
+									{
+										"time": 5.333333333333333,
+										"interpolatorType": 1,
+										"value": 300.63232421875
+									},
+									{
+										"time": 8.333333333333334,
+										"interpolatorType": 1,
+										"value": 300.63232421875
+									},
+									{
+										"time": 8.85,
+										"interpolatorType": 1,
+										"value": 266.63232421875
+									},
+									{
+										"time": 9,
+										"interpolatorType": 1,
+										"value": 266.63232421875
+									}
+								]
+							]
+						},
+						{
+							"component": 5,
+							"posY": [
+								[
+									{
+										"time": 0,
+										"interpolatorType": 1,
+										"value": 266.63232421875
+									},
+									{
+										"time": 0.11666666666666667,
+										"interpolatorType": 1,
+										"value": 266.63232421875
+									},
+									{
+										"time": 0.6666666666666666,
+										"interpolatorType": 1,
+										"value": 204.63232421875
+									},
+									{
+										"time": 3.6666666666666665,
+										"interpolatorType": 1,
+										"value": 204.63232421875
+									},
+									{
+										"time": 4.45,
+										"interpolatorType": 1,
+										"value": 266.63232421875
+									},
+									{
+										"time": 4.616666666666666,
+										"interpolatorType": 1,
+										"value": 266.63232421875
+									},
+									{
+										"time": 5.333333333333333,
+										"interpolatorType": 1,
+										"value": 300.63232421875
+									},
+									{
+										"time": 8.333333333333334,
+										"interpolatorType": 1,
+										"value": 300.63232421875
+									},
+									{
+										"time": 8.85,
+										"interpolatorType": 1,
+										"value": 266.63232421875
+									},
+									{
+										"time": 9,
+										"interpolatorType": 1,
+										"value": 266.63232421875
+									}
+								]
+							]
+						}
+					],
+					"animationStart": 0,
+					"animationEnd": 9,
+					"type": "animation"
+				},
+				{
 					"name": "fastTopBot",
 					"fps": 60,
 					"duration": 4,
 					"isLooping": true,
 					"keyed": [
 						{
-							"component": 1,
+							"component": 4,
 							"posY": [
 								[
 									{
@@ -234,7 +412,7 @@
 							]
 						},
 						{
-							"component": 2,
+							"component": 5,
 							"posY": [
 								[
 									{
@@ -296,13 +474,206 @@
 					"type": "animation"
 				},
 				{
+					"name": "trainingLeftRight",
+					"fps": 60,
+					"duration": 9,
+					"isLooping": true,
+					"keyed": [
+						{
+							"component": 4,
+							"posY": [
+								[
+									{
+										"time": 0,
+										"interpolatorType": 1,
+										"value": 265.1561279296875
+									},
+									{
+										"time": 0.15,
+										"interpolatorType": 1,
+										"value": 265.1561279296875
+									},
+									{
+										"time": 4.433333333333334,
+										"interpolatorType": 1,
+										"value": 265.1561279296875
+									},
+									{
+										"time": 4.583333333333333,
+										"interpolatorType": 1,
+										"value": 265.1561279296875
+									},
+									{
+										"time": 8.866666666666667,
+										"interpolatorType": 1,
+										"value": 265.1561279296875
+									},
+									{
+										"time": 9,
+										"interpolatorType": 1,
+										"value": 265.1561279296875
+									}
+								]
+							],
+							"posX": [
+								[
+									{
+										"time": 0,
+										"interpolatorType": 1,
+										"value": 384.9009704589844
+									},
+									{
+										"time": 0.15,
+										"interpolatorType": 1,
+										"value": 384.9009704589844
+									},
+									{
+										"time": 0.6666666666666666,
+										"interpolatorType": 1,
+										"value": 345.0118103027344
+									},
+									{
+										"time": 3.6666666666666665,
+										"interpolatorType": 1,
+										"value": 345.0118103027344
+									},
+									{
+										"time": 4.433333333333334,
+										"interpolatorType": 1,
+										"value": 384.9009704589844
+									},
+									{
+										"time": 4.583333333333333,
+										"interpolatorType": 1,
+										"value": 384.9009704589844
+									},
+									{
+										"time": 5.333333333333333,
+										"interpolatorType": 1,
+										"value": 479.9010009765625
+									},
+									{
+										"time": 8.333333333333334,
+										"interpolatorType": 1,
+										"value": 479.9010009765625
+									},
+									{
+										"time": 8.866666666666667,
+										"interpolatorType": 1,
+										"value": 384.9009704589844
+									},
+									{
+										"time": 9,
+										"interpolatorType": 1,
+										"value": 384.9009704589844
+									}
+								]
+							]
+						},
+						{
+							"component": 5,
+							"posX": [
+								[
+									{
+										"time": 0,
+										"interpolatorType": 1,
+										"value": 167.4776611328125
+									},
+									{
+										"time": 0.15,
+										"interpolatorType": 1,
+										"value": 167.4776611328125
+									},
+									{
+										"time": 0.6666666666666666,
+										"interpolatorType": 1,
+										"value": 72.7408447265625
+									},
+									{
+										"time": 3.6666666666666665,
+										"interpolatorType": 1,
+										"value": 72.7408447265625
+									},
+									{
+										"time": 4.433333333333334,
+										"interpolatorType": 1,
+										"value": 167.4776611328125
+									},
+									{
+										"time": 4.583333333333333,
+										"interpolatorType": 1,
+										"value": 167.4776611328125
+									},
+									{
+										"time": 5.333333333333333,
+										"interpolatorType": 1,
+										"value": 210.4776611328125
+									},
+									{
+										"time": 8.333333333333334,
+										"interpolatorType": 1,
+										"value": 210.4776611328125
+									},
+									{
+										"time": 8.866666666666667,
+										"interpolatorType": 1,
+										"value": 167.4776611328125
+									},
+									{
+										"time": 9,
+										"interpolatorType": 1,
+										"value": 167.4776611328125
+									}
+								]
+							],
+							"posY": [
+								[
+									{
+										"time": 0,
+										"interpolatorType": 1,
+										"value": 265.1561279296875
+									},
+									{
+										"time": 0.15,
+										"interpolatorType": 1,
+										"value": 265.1561279296875
+									},
+									{
+										"time": 4.433333333333334,
+										"interpolatorType": 1,
+										"value": 265.1561279296875
+									},
+									{
+										"time": 4.583333333333333,
+										"interpolatorType": 1,
+										"value": 265.1561279296875
+									},
+									{
+										"time": 8.866666666666667,
+										"interpolatorType": 1,
+										"value": 265.1561279296875
+									},
+									{
+										"time": 9,
+										"interpolatorType": 1,
+										"value": 265.1561279296875
+									}
+								]
+							]
+						}
+					],
+					"animationStart": 0,
+					"animationEnd": 9,
+					"type": "animation"
+				},
+				{
 					"name": "fastLeftRight",
 					"fps": 60,
 					"duration": 4,
 					"isLooping": true,
 					"keyed": [
 						{
-							"component": 1,
+							"component": 4,
 							"posY": [
 								[
 									{
@@ -393,7 +764,7 @@
 							]
 						},
 						{
-							"component": 2,
+							"component": 5,
 							"posX": [
 								[
 									{

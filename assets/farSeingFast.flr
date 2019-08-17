@@ -122,6 +122,34 @@
 			],
 			"animations": [
 				{
+					"name": "trainingFarSeeing",
+					"fps": 60,
+					"duration": 20,
+					"isLooping": true,
+					"keyed": [
+						{
+							"component": 1,
+							"opacity": [
+								[
+									{
+										"time": 0,
+										"interpolatorType": 0,
+										"value": 0
+									},
+									{
+										"time": 10,
+										"interpolatorType": 0,
+										"value": 1
+									}
+								]
+							]
+						}
+					],
+					"animationStart": 0,
+					"animationEnd": 10,
+					"type": "animation"
+				},
+				{
 					"name": "farSeeing",
 					"fps": 60,
 					"duration": 4,

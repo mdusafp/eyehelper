@@ -2,12 +2,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 ScreenUtil adaptiveUtils = ScreenUtil(width: 360, height: 640);
 
-double wv(dynamic val){
+double hv(dynamic val){
   int res = _prepare(val);
   return ScreenUtil.getInstance().setHeight(res);
 }
 
-double hv(dynamic val){
+double wv(dynamic val){
   int res = _prepare(val);
   return ScreenUtil.getInstance().setWidth(res);
 }

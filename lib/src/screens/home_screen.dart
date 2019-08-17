@@ -46,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
           body: screens[_currentIndex],
         ),
         Container(
-            height: wv(PREFERED_HEIGHT_FOR_CUSTOM_APPBAR),
+            height: PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
             child: AppBar(
               elevation: 0.0,
               automaticallyImplyLeading: false,
