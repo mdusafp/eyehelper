@@ -5,6 +5,8 @@ import 'package:eyehelper/src/utils/adaptive_utils.dart';
 import 'package:eyehelper/src/widgets/clip_shadow_path.dart';
 import 'package:flutter/material.dart';
 
+const double PREFERED_HEIGHT_FOR_CUSTOM_BOTTOM_BAR = 90.0;
+
 class BottomWavy extends StatefulWidget {
   BottomWavy({
     Key key,
@@ -25,6 +27,46 @@ class _BottomWavyState extends State<BottomWavy> {
 
   @override
   Widget build(BuildContext context) {
+    final statisticsButton = IconButton(
+      icon: Image.asset(
+        'assets/stat_menu_icon.png',
+        height: 25,
+        color: widget.currentIndex == INDEX_STATISTICS_SCREEN
+            ? StandardStyleColors.activeColor
+            : StandardStyleColors.lightGrey,
+      ),
+      onPressed: () => widget.onTap(INDEX_STATISTICS_SCREEN),
+    );
+
+    final mainButton = Container(
+      height: eyeHeight,
+      width: eyeWidth,
+      child: FittedBox(
+        child: FloatingActionButton(
+          backgroundColor: StandardStyleColors.activeColor,
+          heroTag: 'mainBtn',
+          child: Icon(
+            Icons.remove_red_eye,
+            color: StandardStyleColors.backgroundWhite,
+            size: 30.0,
+          ),
+          onPressed: () => widget.onTap(INDEX_EYE_SCREEN),
+        ),
+      ),
+    );
+
+    final notificationsButton = IconButton(
+      icon: Image.asset(
+        'assets/notif_menu_icon.png',
+        height: 25,
+        color: widget.currentIndex == INDEX_NOTIFICATIONS_SCREEN
+            ? StandardStyleColors.activeColor
+            : StandardStyleColors.lightGrey,
+      ),
+      color: Theme.of(context).primaryColor,
+      onPressed: () => widget.onTap(INDEX_NOTIFICATIONS_SCREEN),
+    );
+
     return Stack(
       children: <Widget>[
         ClipShadowPath(
@@ -32,7 +74,7 @@ class _BottomWavyState extends State<BottomWavy> {
           shadow: Shadow(blurRadius: 10, color: StandardStyleColors.lightGrey),
           child: Container(
             color: StandardStyleColors.backgroundWhite,
-            height: 100.0,
+            height: PREFERED_HEIGHT_FOR_CUSTOM_BOTTOM_BAR,
             width: MediaQuery.of(context).size.width,
             child: Material(
               type: MaterialType.transparency,
@@ -44,28 +86,7 @@ class _BottomWavyState extends State<BottomWavy> {
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    InkWell(
-                      onTap: () => widget.onTap(INDEX_STATISTICS_SCREEN),
-                      child: Image.asset(
-                        'assets/stat_menu_icon.png',
-                        height: wv(25),
-                        color: widget.currentIndex == INDEX_STATISTICS_SCREEN
-                            ? StandardStyleColors.activeColor
-                            : StandardStyleColors.lightGrey,
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () => widget.onTap(INDEX_NOTIFICATIONS_SCREEN),
-                      child: Image.asset(
-                        'assets/notif_menu_icon.png',
-                        height: wv(22),
-                        color: widget.currentIndex == INDEX_NOTIFICATIONS_SCREEN
-                            ? StandardStyleColors.activeColor
-                            : StandardStyleColors.lightGrey,
-                      ),
-                    ),
-                  ],
+                  children: <Widget>[statisticsButton, notificationsButton],
                 ),
               ),
             ),
@@ -84,24 +105,7 @@ class _BottomWavyState extends State<BottomWavy> {
                 type: MaterialType.transparency,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    Container(
-                      height: eyeHeight,
-                      width: eyeWidth,
-                      child: FittedBox(
-                        child: FloatingActionButton(
-                          backgroundColor: StandardStyleColors.activeColor,
-                          heroTag: 'mainBtn',
-                          child: Icon(
-                            Icons.remove_red_eye,
-                            color: StandardStyleColors.backgroundWhite,
-                            size: 30.0,
-                          ),
-                          onPressed: () => widget.onTap(INDEX_EYE_SCREEN),
-                        ),
-                      ),
-                    ),
-                  ],
+                  children: <Widget>[mainButton],
                 ),
               ),
             ),

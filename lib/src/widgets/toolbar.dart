@@ -1,5 +1,4 @@
 import 'package:eyehelper/src/colors.dart';
-import 'package:eyehelper/src/utils/adaptive_utils.dart';
 import 'package:eyehelper/src/widgets/clip_shadow_path.dart';
 import 'package:flutter/material.dart';
 
