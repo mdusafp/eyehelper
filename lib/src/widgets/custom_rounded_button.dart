@@ -1,10 +1,8 @@
 import 'package:eyehelper/src/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:eyehelper/src/utils/adaptive_utils.dart';
 
-///Custom raised button
-
+/// Custom raised button
 class RoundCustomButton extends StatelessWidget {
   final Widget child;
   final double width;
@@ -27,24 +25,23 @@ class RoundCustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       width: width,
       height: heightAbs,
       decoration: BoxDecoration(
         color: StandardStyleColors.activeColor,
         borderRadius: BorderRadius.all(Radius.circular(30.0)),
-        boxShadow: [
-          shadow
-        ]),
+        boxShadow: [shadow],
+      ),
       child: Material(
         type: MaterialType.transparency,
         child: InkWell(
-            onTap: onPressed,
-            customBorder: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-            child: Center(
-              child: child,
-            )),
+          onTap: onPressed,
+          customBorder: new RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(30.0),
+          ),
+          child: Center(child: child),
+        ),
       ),
     );
   }

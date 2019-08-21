@@ -17,7 +17,7 @@ dependencies:
   flutter_local_notifications: 0.8.0 # Notification
   logger: 0.7.0 # Print beautiful logs
   path_provider: 0.4.1 # Notifications Sound
-  scroll_to_index: 1.0.2 # Help to scroll time picker by fixed variable
+  flutter_time_picker_spinner: 1.0.5 # Notifications time picker
   shared_preferences: 0.5.3 # Statistic and notification
   flutter_screenutil: 0.5.1 #For adaptive scaling on different screen sizes
   vibration: 1.1.0 # For vibrating while doing excercises.
