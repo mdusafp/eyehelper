@@ -1,3 +1,4 @@
+import 'package:eyehelper/src/screens/statistics_screen/statistics_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -32,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
   };
 
   Map screens = {
-    INDEX_STATISTICS_SCREEN: Container(),
+    INDEX_STATISTICS_SCREEN: StatisticsScreen(),
     INDEX_EYE_SCREEN: EyeScreen(),
     INDEX_NOTIFICATIONS_SCREEN: NotificationScreen(),
   };

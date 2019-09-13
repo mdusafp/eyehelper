@@ -59,4 +59,10 @@ const Map<String, String> locale_ru = {
   "friday": "Пт",
   "saturday": "Сб",
   "sunday": "Вс",
+
+  // texts for statistics
+  "exercise_frequency_per_day": "Частота выполнения упражнений в течении дня",
+  "exercise_per_month": "Упражнений за этот месяц",
+  "responses_on_push": "Откликов на уведомления",
+  "current_week": "Текущая неделя",
 };

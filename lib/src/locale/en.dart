@@ -55,4 +55,10 @@ const Map<String, String> locale_en = {
   "friday": "F",
   "saturday": "S",
   "sunday": "S",
+
+  // texts for statistics
+  "exercise_frequency_per_day": "_exercise_frequency_per_day_",
+  "exercise_per_month": "_exercise_per_month_",
+  "responses_on_push": "_responses_on_push_",
+  "current_week": "_current_week_",
 };

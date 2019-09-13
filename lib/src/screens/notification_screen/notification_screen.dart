@@ -1,6 +1,5 @@
 import 'package:eyehelper/src/models/working_hours.dart';
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 
 import 'package:eyehelper/src/colors.dart';
 import 'package:eyehelper/src/widgets/toolbar.dart';
@@ -12,8 +11,6 @@ import 'package:eyehelper/src/widgets/custom_rounded_button.dart';
 import 'package:eyehelper/src/screens/notification_screen/apply_to_all.dart';
 import 'package:eyehelper/src/screens/notification_screen/notifications_toggle.dart';
 import 'package:eyehelper/src/screens/notification_screen/exercise_frequency_picker.dart';
-
-final logger = new Logger();
 
 typedef void OnToggle(bool value);
 typedef void OnChanged(RangeValues values);

@@ -35,6 +35,11 @@ class StandardStyleTexts {
     fontWeight: FontWeight.bold,
     letterSpacing: 1.1,
   );
+  static TextStyle title = TextStyle(
+    fontSize: sp(24),
+    color: StandardStyleColors.lightGrey,
+    fontWeight: FontWeight.bold,
+  );
   static TextStyle display1 = TextStyle(
     fontSize: sp(18),
     color: StandardStyleColors.lightGrey,
