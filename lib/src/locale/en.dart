@@ -47,14 +47,24 @@ const Map<String, String> locale_en = {
   "minute": "_minute_",
   "save": "_save_",
 
-  // texts for schedule
-  "monday": "M",
-  "tuesday": "T",
-  "wednesday": "W",
-  "thursday": "T",
-  "friday": "F",
-  "saturday": "S",
-  "sunday": "S",
+  // texts for schedule and statistics
+  "monday_short": "M",
+  "tuesday_short": "T",
+  "wednesday_short": "W",
+  "thursday_short": "T",
+  "friday_short": "F",
+  "saturday_short": "S",
+  "sunday_short": "S",
+
+  "monday": "Monday",
+  "tuesday": "Tuesday",
+  "wednesday": "Wednesday",
+  "thursday": "Thursday",
+  "friday": "Friday",
+  "saturday": "Saturday",
+  "sunday": "Sunday",
+
+  "times": "times",
 
   // texts for statistics
   "exercise_frequency_per_day": "_exercise_frequency_per_day_",

@@ -51,14 +51,24 @@ const Map<String, String> locale_ru = {
   "minute": "мин",
   "save": "Сохранить",
 
-  // texts for schedule
-  "monday": "Пн",
-  "tuesday": "Вт",
-  "wednesday": "Ср",
-  "thursday": "Чт",
-  "friday": "Пт",
-  "saturday": "Сб",
-  "sunday": "Вс",
+  // texts for schedule and statistics
+  "monday_short": "Пн",
+  "tuesday_short": "Вт",
+  "wednesday_short": "Ср",
+  "thursday_short": "Чт",
+  "friday_short": "Пт",
+  "saturday_short": "Сб",
+  "sunday_short": "Вс",
+
+  "monday": "Понедельник",
+  "tuesday": "Вторник",
+  "wednesday": "Среда",
+  "thursday": "Четверг",
+  "friday": "Пятница",
+  "saturday": "Суббота",
+  "sunday": "Воскресенье",
+
+  "times": "Раз",
 
   // texts for statistics
   "exercise_frequency_per_day": "Частота выполнения упражнений в течении дня",

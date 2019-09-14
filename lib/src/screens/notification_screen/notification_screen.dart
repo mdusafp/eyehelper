@@ -1,6 +1,6 @@
-import 'package:eyehelper/src/models/working_hours.dart';
 import 'package:flutter/material.dart';
 
+import 'package:eyehelper/src/models/working_hours.dart';
 import 'package:eyehelper/src/colors.dart';
 import 'package:eyehelper/src/widgets/toolbar.dart';
 import 'package:eyehelper/src/locale/Localizer.dart';
@@ -82,10 +82,12 @@ class NotificationScreen extends StatefulWidget {
 class _NotificationScreenState extends State<NotificationScreen> {
   NotificationSettings _notificationSettings;
   SharedPreferencesHelper _sharedPreferencesHelper;
+  bool _isLoading;
 
   @override
   void initState() {
     super.initState();
+    _isLoading = true;
 
     _notificationSettings = new NotificationSettings(
       applyToAll: false,
@@ -101,13 +103,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
       if (_notificationSettings.schedule.length == 0) {
         // array of keys from localizer
         List<String> week = [
-          'monday',
-          'tuesday',
-          'wednesday',
-          'thursday',
-          'friday',
-          'saturday',
-          'sunday',
+          'monday_short',
+          'tuesday_short',
+          'wednesday_short',
+          'thursday_short',
+          'friday_short',
+          'saturday_short',
+          'sunday_short',
         ];
 
         _notificationSettings.schedule = week.map((day) {
@@ -118,6 +120,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
           );
         }).toList();
       }
+
+      _isLoading = false;
 
       setState(() {});
     });
@@ -137,100 +141,106 @@ class _NotificationScreenState extends State<NotificationScreen> {
               constraints: BoxConstraints(
                 minHeight: viewportConstraints.maxHeight,
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  SizedBox(height: wv(PREFERED_HEIGHT_FOR_CUSTOM_APPBAR)),
-                  NotificationsToggle(
-                    value: _notificationSettings.notificationsOn,
-                    onChange: (value) {
-                      setState(() {
-                        _notificationSettings.notificationsOn = value;
-                      });
-                    },
-                  ),
-                  Text(
-                    Localizer.getLocaleById('choose_time', context),
-                    style: StandardStyleTexts.display1,
-                    textAlign: TextAlign.center,
-                  ),
-                  ApplyToAll(
-                    value: _notificationSettings.applyToAll,
-                    onChanged: (value) {
-                      setState(() {
-                        _notificationSettings.applyToAll = value;
-                        _notificationSettings.schedule.forEach((s) {
-                          s.isActivated = true;
-                        });
-                      });
-                    },
-                  ),
-                  ListView.builder(
-                    itemCount: _notificationSettings.schedule.length ?? 0,
-                    itemBuilder: (context, index) {
-                      final item = _notificationSettings.schedule[index];
-                      return Padding(
-                        padding: const EdgeInsets.fromLTRB(15, 0, 15, 10),
-                        child: WorkingDay(
-                          key: ValueKey(index),
-                          isActivated: item.isActivated,
-                          name: Localizer.getLocaleById(item.name, context),
-                          values: item.values,
-                          onToggle: (value) {
-                            setState(() {
-                              item.isActivated = value;
-
-                              if (!value) {
-                                _notificationSettings.applyToAll = false;
-                              }
-                            });
-                          },
-                          onChanged: (values) {
-                            setState(() {
-                              item.values = values;
-                            });
-                          },
-                        ),
-                      );
-                    },
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                  ),
-                  SizedBox(height: wv(16)),
-                  Text(
-                    Localizer.getLocaleById('exercise_frequency', context),
-                    textAlign: TextAlign.center,
-                    style: StandardStyleTexts.display1,
-                  ),
-                  ExerciseFrequencyPicker(
-                    value: _notificationSettings.notificationFrequency,
-                    onChangeFrequency: (value) {
-                      setState(() {
-                        _notificationSettings.notificationFrequency =
-                            value.millisecondsSinceEpoch;
-                      });
-                    },
-                  ),
-                  SizedBox(height: wv(16)),
-                  Container(
-                    width: hv(180),
-                    height: wv(40),
-                    child: RoundCustomButton(
-                      child: Text(
-                        Localizer.getLocaleById('save', context),
-                        style: StandardStyleTexts.mainBtnText,
-                      ),
-                      onPressed: _saveSettings,
-                    ),
-                  ),
-                  SizedBox(height: wv(PREFERED_HEIGHT_FOR_CUSTOM_APPBAR)),
-                ],
-              ),
+              child: _isLoading
+                  ? Center(child: CircularProgressIndicator())
+                  : buildSettings(context),
             ),
           );
         },
       ),
+    );
+  }
+
+  Column buildSettings(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        SizedBox(height: wv(PREFERED_HEIGHT_FOR_CUSTOM_APPBAR)),
+        NotificationsToggle(
+          value: _notificationSettings.notificationsOn,
+          onChange: (value) {
+            setState(() {
+              _notificationSettings.notificationsOn = value;
+            });
+          },
+        ),
+        Text(
+          Localizer.getLocaleById('choose_time', context),
+          style: StandardStyleTexts.display1,
+          textAlign: TextAlign.center,
+        ),
+        ApplyToAll(
+          value: _notificationSettings.applyToAll,
+          onChanged: (value) {
+            setState(() {
+              _notificationSettings.applyToAll = value;
+              _notificationSettings.schedule.forEach((s) {
+                s.isActivated = true;
+              });
+            });
+          },
+        ),
+        ListView.builder(
+          itemCount: _notificationSettings.schedule.length ?? 0,
+          itemBuilder: (context, index) {
+            final item = _notificationSettings.schedule[index];
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(15, 0, 15, 10),
+              child: WorkingDay(
+                key: ValueKey(index),
+                isActivated: item.isActivated,
+                name: Localizer.getLocaleById(item.name, context),
+                values: item.values,
+                onToggle: (value) {
+                  setState(() {
+                    item.isActivated = value;
+
+                    if (!value) {
+                      _notificationSettings.applyToAll = false;
+                    }
+                  });
+                },
+                onChanged: (values) {
+                  setState(() {
+                    item.values = values;
+                  });
+                },
+              ),
+            );
+          },
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+        ),
+        SizedBox(height: wv(16)),
+        Text(
+          Localizer.getLocaleById('exercise_frequency', context),
+          textAlign: TextAlign.center,
+          style: StandardStyleTexts.display1,
+        ),
+        ExerciseFrequencyPicker(
+          value: _notificationSettings.notificationFrequency,
+          onChangeFrequency: (value) {
+            setState(() {
+              _notificationSettings.notificationFrequency =
+                  value.millisecondsSinceEpoch;
+            });
+          },
+        ),
+        SizedBox(height: wv(16)),
+        Container(
+          width: hv(180),
+          height: wv(40),
+          child: RoundCustomButton(
+            child: Text(
+              Localizer.getLocaleById('save', context),
+              style: StandardStyleTexts.mainBtnText,
+            ),
+            onPressed: _saveSettings,
+          ),
+        ),
+        SizedBox(height: wv(PREFERED_HEIGHT_FOR_CUSTOM_APPBAR)),
+      ],
     );
   }
 }

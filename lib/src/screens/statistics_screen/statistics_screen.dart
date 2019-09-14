@@ -1,214 +1,27 @@
 import 'dart:async';
+import 'package:eyehelper/src/screens/statistics_screen/statistics_card.dart';
+import 'package:tuple/tuple.dart';
 import 'package:flutter/material.dart';
-import 'package:fl_chart/fl_chart.dart';
 
 import 'package:eyehelper/src/widgets/bootom_bar.dart';
 import 'package:eyehelper/src/colors.dart';
 import 'package:eyehelper/src/locale/Localizer.dart';
 import 'package:eyehelper/src/utils/adaptive_utils.dart';
 import 'package:eyehelper/src/widgets/toolbar.dart';
+import 'package:eyehelper/src/screens/statistics_screen/statistics_value.dart';
 
 const SPACING = 16.0;
-
-class StatisticValue extends StatelessWidget {
-  final String label;
-  final String value;
-
-  const StatisticValue({Key key, this.label, this.value}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Text(
-          value,
-          style: StandardStyleTexts.title.copyWith(
-            color: StandardStyleColors.activeColor,
-          ),
-        ),
-        Text(label, style: StandardStyleTexts.display2),
-      ],
-    );
-  }
-}
-
-class StatisticCard extends StatefulWidget {
-  final double barWidth;
-  final double barHeight;
-  final Color barActiveColor;
-
-  const StatisticCard(
-      {Key key, this.barWidth, this.barHeight, this.barActiveColor})
-      : super(key: key);
-
-  @override
-  _StatisticCardState createState() => _StatisticCardState();
-}
-
-class _StatisticCardState extends State<StatisticCard> {
-  StreamController<BarTouchResponse> controller;
-
-  BarChartGroupData makeGroupData(int x, double y) {
-    return BarChartGroupData(
-      x: x,
-      barRods: [
-        BarChartRodData(
-          y: y,
-          color: widget.barActiveColor,
-          width: widget.barWidth,
-          isRound: true,
-          backDrawRodData: BackgroundBarChartRodData(
-            show: true,
-            y: widget.barHeight,
-            color: StandardStyleColors.mainDark,
-          ),
-        ),
-      ],
-    );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    controller = new StreamController();
-    controller.stream.distinct().listen((BarTouchResponse response) {});
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    controller.close();
-  }
-
-  List<TooltipItem> getTooltipItems(List<TouchedSpot> touchedSpots) {
-    List<String> tooltips = [
-      Localizer.getLocaleById('monday', context),
-      Localizer.getLocaleById('tuesday', context),
-      Localizer.getLocaleById('wednesday', context),
-      Localizer.getLocaleById('thursday', context),
-      Localizer.getLocaleById('friday', context),
-      Localizer.getLocaleById('saturday', context),
-      Localizer.getLocaleById('sunday', context),
-    ];
-
-    return touchedSpots.map((touchedSpot) {
-      final index = touchedSpot.spot.x.toInt();
-      return TooltipItem(
-        '${tooltips[index]}\n${touchedSpot.spot.y}',
-        StandardStyleTexts.display1.copyWith(color: Colors.white),
-      );
-    }).toList();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(SPACING),
-      ),
-      elevation: 8.0,
-      child: Container(
-        padding: const EdgeInsets.all(SPACING / 2),
-        width: double.infinity,
-        child: Column(
-          children: <Widget>[
-            Text(
-              Localizer.getLocaleById('current_week', context),
-              style: StandardStyleTexts.display1,
-            ),
-            SizedBox(height: SPACING / 2),
-            AspectRatio(
-              aspectRatio: 1,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(SPACING)),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(SPACING),
-                  child: FlChart(
-                    chart: BarChart(
-                      BarChartData(
-                        barGroups: [
-                          makeGroupData(0, 5),
-                          makeGroupData(1, 6.5),
-                          makeGroupData(2, 5),
-                          makeGroupData(3, 7.5),
-                          makeGroupData(4, 9),
-                          makeGroupData(5, 11.5),
-                          makeGroupData(6, 6.5),
-                        ],
-                        barTouchData: BarTouchData(
-                          touchTooltipData: TouchTooltipData(
-                            tooltipBgColor: Colors.blueGrey,
-                            getTooltipItems: getTooltipItems,
-                          ),
-                          touchResponseSink: controller.sink,
-                        ),
-                        titlesData: FlTitlesData(
-                          show: true,
-                          bottomTitles: SideTitles(
-                            showTitles: true,
-                            textStyle: StandardStyleTexts.display1,
-                            margin: SPACING,
-                            getTitles: getBottomTitles,
-                          ),
-                          leftTitles: SideTitles(
-                            showTitles: true,
-                            textStyle: StandardStyleTexts.display1,
-                            margin: SPACING,
-                            getTitles: getLeftTitles,
-                          ),
-                        ),
-                        borderData: FlBorderData(
-                          show: false,
-                        ),
-                        // barGroups: showingBarGroups,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  String getLeftTitles(value) {
-    if (value == 0) {
-      return '1';
-    } else if (value == 10) {
-      return '5';
-    } else if (value == 19) {
-      return '10';
-    } else {
-      return '';
-    }
-  }
-
-  String getBottomTitles(double value) {
-    List<String> bottomTitles = [
-      Localizer.getLocaleById('monday', context),
-      Localizer.getLocaleById('tuesday', context),
-      Localizer.getLocaleById('wednesday', context),
-      Localizer.getLocaleById('thursday', context),
-      Localizer.getLocaleById('friday', context),
-      Localizer.getLocaleById('saturday', context),
-      Localizer.getLocaleById('sunday', context),
-    ];
-
-    return bottomTitles[value.toInt()];
-  }
-}
 
 class Statistics {
   final String exercisePerMonth;
   final String responsesOnPush;
+  final List<Tuple2<int, double>> coordsList;
 
-  Statistics(int exercisePerMonth, int responsesOnPush)
+  Statistics(int exercisePerMonth, int responsesOnPush,
+      List<Tuple2<int, double>> coordsList)
       : this.exercisePerMonth = exercisePerMonth.toString(),
-        this.responsesOnPush = '$responsesOnPush%';
+        this.responsesOnPush = '$responsesOnPush%',
+        this.coordsList = coordsList;
 }
 
 class StatisticsScreen extends StatefulWidget {
@@ -223,7 +36,15 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
   }
 
   Future<Statistics> fetchStatistics() async {
-    return Future.value(new Statistics(25, 73));
+    return Future.value(new Statistics(25, 73, [
+      Tuple2<int, double>(0, 5),
+      Tuple2<int, double>(1, 6),
+      Tuple2<int, double>(2, 15),
+      Tuple2<int, double>(3, 12),
+      Tuple2<int, double>(4, 9),
+      Tuple2<int, double>(5, 10),
+      Tuple2<int, double>(6, 6),
+    ]));
   }
 
   @override
@@ -238,15 +59,15 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
             } else {
               return Column(
                 children: <Widget>[
-                  // offset header
                   SizedBox(height: wv(PREFERED_HEIGHT_FOR_CUSTOM_APPBAR)),
                   SizedBox(height: SPACING),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: SPACING),
                     child: StatisticCard(
-                      barWidth: 10.0,
-                      barHeight: 20.0,
+                      barWidth: 12.0,
+                      barHeight: 0.0, // make background transparent
                       barActiveColor: StandardStyleColors.activeColor,
+                      coordsList: snapshot.data.coordsList,
                     ),
                   ),
                   SizedBox(height: SPACING),

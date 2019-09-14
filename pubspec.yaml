@@ -12,16 +12,17 @@ dependencies:
   cupertino_icons: 0.1.2
   flutter_localizations:
     sdk: flutter
-  fl_chart: 0.2.0
+  fl_chart: 0.2.0 # Charts library for statistics screen
   flare_flutter: 1.5.5 # Animation
   flutter_swiper: 1.1.4 # Swipe on main screen
   flutter_local_notifications: 0.8.0 # Notification
+  flutter_time_picker_spinner: 1.0.5 # Notifications time picker
+  flutter_screenutil: 0.5.1 #For adaptive scaling on different screen sizes
   logger: 0.7.0 # Print beautiful logs
   path_provider: 0.4.1 # Notifications Sound
-  flutter_time_picker_spinner: 1.0.5 # Notifications time picker
   shared_preferences: 0.5.3 # Statistic and notification
-  flutter_screenutil: 0.5.1 #For adaptive scaling on different screen sizes
   vibration: 1.1.0 # For vibrating while doing excercises.
+  tuple: 1.0.2 # Extended data structure
 
 dev_dependencies:
   flutter_test:

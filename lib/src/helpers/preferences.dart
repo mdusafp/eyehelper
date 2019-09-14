@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:eyehelper/src/models/notification_settings.dart';
 
+// TODO: rewrite me with streaming_shared_preferences and pass settings from App to bottom
 class SharedPreferencesHelper {
   SharedPreferences _instance;
 
