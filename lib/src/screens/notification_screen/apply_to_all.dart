@@ -1,3 +1,4 @@
+import 'package:eyehelper/src/locale/ru.dart';
 import 'package:flutter/material.dart';
 
 import 'package:eyehelper/src/colors.dart';
@@ -21,7 +22,7 @@ class ApplyToAll extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
         Text(
-          Localizer.getLocaleById('apply_to_all', context),
+          Localizer.getLocaleById(LocaleId.apply_to_all, context),
           style: StandardStyleTexts.display1,
           textAlign: TextAlign.center,
         ),

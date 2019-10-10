@@ -1,9 +1,10 @@
+import 'package:eyehelper/src/locale/ru.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 
 import 'package:eyehelper/src/colors.dart';
 import 'package:eyehelper/src/locale/Localizer.dart';
-import 'package:eyehelper/src/utils/adaptive_utils.dart';
+ 
 
 typedef void OnChangeFrequency(DateTime value);
 
@@ -24,11 +25,11 @@ class ExerciseFrequencyPicker extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text(
-          Localizer.getLocaleById('times_per', context),
+          Localizer.getLocaleById(LocaleId.times_per, context),
           style: StandardStyleTexts.display1,
           textAlign: TextAlign.center,
         ),
-        SizedBox(width: hv(16)),
+        SizedBox(width: 16),
         // TODO: customize plugin
         TimePickerSpinner(
           time: new DateTime.fromMillisecondsSinceEpoch(value),

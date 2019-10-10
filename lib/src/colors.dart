@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:eyehelper/src/utils/adaptive_utils.dart';
+ 
 
 class StandardStyleColors {
   static const Color activeColor = Color(0xFF509F75);
@@ -13,35 +13,40 @@ class StandardStyleColors {
 
 class StandardStyleTexts {
   static TextStyle headerMain = TextStyle(
-    fontSize: sp(25),
+    fontSize: 25,
     color: StandardStyleColors.activeColor,
     fontWeight: FontWeight.bold,
   );
   static TextStyle counterTextStyle = headerMain.copyWith();
   static TextStyle eyeScreenHeader = TextStyle(
-    fontSize: sp(19),
+    fontSize: 22,
     color: StandardStyleColors.mainDark,
     fontWeight: FontWeight.bold,
   );
   static TextStyle eyeScreenMainText = TextStyle(
-    fontSize: sp(17),
+    fontSize: 20,
     color: StandardStyleColors.mainDark,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w300,
   );
-  static TextStyle eyeScreenCountTxt = headerMain.copyWith(fontSize: sp(19));
+  static TextStyle eyeScreenCountTxt = headerMain.copyWith(fontSize: 19);
   static TextStyle mainBtnText = TextStyle(
-    fontSize: sp(16),
+    fontSize: 23,
     color: StandardStyleColors.btnTextWhite,
     fontWeight: FontWeight.bold,
     letterSpacing: 1.1,
   );
+  static TextStyle title = TextStyle(
+    fontSize: 25,
+    color: StandardStyleColors.lightGrey,
+    fontWeight: FontWeight.bold,
+  );
   static TextStyle display1 = TextStyle(
-    fontSize: sp(18),
+    fontSize: 18,
     color: StandardStyleColors.lightGrey,
     fontWeight: FontWeight.normal,
   );
   static TextStyle display2 = TextStyle(
-    fontSize: sp(15),
+    fontSize: 15,
     color: StandardStyleColors.lightGrey,
     fontWeight: FontWeight.normal,
   );

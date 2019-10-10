@@ -1,8 +1,9 @@
+import 'package:eyehelper/src/locale/ru.dart';
 import 'package:flutter/material.dart';
 
 class WorkingHours {
   bool isActivated;
-  String name;
+  LocaleId name;
   RangeValues values;
 
   WorkingHours({this.name, this.values, this.isActivated});
