@@ -135,7 +135,7 @@ class _SwiperMainState extends State<SwiperMain> {
     if (await countersHelper.checkFinishedAll()){
       var preferences = FastPreferences().prefs;
       
-      widget.showResultCallback();
+      //widget.showResultCallback();
       
       // String strJson = preferences.getString('day_finished');
       // Map<String, dynamic> map;
