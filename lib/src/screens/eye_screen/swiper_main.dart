@@ -132,34 +132,14 @@ class _SwiperMainState extends State<SwiperMain> {
   }
 
   _processFinish() async {
-    if (await countersHelper.checkFinishedAll()){
-      var preferences = FastPreferences().prefs;
-      
-      //widget.showResultCallback();
-      
-      // String strJson = preferences.getString('day_finished');
-      // Map<String, dynamic> map;
-      // if (strJson == null){
-      //   map = {};
-      // } else {
-      //   map = (json.decode(strJson) as Map<String, dynamic>);
-      // }
+    var preferences = FastPreferences().prefs;
 
-      // if (!(map[formatted] ?? false)){        
-      //   map[formatted] = true;
-      //   map.removeWhere((key, value) => 
-      //     dateTimeNow.difference(formatter.parse(key)).abs() > Duration(days: 365).abs());
-      //   await preferences.setString('day_finished', json.encode(map));
-      // }
-      if (!preferences.getBool('finish_screen_showed')){
-        // Navigator.of(context).push(MaterialPageRoute(
-        //   builder: (context)=> FinishTrainingScreen(),
-        //   fullscreenDialog: true
-        // ));
-        widget.showResultCallback();
+    if (await countersHelper.checkFinishedAll() && 
+      !preferences.getBool('finish_screen_showed')){
+
+      widget.showResultCallback();
         await preferences.setBool('finish_screen_showed', true);
-      }
-
+        
     } else {
       swiperController.next();
     }
