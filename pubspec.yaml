@@ -23,7 +23,9 @@ dependencies:
   shared_preferences: 0.5.3 # Statistic and notification
   vibration: 1.1.0 # For vibrating while doing excercises.
   tuple: 1.0.2 # Extended data structure
-
+  url_launcher: 5.1.4 #to go in AppStore
+  share: 0.6.2 #for sharing the app
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

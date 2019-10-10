@@ -1,5 +1,5 @@
 import 'package:eyehelper/src/colors.dart';
-import 'package:eyehelper/src/utils/adaptive_utils.dart';
+ 
 import 'package:eyehelper/src/widgets/round_control_button.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -72,9 +72,9 @@ class _ScreenControlButtonsState extends State<ScreenControlButtons> {
     return Container(
       width: MediaQuery.of(context).size.width,
       child: Padding(
-        padding: EdgeInsets.only(left: wv(50), right: wv(50)),
+        padding: EdgeInsets.only(left: 50, right: 50),
         child: Container(
-          height: hv(50),
+          height: 50,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[

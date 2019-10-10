@@ -1,3 +1,4 @@
+import 'package:eyehelper/src/locale/ru.dart';
 import 'package:flutter/material.dart';
 
 import 'package:eyehelper/src/colors.dart';
@@ -21,7 +22,7 @@ class NotificationsToggle extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text(
-          Localizer.getLocaleById('notifications_on', context),
+          Localizer.getLocaleById(LocaleId.notifications_on, context),
           style: StandardStyleTexts.display1,
           textAlign: TextAlign.center,
         ),

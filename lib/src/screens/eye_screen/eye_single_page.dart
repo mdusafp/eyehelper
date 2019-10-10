@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:eyehelper/src/colors.dart';
 import 'package:eyehelper/src/locale/Localizer.dart';
+import 'package:eyehelper/src/locale/ru.dart';
 import 'package:eyehelper/src/models/swiper_screen_info.dart';
 import 'package:eyehelper/src/screens/eye_screen/screen_control_buttons.dart';
-import 'package:eyehelper/src/utils/adaptive_utils.dart';
 import 'package:eyehelper/src/widgets/animated_face.dart';
 import 'package:eyehelper/src/widgets/custom_rounded_button.dart';
 import 'package:eyehelper/src/widgets/round_control_button.dart';
@@ -19,9 +19,16 @@ class EyeSinglePage extends StatefulWidget {
 
   final SwiperScreenInfo info;
   final SwiperController controller;
-  final Function callbackBtnPressed;
+  final Function startBtnCallback;
+  final Function finishBtnCallback;
 
-  const EyeSinglePage({Key key, @required this.info, @required this.controller, @required this.callbackBtnPressed}) : super(key: key);
+  const EyeSinglePage({
+    Key key, 
+    @required this.info, 
+    @required this.controller, 
+    @required this.startBtnCallback,
+    @required this.finishBtnCallback,
+  }) : super(key: key);
 
   @override
   _EyeSinglePageState createState() => _EyeSinglePageState();
@@ -38,13 +45,13 @@ class _EyeSinglePageState extends State<EyeSinglePage> implements FlareControlle
   double _speed = 1.0;
   double _faceTime = 0.0;
 
-  Timer timer;
+  int _counter = 0;
+  Timer counterTimer;
 
   String trainingText = '';
 
   @override
   void dispose() {
-    timer?.cancel();
     super.dispose();
   }
 
@@ -57,17 +64,17 @@ class _EyeSinglePageState extends State<EyeSinglePage> implements FlareControlle
             child: Column(
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(left: wv(10.0), right: wv(10.0)),
+                  padding: EdgeInsets.only(left: 10.0, right: 10.0),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
 
                       Container(
-                        height: hv(110.0),
+                        height: 110.0,
                       ),
 
                       Padding(
-                        padding: EdgeInsets.only(top: hv(18.0), bottom: hv(6.0), left: wv(20.0), right: wv(20.0)),
+                        padding: EdgeInsets.only(top: 18.0, bottom: 20.0, left: 20.0, right: 20.0),
                         child: Center(
                             child: Text(
                                 Localizer.getLocaleById(widget.info.title, context),
@@ -77,7 +84,7 @@ class _EyeSinglePageState extends State<EyeSinglePage> implements FlareControlle
                       ),
 
                       Padding(
-                        padding: EdgeInsets.only(top: hv(6.0), bottom: hv(6.0), left: wv(20.0), right: wv(20.0)),
+                        padding: EdgeInsets.only(top: 6.0, bottom: 20.0, left: 20.0, right: 20.0),
                         child: Center(
                           child: Text(
                               Localizer.getLocaleById(widget.info.mainText, context),
@@ -87,20 +94,20 @@ class _EyeSinglePageState extends State<EyeSinglePage> implements FlareControlle
                       ),
 
                       Padding(
-                        padding: EdgeInsets.only(top: hv(6.0), bottom: hv(6.0), left: wv(20.0), right: wv(20.0)),
+                        padding: EdgeInsets.only(top: 6.0, bottom: 20.0, left: 20.0, right: 20.0),
                         child: Text(Localizer.getLocaleById(widget.info.durationText, context), style: StandardStyleTexts.eyeScreenCountTxt, textAlign: TextAlign.center),
                       ),
 
                       Padding(
-                        padding: EdgeInsets.only(top: hv(6.0), bottom: hv(10.0)),
+                        padding: EdgeInsets.only(top: 6.0, bottom: 10.0),
                         child: AnimatedFace(info: widget.info, isPaused: isFacePaused, visible: isFaceVisible, controller: isTrainingStarted ? this : null)
                       ),
 
                       Padding(
-                        padding: EdgeInsets.only(top: hv(10.0)),
+                        padding: EdgeInsets.only(top: 10.0),
                         child: Container(
                           width: MediaQuery.of(context).size.width,
-                          height: hv(160.0),
+                          height: 160.0,
                         ),
                       )
 
@@ -113,7 +120,7 @@ class _EyeSinglePageState extends State<EyeSinglePage> implements FlareControlle
         ),
 
         Positioned(
-          bottom: wv(130.0),
+          bottom: 140.0,
           child: getControls(context)
         )
       ],
@@ -129,12 +136,7 @@ class _EyeSinglePageState extends State<EyeSinglePage> implements FlareControlle
         stopped: !isTrainingStarted,
         paused: isFacePaused,
         text: trainingText,
-        finishCallback: (){
-          setState(() {
-            isTrainingStarted = false;
-          });
-          widget.controller.next();
-        },
+        finishCallback: _finishCallback,
         pauseResumeCallback: (){
           setState(() => isFacePaused = !isFacePaused);
         },
@@ -156,13 +158,20 @@ class _EyeSinglePageState extends State<EyeSinglePage> implements FlareControlle
               isFaceVisible = false;
               isTrainingStarted = true;
             });
+            widget.startBtnCallback();
           },
-          child: Text(Localizer.getLocaleById('begin_btn_txt', context), style: StandardStyleTexts.mainBtnText),
+          child: Text(Localizer.getLocaleById(LocaleId.begin_btn_txt, context), style: StandardStyleTexts.mainBtnText),
         )
     );
 
   }
 
+  _finishCallback(){
+    setState(() {
+      isTrainingStarted = false;
+    });
+    widget.finishBtnCallback();
+  }
 
   @override
   bool advance(FlutterActorArtboard artboard, double elapsed) {
@@ -179,7 +188,23 @@ class _EyeSinglePageState extends State<EyeSinglePage> implements FlareControlle
       setState(() => trainingText = Localizer.getLocaleById(widget.info.trainingSecondText, context));
       Vibration.vibrate();
     }
+    
+    if (relativeTime >= widget.info.duration - 0.02 && counterTimer == null){
+      counterTimer = Timer(Duration(milliseconds: 300), (){
+        counterTimer.cancel();
+        counterTimer = null;
+      });
+      
+      _counter += 1;
+      
+      print('counter = $_counter');
 
+      if (_counter >= widget.info.times){
+        _counter = 0;
+        _finishCallback();
+        print('finished');
+      }
+    }
     return true;
   }
 

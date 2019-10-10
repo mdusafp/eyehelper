@@ -1,3 +1,5 @@
+import 'package:eyehelper/src/helpers/notification.dart';
+import 'package:eyehelper/src/locale/ru.dart';
 import 'package:flutter/material.dart';
 
 import 'package:eyehelper/src/models/working_hours.dart';
@@ -5,12 +7,13 @@ import 'package:eyehelper/src/colors.dart';
 import 'package:eyehelper/src/widgets/toolbar.dart';
 import 'package:eyehelper/src/locale/Localizer.dart';
 import 'package:eyehelper/src/helpers/preferences.dart';
-import 'package:eyehelper/src/utils/adaptive_utils.dart';
+ 
 import 'package:eyehelper/src/models/notification_settings.dart';
 import 'package:eyehelper/src/widgets/custom_rounded_button.dart';
 import 'package:eyehelper/src/screens/notification_screen/apply_to_all.dart';
 import 'package:eyehelper/src/screens/notification_screen/notifications_toggle.dart';
 import 'package:eyehelper/src/screens/notification_screen/exercise_frequency_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 typedef void OnToggle(bool value);
 typedef void OnChanged(RangeValues values);
@@ -40,8 +43,8 @@ class WorkingDay extends StatelessWidget {
       ),
       child: Container(
         padding: EdgeInsets.symmetric(
-          vertical: wv(10),
-          horizontal: hv(15),
+          vertical: 10,
+          horizontal: 15,
         ),
         child: Row(
           children: <Widget>[
@@ -81,54 +84,46 @@ class NotificationScreen extends StatefulWidget {
 
 class _NotificationScreenState extends State<NotificationScreen> {
   NotificationSettings _notificationSettings;
-  SharedPreferencesHelper _sharedPreferencesHelper;
+  NotificationsHelper notificationsHelper;
   bool _isLoading;
 
   @override
   void initState() {
     super.initState();
-    _isLoading = true;
+    _isLoading = false;
 
     _notificationSettings = new NotificationSettings(
       applyToAll: false,
       notificationsOn: false,
     );
 
-    _sharedPreferencesHelper = new SharedPreferencesHelper();
-    _sharedPreferencesHelper.init().then((prefs) async {
-      _notificationSettings = await _sharedPreferencesHelper.getSettings();
+   
+    _notificationSettings = NotificationSettings.getSettings();
 
-      // set default schedule
-      // FIXME: kinda workaround not ready to fix it yet
-      if (_notificationSettings.schedule.length == 0) {
-        // array of keys from localizer
-        List<String> week = [
-          'monday_short',
-          'tuesday_short',
-          'wednesday_short',
-          'thursday_short',
-          'friday_short',
-          'saturday_short',
-          'sunday_short',
-        ];
+    if (_notificationSettings.schedule.length == 0) {
+      // array of keys from localizer
+      List<LocaleId> week = [
+        LocaleId.monday_short,
+        LocaleId.tuesday_short,
+        LocaleId.wednesday_short,
+        LocaleId.thursday_short,
+        LocaleId.friday_short,
+        LocaleId.saturday_short,
+        LocaleId.sunday_short,
+      ];
 
-        _notificationSettings.schedule = week.map((day) {
-          return new WorkingHours(
-            name: day,
-            values: RangeValues(7, 18),
-            isActivated: false,
-          );
-        }).toList();
-      }
-
-      _isLoading = false;
-
-      setState(() {});
-    });
+      _notificationSettings.schedule = week.map((day) {
+        return new WorkingHours(
+          name: day,
+          values: RangeValues(7, 18),
+          isActivated: false,
+        );
+      }).toList();
+    }
   }
 
   Future<bool> _saveSettings() async {
-    return _sharedPreferencesHelper.setSettings(_notificationSettings);
+    return _notificationSettings.setSettings(_notificationSettings);
   }
 
   @override
@@ -156,7 +151,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
-        SizedBox(height: wv(PREFERED_HEIGHT_FOR_CUSTOM_APPBAR)),
+        SizedBox(height: PREFERED_HEIGHT_FOR_CUSTOM_APPBAR),
         NotificationsToggle(
           value: _notificationSettings.notificationsOn,
           onChange: (value) {
@@ -166,7 +161,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
           },
         ),
         Text(
-          Localizer.getLocaleById('choose_time', context),
+          Localizer.getLocaleById(LocaleId.choose_time, context),
           style: StandardStyleTexts.display1,
           textAlign: TextAlign.center,
         ),
@@ -212,9 +207,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
         ),
-        SizedBox(height: wv(16)),
+        SizedBox(height: 16),
         Text(
-          Localizer.getLocaleById('exercise_frequency', context),
+          Localizer.getLocaleById(LocaleId.exercise_frequency, context),
           textAlign: TextAlign.center,
           style: StandardStyleTexts.display1,
         ),
@@ -227,19 +222,19 @@ class _NotificationScreenState extends State<NotificationScreen> {
             });
           },
         ),
-        SizedBox(height: wv(16)),
+        SizedBox(height: 16),
         Container(
-          width: hv(180),
-          height: wv(40),
+          width: 180,
+          height: 40,
           child: RoundCustomButton(
             child: Text(
-              Localizer.getLocaleById('save', context),
+              Localizer.getLocaleById(LocaleId.save, context),
               style: StandardStyleTexts.mainBtnText,
             ),
             onPressed: _saveSettings,
           ),
         ),
-        SizedBox(height: wv(PREFERED_HEIGHT_FOR_CUSTOM_APPBAR)),
+        SizedBox(height: PREFERED_HEIGHT_FOR_CUSTOM_APPBAR),
       ],
     );
   }

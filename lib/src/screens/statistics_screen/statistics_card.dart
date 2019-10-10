@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:eyehelper/src/locale/ru.dart';
 import 'package:tuple/tuple.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -73,18 +74,18 @@ class _StatisticCardState extends State<StatisticCard> {
 
   List<TooltipItem> getTooltipItems(List<TouchedSpot> touchedSpots) {
     List<String> tooltips = [
-      Localizer.getLocaleById('monday', context),
-      Localizer.getLocaleById('tuesday', context),
-      Localizer.getLocaleById('wednesday', context),
-      Localizer.getLocaleById('thursday', context),
-      Localizer.getLocaleById('friday', context),
-      Localizer.getLocaleById('saturday', context),
-      Localizer.getLocaleById('sunday', context),
+      Localizer.getLocaleById(LocaleId.monday, context),
+      Localizer.getLocaleById(LocaleId.tuesday , context),
+      Localizer.getLocaleById(LocaleId.wednesday , context),
+      Localizer.getLocaleById(LocaleId.thursday , context),
+      Localizer.getLocaleById(LocaleId.friday , context),
+      Localizer.getLocaleById(LocaleId.saturday , context),
+      Localizer.getLocaleById(LocaleId.sunday , context),
     ];
 
     return touchedSpots.map((touchedSpot) {
       int index = touchedSpot.spot.x.toInt();
-      String times = Localizer.getLocaleById('times', context);
+      String times = Localizer.getLocaleById(LocaleId.times, context);
 
       return TooltipItem(
         '${tooltips[index]}\n${touchedSpot.spot.y.toInt()} $times',
@@ -106,7 +107,7 @@ class _StatisticCardState extends State<StatisticCard> {
         child: Column(
           children: <Widget>[
             Text(
-              Localizer.getLocaleById('current_week', context),
+              Localizer.getLocaleById(LocaleId.current_week, context),
               style: StandardStyleTexts.display1,
             ),
             AspectRatio(
@@ -169,13 +170,13 @@ class _StatisticCardState extends State<StatisticCard> {
 
   String getBottomTitles(double value) {
     List<String> bottomTitles = [
-      'monday_short',
-      'tuesday_short',
-      'wednesday_short',
-      'thursday_short',
-      'friday_short',
-      'saturday_short',
-      'sunday_short',
+      LocaleId.monday_short,
+      LocaleId.tuesday_short,
+      LocaleId.wednesday_short,
+      LocaleId.thursday_short,
+      LocaleId.friday_short,
+      LocaleId.saturday_short,
+      LocaleId.sunday_short,
     ].map((title) => Localizer.getLocaleById(title, context)).toList();
 
     return bottomTitles.elementAt(value.toInt());

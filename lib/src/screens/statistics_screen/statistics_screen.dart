@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:eyehelper/src/locale/ru.dart';
 import 'package:eyehelper/src/screens/statistics_screen/statistics_card.dart';
 import 'package:tuple/tuple.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:eyehelper/src/widgets/bootom_bar.dart';
 import 'package:eyehelper/src/colors.dart';
 import 'package:eyehelper/src/locale/Localizer.dart';
-import 'package:eyehelper/src/utils/adaptive_utils.dart';
+ 
 import 'package:eyehelper/src/widgets/toolbar.dart';
 import 'package:eyehelper/src/screens/statistics_screen/statistics_value.dart';
 
@@ -59,7 +60,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
             } else {
               return Column(
                 children: <Widget>[
-                  SizedBox(height: wv(PREFERED_HEIGHT_FOR_CUSTOM_APPBAR)),
+                  SizedBox(height: PREFERED_HEIGHT_FOR_CUSTOM_APPBAR),
                   SizedBox(height: SPACING),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: SPACING),
@@ -73,7 +74,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                   SizedBox(height: SPACING),
                   Text(
                     Localizer.getLocaleById(
-                      'exercise_frequency_per_day',
+                      LocaleId.exercise_frequency_per_day,
                       context,
                     ),
                     style: StandardStyleTexts.title,
@@ -85,14 +86,14 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                     children: <Widget>[
                       StatisticValue(
                         label: Localizer.getLocaleById(
-                          'exercise_per_month',
+                          LocaleId.exercise_per_month,
                           context,
                         ),
                         value: snapshot.data.exercisePerMonth.toString(),
                       ),
                       StatisticValue(
                         label: Localizer.getLocaleById(
-                          'responses_on_push',
+                          LocaleId.responses_on_push,
                           context,
                         ),
                         value: snapshot.data.responsesOnPush.toString(),
@@ -100,7 +101,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                     ],
                   ),
                   SizedBox(
-                    height: wv(PREFERED_HEIGHT_FOR_CUSTOM_BOTTOM_BAR * 1.5),
+                    height: PREFERED_HEIGHT_FOR_CUSTOM_BOTTOM_BAR * 1.5,
                   ),
                 ],
               );

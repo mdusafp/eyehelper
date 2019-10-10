@@ -1,46 +1,19 @@
-import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:eyehelper/src/models/notification_settings.dart';
+class FastPreferences {
+  SharedPreferences prefs;
 
-// TODO: rewrite me with streaming_shared_preferences and pass settings from App to bottom
-class SharedPreferencesHelper {
-  SharedPreferences _instance;
-
-  String _notificationSettingsKey = 'notification_settings';
-
-  Future<SharedPreferences> init() async {
-    if (_instance == null) {
-      _instance = await SharedPreferences.getInstance();
+  Future<void> init() async {
+    if (prefs == null) {
+      prefs = await SharedPreferences.getInstance();
     }
-
-    return _instance;
   }
 
-  Future<NotificationSettings> getSettings() async {
-    if (_instance == null) {
-      throw new Exception('Shared preferences not initialized yet.');
-    }
+  static final FastPreferences _singleton = FastPreferences._internal();
 
-    String source = _instance.getString(_notificationSettingsKey);
-    Map<String, dynamic> notificationSettingsMap;
-    try {
-      notificationSettingsMap = json.decode(source);
-    } catch (err) {
-      notificationSettingsMap = {};
-    }
-
-    return NotificationSettings.fromMap(notificationSettingsMap);
+  factory FastPreferences() {
+    return _singleton;
   }
 
-  Future<bool> setSettings(NotificationSettings notificationSettings) async {
-    if (_instance == null) {
-      throw new Exception('Shared preferences not initialized yet.');
-    }
-
-    return _instance.setString(
-      _notificationSettingsKey,
-      json.encode(notificationSettings.toMap()),
-    );
-  }
+  FastPreferences._internal();
 }

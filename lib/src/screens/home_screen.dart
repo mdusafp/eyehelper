@@ -1,3 +1,5 @@
+import 'package:eyehelper/src/helpers/preferences.dart';
+import 'package:eyehelper/src/locale/ru.dart';
 import 'package:eyehelper/src/screens/statistics_screen/statistics_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,7 +10,7 @@ import 'package:eyehelper/src/locale/Localizer.dart';
 import 'package:eyehelper/src/helpers/notification.dart';
 import 'package:eyehelper/src/screens/eye_screen/eye_screen.dart';
 import 'package:eyehelper/src/screens/notification_screen/notification_screen.dart';
-import 'package:eyehelper/src/utils/adaptive_utils.dart';
+ 
 import 'package:eyehelper/src/widgets/bootom_bar.dart';
 import 'package:eyehelper/src/widgets/toolbar.dart';
 
@@ -20,16 +22,23 @@ class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 1;
   NotificationsHelper notificationHelper;
 
+  bool dataLoading = true;
+
   @override
   initState() {
     super.initState();
     notificationHelper = NotificationsHelper(context);
+    FastPreferences().init().then((_){
+      setState(() {
+        dataLoading = false;
+      });
+    });
   }
 
   Map titles = {
-    INDEX_STATISTICS_SCREEN: 'statistic',
-    INDEX_EYE_SCREEN: 'excercises',
-    INDEX_NOTIFICATIONS_SCREEN: 'notifications'
+    INDEX_STATISTICS_SCREEN: LocaleId.statistic,
+    INDEX_EYE_SCREEN: LocaleId.excercises,
+    INDEX_NOTIFICATIONS_SCREEN: LocaleId.notifications
   };
 
   Map screens = {
@@ -40,16 +49,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.instance = adaptiveUtils
-      ..init(context); //height and width of design
-
     return Stack(
       children: <Widget>[
         Scaffold(
-          body: screens[_currentIndex],
+          body: dataLoading 
+            ? Center(
+              child: CircularProgressIndicator(),
+            ) : screens[_currentIndex],
         ),
         Container(
-          height: wv(PREFERED_HEIGHT_FOR_CUSTOM_APPBAR),
+          height: PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
           child: AppBar(
             elevation: 0.0,
             automaticallyImplyLeading: false,

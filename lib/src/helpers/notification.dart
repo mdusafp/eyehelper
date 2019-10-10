@@ -11,7 +11,7 @@ var flutterLocalNotificationsPlugin;
 
 class NotificationsHelper {
   BuildContext context;
-
+  
   NotificationsHelper(BuildContext context) {
     this.context = context;
     flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();

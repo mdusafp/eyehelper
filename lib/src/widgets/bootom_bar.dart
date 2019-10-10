@@ -1,7 +1,7 @@
 import 'package:eyehelper/src/colors.dart';
 import 'package:eyehelper/src/constants.dart';
 import 'package:eyehelper/src/enums/screens.enum.dart';
-import 'package:eyehelper/src/utils/adaptive_utils.dart';
+ 
 import 'package:eyehelper/src/widgets/clip_shadow_path.dart';
 import 'package:flutter/material.dart';
 
@@ -80,9 +80,9 @@ class _BottomWavyState extends State<BottomWavy> {
               type: MaterialType.transparency,
               child: Padding(
                 padding: EdgeInsets.only(
-                  top: wv(10),
-                  left: hv(30),
-                  right: hv(30),
+                  top: 10,
+                  left: 30,
+                  right: 30,
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
