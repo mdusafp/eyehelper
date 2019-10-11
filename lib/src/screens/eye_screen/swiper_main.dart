@@ -9,10 +9,6 @@ import 'package:eyehelper/src/screens/eye_screen/today_training.dart';
  
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:intl/intl.dart';
-
-import 'finish_training_screen.dart';
 
 class SwiperMain extends StatefulWidget {
 
@@ -30,9 +26,6 @@ class _SwiperMainState extends State<SwiperMain> {
   int swiperIndex = 0;
 
   SwiperController swiperController = SwiperController();
-  DateTime dateTimeNow;
-  DateFormat formatter;
-  String formatted;
   TodayTrainingCounters countersHelper = TodayTrainingCounters();
 
   bool _isLoading = true;
@@ -46,9 +39,6 @@ class _SwiperMainState extends State<SwiperMain> {
       });
     });
 
-    dateTimeNow = DateTime.now();
-    formatter = new DateFormat('yyyy-MM-dd');
-    formatted = formatter.format(dateTimeNow);
     super.initState();
   }
 
@@ -113,7 +103,7 @@ class _SwiperMainState extends State<SwiperMain> {
   _processStart(index) async {            
     var preferences = FastPreferences().prefs;
 
-    String dayCountersJson = preferences.getString('day_counters');
+    String dayCountersJson = preferences.getString(FastPreferences.dayCountersKey);
     Map<String, dynamic> dayCountersMap;
     if (dayCountersJson == null){
       dayCountersMap = {};
@@ -121,10 +111,11 @@ class _SwiperMainState extends State<SwiperMain> {
       dayCountersMap = (json.decode(dayCountersJson) as Map<String, dynamic>);
     }
     
-    dayCountersMap[formatted] = (dayCountersMap[formatted] ?? 0) + 1;
+    dayCountersMap[countersHelper.todayFormattedNoHours] =
+      (dayCountersMap[countersHelper.todayFormattedNoHours] ?? 0) + 1;
     dayCountersMap.removeWhere((key, value) => 
-      dateTimeNow.difference(formatter.parse(key)).abs() > Duration(days: 365).abs());
-    await preferences.setString('day_counters', json.encode(dayCountersMap));
+      countersHelper.dateTimeNow.difference(countersHelper.formatterNoHours.parse(key)).abs() > Duration(days: 365).abs());
+    await preferences.setString(FastPreferences.dayCountersKey, json.encode(dayCountersMap));
 
     await countersHelper.setPassed(index);
 
@@ -135,10 +126,10 @@ class _SwiperMainState extends State<SwiperMain> {
     var preferences = FastPreferences().prefs;
 
     if (await countersHelper.checkFinishedAll() && 
-      !preferences.getBool('finish_screen_showed')){
+      !preferences.getBool(FastPreferences.finishScreenShowedKey)){
 
       widget.showResultCallback();
-        await preferences.setBool('finish_screen_showed', true);
+        await preferences.setBool(FastPreferences.finishScreenShowedKey, true);
         
     } else {
       swiperController.next();

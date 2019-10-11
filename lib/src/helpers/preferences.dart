@@ -1,6 +1,16 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FastPreferences {
+
+  static String notificationsShowedKey = 'notifications_showed';
+  static String notificationsOpenedKey = 'notifications_opened';
+  static String allDayTrainingMapKey = 'all_day_training_map';
+  static String allDayTrainingExpirationDateKey = 'all_day_training_expiration_date';
+  static String dayCountersKey = 'day_counters';
+  static String finishScreenShowedKey = 'finish_screen_showed';
+  static String todayTrainingDateKey = 'today_training_date';
+  static String todayTrainingMapKey = 'today_training_map';
+  
   SharedPreferences prefs;
 
   Future<void> init() async {

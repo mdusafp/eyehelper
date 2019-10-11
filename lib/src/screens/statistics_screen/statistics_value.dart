@@ -9,16 +9,22 @@ class StatisticValue extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Text(
-          value,
-          style: StandardStyleTexts.title.copyWith(
-            color: StandardStyleColors.activeColor,
+    return Expanded(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            value,
+            style: StandardStyleTexts.title.copyWith(
+              color: StandardStyleColors.activeColor,
+            ),
           ),
-        ),
-        Text(label, style: StandardStyleTexts.display2),
-      ],
+          Text(label,
+            style: StandardStyleTexts.display2, 
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
     );
   }
 }

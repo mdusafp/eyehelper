@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:eyehelper/app_id.dart';
 import 'package:eyehelper/src/colors.dart';
 import 'package:eyehelper/src/locale/Localizer.dart';
@@ -61,7 +59,7 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
                           padding: EdgeInsets.only(top: 6.0, bottom: 6.0, left: 20.0, right: 20.0),
                           child: Center(
                             child: Text(
-                                'Вы выполнили упражнения. Повторяйте чаще и ваши глаза скажут вам спасибо!',
+                                Localizer.getLocaleById(LocaleId.you_done_excercises, context),
                                 style: StandardStyleTexts.eyeScreenMainText,
                                 textAlign: TextAlign.center),
                           ),
@@ -88,18 +86,21 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
                                   setState(() {
                                     liked = !liked;
                                   });
+                                  if (liked){
+                                    _showWantToValueDialog();
+                                  }
                                 },
                                 child: Container(
                                   width: 100.0,
                                   child: Center(
                                     child: Icon(
                                       liked 
-                                        ? Icons.favorite_border
-                                        : Icons.favorite,
+                                        ? Icons.favorite
+                                        : Icons.favorite_border,
                                       size: 30.0,
                                       color: liked 
-                                        ? StandardStyleColors.mainDark
-                                        : Colors.red,
+                                        ? Colors.red
+                                        : StandardStyleColors.mainDark,
                                     ),
                                   ),
                                 )
@@ -108,13 +109,14 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
                                 highlightColor: Colors.transparent,
                                 radius: 25.0,
                                 onTap: (){
-                                  Share.share('Есть крутое приложение для тренировки глаз. Советую скачать! ${getAppUrl()}');
+                                  Share.share(Localizer.getLocaleById(LocaleId.there_is_app, context));
                                 },
                                 child: Container(
                                   width: 100.0,
                                   child: Center(
                                     child: Icon(
                                       Icons.share,
+                                      color: StandardStyleColors.mainDark,
                                       size: 30.0,
                                     ),
                                   ),
@@ -128,7 +130,7 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
                           padding: EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
                           child: Center(
                               child: Text(
-                                  'Оценить приложение',
+                                  Localizer.getLocaleById(LocaleId.set_mark, context),
                                   style: StandardStyleTexts.eyeScreenMainText,
                                   textAlign: TextAlign.center)
                           ),
@@ -137,32 +139,9 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
                         Container(
                           child: StarRating(
                             onRatingChanged: (rating) async {
-                              showDialog(
-                                context: context,
-                                builder: (context) =>
-                                  AlertDialog(
-                                    actions: <Widget>[
-                                      
-                                      MaterialButton(
-                                        child: Text('Не сейчас'),
-                                        onPressed: (){
-                                          Navigator.of(context).pop();
-                                        },
-                                      ),
-                                      MaterialButton(
-                                        child: Text('Оценить'),
-                                        onPressed: () async {
-                                          if (await canLaunch(getAppUrl()))
-                                            launch(getAppUrl());
-                                        },
-                                      ),
-                                    ],
-                                    title: Text(
-                                      'Желаете оценить нас в ${Platform.isAndroid ? 'Google Play' : 'App Store'}?'
-                                    ),
-
-                                  )
-                              );
+                              if (rating > 3){
+                                _showWantToValueDialog();
+                              }
                             },
                             initRating: 0,
                             width: MediaQuery.of(context).size.width - MediaQuery.of(context).size.width * 0.4,
@@ -201,5 +180,35 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
       ),
     );
   
+  }
+
+  void _showWantToValueDialog() {
+    showDialog(
+      context: context,
+      builder: (context) =>
+        AlertDialog(
+          actions: <Widget>[
+            
+            MaterialButton(
+              child: Text(
+                Localizer.getLocaleById(LocaleId.not_now, context)),
+              onPressed: (){
+                Navigator.of(context).pop();
+              },
+            ),
+            MaterialButton(
+              child: Text(
+                Localizer.getLocaleById(LocaleId.value, context)),
+              onPressed: () async {
+                if (await canLaunch(getAppUrl()))
+                  launch(getAppUrl());
+              },
+            ),
+          ],
+          title: Text(
+            Localizer.getLocaleById(LocaleId.want_to_set_mark, context)
+          ),
+        )
+    );
   }
 }
