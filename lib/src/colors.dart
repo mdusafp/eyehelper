@@ -41,12 +41,14 @@ class StandardStyleTexts {
     fontWeight: FontWeight.bold,
   );
   static TextStyle display1 = TextStyle(
-    fontSize: 18,
+    fontSize: 14,
+    height: 1.0,
     color: StandardStyleColors.lightGrey,
     fontWeight: FontWeight.normal,
   );
   static TextStyle display2 = TextStyle(
     fontSize: 15,
+    height: 1.0,
     color: StandardStyleColors.lightGrey,
     fontWeight: FontWeight.normal,
   );

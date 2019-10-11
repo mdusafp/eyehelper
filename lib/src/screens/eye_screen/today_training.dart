@@ -13,7 +13,9 @@ class TodayTrainingCounters {
 
   DateTime dateTimeNow;
   DateFormat formatter;
+  DateFormat formatterNoHours;
   String todayFormatted;
+  String todayFormattedNoHours;
   Map<String, dynamic> runtimeMap = {};
 
   TodayTrainingCounters._internal(){
@@ -23,7 +25,9 @@ class TodayTrainingCounters {
   _resetDateTime(){
     dateTimeNow = DateTime.now();
     formatter = new DateFormat.yMd().add_jm();
+    formatterNoHours = new DateFormat.yMd();
     todayFormatted = formatter.format(dateTimeNow);
+    todayFormattedNoHours = formatterNoHours.format(dateTimeNow);
   }
 
   Future<void> init(int screensCount) async {
@@ -31,15 +35,14 @@ class TodayTrainingCounters {
 
     SharedPreferences prefs = FastPreferences().prefs;
 
-    String date = prefs.getString('today_training_date') ?? todayFormatted;
+    String date = prefs.getString(FastPreferences.todayTrainingDateKey) ?? todayFormatted;
     DateTime time = formatter.parse(date);
-    print('kek time = ' + time.toString());
 
     if (time.difference(dateTimeNow).abs() > Duration(hours: 1).abs()){
-      await prefs.remove('today_training_map');
+      await prefs.remove(FastPreferences.todayTrainingMapKey);
     }
 
-    String todayTrainingJson = prefs.getString('today_training_map');
+    String todayTrainingJson = prefs.getString(FastPreferences.todayTrainingMapKey);
 
     Map<String, dynamic> todayTrainingMap;
     if (todayTrainingJson == null || todayTrainingJson == 'null'){
@@ -47,15 +50,15 @@ class TodayTrainingCounters {
       for (int i = 0; i < screensCount; i++){
         todayTrainingMap[i.toString()] = false;
       }
-      await prefs.setString('today_training_date', todayFormatted);
-      await prefs.setBool('finish_screen_showed', false);
+      await prefs.setString(FastPreferences.todayTrainingDateKey, todayFormatted);
+      await prefs.setBool(FastPreferences.finishScreenShowedKey, false);
     } else {
       todayTrainingMap = json.decode(todayTrainingJson) as Map<String, dynamic>;
     }
     
     runtimeMap = todayTrainingMap;
     
-    await prefs.setString('today_training_map', json.encode(todayTrainingMap));
+    await prefs.setString(FastPreferences.todayTrainingMapKey, json.encode(todayTrainingMap));
 
     //await Future.delayed(Duration(seconds: 1));
 
@@ -68,7 +71,7 @@ class TodayTrainingCounters {
     return runtimeMap[index.toString()] ?? false;
     // SharedPreferences prefs = FastPreferences().prefs;
 
-    // String todayTrainingJson = prefs.getString('today_training_map');
+    // String todayTrainingJson = prefs.getString(FastPreferences.todayTrainingMapKey);
     // if (todayTrainingJson == null){
     //   return false;
     // }
@@ -85,7 +88,7 @@ class TodayTrainingCounters {
     return runtimeMap;
     // SharedPreferences prefs = FastPreferences().prefs;
 
-    // String todayTrainingJson = prefs.getString('today_training_map');
+    // String todayTrainingJson = prefs.getString(FastPreferences.todayTrainingMapKey);
     // if (todayTrainingJson == null){
     //   return null;
     // }
@@ -99,7 +102,7 @@ class TodayTrainingCounters {
 
     SharedPreferences prefs = FastPreferences().prefs;
 
-    String todayTrainingJson = prefs.getString('today_training_map');
+    String todayTrainingJson = prefs.getString(FastPreferences.todayTrainingMapKey);
     Map<String, dynamic> todayTrainingMap;
     if (todayTrainingJson == null){
       todayTrainingMap = {};
@@ -111,9 +114,34 @@ class TodayTrainingCounters {
 
     runtimeMap = todayTrainingMap;
     
-    await prefs.setString('today_training_map', json.encode(todayTrainingMap));
+    await prefs.setString(FastPreferences.todayTrainingMapKey, json.encode(todayTrainingMap));
 
     print('$index ${todayTrainingMap.toString()}');
+
+    /////////////////////////
+    
+    String allDayTrainingJson = prefs.getString(FastPreferences.allDayTrainingMapKey);
+
+    String lastDate = prefs.getString(FastPreferences.allDayTrainingExpirationDateKey);
+
+    if (lastDate != todayFormattedNoHours){
+      allDayTrainingJson = null;
+    }
+    
+    Map<String, dynamic> allDayTrainingMap;
+    if (allDayTrainingJson == null){
+      allDayTrainingMap = {};
+      await prefs.setString(FastPreferences.allDayTrainingExpirationDateKey, todayFormattedNoHours);
+    } else {
+      allDayTrainingMap = (json.decode(allDayTrainingJson) as Map<String, dynamic>);
+    }
+   
+    allDayTrainingMap[index.toString()] = 
+        (allDayTrainingMap[index.toString()] ?? 0) + 1;
+    
+    await prefs.setString(FastPreferences.allDayTrainingMapKey, json.encode(allDayTrainingMap));
+    
+    print('all day training map = ${allDayTrainingMap.toString()}');
   }
 
 

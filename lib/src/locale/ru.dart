@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:eyehelper/app_id.dart';
+
 enum LocaleId{
   statistic,
   excercises,
@@ -66,6 +68,9 @@ enum LocaleId{
   saturday,
   sunday,
 
+  week_short,
+  excercise_short,
+
   times,
 
   // texts for statistics
@@ -73,6 +78,8 @@ enum LocaleId{
   exercise_per_month,
   responses_on_push,
   current_week,
+  current_day,
+  current_month,
 
   //texts for finish
   good_job,
@@ -80,8 +87,10 @@ enum LocaleId{
   set_mark,
   continue_btn_text,
   want_to_set_mark,
+  there_is_app,
   value,
   not_now,
+  not_enough_data,
 }
 
 
@@ -151,6 +160,9 @@ Map<LocaleId, String> locale_ru = {
   LocaleId.saturday : "Суббота",
   LocaleId.sunday : "Воскресенье",
 
+  LocaleId.week_short : "Нед",
+  LocaleId.excercise_short : "Упр",
+
   LocaleId.times : "Раз",
 
   // texts for statistics
@@ -158,6 +170,8 @@ Map<LocaleId, String> locale_ru = {
   LocaleId.exercise_per_month : "Упражнений за этот месяц",
   LocaleId.responses_on_push : "Откликов на уведомления",
   LocaleId.current_week : "Текущая неделя",
+  LocaleId.current_day : "Текущий день",
+  LocaleId.current_month : "Текущий месяц",
 
   //texts for finish
   LocaleId.good_job : "Отлично!",
@@ -165,6 +179,9 @@ Map<LocaleId, String> locale_ru = {
   LocaleId.set_mark : "Оценить приложение",
   LocaleId.continue_btn_text : "Продолжить",
   LocaleId.want_to_set_mark : "Желаете оценить нас в ${Platform.isAndroid ? 'Google Play' : 'App Store'}?",
+  LocaleId.there_is_app : "'Есть крутое приложение для тренировки глаз. Советую скачать! ${getAppUrl()}'",
   LocaleId.value : "Оценить",
-  LocaleId.not_now : "Не сейчас"
+  LocaleId.not_now : "Не сейчас",
+
+  LocaleId.not_enough_data : "Недостаточно данных для отображения",
 };

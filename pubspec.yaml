@@ -12,7 +12,7 @@ dependencies:
   cupertino_icons: 0.1.2
   flutter_localizations:
     sdk: flutter
-  fl_chart: 0.2.0 # Charts library for statistics screen
+  fl_chart: 0.3.3 # Charts library for statistics screen
   flare_flutter: 1.5.5 # Animation
   flutter_swiper: 1.1.4 # Swipe on main screen
   flutter_local_notifications: 0.8.0 # Notification
