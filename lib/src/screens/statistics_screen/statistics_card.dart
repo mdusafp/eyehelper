@@ -8,6 +8,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:eyehelper/src/colors.dart';
 import 'package:eyehelper/src/locale/Localizer.dart';
 
+// TODO: use constants from theme
 const SPACING = 16.0;
 
 class StatisticCard extends StatefulWidget {

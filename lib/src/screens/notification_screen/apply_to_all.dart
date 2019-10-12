@@ -6,6 +6,7 @@ import 'package:eyehelper/src/locale/Localizer.dart';
 
 typedef void OnChanged(bool value);
 
+// TODO: move it to widgets dir in this screen
 class ApplyToAll extends StatelessWidget {
   final bool value;
   final OnChanged onChanged;

@@ -7,7 +7,7 @@ import 'package:eyehelper/src/colors.dart';
 import 'package:eyehelper/src/widgets/toolbar.dart';
 import 'package:eyehelper/src/locale/Localizer.dart';
 import 'package:eyehelper/src/helpers/preferences.dart';
- 
+
 import 'package:eyehelper/src/models/notification_settings.dart';
 import 'package:eyehelper/src/widgets/custom_rounded_button.dart';
 import 'package:eyehelper/src/screens/notification_screen/apply_to_all.dart';
@@ -97,7 +97,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
       notificationsOn: false,
     );
 
-   
     _notificationSettings = NotificationSettings.getSettings();
 
     if (_notificationSettings.schedule.length == 0) {
