@@ -1,12 +1,10 @@
-import 'package:eyehelper/src/locale/ru.dart';
 import 'package:flutter/material.dart';
 
-import 'package:eyehelper/src/colors.dart';
+import 'package:eyehelper/src/locale/ru.dart';
 import 'package:eyehelper/src/locale/Localizer.dart';
 
 typedef void OnChanged(bool value);
 
-// TODO: move it to widgets dir in this screen
 class ApplyToAll extends StatelessWidget {
   final bool value;
   final OnChanged onChanged;
@@ -24,7 +22,7 @@ class ApplyToAll extends StatelessWidget {
       children: <Widget>[
         Text(
           Localizer.getLocaleById(LocaleId.apply_to_all, context),
-          style: StandardStyleTexts.display1,
+          style: Theme.of(context).textTheme.body1,
           textAlign: TextAlign.center,
         ),
         Checkbox(

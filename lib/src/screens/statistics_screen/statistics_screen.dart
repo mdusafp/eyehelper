@@ -13,16 +13,13 @@ import 'package:flutter/material.dart';
 import 'package:eyehelper/src/widgets/bootom_bar.dart';
 import 'package:eyehelper/src/colors.dart';
 import 'package:eyehelper/src/locale/Localizer.dart';
- 
+
 import 'package:eyehelper/src/widgets/toolbar.dart';
 import 'package:eyehelper/src/screens/statistics_screen/statistics_value.dart';
 
 const SPACING = 16.0;
 
-enum CardType{
-  week,
-  day
-}
+enum CardType { week, day }
 
 const Map<int, CardType> cardTypes = {
   0: CardType.week,
@@ -36,12 +33,11 @@ class Statistics {
   final List<Tuple2<int, double>> dayStats;
 
   Statistics({
-      @required int exercisePerMonth, 
-      @required int responsesOnPush,
-      @required List<Tuple2<int, double>> weekStats,
-      @required List<Tuple2<int, double>> dayStats,
-  })
-      : this.exercisePerMonth = exercisePerMonth.toString(),
+    @required int exercisePerMonth,
+    @required int responsesOnPush,
+    @required List<Tuple2<int, double>> weekStats,
+    @required List<Tuple2<int, double>> dayStats,
+  })  : this.exercisePerMonth = exercisePerMonth.toString(),
         this.responsesOnPush = '$responsesOnPush%',
         this.weekStats = weekStats,
         this.dayStats = dayStats;
@@ -60,74 +56,60 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
 
   Future<Statistics> fetchStatistics() async {
     SharedPreferences preferences = FastPreferences().prefs;
-    
+
     String temp = preferences.getString(FastPreferences.allDayTrainingMapKey);
-    Map<String, dynamic> todayStat = temp == null ? null
-      : json.decode(temp);
+    Map<String, dynamic> todayStat = temp == null ? null : json.decode(temp);
 
     List<Tuple2<int, double>> todayCastedStat = [];
     if (todayStat != null) {
-      for (int i = 0; i < SwiperScreenInfo.flareActorByIndex.length; i++){
+      for (int i = 0; i < SwiperScreenInfo.flareActorByIndex.length; i++) {
         int value = todayStat[i.toString()];
-        todayCastedStat.add(
-          Tuple2<int, double>(i, (value ?? 0).toDouble())
-        );
+        todayCastedStat.add(Tuple2<int, double>(i, (value ?? 0).toDouble()));
       }
     }
 
     List<Tuple2<int, double>> weekStat = [];
     int monthCount = 0;
-    
+
     String dayCountersJson = preferences.getString(FastPreferences.dayCountersKey);
-    if (dayCountersJson != null){
+    if (dayCountersJson != null) {
       Map<String, dynamic> dayCountersMap = json.decode(dayCountersJson);
 
       DateTime time = DateTime.now();
       DateTime mondayTemp = time.add(Duration(days: -(time.weekday - 1)));
       DateTime monday = DateTime(mondayTemp.year, mondayTemp.month, mondayTemp.day);
 
-      for (int i = 0; i < 7; i++){
+      for (int i = 0; i < 7; i++) {
         DateTime currDay = monday.add(Duration(days: i));
         String currDayStr = TodayTrainingCounters().formatterNoHours.format(currDay);
-        weekStat.add(
-          Tuple2<int, double>(i, ((dayCountersMap[currDayStr] ?? 0) as int).toDouble())
-        );
+        weekStat.add(Tuple2<int, double>(i, ((dayCountersMap[currDayStr] ?? 0) as int).toDouble()));
       }
 
-      
-
-      dayCountersMap.forEach((key, value){
-        try{
-          if (value != 0 && 
-            TodayTrainingCounters().formatterNoHours
-              .parse(key)?.month == time.month &&
-            TodayTrainingCounters().formatterNoHours
-              .parse(key)?.year == time.year){
+      dayCountersMap.forEach((key, value) {
+        try {
+          if (value != 0 &&
+              TodayTrainingCounters().formatterNoHours.parse(key)?.month == time.month &&
+              TodayTrainingCounters().formatterNoHours.parse(key)?.year == time.year) {
             monthCount += value;
           }
-        } catch (e){
+        } catch (e) {
           print(e);
         }
       });
     }
 
-    
     int notifCounters;
     int allNotifs = preferences.getInt(FastPreferences.notificationsShowedKey);
     int openedNotifs = preferences.getInt(FastPreferences.notificationsOpenedKey);
 
-    if (allNotifs == null || allNotifs == 0 || openedNotifs == null){
+    if (allNotifs == null || allNotifs == 0 || openedNotifs == null) {
       notifCounters = 0;
     } else {
       notifCounters = (openedNotifs / allNotifs * 100).toInt();
     }
 
     return Statistics(
-      exercisePerMonth: monthCount, 
-      responsesOnPush: notifCounters, 
-      weekStats: weekStat,
-      dayStats: todayCastedStat
-    );
+        exercisePerMonth: monthCount, responsesOnPush: notifCounters, weekStats: weekStat, dayStats: todayCastedStat);
   }
 
   @override
@@ -156,19 +138,17 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                         loop: false,
                         viewportFraction: 0.8,
                         itemCount: 2,
-                        itemBuilder: (context, index){
+                        itemBuilder: (context, index) {
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 15.0),
                             child: StatisticCard(
-                              type: cardTypes[index],
-                              barWidth: 12.0,
-                              barHeight: 0.0, // make background transparent
-                              barActiveColor: StandardStyleColors.activeColor,
-                              coordsList: cardTypes[index] == CardType.week 
-                                ? snapshot.data.weekStats
-                                : snapshot.data.dayStats
-                                  
-                            ),
+                                type: cardTypes[index],
+                                barWidth: 12.0,
+                                barHeight: 0.0, // make background transparent
+                                barActiveColor: StandardStyleColors.activeColor,
+                                coordsList: cardTypes[index] == CardType.week
+                                    ? snapshot.data.weekStats
+                                    : snapshot.data.dayStats),
                           );
                         },
                       ),

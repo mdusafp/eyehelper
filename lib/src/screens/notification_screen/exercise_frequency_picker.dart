@@ -1,10 +1,7 @@
 import 'package:eyehelper/src/locale/ru.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
-
-import 'package:eyehelper/src/colors.dart';
 import 'package:eyehelper/src/locale/Localizer.dart';
- 
 
 typedef void OnChangeFrequency(DateTime value);
 
@@ -20,13 +17,15 @@ class ExerciseFrequencyPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextTheme textTheme = Theme.of(context).textTheme;
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text(
           Localizer.getLocaleById(LocaleId.times_per, context),
-          style: StandardStyleTexts.display1,
+          style: textTheme.body1,
           textAlign: TextAlign.center,
         ),
         SizedBox(width: 16),
@@ -36,8 +35,8 @@ class ExerciseFrequencyPicker extends StatelessWidget {
           alignment: Alignment.topCenter,
           itemHeight: 50,
           spacing: 0,
-          normalTextStyle: StandardStyleTexts.display1,
-          highlightedTextStyle: StandardStyleTexts.headerMain,
+          normalTextStyle: textTheme.body1,
+          highlightedTextStyle: textTheme.body1.copyWith(color: Colors.redAccent),
           onTimeChange: onChangeFrequency,
         ),
       ],
