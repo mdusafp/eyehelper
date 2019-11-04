@@ -1,8 +1,7 @@
-import 'package:eyehelper/src/colors.dart';
 import 'package:eyehelper/src/screens/eye_screen/today_training.dart';
+import 'package:eyehelper/src/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:flutter_page_indicator/flutter_page_indicator.dart';
 
 class CustomSwiperBuilder extends SwiperPlugin {
   ///color when current index,if set null , will be Theme.of(context).primaryColor
@@ -22,13 +21,14 @@ class CustomSwiperBuilder extends SwiperPlugin {
 
   final Key key;
 
-  const CustomSwiperBuilder(
-      {this.activeColor,
-      this.color,
-      this.key,
-      this.size: 10.0,
-      this.activeSize: 10.0,
-      this.space: 3.0});
+  const CustomSwiperBuilder({
+    this.activeColor,
+    this.color,
+    this.key,
+    this.size: 10.0,
+    this.activeSize: 10.0,
+    this.space: 3.0,
+  });
 
   @override
   Widget build(BuildContext context, SwiperPluginConfig config) {
@@ -45,8 +45,7 @@ class CustomSwiperBuilder extends SwiperPlugin {
       color = this.color ?? themeData.scaffoldBackgroundColor;
     }
 
-    if (config.indicatorLayout != PageIndicatorLayout.NONE &&
-        config.layout == SwiperLayout.DEFAULT) {
+    if (config.indicatorLayout != PageIndicatorLayout.NONE && config.layout == SwiperLayout.DEFAULT) {
       return new PageIndicator(
         count: config.itemCount,
         controller: config.pageController,
@@ -94,12 +93,6 @@ class CustomSwiperBuilder extends SwiperPlugin {
   }
 }
 
-
-
-
-
-
-
 enum PageIndicatorLayout {
   NONE,
   SLIDE,
@@ -138,20 +131,20 @@ class PageIndicator extends StatefulWidget {
 
   final double activeSize;
 
-  PageIndicator(
-      {Key key,
-      this.size: 20.0,
-      this.space: 5.0,
-      this.count,
-        this.activeSize : 20.0,
-      this.controller,
-      this.color: Colors.white30,
-      this.layout: PageIndicatorLayout.SLIDE,
-      this.activeColor: Colors.white,
-      this.scale: 0.6,
-      this.dropHeight: 20.0})
-      : assert(count != null),
-        assert(controller!=null),
+  PageIndicator({
+    Key key,
+    this.size: 20.0,
+    this.space: 5.0,
+    this.count,
+    this.activeSize: 20.0,
+    this.controller,
+    this.color: Colors.white30,
+    this.layout: PageIndicatorLayout.SLIDE,
+    this.activeColor: Colors.white,
+    this.scale: 0.6,
+    this.dropHeight: 20.0,
+  })  : assert(count != null),
+        assert(controller != null),
         super(key: key);
 
   @override
@@ -176,20 +169,18 @@ class _PageIndicatorState extends State<PageIndicator> {
             Expanded(
               child: Center(
                 child: Icon(
-                  widget.controller.page >= i - 0.5 && widget.controller.page <= i + 0.5 
-                  ? TodayTrainingCounters().getPassed(i) 
-                      ? Icons.check_circle
-                      : Icons.lens
-                  : TodayTrainingCounters().getPassed(i) 
-                      ? Icons.check_circle_outline
-                      : Icons.radio_button_unchecked,
-                  color: StandardStyleColors.activeColor,
-                  size: 23
+                  widget.controller.page >= i - 0.5 && widget.controller.page <= i + 0.5
+                      ? TodayTrainingCounters().getPassed(i) ? Icons.check_circle : Icons.lens
+                      : TodayTrainingCounters().getPassed(i)
+                          ? Icons.check_circle_outline
+                          : Icons.radio_button_unchecked,
+                  color: EyehelperColorScheme.activeColor,
+                  size: 23,
                 ),
               ),
             )
         ],
-      )
+      ),
     );
 
     return new IgnorePointer(
@@ -212,7 +203,7 @@ class _PageIndicatorState extends State<PageIndicator> {
 
   @override
   void didUpdateWidget(PageIndicator oldWidget) {
-    if(widget.controller != oldWidget.controller){
+    if (widget.controller != oldWidget.controller) {
       oldWidget.controller.removeListener(_onController);
       widget.controller.addListener(_onController);
     }

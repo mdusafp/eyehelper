@@ -13,6 +13,7 @@ class EyeHelperApp extends StatelessWidget {
       DeviceOrientation.portraitDown,
     ]);
 
+    // FIXME: make toolbar black
     return MaterialApp(
       title: 'Eyehelper',
       localizationsDelegates: [

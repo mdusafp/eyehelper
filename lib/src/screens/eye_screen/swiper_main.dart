@@ -54,22 +54,24 @@ class _SwiperMainState extends State<SwiperMain> {
       controller: swiperController,
       loop: false,
       pagination: new SwiperPagination(
-          margin: EdgeInsets.only(bottom: 100.0),
-          builder: CustomSwiperBuilder(
-            color: Colors.grey,
-            space: 10.0,
-            size: 6.0,
-            activeSize: 8.0,
-            activeColor: EyehelperColorScheme.activeColor,
-          )),
+        margin: EdgeInsets.only(bottom: 100.0),
+        builder: CustomSwiperBuilder(
+          color: Colors.grey,
+          space: 10.0,
+          size: 6.0,
+          activeSize: 8.0,
+          activeColor: EyehelperColorScheme.activeColor,
+        ),
+      ),
       itemBuilder: (BuildContext context, int index) {
         SwiperScreenInfo info = SwiperScreenInfo.flareActorByIndex[index];
 
         return EyeSinglePage(
-            info: info,
-            controller: swiperController,
-            startBtnCallback: () => _processStart(index),
-            finishBtnCallback: _processFinish);
+          info: info,
+          controller: swiperController,
+          startBtnCallback: () => _processStart(index),
+          finishBtnCallback: _processFinish,
+        );
       },
       itemCount: SwiperScreenInfo.flareActorByIndex.length,
     );

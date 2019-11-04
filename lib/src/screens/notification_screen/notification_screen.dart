@@ -30,91 +30,97 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   Future<void> _saveSettings() async {
     await _repository.saveSettings(_notificationSettings);
+    // TODO: add notification that settings saved
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
-            horizontal: 16.0,
-          ),
-          child: DefaultTextStyle(
-            style: Theme.of(context).textTheme.body1,
-            child: Column(
+        child: DefaultTextStyle(
+          style: Theme.of(context).textTheme.body1,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
+              horizontal: 16.0,
+            ),
+            child: Stack(
               children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                Column(
                   children: <Widget>[
-                    Text(
-                      Localizer.getLocaleById(LocaleId.notifications_on, context),
-                      textAlign: TextAlign.center,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          Localizer.getLocaleById(LocaleId.notifications_on, context),
+                          textAlign: TextAlign.center,
+                        ),
+                        Switch(
+                          value: _notificationSettings.notificationsEnabled,
+                          onChanged: (value) {
+                            setState(() {
+                              _notificationSettings.notificationsEnabled = value;
+                            });
+                          },
+                        ),
+                      ],
                     ),
-                    Switch(
-                      value: _notificationSettings.notificationsEnabled,
-                      onChanged: (value) {
-                        setState(() {
-                          _notificationSettings.notificationsEnabled = value;
-                        });
-                      },
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 16.0),
+                      child: Text(
+                        Localizer.getLocaleById(LocaleId.choose_time, context),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 16.0),
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        padding: EdgeInsets.zero,
+                        itemCount: _notificationSettings.dailyScheduleList.length,
+                        itemBuilder: (context, i) {
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 8.0),
+                            child: DailyScheduleCard(
+                              name:
+                                  Localizer.getLocaleById(_notificationSettings.dailyScheduleList[i].localeId, context),
+                              isActive: _notificationSettings.dailyScheduleList[i].isWorkingDay,
+                              onChange: (bool isWorkingDay, Duration startOfWork, Duration endOfWork) {
+                                _notificationSettings.dailyScheduleList[i].isWorkingDay = isWorkingDay;
+                                _notificationSettings.dailyScheduleList[i].startOfWorkInMilliseconds =
+                                    startOfWork.inMilliseconds;
+                                _notificationSettings.dailyScheduleList[i].endOfWorkInMilliseconds =
+                                    endOfWork.inMilliseconds;
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 16.0),
+                      child: NotificationFrequencyPicker(
+                        initialFrequency:
+                            new Duration(milliseconds: _notificationSettings.notificationFrequencyInMilliseconds),
+                        onChange: (frequency) {
+                          _notificationSettings.notificationFrequencyInMilliseconds = frequency.inMilliseconds;
+                        },
+                      ),
+                    ),
+                    Container(
+                      height: 40.0,
+                      width: 180.0,
+                      child: RoundCustomButton(
+                        child: Text(
+                          Localizer.getLocaleById(LocaleId.save, context),
+                          style: Theme.of(context).textTheme.button,
+                        ),
+                        onPressed: _saveSettings,
+                      ),
                     ),
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 16.0),
-                  child: Text(
-                    Localizer.getLocaleById(LocaleId.choose_time, context),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 16.0),
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    padding: EdgeInsets.zero,
-                    itemCount: _notificationSettings.dailyScheduleList.length,
-                    itemBuilder: (context, i) {
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: DailyScheduleCard(
-                          name: Localizer.getLocaleById(_notificationSettings.dailyScheduleList[i].localeId, context),
-                          isActive: _notificationSettings.dailyScheduleList[i].isWorkingDay,
-                          onChange: (bool isWorkingDay, Duration startOfWork, Duration endOfWork) {
-                            _notificationSettings.dailyScheduleList[i].isWorkingDay = isWorkingDay;
-                            _notificationSettings.dailyScheduleList[i].startOfWorkInMilliseconds =
-                                startOfWork.inMilliseconds;
-                            _notificationSettings.dailyScheduleList[i].endOfWorkInMilliseconds =
-                                endOfWork.inMilliseconds;
-                          },
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 16.0),
-                  child: NotificationFrequencyPicker(
-                    initialFrequency:
-                        new Duration(milliseconds: _notificationSettings.notificationFrequencyInMilliseconds),
-                    onChange: (frequency) {
-                      _notificationSettings.notificationFrequencyInMilliseconds = frequency.inMilliseconds;
-                    },
-                  ),
-                ),
-                Container(
-                  height: 40.0,
-                  width: 180.0,
-                  child: RoundCustomButton(
-                    child: Text(
-                      Localizer.getLocaleById(LocaleId.save, context),
-                      style: Theme.of(context).textTheme.button,
-                    ),
-                    onPressed: _saveSettings,
-                  ),
-                )
               ],
             ),
           ),
