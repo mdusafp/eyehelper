@@ -13,7 +13,14 @@ class SettingsRepository {
       'notificationFrequencyInMilliseconds': fastPreferences.prefs.getInt(_kNotificationFrequencyInMilliseconds),
       'dailyScheduleList': fastPreferences.prefs
           .getStringList(_kDailyScheduleList)
-          ?.map((d) => DailySchedule.fromMap(json.decode(d)))
+          ?.asMap()
+          ?.map((i, schedule) {
+            Map<String, dynamic> map = {
+              'localeId': week[i],
+            };
+            return MapEntry(i, DailySchedule.fromMap(map..addAll(json.decode(schedule))));
+          })
+          ?.values
           ?.toList(),
     };
 
@@ -29,7 +36,7 @@ class SettingsRepository {
       ),
       fastPreferences.prefs.setStringList(
         _kDailyScheduleList,
-        notificationSettings.dailyScheduleList.map((d) => json.encode(d)).toList(),
+        notificationSettings.dailyScheduleList.map((d) => json.encode(d.toMap())).toList(),
       ),
     ]);
   }

@@ -4,15 +4,20 @@ import 'package:eyehelper/src/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+// callback to update parent data (without setState to don't rerender whole widget tree)
+typedef void OnChange(bool isWorkingDay, Duration startOfWork, Duration endOfWork);
+
 class DailyScheduleCard extends StatefulWidget {
   final String name;
   final Duration initialStartOfWork;
   final Duration initialEndOfWork;
   final bool isActive;
+  final OnChange onChange;
 
   const DailyScheduleCard({
     Key key,
     @required this.name,
+    @required this.onChange,
     this.initialStartOfWork = const Duration(hours: 8, minutes: 00, seconds: 00),
     this.initialEndOfWork = const Duration(hours: 17, minutes: 00, seconds: 00),
     this.isActive = false,
@@ -52,6 +57,7 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
               setState(() {
                 _startOfWork = timer;
               });
+              widget.onChange(_isActive, _startOfWork, _endOfWork);
             },
           ),
         );
@@ -73,6 +79,7 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
               setState(() {
                 _endOfWork = timer;
               });
+              widget.onChange(_isActive, _startOfWork, _endOfWork);
             },
           ),
         );
@@ -90,6 +97,7 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
             setState(() {
               _isActive = value;
             });
+            widget.onChange(_isActive, _startOfWork, _endOfWork);
           },
         ),
       ],
@@ -97,9 +105,11 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
   }
 
   Widget _buildWorkingTime() {
-    // FIXME: fix timezone offset -3
-    String startText = _timeFormatter.format(DateTime.fromMillisecondsSinceEpoch(_startOfWork.inMilliseconds));
-    String endText = _timeFormatter.format(DateTime.fromMillisecondsSinceEpoch(_endOfWork.inMilliseconds));
+    // The reason to put isUtc true to fix the bug when modal display utc values
+    // widget display in local date
+    String startText =
+        _timeFormatter.format(DateTime.fromMillisecondsSinceEpoch(_startOfWork.inMilliseconds, isUtc: true));
+    String endText = _timeFormatter.format(DateTime.fromMillisecondsSinceEpoch(_endOfWork.inMilliseconds, isUtc: true));
 
     return AbsorbPointer(
       absorbing: !_isActive,

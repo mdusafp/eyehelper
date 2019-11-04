@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-// TODO: fetching data here and provide it to childs
 class EyeHelperApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -17,9 +16,9 @@ class EyeHelperApp extends StatelessWidget {
     return MaterialApp(
       title: 'Eyehelper',
       localizationsDelegates: [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
       ],
       theme: EyehelperTheme.makeTheme(),
       supportedLocales: Localizer.supportedLangs,

@@ -27,7 +27,9 @@ class DailySchedule {
 
   Map<String, dynamic> toMap() {
     return {
-      'localeId': localeId,
+      // can't restore enum value from shared preference
+      // reveal it from index
+      // 'localeId': localeId,
       'startOfWorkInMilliseconds': startOfWorkInMilliseconds,
       'endOfWorkInMilliseconds': endOfWorkInMilliseconds,
       'isWorkingDay': isWorkingDay,
@@ -35,7 +37,7 @@ class DailySchedule {
   }
 }
 
-const List<LocaleId> _week = [
+const List<LocaleId> week = [
   LocaleId.monday,
   LocaleId.tuesday,
   LocaleId.wednesday,
@@ -47,7 +49,7 @@ const List<LocaleId> _week = [
 
 const _defaultNotificationsEnabled = false;
 const _defaultNotificationFrequencyInMilliseconds = 0;
-List<DailySchedule> _defaultDailyScheduleList = _week
+List<DailySchedule> _defaultDailyScheduleList = week
     .asMap()
     // set working day in weekdays
     .map((i, localeId) => MapEntry(i, new DailySchedule(localeId: localeId, isWorkingDay: i < 5)))
