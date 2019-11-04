@@ -1,7 +1,5 @@
 import 'package:eyehelper/src/locale/ru.dart';
 import 'package:flutter/material.dart';
-
-import 'package:eyehelper/src/colors.dart';
 import 'package:eyehelper/src/locale/Localizer.dart';
 
 typedef void OnChanged(bool value);
@@ -12,8 +10,8 @@ class NotificationsToggle extends StatelessWidget {
 
   const NotificationsToggle({
     Key key,
-    this.value,
-    this.onChange,
+    @required this.value,
+    @required this.onChange,
   }) : super(key: key);
 
   @override
@@ -23,7 +21,7 @@ class NotificationsToggle extends StatelessWidget {
       children: <Widget>[
         Text(
           Localizer.getLocaleById(LocaleId.notifications_on, context),
-          style: StandardStyleTexts.display1,
+          style: Theme.of(context).textTheme.body1,
           textAlign: TextAlign.center,
         ),
         Switch(

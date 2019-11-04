@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
- 
 
+/// TODO: move StandardStyleColors to theme
+@Deprecated('Use EyehelperColorScheme')
 class StandardStyleColors {
   static const Color activeColor = Color(0xFF509F75);
   static const Color lightGrey = Color(0xFF88949C);
@@ -11,6 +12,7 @@ class StandardStyleColors {
   static Color black10 = Colors.black.withOpacity(0.1);
 }
 
+@Deprecated('Use Theme.of(context).textTheme')
 class StandardStyleTexts {
   static TextStyle headerMain = TextStyle(
     fontSize: 25,
@@ -54,6 +56,8 @@ class StandardStyleTexts {
   );
 }
 
+// TODO: extend ThemeData and add additional properties to allow smart configuration
+@Deprecated('Use EyehelperTheme')
 class StandardTheme {
   static ThemeData _theme = ThemeData(
     backgroundColor: StandardStyleColors.backgroundWhite,

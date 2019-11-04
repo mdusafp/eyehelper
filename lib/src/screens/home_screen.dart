@@ -1,16 +1,14 @@
 import 'package:eyehelper/src/helpers/preferences.dart';
 import 'package:eyehelper/src/locale/ru.dart';
+import 'package:eyehelper/src/repositories/settings_repository.dart';
 import 'package:eyehelper/src/screens/statistics_screen/statistics_screen.dart';
+import 'package:eyehelper/src/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'package:eyehelper/src/colors.dart';
 import 'package:eyehelper/src/constants.dart';
 import 'package:eyehelper/src/locale/Localizer.dart';
 import 'package:eyehelper/src/helpers/notification.dart';
 import 'package:eyehelper/src/screens/eye_screen/eye_screen.dart';
 import 'package:eyehelper/src/screens/notification_screen/notification_screen.dart';
- 
 import 'package:eyehelper/src/widgets/bootom_bar.dart';
 import 'package:eyehelper/src/widgets/toolbar.dart';
 
@@ -28,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
   initState() {
     super.initState();
     notificationHelper = NotificationsHelper(context);
-    FastPreferences().init().then((_){
+    FastPreferences().init().then((_) {
       setState(() {
         dataLoading = false;
       });
@@ -52,17 +50,18 @@ class _HomeScreenState extends State<HomeScreen> {
     return Stack(
       children: <Widget>[
         Scaffold(
-          body: dataLoading 
-            ? Center(
-              child: CircularProgressIndicator(),
-            ) : screens[_currentIndex],
+          body: dataLoading
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : screens[_currentIndex],
         ),
         Container(
           height: PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
           child: AppBar(
             elevation: 0.0,
             automaticallyImplyLeading: false,
-            backgroundColor: StandardStyleColors.transparent,
+            backgroundColor: EyehelperColorScheme.transparent,
             flexibleSpace: ToolbarWavy(
               title: Localizer.getLocaleById(
                 titles[_currentIndex],
@@ -77,14 +76,11 @@ class _HomeScreenState extends State<HomeScreen> {
           child: BottomWavy(
             currentIndex: _currentIndex,
             onTap: (index) {
-              if (index == INDEX_NOTIFICATIONS_SCREEN) {
-                notificationHelper.scheduleNotification();
-              }
-              setState(
-                () {
-                  _currentIndex = index;
-                },
-              );
+              // TODO: uncomment me when setup notification will be done
+              // if (index == INDEX_NOTIFICATIONS_SCREEN) {
+              //   notificationHelper.scheduleNotification();
+              // }
+              setState(() => _currentIndex = index);
             },
           ),
         )

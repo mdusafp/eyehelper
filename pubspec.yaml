@@ -3,7 +3,7 @@ description: A new Flutter project.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: '>=2.1.0 <3.0.0'
 
 dependencies:
   flutter:
@@ -13,7 +13,8 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   fl_chart: 0.3.3 # Charts library for statistics screen
-  flare_flutter: 1.5.5 # Animation
+  flare_dart: 2.2.2
+  flare_flutter: 1.6.2 # Animation
   flutter_swiper: 1.1.4 # Swipe on main screen
   flutter_local_notifications: 0.8.0 # Notification
   flutter_time_picker_spinner: 1.0.5 # Notifications time picker
@@ -21,11 +22,11 @@ dependencies:
   logger: 0.7.0 # Print beautiful logs
   path_provider: 0.4.1 # Notifications Sound
   shared_preferences: 0.5.3 # Statistic and notification
-  vibration: 1.1.0 # For vibrating while doing excercises.
+  share: 0.6.2 #for sharing the app
   tuple: 1.0.2 # Extended data structure
   url_launcher: 5.1.4 #to go in AppStore
-  share: 0.6.2 #for sharing the app
-  
+  vibration: 1.1.0 # For vibrating while doing excercises.
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
