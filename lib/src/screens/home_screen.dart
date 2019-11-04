@@ -76,9 +76,10 @@ class _HomeScreenState extends State<HomeScreen> {
           child: BottomWavy(
             currentIndex: _currentIndex,
             onTap: (index) {
-              if (index == INDEX_NOTIFICATIONS_SCREEN) {
-                notificationHelper.scheduleNotification();
-              }
+              // TODO: uncomment me when setup notification will be done
+              // if (index == INDEX_NOTIFICATIONS_SCREEN) {
+              //   notificationHelper.scheduleNotification();
+              // }
               setState(() => _currentIndex = index);
             },
           ),
