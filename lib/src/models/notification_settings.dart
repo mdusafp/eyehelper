@@ -1,65 +1,82 @@
-import 'dart:convert';
+import 'package:eyehelper/src/locale/ru.dart';
+import 'package:flutter/material.dart';
 
-import 'package:eyehelper/src/helpers/preferences.dart';
-import 'package:eyehelper/src/models/working_hours.dart';
+const _defaultStartOfWorkInMilliseconds = 1000 * 60 * 60 * 8;
+const _defaultEndOfWorkInMilliseconds = 1000 * 60 * 60 * 16;
+const _defaultIsWorkingDay = false;
 
-// one day in milliseconds
-const DEFAULT_NOTIFICATION_FREQUENCY = 1000 * 60 * 60 * 24;
+class DailySchedule {
+  LocaleId localeId;
+  int startOfWorkInMilliseconds;
+  int endOfWorkInMilliseconds;
+  bool isWorkingDay;
 
-// we can't add default list because of localizer which needs context
-const List<WorkingHours> DEFAULT_SCHEDULE = [];
-
-class NotificationSettings {
-  static String _notificationSettingsKey = 'notification_settings';
-
-  bool notificationsOn;
-  int notificationFrequency;
-  List<WorkingHours> schedule;
-
-  NotificationSettings({
-    this.notificationsOn = false,
-    this.notificationFrequency = DEFAULT_NOTIFICATION_FREQUENCY,
-    this.schedule = DEFAULT_SCHEDULE,
+  DailySchedule({
+    this.startOfWorkInMilliseconds = _defaultStartOfWorkInMilliseconds,
+    this.endOfWorkInMilliseconds = _defaultEndOfWorkInMilliseconds,
+    this.isWorkingDay = _defaultIsWorkingDay,
+    @required this.localeId,
   });
 
-  NotificationSettings.fromMap(Map<String, dynamic> map) {
-    notificationsOn = map['notificationsOn'] ?? false;
-    notificationFrequency = map['notificationFrequency'] ?? DEFAULT_NOTIFICATION_FREQUENCY;
-    schedule = List.from((map['schedule'] ?? []).map((s) => WorkingHours.fromMap(s)));
+  DailySchedule.fromMap(Map<String, dynamic> map) {
+    localeId = map['localeId'];
+    startOfWorkInMilliseconds = map['startOfWorkInMilliseconds'] ?? _defaultStartOfWorkInMilliseconds;
+    endOfWorkInMilliseconds = map['endOfWorkInMilliseconds'] ?? _defaultEndOfWorkInMilliseconds;
+    isWorkingDay = map['isWorkingDay'] ?? _defaultIsWorkingDay;
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'notificationsOn': notificationsOn,
-      'notificationFrequency': notificationFrequency,
-      'schedule': List.from(schedule.map((s) => s.toMap())),
+      'localeId': localeId,
+      'startOfWorkInMilliseconds': startOfWorkInMilliseconds,
+      'endOfWorkInMilliseconds': endOfWorkInMilliseconds,
+      'isWorkingDay': isWorkingDay,
     };
   }
+}
 
-  static NotificationSettings getSettings() {
-    if (FastPreferences().prefs == null) {
-      throw new Exception('Shared preferences not initialized yet.');
-    }
+const List<LocaleId> _week = [
+  LocaleId.monday,
+  LocaleId.tuesday,
+  LocaleId.wednesday,
+  LocaleId.thursday,
+  LocaleId.friday,
+  LocaleId.saturday,
+  LocaleId.sunday,
+];
 
-    String source = FastPreferences().prefs.getString(_notificationSettingsKey);
-    Map<String, dynamic> notificationSettingsMap;
-    try {
-      notificationSettingsMap = json.decode(source);
-    } catch (err) {
-      notificationSettingsMap = {};
-    }
+const _defaultNotificationsEnabled = false;
+const _defaultNotificationFrequencyInMilliseconds = 0;
+List<DailySchedule> _defaultDailyScheduleList = _week
+    .asMap()
+    // set working day in weekdays
+    .map((i, localeId) => MapEntry(i, new DailySchedule(localeId: localeId, isWorkingDay: i < 5)))
+    .values
+    .toList();
 
-    return NotificationSettings.fromMap(notificationSettingsMap);
+class NotificationSettings {
+  bool notificationsEnabled;
+  int notificationFrequencyInMilliseconds;
+  List<DailySchedule> dailyScheduleList;
+
+  NotificationSettings({
+    this.notificationsEnabled,
+    this.notificationFrequencyInMilliseconds,
+    this.dailyScheduleList,
+  });
+
+  NotificationSettings.fromMap(Map<String, dynamic> map) {
+    notificationsEnabled = map['notificationsEnabled'] ?? _defaultNotificationsEnabled;
+    notificationFrequencyInMilliseconds =
+        map['notificationFrequencyInMilliseconds'] ?? _defaultNotificationFrequencyInMilliseconds;
+    dailyScheduleList = map['dailyScheduleList'] ?? _defaultDailyScheduleList;
   }
 
-  Future<bool> setSettings(NotificationSettings notificationSettings) async {
-    if (FastPreferences().prefs == null) {
-      throw new Exception('Shared preferences not initialized yet.');
-    }
-
-    return FastPreferences().prefs.setString(
-          _notificationSettingsKey,
-          json.encode(notificationSettings.toMap()),
-        );
+  Map<String, dynamic> toMap() {
+    return {
+      'notificationsEnabled': notificationsEnabled,
+      'notificationFrequencyInMilliseconds': notificationFrequencyInMilliseconds,
+      'dailyScheduleList': List.from(dailyScheduleList.map((d) => d.toMap())),
+    };
   }
 }

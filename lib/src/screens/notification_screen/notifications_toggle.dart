@@ -10,8 +10,8 @@ class NotificationsToggle extends StatelessWidget {
 
   const NotificationsToggle({
     Key key,
-    this.value,
-    this.onChange,
+    @required this.value,
+    @required this.onChange,
   }) : super(key: key);
 
   @override

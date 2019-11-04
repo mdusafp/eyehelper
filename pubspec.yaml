@@ -22,10 +22,10 @@ dependencies:
   logger: 0.7.0 # Print beautiful logs
   path_provider: 0.4.1 # Notifications Sound
   shared_preferences: 0.5.3 # Statistic and notification
-  vibration: 1.1.0 # For vibrating while doing excercises.
+  share: 0.6.2 #for sharing the app
   tuple: 1.0.2 # Extended data structure
   url_launcher: 5.1.4 #to go in AppStore
-  share: 0.6.2 #for sharing the app
+  vibration: 1.1.0 # For vibrating while doing excercises.
 
 dev_dependencies:
   flutter_test:

@@ -40,6 +40,7 @@ class EyehelperTheme {
           fontWeight: FontWeight.normal,
         ),
         button: TextStyle(
+          color: EyehelperColorScheme.backgroundWhite,
           fontSize: 16.0,
           fontWeight: FontWeight.normal,
         ),

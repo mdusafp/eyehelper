@@ -19,6 +19,7 @@ class EyeHelperApp extends StatelessWidget {
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
       ],
       theme: EyehelperTheme.makeTheme(),
       supportedLocales: Localizer.supportedLangs,
