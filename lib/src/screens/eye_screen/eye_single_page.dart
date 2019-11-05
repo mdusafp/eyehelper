@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:eyehelper/src/widgets/bootom_bar.dart';
+import 'package:eyehelper/src/widgets/toolbar.dart';
 import 'package:flare_dart/math/mat2d.dart';
 import 'package:flare_flutter/flare.dart';
 import 'package:flare_flutter/flare_controller.dart';
@@ -55,95 +57,50 @@ class _EyeSinglePageState extends State<EyeSinglePage> implements FlareControlle
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
 
-    return Stack(
-      children: <Widget>[
-        Center(
-          child: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Container(
-                        height: 110.0,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          top: 18.0,
-                          bottom: 20.0,
-                          left: 20.0,
-                          right: 20.0,
-                        ),
-                        child: Center(
-                            child: Text(
-                          Localizer.getLocaleById(widget.info.title, context),
-                          style: textTheme.title,
-                          textAlign: TextAlign.center,
-                        )),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          top: 6.0,
-                          bottom: 20.0,
-                          left: 20.0,
-                          right: 20.0,
-                        ),
-                        child: Center(
-                          child: Text(
-                            Localizer.getLocaleById(
-                              widget.info.mainText,
-                              context,
-                            ),
-                            style: textTheme.subtitle,
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          top: 6.0,
-                          bottom: 20.0,
-                          left: 20.0,
-                          right: 20.0,
-                        ),
-                        child: Text(
-                          Localizer.getLocaleById(
-                            widget.info.durationText,
-                            context,
-                          ),
-                          style: textTheme.display1.copyWith(
-                            color: Theme.of(context).accentColor,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 6.0, bottom: 10.0),
-                        child: AnimatedFace(
-                          info: widget.info,
-                          isPaused: isFacePaused,
-                          visible: isFaceVisible,
-                          controller: isTrainingStarted ? this : null,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 10.0),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: 160.0,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ],
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: PREFERED_HEIGHT_FOR_CUSTOM_APPBAR, horizontal: 16.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8.0, top: 16.0),
+              child: Text(
+                Localizer.getLocaleById(widget.info.title, context),
+                style: textTheme.title,
+                textAlign: TextAlign.center,
+              ),
             ),
-          ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: Text(
+                Localizer.getLocaleById(widget.info.mainText, context),
+                style: textTheme.subtitle,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 16.0),
+              child: AnimatedFace(
+                info: widget.info,
+                isPaused: isFacePaused,
+                visible: isFaceVisible,
+                controller: isTrainingStarted ? this : null,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 16.0),
+              child: Text(
+                Localizer.getLocaleById(widget.info.durationText, context),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            getControls(context),
+          ],
         ),
-        Positioned(bottom: 140.0, child: getControls(context))
-      ],
+      ),
     );
   }
 
@@ -166,9 +123,8 @@ class _EyeSinglePageState extends State<EyeSinglePage> implements FlareControlle
     }
 
     return Container(
-      padding: EdgeInsets.only(left: 70, right: 70),
-      width: MediaQuery.of(context).size.width,
-      height: 50.0,
+      padding: const EdgeInsets.only(left: 64.0, right: 64.0),
+      height: 40.0,
       child: RoundCustomButton(
         onPressed: () {
           setState(() {
@@ -179,7 +135,7 @@ class _EyeSinglePageState extends State<EyeSinglePage> implements FlareControlle
         },
         child: Text(
           Localizer.getLocaleById(LocaleId.begin_btn_txt, context),
-          style: Theme.of(context).textTheme.display1,
+          style: Theme.of(context).textTheme.button,
         ),
       ),
     );

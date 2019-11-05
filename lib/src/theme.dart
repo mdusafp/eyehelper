@@ -20,12 +20,12 @@ class EyehelperTheme {
       primaryColorDark: EyehelperColorScheme.mainDark,
       textTheme: TextTheme(
         display1: TextStyle(
-          fontSize: 32.0,
+          fontSize: 14.0,
           height: 1.0,
           fontWeight: FontWeight.normal,
         ),
         display2: TextStyle(
-          fontSize: 28.0,
+          fontSize: 12.0,
           height: 1.0,
           fontWeight: FontWeight.normal,
         ),
