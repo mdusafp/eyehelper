@@ -60,16 +60,13 @@ class _StatisticCardState extends State<StatisticCard> {
     super.initState();
     controller = new StreamController();
     controller.stream.distinct().listen((BarTouchResponse response) {});
-    if (widget.coordsList != null && widget.coordsList.isNotEmpty){
+    if (widget.coordsList != null && widget.coordsList.isNotEmpty) {
       List<Tuple2<int, double>> sortedCoordsList = List.from(widget.coordsList);
       sortedCoordsList.sort((a, b) => a.item2.compareTo(b.item2));
       maxY = sortedCoordsList.reversed?.first?.item2;
 
-      barChartGroupData = widget.coordsList
-          .map((coords) => makeGroupData(coords.item1, coords.item2))
-          .toList();
+      barChartGroupData = widget.coordsList.map((coords) => makeGroupData(coords.item1, coords.item2)).toList();
     }
-    
   }
 
   @override
@@ -81,7 +78,7 @@ class _StatisticCardState extends State<StatisticCard> {
   @override
   Widget build(BuildContext context) {
     double sum = 0.0;
-    widget.coordsList?.forEach((item){
+    widget.coordsList?.forEach((item) {
       sum += item.item2;
     });
     return Card(
@@ -90,60 +87,63 @@ class _StatisticCardState extends State<StatisticCard> {
       ),
       elevation: 8.0,
       child: Container(
-        padding: const EdgeInsets.all(SPACING),
+        padding: const EdgeInsets.only(
+          top: SPACING,
+          right: SPACING,
+        ),
         width: double.infinity,
         child: Column(
           children: <Widget>[
             Text(
               _getTitle(),
-              style: StandardStyleTexts.display1,
+              style: Theme.of(context).textTheme.display1,
             ),
             AspectRatio(
               aspectRatio: 1.03,
-              child: sum > 0 ? Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(SPACING)),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    bottom: SPACING / 2,
-                    right: SPACING,
-                    top: SPACING,
-                  ),
-                  child: FlChart(
-                    chart: BarChart(
-                      BarChartData(
-                        barGroups: barChartGroupData ?? [],
-                        barTouchData: BarTouchData(
-                          enabled: false,
+              child: sum > 0
+                  ? Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(SPACING)),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          bottom: SPACING / 2,
+                          top: SPACING,
                         ),
-                        titlesData: FlTitlesData(
-                          show: true,
-                          bottomTitles: SideTitles(
-                            showTitles: true,
-                            textStyle: StandardStyleTexts.display1,
-                            margin: SPACING,
-                            getTitles: getBottomTitles,
+                        child: FlChart(
+                          chart: BarChart(
+                            BarChartData(
+                              barGroups: barChartGroupData ?? [],
+                              barTouchData: BarTouchData(
+                                enabled: false,
+                              ),
+                              titlesData: FlTitlesData(
+                                show: true,
+                                bottomTitles: SideTitles(
+                                  showTitles: true,
+                                  textStyle: Theme.of(context).textTheme.display1,
+                                  margin: SPACING,
+                                  getTitles: getBottomTitles,
+                                ),
+                                leftTitles: SideTitles(
+                                  showTitles: true,
+                                  textStyle: Theme.of(context).textTheme.display1,
+                                  margin: SPACING,
+                                  getTitles: getLeftTitles,
+                                ),
+                              ),
+                              borderData: FlBorderData(
+                                show: false,
+                              ),
+                            ),
                           ),
-                          leftTitles: SideTitles(
-                            showTitles: true,
-                            textStyle: StandardStyleTexts.display1,
-                            margin: SPACING,
-                            getTitles: getLeftTitles,
-                          ),
-                        ),
-                        borderData: FlBorderData(
-                          show: false,
                         ),
                       ),
-                    ),
-                  ),
-                ),
-              )
-              : _getNoDataView()
+                    )
+                  : _getNoDataView(),
             ),
           ],
-        ) 
+        ),
       ),
     );
   }
@@ -156,7 +156,7 @@ class _StatisticCardState extends State<StatisticCard> {
   String getBottomTitles(double value) {
     List<String> bottomTitles;
 
-    switch(widget.type){
+    switch (widget.type) {
       case CardType.week:
         bottomTitles = [
           LocaleId.monday_short,
@@ -176,24 +176,21 @@ class _StatisticCardState extends State<StatisticCard> {
           ' 4',
           ' 5',
           ' 6',
-        ].map((title) => 
-          Localizer.getLocaleById(LocaleId.excercise_short, context) + title).toList();
+        ].map((title) => Localizer.getLocaleById(LocaleId.excercise_short, context) + title).toList();
         break;
     }
-
-
 
     return bottomTitles.elementAt(value.toInt());
   }
 
   String _getTitle() {
-    if (widget.type == null){
+    if (widget.type == null) {
       return '';
     }
 
     LocaleId result;
 
-    switch(widget.type){
+    switch (widget.type) {
       case CardType.week:
         result = LocaleId.current_week;
         break;
@@ -202,7 +199,7 @@ class _StatisticCardState extends State<StatisticCard> {
         break;
     }
 
-    if (result == null){
+    if (result == null) {
       return '';
     }
 
@@ -219,8 +216,6 @@ class _StatisticCardState extends State<StatisticCard> {
             padding: const EdgeInsets.symmetric(horizontal: 65.0),
             child: Image.asset(
               'assets/sad_face.png',
-              // height: 150.0,
-              // width: 150.0,
             ),
           ),
           Padding(

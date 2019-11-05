@@ -98,21 +98,20 @@ Map<LocaleId, String> localeRu = {
   LocaleId.excercises: "Упражнения",
   LocaleId.notifications: "Уведомления",
 
-  LocaleId.vertical_movements: "1. Вертикальные\n движения",
-  LocaleId.horizontal_movements: "2. Горизонтальные\n движения",
+  LocaleId.vertical_movements: "1. Вертикальные движения",
+  LocaleId.horizontal_movements: "2. Горизонтальные движения",
   LocaleId.screw_up_movements: "3. Зажмуривания",
   LocaleId.blinking_movements: "4. Моргание",
   LocaleId.focus_movements: "5. Фокусировка",
   LocaleId.palming_movements: "6. Пальминг",
 
-  LocaleId.turn_eyes_up_down: "Поводите глазами снизу\nвверх и наоборот.",
-  LocaleId.turn_eyes_left_right: "Поводите глазами слева\nнаправо и наоборот.",
-  LocaleId.screw_up_your_eyes:
-      "Крепко зажмрурьте глаза\n на 10 секунд, не открывая\n глаза расслабьте мышцы\nна 10 секунд",
-  LocaleId.focus_for_10_sec: "Сфокусируйтесь сначала на\nближнем предмете (10 сек),\nпотом на дальнем (10 сек).",
+  LocaleId.turn_eyes_up_down: "Поводите глазами снизу вверх и наоборот.",
+  LocaleId.turn_eyes_left_right: "Поводите глазами слева направо и наоборот.",
+  LocaleId.screw_up_your_eyes: "Крепко зажмрурьте глаза на 10 секунд, не открывая глаза расслабьте мышцы на 10 секунд",
+  LocaleId.focus_for_10_sec: "Сфокусируйтесь сначала на ближнем предмете (10 сек), потом на дальнем (10 сек).",
   LocaleId.blink_fast_20_times: "Быстро поморгайте",
   LocaleId.rub_hands_and_attach_to_eyes:
-      "Потрите руки друг о друга до\nпоявления тепла. Приложите руки\nк глазам на 15 секунд (не давить).\nПодумайте о своей мечте.",
+      "Потрите руки друг о друга до появления тепла. Приложите руки к глазам на 15 секунд (не давить). Подумайте о своей мечте.",
 
   LocaleId.retry_three_times: "Повторить: 3 раза.",
   LocaleId.retry_one_time: "Повторить: 1 раз.",
