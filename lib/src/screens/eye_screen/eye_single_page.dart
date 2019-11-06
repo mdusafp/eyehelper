@@ -57,48 +57,50 @@ class _EyeSinglePageState extends State<EyeSinglePage> implements FlareControlle
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
 
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: PREFERED_HEIGHT_FOR_CUSTOM_APPBAR, horizontal: 16.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 8.0, top: 16.0),
-              child: Text(
-                Localizer.getLocaleById(widget.info.title, context),
-                style: textTheme.title,
-                textAlign: TextAlign.center,
+    return Center(
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: PREFERED_HEIGHT_FOR_CUSTOM_APPBAR, horizontal: 16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8.0, top: 16.0),
+                child: Text(
+                  Localizer.getLocaleById(widget.info.title, context),
+                  style: textTheme.title,
+                  textAlign: TextAlign.center,
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
-              child: Text(
-                Localizer.getLocaleById(widget.info.mainText, context),
-                style: textTheme.subtitle,
-                textAlign: TextAlign.center,
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: Text(
+                  Localizer.getLocaleById(widget.info.mainText, context),
+                  style: textTheme.subtitle,
+                  textAlign: TextAlign.center,
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 16.0),
-              child: AnimatedFace(
-                info: widget.info,
-                isPaused: isFacePaused,
-                visible: isFaceVisible,
-                controller: isTrainingStarted ? this : null,
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16.0),
+                child: AnimatedFace(
+                  info: widget.info,
+                  isPaused: isFacePaused,
+                  visible: isFaceVisible,
+                  controller: isTrainingStarted ? this : null,
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 16.0),
-              child: Text(
-                Localizer.getLocaleById(widget.info.durationText, context),
-                textAlign: TextAlign.center,
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16.0),
+                child: Text(
+                  Localizer.getLocaleById(widget.info.durationText, context),
+                  textAlign: TextAlign.center,
+                ),
               ),
-            ),
-            getControls(context),
-          ],
+              getControls(context),
+            ],
+          ),
         ),
       ),
     );

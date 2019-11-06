@@ -116,75 +116,76 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: FutureBuilder(
-          future: fetchStatistics(),
-          builder: (context, snapshot) {
-            if (snapshot.data == null) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            } else {
-              return Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(top: PREFERED_HEIGHT_FOR_CUSTOM_APPBAR + 16.0, bottom: 16.0),
-                    child: AspectRatio(
-                      aspectRatio: 1.17,
-                      child: Swiper(
-                        scale: 0.8,
-                        index: 0,
-                        loop: false,
-                        viewportFraction: 0.8,
-                        itemCount: 2,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 8.0),
-                            child: StatisticCard(
-                              type: cardTypes[index],
-                              barWidth: 12.0,
-                              barHeight: 0.0, // make background transparent
-                              barActiveColor: EyehelperColorScheme.activeColor,
-                              coordsList:
-                                  cardTypes[index] == CardType.week ? snapshot.data.weekStats : snapshot.data.dayStats,
-                            ),
-                          );
-                        },
+      body: Center(
+        child: SingleChildScrollView(
+          child: FutureBuilder(
+            future: fetchStatistics(),
+            builder: (context, snapshot) {
+              if (snapshot.data == null) {
+                return CircularProgressIndicator();
+              } else {
+                return Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(top: PREFERED_HEIGHT_FOR_CUSTOM_APPBAR + 16.0, bottom: 16.0),
+                      child: AspectRatio(
+                        aspectRatio: 1.17,
+                        child: Swiper(
+                          scale: 0.8,
+                          index: 0,
+                          loop: false,
+                          viewportFraction: 0.8,
+                          itemCount: 2,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 8.0),
+                              child: StatisticCard(
+                                type: cardTypes[index],
+                                barWidth: 12.0,
+                                barHeight: 0.0, // make background transparent
+                                barActiveColor: EyehelperColorScheme.activeColor,
+                                coordsList: cardTypes[index] == CardType.week
+                                    ? snapshot.data.weekStats
+                                    : snapshot.data.dayStats,
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-                    child: Text(
-                      Localizer.getLocaleById(LocaleId.exercise_frequency_per_day, context),
-                      style: Theme.of(context).textTheme.title,
-                      textAlign: TextAlign.center,
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                      child: Text(
+                        Localizer.getLocaleById(LocaleId.exercise_frequency_per_day, context),
+                        style: Theme.of(context).textTheme.title,
+                        textAlign: TextAlign.center,
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: 16.0,
-                      right: 16.0,
-                      bottom: PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        left: 16.0,
+                        right: 16.0,
+                        bottom: PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          StatisticValue(
+                            label: Localizer.getLocaleById(LocaleId.exercise_per_month, context),
+                            value: snapshot.data.exercisePerMonth.toString(),
+                          ),
+                          StatisticValue(
+                            label: Localizer.getLocaleById(LocaleId.responses_on_push, context),
+                            value: snapshot.data.responsesOnPush.toString(),
+                          ),
+                        ],
+                      ),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        StatisticValue(
-                          label: Localizer.getLocaleById(LocaleId.exercise_per_month, context),
-                          value: snapshot.data.exercisePerMonth.toString(),
-                        ),
-                        StatisticValue(
-                          label: Localizer.getLocaleById(LocaleId.responses_on_push, context),
-                          value: snapshot.data.responsesOnPush.toString(),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              );
-            }
-          },
+                  ],
+                );
+              }
+            },
+          ),
         ),
       ),
     );
