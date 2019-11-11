@@ -18,7 +18,6 @@ dependencies:
   flutter_swiper: 1.1.4 # Swipe on main screen
   flutter_local_notifications: 0.8.0 # Notification
   flutter_time_picker_spinner: 1.0.5 # Notifications time picker
-  flutter_screenutil: 0.5.1 # For adaptive scaling on different screen sizes
   logger: 0.7.0 # Print beautiful logs
   path_provider: 0.4.1 # Notifications Sound
   shared_preferences: 0.5.3 # Statistic and notification
@@ -34,5 +33,12 @@ dev_dependencies:
 flutter:
   assets:
     - assets/
-
+  
+  fonts:
+    - family: FiraSans
+      fonts:
+      - asset: assets/fira_sans_regular.ttf
+        weight: 500
+      - asset: assets/fira_sans_light.ttf
+        weight: 200
   uses-material-design: true

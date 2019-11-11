@@ -1,8 +1,9 @@
 import 'package:eyehelper/src/colors.dart';
+import 'package:eyehelper/src/constants.dart';
+import 'package:eyehelper/src/helpers/preferences.dart';
+import 'package:eyehelper/src/utils.dart';
 import 'package:eyehelper/src/widgets/clip_shadow_path.dart';
 import 'package:flutter/material.dart';
-
-const double PREFERED_HEIGHT_FOR_CUSTOM_APPBAR = 110.0;
 
 class ToolbarWavy extends StatefulWidget {
   final String title;
@@ -23,21 +24,49 @@ class _ToolbarWavyState extends State<ToolbarWavy> {
       clipper: TopWaveClipper(),
       shadow: Shadow(blurRadius: 10, color: StandardStyleColors.lightGrey),
       child: SizedBox(
-        height: PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
+        height: Utils().PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
         child: Container(
           decoration: BoxDecoration(color: StandardStyleColors.backgroundWhite),
           child: Stack(
             children: <Widget>[
               Container(
                 width: MediaQuery.of(context).size.width,
-                height: PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
+                height: Utils().PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
                 child: Center(
                   child: Text(
                     widget.title,
-                    style: StandardStyleTexts.headerMain,
+                    style: Theme.of(context).textTheme.headline.copyWith(
+                      color: Theme.of(context).accentColor
+                    ),
                   ),
                 ),
               ),
+              if (FastPreferences().prefs != null && widget.currentIndex == 1)
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: EdgeInsets.only(right: MediaQuery.of(context).size.width * 1/12),
+                    child: InkWell(
+                      onTap: () async {
+                        FastPreferences().prefs.setBool(
+                          FastPreferences.isVibrationEnabled, 
+                          !(FastPreferences().prefs
+                            .getBool(FastPreferences.isVibrationEnabled) ?? false)
+                        ).then((_)=> setState(()=>{}));
+                      },
+                      child: Container(
+                        height: Utils().PREFERED_HEIGHT_FOR_CUSTOM_APPBAR * 1/3,
+                        width: Utils().PREFERED_HEIGHT_FOR_CUSTOM_APPBAR * 1/3,
+                        child: Icon(
+                          Icons.vibration,
+                          color: (FastPreferences().prefs
+                            .getBool(FastPreferences.isVibrationEnabled) ?? false)
+                              ? Theme.of(context).accentColor : StandardStyleColors.mainDark
+                        )
+                      ),
+                    ),
+                  ),
+                )
             ],
           ),
         ),

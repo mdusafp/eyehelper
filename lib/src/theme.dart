@@ -1,3 +1,4 @@
+import 'package:eyehelper/src/utils.dart';
 import 'package:flutter/material.dart';
 
 class EyehelperColorScheme {
@@ -11,6 +12,8 @@ class EyehelperColorScheme {
 }
 
 class EyehelperTheme {
+  static const String fontFamily = 'FiraSans';
+
   static ThemeData makeTheme() {
     return new ThemeData(
       backgroundColor: EyehelperColorScheme.backgroundWhite,
@@ -20,61 +23,66 @@ class EyehelperTheme {
       primaryColorDark: EyehelperColorScheme.mainDark,
       textTheme: TextTheme(
         display1: TextStyle(
-          fontSize: 14.0,
+          fontSize: ScreenUtil().setSp(5.0),
           height: 1.0,
           fontWeight: FontWeight.normal,
+          fontFamily: fontFamily
         ),
         display2: TextStyle(
-          fontSize: 12.0,
+          fontSize: ScreenUtil().setSp(6.0),
           height: 1.0,
           fontWeight: FontWeight.normal,
+          fontFamily: fontFamily
         ),
         display3: TextStyle(
-          fontSize: 24.0,
+          fontSize: ScreenUtil().setSp(7.0),
           height: 1.0,
           fontWeight: FontWeight.normal,
+          fontFamily: fontFamily
         ),
         display4: TextStyle(
-          fontSize: 17.0,
+          fontSize: ScreenUtil().setSp(8.0),
           height: 1.0,
           fontWeight: FontWeight.normal,
+          fontFamily: fontFamily
         ),
         button: TextStyle(
           color: EyehelperColorScheme.backgroundWhite,
-          fontSize: 16.0,
+          fontSize: ScreenUtil().setSp(8.0),
+          height: 1.0,
           fontWeight: FontWeight.normal,
+          fontFamily: fontFamily
         ),
         title: TextStyle(
-          fontSize: 15.0,
+          fontSize: ScreenUtil().setSp(7.0),
           height: 1.0,
           fontWeight: FontWeight.bold,
-        ),
-        subhead: TextStyle(
-          fontSize: 12.0,
-          fontWeight: FontWeight.normal,
-        ),
-        body2: TextStyle(
-          fontSize: 16.0,
-          height: 1.5,
-          fontWeight: FontWeight.normal,
-        ),
-        body1: TextStyle(
-          fontSize: 15.0,
-          height: 1.4,
-          fontWeight: FontWeight.normal,
-        ),
-        caption: TextStyle(
-          fontSize: 14.0,
-          fontWeight: FontWeight.normal,
+          fontFamily: fontFamily
         ),
         subtitle: TextStyle(
-          fontSize: 13.0,
-          fontWeight: FontWeight.normal,
+          fontSize: ScreenUtil().setSp(7.0),
+          height: 1.0,
+          fontWeight: FontWeight.w200,
+          fontFamily: fontFamily
         ),
-        overline: TextStyle(
-          fontSize: 12.0,
+        body1: TextStyle(
+          fontSize: ScreenUtil().setSp(6.0),
+          height: 1.0,
           fontWeight: FontWeight.normal,
+          fontFamily: fontFamily
         ),
+        body2: TextStyle(
+          fontSize: ScreenUtil().setSp(7.0),
+          height: 1.0,
+          fontWeight: FontWeight.normal,
+          fontFamily: fontFamily
+        ),
+        headline: TextStyle(
+          fontSize: ScreenUtil().setSp(8.0),
+          height: 1.0,
+          fontWeight: FontWeight.w600,
+          fontFamily: fontFamily
+        )
       ),
     );
   }

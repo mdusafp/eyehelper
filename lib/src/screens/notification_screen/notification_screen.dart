@@ -1,7 +1,9 @@
+import 'package:eyehelper/src/constants.dart';
 import 'package:eyehelper/src/helpers/preferences.dart';
 import 'package:eyehelper/src/models/notification_settings.dart';
 import 'package:eyehelper/src/repositories/settings_repository.dart';
 import 'package:eyehelper/src/screens/notification_screen/notification_frequency_picker.dart';
+import 'package:eyehelper/src/utils.dart';
 import 'package:eyehelper/src/widgets/custom_rounded_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -40,9 +42,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
         child: DefaultTextStyle(
           style: Theme.of(context).textTheme.body1,
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
-              horizontal: 16.0,
+            padding: EdgeInsets.only(
+              top: Utils().PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
+              bottom: Utils().PREFERED_HEIGHT_FOR_CUSTOM_BOTTOM_BAR + 10.0,
+              left: 16.0,
+              right: 16.0,
             ),
             child: Stack(
               children: <Widget>[
@@ -51,9 +55,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text(
-                          Localizer.getLocaleById(LocaleId.notifications_on, context),
-                          textAlign: TextAlign.center,
+                        Expanded(
+                          child: Text(
+                            Localizer.getLocaleById(LocaleId.notifications_on, context),
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.display3.copyWith(
+                              color: Theme.of(context).primaryColorDark
+                            ),
+                          ),
                         ),
                         Switch(
                           value: _notificationSettings.notificationsEnabled,
@@ -70,6 +79,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       child: Text(
                         Localizer.getLocaleById(LocaleId.choose_time, context),
                         textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.display2.copyWith(
+                          color: Theme.of(context).primaryColorDark
+                        ),
                       ),
                     ),
                     Padding(
@@ -108,16 +120,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         },
                       ),
                     ),
-                    Container(
-                      height: 40.0,
-                      width: 180.0,
-                      child: RoundCustomButton(
-                        child: Text(
-                          Localizer.getLocaleById(LocaleId.save, context),
-                          style: Theme.of(context).textTheme.button,
-                        ),
-                        onPressed: _saveSettings,
+                    RoundCustomButton(
+                      parentSize: MediaQuery.of(context).size,
+                      child: Text(
+                        Localizer.getLocaleById(LocaleId.save, context),
+                        style: Theme.of(context).textTheme.button,
                       ),
+                      onPressed: _saveSettings,
                     ),
                   ],
                 ),

@@ -1,9 +1,12 @@
+import 'dart:math';
+
 import 'package:eyehelper/src/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 /// Custom raised button
 class RoundCustomButton extends StatelessWidget {
+  final Size parentSize;
   final Widget child;
   final double width;
   final double heightAbs;
@@ -12,13 +15,14 @@ class RoundCustomButton extends StatelessWidget {
 
   const RoundCustomButton({
     Key key,
+    @required this.parentSize,
     @required this.child,
     this.shadow = const BoxShadow(
       color: Color(0x26000000),
       offset: Offset(0.0, 3.0),
       blurRadius: 6.0,
     ),
-    this.width = double.infinity,
+    this.width,
     this.heightAbs = 50.0,
     @required this.onPressed,
   }) : super(key: key);
@@ -26,8 +30,8 @@ class RoundCustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: width,
-      height: heightAbs,
+      width: width ?? min(240.0, parentSize.width),
+      height: this.heightAbs,
       decoration: BoxDecoration(
         color: StandardStyleColors.activeColor,
         borderRadius: BorderRadius.all(Radius.circular(30.0)),

@@ -11,6 +11,7 @@ class FastPreferences {
   static String finishScreenShowedKey = 'finish_screen_showed';
   static String todayTrainingDateKey = 'today_training_date';
   static String todayTrainingMapKey = 'today_training_map';
+  static String isVibrationEnabled = 'is_vibration_enabled';
   
   SharedPreferences prefs;
 

@@ -1,11 +1,13 @@
 import 'dart:convert';
 
+import 'package:eyehelper/src/constants.dart';
 import 'package:eyehelper/src/helpers/preferences.dart';
 import 'package:eyehelper/src/models/swiper_screen_info.dart';
 import 'package:eyehelper/src/screens/eye_screen/eye_single_page.dart';
 import 'package:eyehelper/src/screens/eye_screen/swiper_pagination.dart';
 import 'package:eyehelper/src/screens/eye_screen/today_training.dart';
 import 'package:eyehelper/src/theme.dart';
+import 'package:eyehelper/src/utils.dart';
 import 'package:eyehelper/src/widgets/bootom_bar.dart';
 
 import 'package:flutter/material.dart';
@@ -56,7 +58,7 @@ class _SwiperMainState extends State<SwiperMain> {
       controller: swiperController,
       loop: false,
       pagination: new SwiperPagination(
-        margin: const EdgeInsets.only(bottom: PREFERED_HEIGHT_FOR_CUSTOM_BOTTOM_BAR),
+        margin: EdgeInsets.only(bottom: Utils().PREFERED_HEIGHT_FOR_CUSTOM_BOTTOM_BAR),
         builder: CustomSwiperBuilder(
           color: Colors.grey,
           space: 10.0,

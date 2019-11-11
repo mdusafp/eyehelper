@@ -15,12 +15,14 @@ class StatisticValue extends StatelessWidget {
         children: <Widget>[
           Text(
             value,
-            style: StandardStyleTexts.title.copyWith(
-              color: StandardStyleColors.activeColor,
+            style: Theme.of(context).textTheme.body1.copyWith(
+              color: Theme.of(context).accentColor,
             ),
           ),
           Text(label,
-            style: StandardStyleTexts.display2, 
+            style: Theme.of(context).textTheme.body1.copyWith(
+              color: Theme.of(context).primaryColorDark
+            ), 
             textAlign: TextAlign.center,
           ),
         ],

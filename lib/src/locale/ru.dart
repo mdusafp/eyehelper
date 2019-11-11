@@ -121,10 +121,10 @@ Map<LocaleId, String> localeRu = {
   LocaleId.continue_btn_txt: "Продолжить",
 
   // texts for training
-  LocaleId.watch_up: "Смотрите вверх",
-  LocaleId.watch_down: "Смотрите вниз",
-  LocaleId.watch_left: "Смотрите влево",
-  LocaleId.watch_right: "Смотрите вправо",
+  LocaleId.watch_up: "Смотрите\n вверх",
+  LocaleId.watch_down: "Смотрите\n вниз",
+  LocaleId.watch_left: "Смотрите\n влево",
+  LocaleId.watch_right: "Смотрите\n вправо",
   LocaleId.screw_up: "Зажмурьте глаза",
   LocaleId.relax_eyes: "Расслабьте глаза",
   LocaleId.fast_blink: "Быстро моргайте",

@@ -1,8 +1,8 @@
 import 'package:eyehelper/src/helpers/preferences.dart';
 import 'package:eyehelper/src/locale/ru.dart';
-import 'package:eyehelper/src/repositories/settings_repository.dart';
 import 'package:eyehelper/src/screens/statistics_screen/statistics_screen.dart';
 import 'package:eyehelper/src/theme.dart';
+import 'package:eyehelper/src/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:eyehelper/src/constants.dart';
 import 'package:eyehelper/src/locale/Localizer.dart';
@@ -26,11 +26,15 @@ class _HomeScreenState extends State<HomeScreen> {
   initState() {
     super.initState();
     notificationHelper = NotificationsHelper(context);
-    FastPreferences().init().then((_) {
-      setState(() {
-        dataLoading = false;
-      });
-    });
+    initAppConstants();
+  }
+
+  Future<void> initAppConstants() async {
+    await FastPreferences().init();
+
+    if (mounted){
+      setState(() => dataLoading = false );
+    }
   }
 
   Map titles = {
@@ -57,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
               : screens[_currentIndex],
         ),
         Container(
-          height: PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
+          height: Utils().PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
           child: AppBar(
             elevation: 0.0,
             automaticallyImplyLeading: false,
@@ -73,15 +77,18 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         Positioned(
           bottom: 0.0,
-          child: BottomWavy(
-            currentIndex: _currentIndex,
-            onTap: (index) {
-              // TODO: uncomment me when setup notification will be done
-              // if (index == INDEX_NOTIFICATIONS_SCREEN) {
-              //   notificationHelper.scheduleNotification();
-              // }
-              setState(() => _currentIndex = index);
-            },
+          child: Container(
+            height: Utils().PREFERED_HEIGHT_FOR_CUSTOM_BOTTOM_BAR,
+            child: BottomWavy(
+              currentIndex: _currentIndex,
+              onTap: (index) {
+                // TODO: uncomment me when setup notification will be done
+                // if (index == INDEX_NOTIFICATIONS_SCREEN) {
+                //   notificationHelper.scheduleNotification();
+                // }
+                setState(() => _currentIndex = index);
+              },
+            ),
           ),
         )
       ],

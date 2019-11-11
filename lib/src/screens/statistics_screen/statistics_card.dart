@@ -92,55 +92,55 @@ class _StatisticCardState extends State<StatisticCard> {
           right: SPACING,
         ),
         width: double.infinity,
-        child: Column(
+        child: sum <= 0 ? _getNoDataView() : Column(
           children: <Widget>[
             Text(
               _getTitle(),
-              style: Theme.of(context).textTheme.display1,
+              style: Theme.of(context).textTheme.display2.copyWith(
+                color: Theme.of(context).primaryColorDark
+              ),
             ),
             AspectRatio(
-              aspectRatio: 1.03,
-              child: sum > 0
-                  ? Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(SPACING)),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          bottom: SPACING / 2,
-                          top: SPACING,
+              aspectRatio: 1.05,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(SPACING)),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    bottom: SPACING / 2,
+                    top: SPACING,
+                  ),
+                  child: FlChart(
+                    chart: BarChart(
+                      BarChartData(
+                        barGroups: barChartGroupData ?? [],
+                        barTouchData: BarTouchData(
+                          enabled: false,
                         ),
-                        child: FlChart(
-                          chart: BarChart(
-                            BarChartData(
-                              barGroups: barChartGroupData ?? [],
-                              barTouchData: BarTouchData(
-                                enabled: false,
-                              ),
-                              titlesData: FlTitlesData(
-                                show: true,
-                                bottomTitles: SideTitles(
-                                  showTitles: true,
-                                  textStyle: Theme.of(context).textTheme.display1,
-                                  margin: SPACING,
-                                  getTitles: getBottomTitles,
-                                ),
-                                leftTitles: SideTitles(
-                                  showTitles: true,
-                                  textStyle: Theme.of(context).textTheme.display1,
-                                  margin: SPACING,
-                                  getTitles: getLeftTitles,
-                                ),
-                              ),
-                              borderData: FlBorderData(
-                                show: false,
-                              ),
-                            ),
+                        titlesData: FlTitlesData(
+                          show: true,
+                          bottomTitles: SideTitles(
+                            showTitles: true,
+                            textStyle: Theme.of(context).textTheme.display1,
+                            margin: SPACING,
+                            getTitles: getBottomTitles,
+                          ),
+                          leftTitles: SideTitles(
+                            showTitles: true,
+                            textStyle: Theme.of(context).textTheme.display1,
+                            margin: SPACING,
+                            getTitles: getLeftTitles,
                           ),
                         ),
+                        borderData: FlBorderData(
+                          show: false,
+                        ),
                       ),
-                    )
-                  : _getNoDataView(),
+                    ),
+                  ),
+                ),
+              )
             ),
           ],
         ),
@@ -207,11 +207,17 @@ class _StatisticCardState extends State<StatisticCard> {
   }
 
   _getNoDataView() {
-    return Padding(
-      padding: EdgeInsets.only(top: 0.0, bottom: 20.0),
+    return Center(
+      //color: Colors.red,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
+          Text(
+              _getTitle(),
+              style: Theme.of(context).textTheme.display2.copyWith(
+                color: Theme.of(context).primaryColor
+              ),
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 65.0),
             child: Image.asset(
@@ -219,10 +225,12 @@ class _StatisticCardState extends State<StatisticCard> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 40),
+            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20.0),
             child: Text(
               Localizer.getLocaleById(LocaleId.not_enough_data, context),
-              style: StandardStyleTexts.eyeScreenCountTxt,
+              style: Theme.of(context).textTheme.display2.copyWith(
+                color: Theme.of(context).primaryColor
+              ),
               textAlign: TextAlign.center,
             ),
           ),

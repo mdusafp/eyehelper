@@ -1,10 +1,13 @@
+import 'dart:ui';
+
+import 'package:eyehelper/src/constants.dart';
 import 'package:eyehelper/src/locale/Localizer.dart';
 import 'package:eyehelper/src/routes.dart';
 import 'package:eyehelper/src/theme.dart';
+import 'package:eyehelper/src/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
 class EyeHelperApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -13,7 +16,8 @@ class EyeHelperApp extends StatelessWidget {
       DeviceOrientation.portraitDown,
     ]);
 
-    // FIXME: make toolbar black
+    Utils().init(window);
+    
     return MaterialApp(
       title: 'Eyehelper',
       localizationsDelegates: [

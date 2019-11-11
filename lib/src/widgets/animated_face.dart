@@ -1,4 +1,5 @@
 import 'package:eyehelper/src/models/swiper_screen_info.dart';
+import 'package:eyehelper/src/utils.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flare_flutter/flare_controller.dart';
 import 'package:flutter/material.dart';
@@ -20,8 +21,8 @@ class AnimatedFace extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 160.0,
-      width: 160.0,
+      height: 160.0 * (Utils().IS_SMALL_DEVICE ? 3/4 : 1),
+      width: 160.0 * (Utils().IS_SMALL_DEVICE ? 3/4 : 1),
       child: Stack(
         alignment: Alignment.center,
         children: <Widget>[

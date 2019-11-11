@@ -102,7 +102,11 @@ class _ScreenControlButtonsState extends State<ScreenControlButtons> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Text(!trainingStarted ? counterStr : widget.text, textAlign: TextAlign.center, style: StandardStyleTexts.eyeScreenCountTxt)
+                              Text(!trainingStarted ? counterStr : widget.text, textAlign: TextAlign.center, 
+                              style: Theme.of(context).textTheme.body1.copyWith(
+                                color: Theme.of(context).accentColor,
+                                fontWeight: FontWeight.w600
+                              ))
                             ],
 
                           ),

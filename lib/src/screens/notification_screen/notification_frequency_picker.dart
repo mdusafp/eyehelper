@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:eyehelper/src/locale/Localizer.dart';
 import 'package:eyehelper/src/locale/ru.dart';
+import 'package:flutter/material.dart';
 
 typedef void OnChange(Duration frequency);
 
@@ -25,6 +26,9 @@ class NotificationFrequencyPickerState extends State<NotificationFrequencyPicker
         Text(
           Localizer.getLocaleById(LocaleId.exercise_frequency, context),
           textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.display2.copyWith(
+            color: Theme.of(context).primaryColorDark
+          ),
         ),
         Container(
           height: 128.0,

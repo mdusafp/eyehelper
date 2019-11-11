@@ -21,7 +21,9 @@ class NotificationsToggle extends StatelessWidget {
       children: <Widget>[
         Text(
           Localizer.getLocaleById(LocaleId.notifications_on, context),
-          style: Theme.of(context).textTheme.body1,
+          style: Theme.of(context).textTheme.body1.copyWith(
+            color: Theme.of(context).primaryColorDark
+          ),
           textAlign: TextAlign.center,
         ),
         Switch(

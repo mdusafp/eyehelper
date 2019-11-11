@@ -3,6 +3,7 @@ import 'package:eyehelper/src/colors.dart';
 import 'package:eyehelper/src/locale/Localizer.dart';
 import 'package:eyehelper/src/locale/ru.dart';
 import 'package:eyehelper/src/screens/eye_screen/rating_stars.dart';
+import 'package:eyehelper/src/utils.dart';
 
 import 'package:eyehelper/src/widgets/custom_rounded_button.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +33,7 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
           Center(
             child: SingleChildScrollView(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.only(left: 10.0, right: 10.0),
@@ -39,14 +41,18 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                          height: 110.0,
+                          height: Utils().PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
                         ),
                         Padding(
-                          padding: EdgeInsets.only(top: 18.0, bottom: 6.0, left: 20.0, right: 20.0),
+                          padding: EdgeInsets.only(
+                            top: 18.0 * (Utils().IS_SMALL_DEVICE ? 1/3 : 1), 
+                            bottom: 6.0 , 
+                            left: 20.0, 
+                            right: 20.0),
                           child: Center(
                             child: Text(
                               Localizer.getLocaleById(LocaleId.good_job, context),
-                              style: StandardStyleTexts.eyeScreenHeader,
+                              style: Theme.of(context).textTheme.title,//StandardStyleTexts.eyeScreenHeader,
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -55,19 +61,26 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
                           padding: EdgeInsets.only(top: 6.0, bottom: 6.0, left: 20.0, right: 20.0),
                           child: Center(
                             child: Text(Localizer.getLocaleById(LocaleId.you_done_excercises, context),
-                                style: StandardStyleTexts.eyeScreenMainText, textAlign: TextAlign.center),
+                                style: Theme.of(context).textTheme.subtitle, textAlign: TextAlign.center),
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(top: 6.0, bottom: 10.0),
+                          padding: EdgeInsets.only(
+                            top: 6.0 * (Utils().IS_SMALL_DEVICE ? 1/3 : 1), 
+                            bottom: 10.0 * (Utils().IS_SMALL_DEVICE ? 1/3 : 1)
+                          ),
                           child: SizedBox(
-                            height: 200.0,
-                            width: 200.0,
+                            height: 160.0,
+                            width: 160.0,
                             child: Image.asset('assets/finish_face.png'),
                           ),
                         ),
                         Padding(
-                            padding: EdgeInsets.only(top: 10.0, bottom: 15.0, left: 50.0, right: 50.0),
+                            padding: EdgeInsets.only(
+                              top: 10.0 * (Utils().IS_SMALL_DEVICE ? 1/3 : 1), 
+                              bottom: 15.0 * (Utils().IS_SMALL_DEVICE ? 1/3 : 1), 
+                              left: 50.0, 
+                              right: 50.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
@@ -113,10 +126,13 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
                               ],
                             )),
                         Padding(
-                          padding: EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
+                          padding: EdgeInsets.only(
+                            top: 10.0 * (Utils().IS_SMALL_DEVICE ? 1/3 : 1), 
+                            left: 20.0, 
+                            right: 20.0),
                           child: Center(
                               child: Text(Localizer.getLocaleById(LocaleId.set_mark, context),
-                                  style: StandardStyleTexts.eyeScreenMainText, textAlign: TextAlign.center)),
+                                  style: Theme.of(context).textTheme.subtitle, textAlign: TextAlign.center)),
                         ),
                         Container(
                             child: StarRating(
@@ -132,7 +148,7 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
                           padding: EdgeInsets.only(top: 10.0),
                           child: Container(
                             width: MediaQuery.of(context).size.width,
-                            height: 160.0,
+                            height: Utils().PREFERED_HEIGHT_FOR_CUSTOM_BOTTOM_BAR + 40.0,
                           ),
                         )
                       ],
@@ -143,17 +159,18 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
             ),
           ),
           Positioned(
-            bottom: 130.0,
+            bottom: Utils().PREFERED_HEIGHT_FOR_CUSTOM_BOTTOM_BAR + 10.0,
             child: Container(
-              padding: EdgeInsets.only(left: 70, right: 70),
               width: MediaQuery.of(context).size.width,
-              height: 50.0,
-              child: RoundCustomButton(
-                onPressed: () async {
-                  widget.showProcessCallback();
-                },
-                child: Text(Localizer.getLocaleById(LocaleId.continue_btn_txt, context),
-                    style: StandardStyleTexts.mainBtnText),
+              child: Center(
+                child: RoundCustomButton(
+                  parentSize: MediaQuery.of(context).size,
+                  onPressed: () async {
+                    widget.showProcessCallback();
+                  },
+                  child: Text(Localizer.getLocaleById(LocaleId.continue_btn_txt, context),
+                    style: Theme.of(context).textTheme.button),
+                ),
               ),
             ),
           ),
@@ -166,21 +183,39 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10)
+        ),
         actions: <Widget>[
           MaterialButton(
-            child: Text(Localizer.getLocaleById(LocaleId.not_now, context)),
+            child: Text(
+              Localizer.getLocaleById(LocaleId.not_now, context),
+              style: Theme.of(context).textTheme.display3.copyWith(
+                color: Theme.of(context).accentColor
+              ),
+            ),
             onPressed: () {
               Navigator.of(context).pop();
             },
           ),
           MaterialButton(
-            child: Text(Localizer.getLocaleById(LocaleId.value, context)),
+            child: Text(
+              Localizer.getLocaleById(LocaleId.value, context),
+              style: Theme.of(context).textTheme.display3.copyWith(
+                color: Theme.of(context).accentColor
+              ),
+            ),
             onPressed: () async {
               if (await canLaunch(getAppUrl())) launch(getAppUrl());
             },
           ),
         ],
-        title: Text(Localizer.getLocaleById(LocaleId.want_to_set_mark, context)),
+        title: Text(
+          Localizer.getLocaleById(LocaleId.want_to_set_mark, context),
+          style: Theme.of(context).textTheme.display3.copyWith(
+            color: Theme.of(context).primaryColorDark
+          ),
+        ),
       ),
     );
   }

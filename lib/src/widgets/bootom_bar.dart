@@ -1,11 +1,10 @@
 import 'package:eyehelper/src/colors.dart';
 import 'package:eyehelper/src/constants.dart';
 import 'package:eyehelper/src/enums/screens.enum.dart';
+import 'package:eyehelper/src/utils.dart';
  
 import 'package:eyehelper/src/widgets/clip_shadow_path.dart';
 import 'package:flutter/material.dart';
-
-const double PREFERED_HEIGHT_FOR_CUSTOM_BOTTOM_BAR = 90.0;
 
 class BottomWavy extends StatefulWidget {
   BottomWavy({
@@ -21,8 +20,8 @@ class BottomWavy extends StatefulWidget {
 }
 
 class _BottomWavyState extends State<BottomWavy> {
-  final double eyeWidth = 60.0;
-  final double eyeHeight = 60.0;
+  final double eyeWidth = Utils().PREFERED_EYE_SIZE;
+  final double eyeHeight = Utils().PREFERED_EYE_SIZE;
   Screens selectedScreen = Screens.main;
 
   @override
@@ -67,51 +66,42 @@ class _BottomWavyState extends State<BottomWavy> {
       onPressed: () => widget.onTap(INDEX_NOTIFICATIONS_SCREEN),
     );
 
-    return Stack(
-      children: <Widget>[
-        ClipShadowPath(
-          clipper: BottomWaveClipper(),
-          shadow: Shadow(blurRadius: 10, color: StandardStyleColors.lightGrey),
-          child: Container(
-            color: StandardStyleColors.backgroundWhite,
-            height: PREFERED_HEIGHT_FOR_CUSTOM_BOTTOM_BAR,
-            width: MediaQuery.of(context).size.width,
-            child: Material(
-              type: MaterialType.transparency,
-              child: Padding(
-                padding: EdgeInsets.only(
-                  top: 10,
-                  left: 30,
-                  right: 30,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[statisticsButton, notificationsButton],
-                ),
-              ),
-            ),
-          ),
-        ),
-        Positioned(
-          bottom: 15.0,
-          left: 80.0,
-          right: 80.0,
-          child: Container(
-            height: 75.0,
-            width: 75.0,
-            child: Padding(
-              padding: EdgeInsets.only(bottom: 17.0),
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      child: Stack(
+        children: <Widget>[
+          ClipShadowPath(
+            clipper: BottomWaveClipper(),
+            shadow: Shadow(blurRadius: 10, color: StandardStyleColors.lightGrey),
+            child: Container(
+              color: StandardStyleColors.backgroundWhite,
+              height: Utils().PREFERED_HEIGHT_FOR_CUSTOM_BOTTOM_BAR,
+              width: MediaQuery.of(context).size.width,
               child: Material(
                 type: MaterialType.transparency,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[mainButton],
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    top: 10,
+                    left: 30,
+                    right: 30,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[statisticsButton, notificationsButton],
+                  ),
                 ),
               ),
             ),
           ),
-        )
-      ],
+          Container(
+            padding: EdgeInsets.only(bottom: (Utils().PREFERED_HEIGHT_FOR_CUSTOM_BOTTOM_BAR - eyeHeight) * 3/4),
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: mainButton
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
