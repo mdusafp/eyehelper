@@ -1,19 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:eyehelper/src/constants.dart';
 import 'package:eyehelper/src/helpers/preferences.dart';
 import 'package:eyehelper/src/locale/ru.dart';
 import 'package:eyehelper/src/models/swiper_screen_info.dart';
 import 'package:eyehelper/src/screens/eye_screen/today_training.dart';
 import 'package:eyehelper/src/screens/statistics_screen/statistics_card.dart';
-import 'package:eyehelper/src/theme.dart';
 import 'package:eyehelper/src/utils.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tuple/tuple.dart';
 import 'package:flutter/material.dart';
 import 'package:eyehelper/src/locale/Localizer.dart';
-import 'package:eyehelper/src/widgets/toolbar.dart';
 import 'package:eyehelper/src/screens/statistics_screen/statistics_value.dart';
 
 const SPACING = 16.0;
@@ -48,11 +45,6 @@ class StatisticsScreen extends StatefulWidget {
 }
 
 class _StatisticsScreenState extends State<StatisticsScreen> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
   Future<Statistics> fetchStatistics() async {
     SharedPreferences preferences = FastPreferences().prefs;
 
@@ -129,9 +121,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                 return Column(
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(
-                        top: Utils().PREFERED_HEIGHT_FOR_CUSTOM_APPBAR, 
-                        bottom: 16.0),
+                      padding: EdgeInsets.only(top: Utils().PREFERED_HEIGHT_FOR_CUSTOM_APPBAR, bottom: 16.0),
                       child: AspectRatio(
                         aspectRatio: Utils().IS_SMALL_DEVICE ? 1.15 : 1.17,
                         child: Swiper(
@@ -142,12 +132,12 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                           itemCount: 2,
                           itemBuilder: (context, index) {
                             return Padding(
-                              padding: const EdgeInsets.only(bottom: 13.0),
+                              padding: const EdgeInsets.only(bottom: 16.0),
                               child: StatisticCard(
                                 type: cardTypes[index],
-                                barWidth: 12.0,
+                                barWidth: 8.0,
                                 barHeight: 0.0, // make background transparent
-                                barActiveColor: EyehelperColorScheme.activeColor,
+                                barActiveColor: Theme.of(context).accentColor.withOpacity(.65),
                                 coordsList: cardTypes[index] == CardType.week
                                     ? snapshot.data.weekStats
                                     : snapshot.data.dayStats,
@@ -161,15 +151,13 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                       padding: const EdgeInsets.only(left: 16.0, right: 16.0),
                       child: Text(
                         Localizer.getLocaleById(LocaleId.exercise_frequency_per_day, context),
-                        style: Theme.of(context).textTheme.display2.copyWith(
-                          color: Theme.of(context).primaryColorDark
-                        ),
+                        style: Theme.of(context).textTheme.body1.copyWith(color: Theme.of(context).primaryColorDark),
                         textAlign: TextAlign.center,
                       ),
                     ),
                     Padding(
                       padding: EdgeInsets.only(
-                        top: 30,
+                        top: 32.0,
                         left: 16.0,
                         right: 16.0,
                         bottom: Utils().PREFERED_HEIGHT_FOR_CUSTOM_BOTTOM_BAR,

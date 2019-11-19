@@ -1,4 +1,4 @@
-import 'package:eyehelper/src/colors.dart';
+import 'package:eyehelper/src/theme.dart';
 import 'package:flutter/material.dart';
 
 class RoundControlButton extends StatelessWidget {
@@ -19,8 +19,8 @@ class RoundControlButton extends StatelessWidget {
       child: Container(
         width: 50.0,
         child: InkWell(
-          splashColor: StandardStyleColors.black10,
-          highlightColor: StandardStyleColors.black10,
+          splashColor: EyehelperColorScheme.black10,
+          highlightColor: EyehelperColorScheme.black10,
           customBorder: CircleBorder(),
           onTap: () => callback(),
           child: Center(
@@ -30,7 +30,7 @@ class RoundControlButton extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(BTN_DIAMETER),
                 border: Border.all(
-                  color: StandardStyleColors.activeColor,
+                  color: Theme.of(context).accentColor,
                   width: 5,
                 ),
               ),

@@ -12,9 +12,10 @@ dependencies:
   cupertino_icons: 0.1.2
   flutter_localizations:
     sdk: flutter
-  fl_chart: 0.3.3 # Charts library for statistics screen
+  fl_chart: 0.4.2 # Charts library for statistics screen
   flare_dart: 2.2.2
   flare_flutter: 1.6.2 # Animation
+  flutter_statusbarcolor: 0.2.3 # Animation
   flutter_swiper: 1.1.4 # Swipe on main screen
   flutter_local_notifications: 0.8.0 # Notification
   flutter_time_picker_spinner: 1.0.5 # Notifications time picker
@@ -33,12 +34,12 @@ dev_dependencies:
 flutter:
   assets:
     - assets/
-  
+
   fonts:
     - family: FiraSans
       fonts:
-      - asset: assets/fira_sans_regular.ttf
-        weight: 500
-      - asset: assets/fira_sans_light.ttf
-        weight: 200
+        - asset: assets/fira_sans_regular.ttf
+          weight: 500
+        - asset: assets/fira_sans_light.ttf
+          weight: 200
   uses-material-design: true

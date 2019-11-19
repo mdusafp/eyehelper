@@ -1,12 +1,14 @@
 import 'dart:core';
+import 'package:eyehelper/src/locale/Localizer.dart';
+import 'package:eyehelper/src/locale/ru.dart';
 import 'package:intl/intl.dart';
-import 'package:eyehelper/src/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 // callback to update parent data (without setState to don't rerender whole widget tree)
 typedef void OnChange(bool isWorkingDay, Duration startOfWork, Duration endOfWork);
 
+// TODO: provide error handler (start date can't be later than end date)
 class DailyScheduleCard extends StatefulWidget {
   final String name;
   final Duration initialStartOfWork;
@@ -88,82 +90,143 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
   }
 
   Widget _buildToggle() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: <Widget>[
-        Switch(
-          value: _isActive,
-          onChanged: (value) {
-            setState(() {
-              _isActive = value;
-            });
-            widget.onChange(_isActive, _startOfWork, _endOfWork);
-          },
-        ),
-      ],
-    );
-  }
-
-  Widget _buildWorkingTime() {
-    // The reason to put isUtc true to fix the bug when modal display utc values
-    // widget display in local date
-    String startText =
-        _timeFormatter.format(DateTime.fromMillisecondsSinceEpoch(_startOfWork.inMilliseconds, isUtc: true));
-    String endText = _timeFormatter.format(DateTime.fromMillisecondsSinceEpoch(_endOfWork.inMilliseconds, isUtc: true));
-
-    return AbsorbPointer(
-      absorbing: !_isActive,
+    return Expanded(
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          InkWell(
-            child: Text(startText),
-            onTap: _showStartTimePicker,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text('-'),
-          ),
-          InkWell(
-            child: Text(endText),
-            onTap: _showEndTimePicker,
+          Switch(
+            activeColor: Theme.of(context).backgroundColor,
+            value: _isActive,
+            onChanged: (value) {
+              setState(() {
+                _isActive = value;
+              });
+              widget.onChange(_isActive, _startOfWork, _endOfWork);
+            },
           ),
         ],
       ),
     );
   }
 
+  Widget _buildWorkingTime() {
+    ThemeData themeData = Theme.of(context);
+
+    // The reason to put isUtc true to fix the bug when modal display utc values
+    // widget display in local date
+    String startText = _timeFormatter.format(DateTime.fromMillisecondsSinceEpoch(
+      _startOfWork.inMilliseconds,
+      isUtc: true,
+    ));
+    String endText = _timeFormatter.format(DateTime.fromMillisecondsSinceEpoch(
+      _endOfWork.inMilliseconds,
+      isUtc: true,
+    ));
+
+    return AbsorbPointer(
+      absorbing: !_isActive,
+      child: DefaultTextStyle(
+        style: themeData.textTheme.display1.copyWith(
+          color: _isActive ? themeData.backgroundColor.withOpacity(.65) : themeData.backgroundColor.withOpacity(.4),
+        ),
+        child: Row(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: Text(Localizer.getLocaleById(LocaleId.from, context)),
+            ),
+            InkWell(
+              child: Text(startText),
+              onTap: _showStartTimePicker,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text(Localizer.getLocaleById(LocaleId.to, context)),
+            ),
+            InkWell(
+              child: Text(endText),
+              onTap: _showEndTimePicker,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 8.0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
+    ThemeData themeData = Theme.of(context);
+    HSLColor activeCardColor = HSLColor.fromColor(themeData.accentColor);
+    HSLColor inactiveCardColor = HSLColor.fromColor(themeData.primaryColor);
+
+    final activeGradient = LinearGradient(
+      begin: Alignment.bottomLeft,
+      end: Alignment.topRight,
+      colors: [activeCardColor.withLightness(.5).toColor(), activeCardColor.withLightness(.4).toColor()],
+    );
+
+    final inactiveGradient = LinearGradient(
+      begin: Alignment.bottomLeft,
+      end: Alignment.topRight,
+      colors: [inactiveCardColor.withLightness(.5).toColor(), inactiveCardColor.withLightness(.4).toColor()],
+    );
+
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeIn,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+        gradient: _isActive ? activeGradient : inactiveGradient,
+        boxShadow: [
+          const BoxShadow(
+            color: Color(0x55000000),
+            offset: Offset(0.0, 6.0),
+            blurRadius: 8.0,
+            spreadRadius: 0.0,
+          ),
+        ],
       ),
       child: Padding(
-        padding: const EdgeInsets.only(
-          top: 16.0,
-          right: 16.0,
-          bottom: 0.0,
-          left: 16.0,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            DefaultTextStyle(
-              style: Theme.of(context)
-                  .textTheme
-                  .body1
-                  .copyWith(color: _isActive ? EyehelperColorScheme.mainDark : EyehelperColorScheme.lightGrey),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
+        child: DefaultTextStyle(
+          style: themeData.textTheme.body1.copyWith(
+            color: _isActive ? themeData.backgroundColor : themeData.backgroundColor.withOpacity(.65),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(right: 16.0),
+                child: Container(
+                  height: 64.0,
+                  width: 64.0,
+                  child: Center(
+                    child: Text(
+                      widget.name.toUpperCase(),
+                      style: themeData.textTheme.title.copyWith(
+                        color: _isActive ? themeData.accentColor : themeData.primaryColor,
+                      ),
+                    ),
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                    color: themeData.backgroundColor,
+                  ),
+                ),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(widget.name),
-                  _buildWorkingTime(),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Text(Localizer.getLocaleById(_isActive ? LocaleId.working_time : LocaleId.weekend, context)),
+                  ),
+                  if (_isActive) _buildWorkingTime(),
                 ],
               ),
-            ),
-            _buildToggle(),
-          ],
+              _buildToggle(),
+            ],
+          ),
         ),
       ),
     );

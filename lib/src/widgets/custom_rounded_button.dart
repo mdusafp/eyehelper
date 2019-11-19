@@ -1,6 +1,5 @@
 import 'dart:math';
-
-import 'package:eyehelper/src/colors.dart';
+import 'package:eyehelper/src/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -33,7 +32,7 @@ class RoundCustomButton extends StatelessWidget {
       width: width ?? min(240.0, parentSize.width),
       height: this.heightAbs,
       decoration: BoxDecoration(
-        color: StandardStyleColors.activeColor,
+        color: Theme.of(context).accentColor,
         borderRadius: BorderRadius.all(Radius.circular(30.0)),
         boxShadow: [shadow],
       ),

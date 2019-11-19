@@ -38,17 +38,17 @@ class DailySchedule {
 }
 
 const List<LocaleId> week = [
-  LocaleId.monday,
-  LocaleId.tuesday,
-  LocaleId.wednesday,
-  LocaleId.thursday,
-  LocaleId.friday,
-  LocaleId.saturday,
-  LocaleId.sunday,
+  LocaleId.monday_short,
+  LocaleId.tuesday_short,
+  LocaleId.wednesday_short,
+  LocaleId.thursday_short,
+  LocaleId.friday_short,
+  LocaleId.saturday_short,
+  LocaleId.sunday_short,
 ];
 
 const _defaultNotificationsEnabled = false;
-const _defaultNotificationFrequencyInMilliseconds = 0;
+const _defaultNotificationFrequencyInMilliseconds = Duration.millisecondsPerHour * 1;
 List<DailySchedule> _defaultDailyScheduleList = week
     .asMap()
     // set working day in weekdays

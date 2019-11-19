@@ -1,11 +1,8 @@
-import 'package:eyehelper/src/colors.dart';
- 
 import 'package:eyehelper/src/widgets/round_control_button.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
 class ScreenControlButtons extends StatefulWidget {
-
   final String text;
   final bool paused;
   final bool stopped;
@@ -28,8 +25,6 @@ class ScreenControlButtons extends StatefulWidget {
 }
 
 class _ScreenControlButtonsState extends State<ScreenControlButtons> {
-
-
   int counterVal = 3;
   String counterStr;
   Timer _startCounterTimer;
@@ -50,7 +45,6 @@ class _ScreenControlButtonsState extends State<ScreenControlButtons> {
     counterStr = '$counterVal...';
 
     _startCounterTimer = new Timer.periodic(const Duration(seconds: 1), (t) {
-
       setState(() {
         counterVal--;
         counterStr = '$counterVal...';
@@ -63,9 +57,7 @@ class _ScreenControlButtonsState extends State<ScreenControlButtons> {
         setState(() {});
       }
     });
-
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +74,7 @@ class _ScreenControlButtonsState extends State<ScreenControlButtons> {
                 flex: 1,
                 child: RoundControlButton(
                   imagePath: mainTimerPause ? 'assets/pause_control.png' : 'assets/play_control.png',
-                  callback: (){
+                  callback: () {
                     setState(() {
                       mainTimerPause = !mainTimerPause;
                     });
@@ -90,7 +82,6 @@ class _ScreenControlButtonsState extends State<ScreenControlButtons> {
                   },
                 ),
               ),
-
               Expanded(
                 flex: 2,
                 child: Container(
@@ -102,25 +93,25 @@ class _ScreenControlButtonsState extends State<ScreenControlButtons> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Text(!trainingStarted ? counterStr : widget.text, textAlign: TextAlign.center, 
-                              style: Theme.of(context).textTheme.body1.copyWith(
-                                color: Theme.of(context).accentColor,
-                                fontWeight: FontWeight.w600
-                              ))
+                              Text(
+                                !trainingStarted ? counterStr : widget.text,
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .body1
+                                    .copyWith(color: Theme.of(context).accentColor, fontWeight: FontWeight.w600),
+                              )
                             ],
-
                           ),
                         )
-                      ]
-                  ),
+                      ]),
                 ),
               ),
-
               Expanded(
                 flex: 1,
                 child: RoundControlButton(
                   imagePath: 'assets/flag_control.png',
-                  callback: (){
+                  callback: () {
                     trainingStarted = false;
                     widget.finishCallback();
                   },

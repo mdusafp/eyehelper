@@ -2,7 +2,6 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:eyehelper/src/constants.dart';
-import 'package:flutter/material.dart';
 
 class Utils {
   double PREFERED_HEIGHT_FOR_CUSTOM_APPBAR = 110.0;
@@ -19,32 +18,25 @@ class Utils {
 
   Utils._internal();
 
-  void init(Window window){
-
+  void init(Window window) {
     ScreenUtil.instance = ScreenUtil(width: 360, height: 640)..init(window);
 
-    IS_SMALL_DEVICE = Utils.calculateDiagonal(
-      window.physicalSize.width, 
-      window.physicalSize.height) < SMALL_DEVICE_LIMIT;
+    IS_SMALL_DEVICE =
+        Utils.calculateDiagonal(window.physicalSize.width, window.physicalSize.height) < SMALL_DEVICE_LIMIT;
 
-    if (IS_SMALL_DEVICE && !ADAPTED){
-      PREFERED_HEIGHT_FOR_CUSTOM_APPBAR *= 3/4;
-      PREFERED_HEIGHT_FOR_CUSTOM_BOTTOM_BAR *= 3/4;
-      PREFERED_EYE_SIZE *= 5/6;
+    if (IS_SMALL_DEVICE && !ADAPTED) {
+      PREFERED_HEIGHT_FOR_CUSTOM_APPBAR *= 3 / 4;
+      PREFERED_HEIGHT_FOR_CUSTOM_BOTTOM_BAR *= 3 / 4;
+      PREFERED_EYE_SIZE *= 5 / 6;
     }
 
     ADAPTED = true;
   }
 
-  static calculateDiagonal(double width, double height){
+  static calculateDiagonal(double width, double height) {
     return sqrt(width * width + height * height);
   }
 }
-
-
-
-
-
 
 class ScreenUtil {
   static ScreenUtil instance = new ScreenUtil();
@@ -56,10 +48,7 @@ class ScreenUtil {
 
   static double _screenWidth;
 
-  ScreenUtil({
-    this.width = 1080,
-    this.height = 1920
-  });
+  ScreenUtil({this.width = 1080, this.height = 1920});
 
   static ScreenUtil getInstance() {
     return instance;

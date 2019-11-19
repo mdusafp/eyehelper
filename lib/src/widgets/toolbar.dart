@@ -1,9 +1,10 @@
-import 'package:eyehelper/src/colors.dart';
-import 'package:eyehelper/src/constants.dart';
+import 'package:eyehelper/src/helpers/notification.dart';
+import 'package:eyehelper/src/repositories/settings_repository.dart';
+import 'package:flutter/material.dart';
 import 'package:eyehelper/src/helpers/preferences.dart';
+import 'package:eyehelper/src/theme.dart';
 import 'package:eyehelper/src/utils.dart';
 import 'package:eyehelper/src/widgets/clip_shadow_path.dart';
-import 'package:flutter/material.dart';
 
 class ToolbarWavy extends StatefulWidget {
   final String title;
@@ -15,18 +16,27 @@ class ToolbarWavy extends StatefulWidget {
 }
 
 class _ToolbarWavyState extends State<ToolbarWavy> {
-  bool isVibrationActive = true;
-  bool isSoundOff = false;
+  NotificationsHelper _notificationHelper;
+  SettingsRepository _settingsRepository;
+
+  @override
+  initState() {
+    super.initState();
+    _notificationHelper = new NotificationsHelper(context);
+    _settingsRepository = new SettingsRepository(FastPreferences());
+  }
 
   @override
   Widget build(BuildContext context) {
+    ThemeData themeData = Theme.of(context);
+
     return ClipShadowPath(
       clipper: TopWaveClipper(),
-      shadow: Shadow(blurRadius: 10, color: StandardStyleColors.lightGrey),
+      shadow: Shadow(blurRadius: 8, color: themeData.primaryColor),
       child: SizedBox(
         height: Utils().PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
         child: Container(
-          decoration: BoxDecoration(color: StandardStyleColors.backgroundWhite),
+          decoration: BoxDecoration(color: themeData.backgroundColor),
           child: Stack(
             children: <Widget>[
               Container(
@@ -35,39 +45,71 @@ class _ToolbarWavyState extends State<ToolbarWavy> {
                 child: Center(
                   child: Text(
                     widget.title,
-                    style: Theme.of(context).textTheme.headline.copyWith(
-                      color: Theme.of(context).accentColor
-                    ),
+                    style: Theme.of(context).textTheme.title.copyWith(color: Theme.of(context).accentColor),
                   ),
                 ),
               ),
-              if (FastPreferences().prefs != null && widget.currentIndex == 1)
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Padding(
-                    padding: EdgeInsets.only(right: MediaQuery.of(context).size.width * 1/12),
-                    child: InkWell(
-                      onTap: () async {
-                        FastPreferences().prefs.setBool(
-                          FastPreferences.isVibrationEnabled, 
-                          !(FastPreferences().prefs
-                            .getBool(FastPreferences.isVibrationEnabled) ?? false)
-                        ).then((_)=> setState(()=>{}));
-                      },
-                      child: Container(
-                        height: Utils().PREFERED_HEIGHT_FOR_CUSTOM_APPBAR * 1/3,
-                        width: Utils().PREFERED_HEIGHT_FOR_CUSTOM_APPBAR * 1/3,
-                        child: Icon(
-                          Icons.vibration,
-                          color: (FastPreferences().prefs
-                            .getBool(FastPreferences.isVibrationEnabled) ?? false)
-                              ? Theme.of(context).accentColor : StandardStyleColors.mainDark
-                        )
-                      ),
-                    ),
-                  ),
-                )
+              if (FastPreferences().prefs != null && widget.currentIndex == 1) _buildVibration(context),
+              if (FastPreferences().prefs != null && widget.currentIndex == 2) _buildNotification(context),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Align _buildNotification(BuildContext context) {
+    final prefs = FastPreferences().prefs;
+    final key = FastPreferences.isNotificationEnabled;
+    final value = prefs.getBool(key) ?? true;
+
+    return Align(
+      alignment: Alignment.centerRight,
+      child: Padding(
+        padding: EdgeInsets.only(right: MediaQuery.of(context).size.width * 1 / 12),
+        child: InkWell(
+          onTap: () async {
+            await prefs.setBool(key, !value);
+
+            final settings = _settingsRepository.getSettings();
+            await _notificationHelper.scheduleExerciseReminders(settings);
+
+            setState(() {});
+          },
+          child: Container(
+            height: Utils().PREFERED_HEIGHT_FOR_CUSTOM_APPBAR * 1 / 3,
+            width: Utils().PREFERED_HEIGHT_FOR_CUSTOM_APPBAR * 1 / 3,
+            child: Icon(
+              value ? Icons.notifications_active : Icons.notifications_off,
+              color: value ? Theme.of(context).accentColor : EyehelperColorScheme.mainDark,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Align _buildVibration(BuildContext context) {
+    final prefs = FastPreferences().prefs;
+    final key = FastPreferences.isVibrationEnabled;
+    final value = prefs.getBool(key) ?? true;
+
+    return Align(
+      alignment: Alignment.centerRight,
+      child: Padding(
+        padding: EdgeInsets.only(right: MediaQuery.of(context).size.width * 1 / 12),
+        child: InkWell(
+          onTap: () async {
+            await prefs.setBool(key, !value);
+            setState(() {});
+          },
+          child: Container(
+            height: Utils().PREFERED_HEIGHT_FOR_CUSTOM_APPBAR * 1 / 3,
+            width: Utils().PREFERED_HEIGHT_FOR_CUSTOM_APPBAR * 1 / 3,
+            child: Icon(
+              Icons.vibration,
+              color: value ? Theme.of(context).accentColor : EyehelperColorScheme.mainDark,
+            ),
           ),
         ),
       ),

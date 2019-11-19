@@ -1,10 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
-import 'package:eyehelper/src/constants.dart';
 import 'package:eyehelper/src/helpers/preferences.dart';
 import 'package:eyehelper/src/utils.dart';
-import 'package:eyehelper/src/widgets/bootom_bar.dart';
-import 'package:eyehelper/src/widgets/toolbar.dart';
 import 'package:flare_dart/math/mat2d.dart';
 import 'package:flare_flutter/flare.dart';
 import 'package:flare_flutter/flare_controller.dart';
@@ -18,7 +15,6 @@ import 'package:eyehelper/src/models/swiper_screen_info.dart';
 import 'package:eyehelper/src/screens/eye_screen/screen_control_buttons.dart';
 import 'package:eyehelper/src/widgets/animated_face.dart';
 import 'package:eyehelper/src/widgets/custom_rounded_button.dart';
-import 'package:vibration/vibration.dart' as prefix0;
 
 class EyeSinglePage extends StatefulWidget {
   final SwiperScreenInfo info;
@@ -69,57 +65,56 @@ class _EyeSinglePageState extends State<EyeSinglePage> implements FlareControlle
             child: Column(
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Container(
                         height: Utils().PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
                       ),
-
                       Padding(
-                        padding: EdgeInsets.only(top: 18.0, bottom: 20.0, left: 20.0, right: 20.0),
-                        child: Center(
-                            child: Text(
-                                Localizer.getLocaleById(widget.info.title, context),
-                                style: textTheme.title.copyWith(
-                                  color: Theme.of(context).primaryColorDark
-                                ),
-                                textAlign: TextAlign.center)
-                        ),
-                      ),
-
-                      Padding(
-                        padding: EdgeInsets.only(top: 6.0, bottom: 20.0, left: 20.0, right: 20.0),
+                        padding: const EdgeInsets.only(top: 18.0, bottom: 20.0, left: 20.0, right: 20.0),
                         child: Center(
                           child: Text(
-                              Localizer.getLocaleById(widget.info.mainText, context),
-                              style: textTheme.subtitle.copyWith(
-                                color: Theme.of(context).primaryColorDark
-                              ),
-                              textAlign: TextAlign.center),
+                            Localizer.getLocaleById(widget.info.title, context),
+                            style: textTheme.title.copyWith(color: Theme.of(context).primaryColorDark),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
-
                       Padding(
-                        padding: EdgeInsets.only(top: 6.0, bottom: 20.0, left: 20.0, right: 20.0),
+                        padding: const EdgeInsets.only(top: 6.0, bottom: 20.0, left: 20.0, right: 20.0),
+                        child: Center(
+                          child: Text(
+                            Localizer.getLocaleById(widget.info.mainText, context),
+                            style: textTheme.subtitle.copyWith(color: Theme.of(context).primaryColorDark),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 6.0, bottom: 20.0, left: 20.0, right: 20.0),
                         child: Text(
-                          Localizer.getLocaleById(widget.info.durationText, context), 
-                          style: textTheme.title.copyWith(
-                            color: Theme.of(context).accentColor
-                          ), 
-                          textAlign: TextAlign.center
+                          Localizer.getLocaleById(widget.info.durationText, context),
+                          style: textTheme.title.copyWith(color: Theme.of(context).accentColor),
+                          textAlign: TextAlign.center,
                         ),
                       ),
-
                       Padding(
-                        padding: EdgeInsets.only(top: 6.0, bottom: 10.0),
-                        child: AnimatedFace(info: widget.info, isPaused: isFacePaused, 
-                          visible: isFaceVisible, controller: isTrainingStarted ? this : null)
+                        padding: const EdgeInsets.only(top: 6.0, bottom: 10.0),
+                        child: Card(
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(120)),
+                          elevation: 16.0,
+                          child: AnimatedFace(
+                            info: widget.info,
+                            isPaused: isFacePaused,
+                            visible: isFaceVisible,
+                            controller: isTrainingStarted ? this : null,
+                          ),
+                        ),
                       ),
-
                       Padding(
-                        padding: EdgeInsets.only(top: 10.0),
+                        padding: const EdgeInsets.only(top: 10.0),
                         child: Container(
                           width: MediaQuery.of(context).size.width,
                           height: Utils().PREFERED_HEIGHT_FOR_CUSTOM_BOTTOM_BAR + 40.0,
@@ -132,11 +127,7 @@ class _EyeSinglePageState extends State<EyeSinglePage> implements FlareControlle
             ),
           ),
         ),
-
-        Positioned(
-          bottom: Utils().PREFERED_HEIGHT_FOR_CUSTOM_BOTTOM_BAR + 30.0,
-          child: getControls(context)
-        )
+        Positioned(bottom: Utils().PREFERED_HEIGHT_FOR_CUSTOM_BOTTOM_BAR + 30.0, child: getControls(context))
       ],
     );
   }
@@ -195,14 +186,14 @@ class _EyeSinglePageState extends State<EyeSinglePage> implements FlareControlle
 
     if (widget.info.firstTextTime < relativeTime + 0.05 && widget.info.firstTextTime > relativeTime - 0.05) {
       setState(() => trainingText = Localizer.getLocaleById(widget.info.trainingFirstText, context));
-      if ((FastPreferences().prefs.getBool(FastPreferences.isVibrationEnabled) ?? false)){
+      if ((FastPreferences().prefs.getBool(FastPreferences.isVibrationEnabled) ?? true)) {
         Vibration.vibrate();
       }
     }
 
     if (widget.info.secondTextTime < relativeTime + 0.05 && widget.info.secondTextTime > relativeTime - 0.05) {
       setState(() => trainingText = Localizer.getLocaleById(widget.info.trainingSecondText, context));
-      if ((FastPreferences().prefs.getBool(FastPreferences.isVibrationEnabled) ?? false)){
+      if ((FastPreferences().prefs.getBool(FastPreferences.isVibrationEnabled) ?? true)) {
         Vibration.vibrate();
       }
     }

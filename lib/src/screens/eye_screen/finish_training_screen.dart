@@ -1,8 +1,8 @@
 import 'package:eyehelper/app_id.dart';
-import 'package:eyehelper/src/colors.dart';
 import 'package:eyehelper/src/locale/Localizer.dart';
 import 'package:eyehelper/src/locale/ru.dart';
 import 'package:eyehelper/src/screens/eye_screen/rating_stars.dart';
+import 'package:eyehelper/src/theme.dart';
 import 'package:eyehelper/src/utils.dart';
 
 import 'package:eyehelper/src/widgets/custom_rounded_button.dart';
@@ -45,14 +45,15 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
                         ),
                         Padding(
                           padding: EdgeInsets.only(
-                            top: 18.0 * (Utils().IS_SMALL_DEVICE ? 1/3 : 1), 
-                            bottom: 6.0 , 
-                            left: 20.0, 
-                            right: 20.0),
+                            top: 18.0 * (Utils().IS_SMALL_DEVICE ? 1 / 3 : 1),
+                            bottom: 6.0,
+                            left: 20.0,
+                            right: 20.0,
+                          ),
                           child: Center(
                             child: Text(
                               Localizer.getLocaleById(LocaleId.good_job, context),
-                              style: Theme.of(context).textTheme.title,//StandardStyleTexts.eyeScreenHeader,
+                              style: Theme.of(context).textTheme.title, // StandardStyleTexts.eyeScreenHeader,
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -66,8 +67,8 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
                         ),
                         Padding(
                           padding: EdgeInsets.only(
-                            top: 6.0 * (Utils().IS_SMALL_DEVICE ? 1/3 : 1), 
-                            bottom: 10.0 * (Utils().IS_SMALL_DEVICE ? 1/3 : 1)
+                            top: 6.0 * (Utils().IS_SMALL_DEVICE ? 1 / 3 : 1),
+                            bottom: 10.0 * (Utils().IS_SMALL_DEVICE ? 1 / 3 : 1),
                           ),
                           child: SizedBox(
                             height: 160.0,
@@ -76,63 +77,70 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
                           ),
                         ),
                         Padding(
-                            padding: EdgeInsets.only(
-                              top: 10.0 * (Utils().IS_SMALL_DEVICE ? 1/3 : 1), 
-                              bottom: 15.0 * (Utils().IS_SMALL_DEVICE ? 1/3 : 1), 
-                              left: 50.0, 
-                              right: 50.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                InkResponse(
-                                  radius: 25.0,
-                                  highlightColor: Colors.transparent,
-                                  onTap: () {
-                                    setState(() {
-                                      liked = !liked;
-                                    });
-                                    if (liked) {
-                                      _showWantToValueDialog();
-                                    }
-                                  },
-                                  child: Container(
-                                    width: 100.0,
-                                    child: Center(
-                                      child: Icon(
-                                        liked ? Icons.favorite : Icons.favorite_border,
-                                        size: 30.0,
-                                        color: liked ? Colors.red : StandardStyleColors.mainDark,
-                                      ),
+                          padding: EdgeInsets.only(
+                            top: 10.0 * (Utils().IS_SMALL_DEVICE ? 1 / 3 : 1),
+                            bottom: 15.0 * (Utils().IS_SMALL_DEVICE ? 1 / 3 : 1),
+                            left: 50.0,
+                            right: 50.0,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              InkResponse(
+                                radius: 25.0,
+                                highlightColor: Colors.transparent,
+                                onTap: () {
+                                  setState(() {
+                                    liked = !liked;
+                                  });
+                                  if (liked) {
+                                    _showWantToValueDialog();
+                                  }
+                                },
+                                child: Container(
+                                  width: 100.0,
+                                  child: Center(
+                                    child: Icon(
+                                      liked ? Icons.favorite : Icons.favorite_border,
+                                      size: 30.0,
+                                      color: liked ? Colors.red : EyehelperColorScheme.mainDark,
                                     ),
                                   ),
                                 ),
-                                InkResponse(
-                                  highlightColor: Colors.transparent,
-                                  radius: 25.0,
-                                  onTap: () {
-                                    Share.share(Localizer.getLocaleById(LocaleId.there_is_app, context));
-                                  },
-                                  child: Container(
-                                    width: 100.0,
-                                    child: Center(
-                                      child: Icon(
-                                        Icons.share,
-                                        color: StandardStyleColors.mainDark,
-                                        size: 30.0,
-                                      ),
+                              ),
+                              InkResponse(
+                                highlightColor: Colors.transparent,
+                                radius: 25.0,
+                                onTap: () {
+                                  Share.share(Localizer.getLocaleById(LocaleId.there_is_app, context));
+                                },
+                                child: Container(
+                                  width: 100.0,
+                                  child: Center(
+                                    child: Icon(
+                                      Icons.share,
+                                      color: EyehelperColorScheme.mainDark,
+                                      size: 30.0,
                                     ),
                                   ),
-                                )
-                              ],
-                            )),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
                         Padding(
                           padding: EdgeInsets.only(
-                            top: 10.0 * (Utils().IS_SMALL_DEVICE ? 1/3 : 1), 
-                            left: 20.0, 
-                            right: 20.0),
+                            top: 10.0 * (Utils().IS_SMALL_DEVICE ? 1 / 3 : 1),
+                            left: 20.0,
+                            right: 20.0,
+                          ),
                           child: Center(
-                              child: Text(Localizer.getLocaleById(LocaleId.set_mark, context),
-                                  style: Theme.of(context).textTheme.subtitle, textAlign: TextAlign.center)),
+                            child: Text(
+                              Localizer.getLocaleById(LocaleId.set_mark, context),
+                              style: Theme.of(context).textTheme.subtitle,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
                         ),
                         Container(
                             child: StarRating(
@@ -168,8 +176,10 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
                   onPressed: () async {
                     widget.showProcessCallback();
                   },
-                  child: Text(Localizer.getLocaleById(LocaleId.continue_btn_txt, context),
-                    style: Theme.of(context).textTheme.button),
+                  child: Text(
+                    Localizer.getLocaleById(LocaleId.continue_btn_txt, context),
+                    style: Theme.of(context).textTheme.button,
+                  ),
                 ),
               ),
             ),
@@ -183,16 +193,12 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10)
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         actions: <Widget>[
           MaterialButton(
             child: Text(
               Localizer.getLocaleById(LocaleId.not_now, context),
-              style: Theme.of(context).textTheme.display3.copyWith(
-                color: Theme.of(context).accentColor
-              ),
+              style: Theme.of(context).textTheme.display3.copyWith(color: Theme.of(context).accentColor),
             ),
             onPressed: () {
               Navigator.of(context).pop();
@@ -201,9 +207,7 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
           MaterialButton(
             child: Text(
               Localizer.getLocaleById(LocaleId.value, context),
-              style: Theme.of(context).textTheme.display3.copyWith(
-                color: Theme.of(context).accentColor
-              ),
+              style: Theme.of(context).textTheme.display3.copyWith(color: Theme.of(context).accentColor),
             ),
             onPressed: () async {
               if (await canLaunch(getAppUrl())) launch(getAppUrl());
@@ -212,9 +216,7 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
         ],
         title: Text(
           Localizer.getLocaleById(LocaleId.want_to_set_mark, context),
-          style: Theme.of(context).textTheme.display3.copyWith(
-            color: Theme.of(context).primaryColorDark
-          ),
+          style: Theme.of(context).textTheme.display3.copyWith(color: Theme.of(context).primaryColorDark),
         ),
       ),
     );

@@ -20,24 +20,27 @@ class AnimatedFace extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 160.0 * (Utils().IS_SMALL_DEVICE ? 3/4 : 1),
-      width: 160.0 * (Utils().IS_SMALL_DEVICE ? 3/4 : 1),
-      child: Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-          Image.asset(info.fakeImgName, alignment: Alignment.center),
-          visible
-              ? FlareActor(
-                  info.flareName,
-                  controller: controller,
-                  isPaused: isPaused,
-                  alignment: Alignment.center,
-                  fit: BoxFit.contain,
-                  animation: info.animationName,
-                )
-              : Container()
-        ],
+    return Padding(
+      padding: const EdgeInsets.all(32.0),
+      child: SizedBox(
+        height: 160.0 * (Utils().IS_SMALL_DEVICE ? 3 / 4 : 1),
+        width: 160.0 * (Utils().IS_SMALL_DEVICE ? 3 / 4 : 1),
+        child: Stack(
+          alignment: Alignment.center,
+          children: <Widget>[
+            Image.asset(info.fakeImgName, alignment: Alignment.center),
+            visible
+                ? FlareActor(
+                    info.flareName,
+                    controller: controller,
+                    isPaused: isPaused,
+                    alignment: Alignment.center,
+                    fit: BoxFit.contain,
+                    animation: info.animationName,
+                  )
+                : Container()
+          ],
+        ),
       ),
     );
   }

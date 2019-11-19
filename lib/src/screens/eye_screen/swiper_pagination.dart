@@ -174,7 +174,7 @@ class _PageIndicatorState extends State<PageIndicator> {
                       : TodayTrainingCounters().getPassed(i)
                           ? Icons.check_circle_outline
                           : Icons.radio_button_unchecked,
-                  color: EyehelperColorScheme.activeColor,
+                  color: Theme.of(context).accentColor,
                   size: 23,
                 ),
               ),

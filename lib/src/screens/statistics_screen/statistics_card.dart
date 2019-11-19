@@ -1,11 +1,10 @@
 import 'dart:async';
 import 'package:eyehelper/src/locale/ru.dart';
 import 'package:eyehelper/src/screens/statistics_screen/statistics_screen.dart';
+import 'package:eyehelper/src/theme.dart';
 import 'package:tuple/tuple.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-
-import 'package:eyehelper/src/colors.dart';
 import 'package:eyehelper/src/locale/Localizer.dart';
 
 // TODO: use constants from theme
@@ -48,7 +47,7 @@ class _StatisticCardState extends State<StatisticCard> {
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
             y: widget.barHeight,
-            color: StandardStyleColors.mainDark,
+            color: EyehelperColorScheme.mainDark,
           ),
         ),
       ],
@@ -81,70 +80,76 @@ class _StatisticCardState extends State<StatisticCard> {
     widget.coordsList?.forEach((item) {
       sum += item.item2;
     });
+
     return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(SPACING / 2),
-      ),
       elevation: 8.0,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      color: HSLColor.fromColor(Theme.of(context).backgroundColor).withLightness(.99).toColor(),
       child: Container(
         padding: const EdgeInsets.only(
           top: SPACING,
           right: SPACING,
         ),
         width: double.infinity,
-        child: sum <= 0 ? _getNoDataView() : Column(
-          children: <Widget>[
-            Text(
-              _getTitle(),
-              style: Theme.of(context).textTheme.display2.copyWith(
-                color: Theme.of(context).primaryColorDark
+        child: sum <= 0 ? _getNoDataView() : _getStatsView(context),
+      ),
+    );
+  }
+
+  Column _getStatsView(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Text(
+          _getTitle(),
+          style: Theme.of(context).textTheme.display2.copyWith(
+                color: Theme.of(context).primaryColorDark,
               ),
+        ),
+        AspectRatio(
+          aspectRatio: 1.05,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(SPACING)),
             ),
-            AspectRatio(
-              aspectRatio: 1.05,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(SPACING)),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    bottom: SPACING / 2,
-                    top: SPACING,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                top: SPACING,
+                right: SPACING / 2,
+              ),
+              child: BarChart(
+                BarChartData(
+                  barGroups: barChartGroupData ?? [],
+                  barTouchData: BarTouchData(
+                    enabled: false,
                   ),
-                  child: FlChart(
-                    chart: BarChart(
-                      BarChartData(
-                        barGroups: barChartGroupData ?? [],
-                        barTouchData: BarTouchData(
-                          enabled: false,
-                        ),
-                        titlesData: FlTitlesData(
-                          show: true,
-                          bottomTitles: SideTitles(
-                            showTitles: true,
-                            textStyle: Theme.of(context).textTheme.display1,
-                            margin: SPACING,
-                            getTitles: getBottomTitles,
+                  titlesData: FlTitlesData(
+                    show: true,
+                    bottomTitles: SideTitles(
+                      showTitles: true,
+                      textStyle: Theme.of(context).textTheme.display2.copyWith(
+                            color: Theme.of(context).primaryColorDark,
                           ),
-                          leftTitles: SideTitles(
-                            showTitles: true,
-                            textStyle: Theme.of(context).textTheme.display1,
-                            margin: SPACING,
-                            getTitles: getLeftTitles,
+                      margin: SPACING,
+                      getTitles: getBottomTitles,
+                    ),
+                    leftTitles: SideTitles(
+                      showTitles: true,
+                      textStyle: Theme.of(context).textTheme.display2.copyWith(
+                            color: Theme.of(context).primaryColorDark,
                           ),
-                        ),
-                        borderData: FlBorderData(
-                          show: false,
-                        ),
-                      ),
+                      margin: SPACING,
+                      getTitles: getLeftTitles,
                     ),
                   ),
+                  borderData: FlBorderData(
+                    show: false,
+                  ),
                 ),
-              )
+              ),
             ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 
@@ -208,15 +213,12 @@ class _StatisticCardState extends State<StatisticCard> {
 
   _getNoDataView() {
     return Center(
-      //color: Colors.red,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           Text(
-              _getTitle(),
-              style: Theme.of(context).textTheme.display2.copyWith(
-                color: Theme.of(context).primaryColor
-              ),
+            _getTitle(),
+            style: Theme.of(context).textTheme.display2.copyWith(color: Theme.of(context).backgroundColor),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 65.0),
@@ -228,9 +230,7 @@ class _StatisticCardState extends State<StatisticCard> {
             padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20.0),
             child: Text(
               Localizer.getLocaleById(LocaleId.not_enough_data, context),
-              style: Theme.of(context).textTheme.display2.copyWith(
-                color: Theme.of(context).primaryColor
-              ),
+              style: Theme.of(context).textTheme.display2.copyWith(color: Theme.of(context).backgroundColor),
               textAlign: TextAlign.center,
             ),
           ),

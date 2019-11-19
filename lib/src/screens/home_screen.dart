@@ -1,5 +1,6 @@
 import 'package:eyehelper/src/helpers/preferences.dart';
 import 'package:eyehelper/src/locale/ru.dart';
+import 'package:eyehelper/src/repositories/settings_repository.dart';
 import 'package:eyehelper/src/screens/statistics_screen/statistics_screen.dart';
 import 'package:eyehelper/src/theme.dart';
 import 'package:eyehelper/src/utils.dart';
@@ -11,6 +12,7 @@ import 'package:eyehelper/src/screens/eye_screen/eye_screen.dart';
 import 'package:eyehelper/src/screens/notification_screen/notification_screen.dart';
 import 'package:eyehelper/src/widgets/bootom_bar.dart';
 import 'package:eyehelper/src/widgets/toolbar.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
 class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
@@ -18,22 +20,30 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 1;
-  NotificationsHelper notificationHelper;
+  NotificationsHelper _notificationHelper;
+  SettingsRepository _settingsRepository;
 
   bool dataLoading = true;
 
   @override
   initState() {
     super.initState();
-    notificationHelper = NotificationsHelper(context);
+    _notificationHelper = new NotificationsHelper(context);
+    _settingsRepository = new SettingsRepository(FastPreferences());
     initAppConstants();
   }
 
   Future<void> initAppConstants() async {
     await FastPreferences().init();
 
-    if (mounted){
-      setState(() => dataLoading = false );
+    // make text in toolbar black
+    FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
+
+    final settings = _settingsRepository.getSettings();
+    await _notificationHelper.scheduleExerciseReminders(settings);
+
+    if (mounted) {
+      setState(() => dataLoading = false);
     }
   }
 
@@ -82,10 +92,6 @@ class _HomeScreenState extends State<HomeScreen> {
             child: BottomWavy(
               currentIndex: _currentIndex,
               onTap: (index) {
-                // TODO: uncomment me when setup notification will be done
-                // if (index == INDEX_NOTIFICATIONS_SCREEN) {
-                //   notificationHelper.scheduleNotification();
-                // }
                 setState(() => _currentIndex = index);
               },
             ),

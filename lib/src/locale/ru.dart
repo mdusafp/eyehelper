@@ -50,6 +50,8 @@ enum LocaleId {
   hour,
   minute,
   save,
+  we_will_notify,
+  change,
 
   // texts for schedule and statistics
   monday_short,
@@ -72,6 +74,8 @@ enum LocaleId {
   excercise_short,
 
   times,
+  working_time,
+  weekend,
 
   // texts for statistics
   exercise_frequency_per_day,
@@ -91,6 +95,15 @@ enum LocaleId {
   value,
   not_now,
   not_enough_data,
+
+  // texts for notification frequency
+  zero_hours,
+  one_hour,
+  two_hours,
+  few_hours,
+  many_hours,
+  from,
+  to,
 }
 
 Map<LocaleId, String> localeRu = {
@@ -143,6 +156,8 @@ Map<LocaleId, String> localeRu = {
   LocaleId.hour: "ч",
   LocaleId.minute: "мин",
   LocaleId.save: "Сохранить",
+  LocaleId.we_will_notify: "Мы будем напоминать вам делать упражнения",
+  LocaleId.change: "Изменить",
 
   // texts for schedule and statistics
   LocaleId.monday_short: "Пн",
@@ -165,6 +180,8 @@ Map<LocaleId, String> localeRu = {
   LocaleId.excercise_short: "Упр",
 
   LocaleId.times: "Раз",
+  LocaleId.working_time: "Рабочее время",
+  LocaleId.weekend: "Выходной день",
 
   // texts for statistics
   LocaleId.exercise_frequency_per_day: "Частота выполнения упражнений в течении дня",
@@ -174,7 +191,7 @@ Map<LocaleId, String> localeRu = {
   LocaleId.current_day: "Текущий день",
   LocaleId.current_month: "Текущий месяц",
 
-  //texts for finish
+  // texts for finish
   LocaleId.good_job: "Отлично!",
   LocaleId.you_done_excercises: "Вы выполнили упражнения. Повторяйте чаще и ваши глаза скажут вам спасибо!",
   LocaleId.set_mark: "Оценить приложение",
@@ -185,4 +202,13 @@ Map<LocaleId, String> localeRu = {
   LocaleId.not_now: "Не сейчас",
 
   LocaleId.not_enough_data: "Недостаточно данных для отображения",
+
+  // texts for notification frequency
+  LocaleId.zero_hours: "часов",
+  LocaleId.one_hour: "час",
+  LocaleId.two_hours: "часа",
+  LocaleId.few_hours: "часов",
+  LocaleId.many_hours: "часов",
+  LocaleId.from: "с",
+  LocaleId.to: "по",
 };

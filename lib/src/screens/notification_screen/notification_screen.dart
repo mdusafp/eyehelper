@@ -1,16 +1,14 @@
-import 'package:eyehelper/src/constants.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:eyehelper/src/helpers/notification.dart';
 import 'package:eyehelper/src/helpers/preferences.dart';
 import 'package:eyehelper/src/models/notification_settings.dart';
 import 'package:eyehelper/src/repositories/settings_repository.dart';
 import 'package:eyehelper/src/screens/notification_screen/notification_frequency_picker.dart';
 import 'package:eyehelper/src/utils.dart';
-import 'package:eyehelper/src/widgets/custom_rounded_button.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:eyehelper/src/locale/Localizer.dart';
 import 'package:eyehelper/src/locale/ru.dart';
 import 'package:eyehelper/src/screens/notification_screen/daily_schedule_card.dart';
-import 'package:eyehelper/src/widgets/toolbar.dart';
 
 class NotificationScreen extends StatefulWidget {
   @override
@@ -19,20 +17,22 @@ class NotificationScreen extends StatefulWidget {
 
 class _NotificationScreenState extends State<NotificationScreen> {
   NotificationSettings _notificationSettings;
+  NotificationsHelper _notificationsHelper;
   SettingsRepository _repository;
   Duration frequency;
 
   @override
   void initState() {
     super.initState();
-    _repository = new SettingsRepository(FastPreferences());
-    _notificationSettings = _repository.getSettings();
     frequency = new Duration();
+    _repository = new SettingsRepository(FastPreferences());
+    _notificationsHelper = new NotificationsHelper(context);
+    _notificationSettings = _repository.getSettings();
   }
 
   Future<void> _saveSettings() async {
     await _repository.saveSettings(_notificationSettings);
-    // TODO: add notification that settings saved
+    await _notificationsHelper.scheduleExerciseReminders(_notificationSettings);
   }
 
   @override
@@ -48,87 +48,59 @@ class _NotificationScreenState extends State<NotificationScreen> {
               left: 16.0,
               right: 16.0,
             ),
-            child: Stack(
+            child: Column(
               children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Expanded(
-                          child: Text(
-                            Localizer.getLocaleById(LocaleId.notifications_on, context),
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context).textTheme.display3.copyWith(
-                              color: Theme.of(context).primaryColorDark
-                            ),
-                          ),
-                        ),
-                        Switch(
-                          value: _notificationSettings.notificationsEnabled,
-                          onChanged: (value) {
-                            setState(() {
-                              _notificationSettings.notificationsEnabled = value;
-                            });
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 32.0, top: 32.0),
+                  child: NotificationFrequencyPicker(
+                    initialFrequency: new Duration(
+                      milliseconds: _notificationSettings.notificationFrequencyInMilliseconds,
+                    ),
+                    onChange: (frequency) async {
+                      _notificationSettings.notificationFrequencyInMilliseconds = frequency.duration.inMilliseconds;
+                      await _saveSettings();
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 16.0,
+                    right: 16.0,
+                    bottom: 16.0,
+                  ),
+                  child: Text(
+                    Localizer.getLocaleById(LocaleId.choose_time, context),
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.display1.copyWith(color: Theme.of(context).primaryColorDark),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 16.0),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    padding: EdgeInsets.zero,
+                    itemCount: _notificationSettings.dailyScheduleList.length,
+                    itemBuilder: (context, i) {
+                      final schedule = _notificationSettings.dailyScheduleList[i];
+
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 16.0),
+                        child: DailyScheduleCard(
+                          name: Localizer.getLocaleById(schedule.localeId, context),
+                          isActive: schedule.isWorkingDay,
+                          initialStartOfWork: Duration(milliseconds: schedule.startOfWorkInMilliseconds),
+                          initialEndOfWork: Duration(milliseconds: schedule.endOfWorkInMilliseconds),
+                          onChange: (bool isWorkingDay, Duration startOfWork, Duration endOfWork) async {
+                            schedule.isWorkingDay = isWorkingDay;
+                            schedule.startOfWorkInMilliseconds = startOfWork.inMilliseconds;
+                            schedule.endOfWorkInMilliseconds = endOfWork.inMilliseconds;
+                            await _saveSettings();
                           },
                         ),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 16.0),
-                      child: Text(
-                        Localizer.getLocaleById(LocaleId.choose_time, context),
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.display2.copyWith(
-                          color: Theme.of(context).primaryColorDark
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 16.0),
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        padding: EdgeInsets.zero,
-                        itemCount: _notificationSettings.dailyScheduleList.length,
-                        itemBuilder: (context, i) {
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 8.0),
-                            child: DailyScheduleCard(
-                              name:
-                                  Localizer.getLocaleById(_notificationSettings.dailyScheduleList[i].localeId, context),
-                              isActive: _notificationSettings.dailyScheduleList[i].isWorkingDay,
-                              onChange: (bool isWorkingDay, Duration startOfWork, Duration endOfWork) {
-                                _notificationSettings.dailyScheduleList[i].isWorkingDay = isWorkingDay;
-                                _notificationSettings.dailyScheduleList[i].startOfWorkInMilliseconds =
-                                    startOfWork.inMilliseconds;
-                                _notificationSettings.dailyScheduleList[i].endOfWorkInMilliseconds =
-                                    endOfWork.inMilliseconds;
-                              },
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 16.0),
-                      child: NotificationFrequencyPicker(
-                        initialFrequency:
-                            new Duration(milliseconds: _notificationSettings.notificationFrequencyInMilliseconds),
-                        onChange: (frequency) {
-                          _notificationSettings.notificationFrequencyInMilliseconds = frequency.inMilliseconds;
-                        },
-                      ),
-                    ),
-                    RoundCustomButton(
-                      parentSize: MediaQuery.of(context).size,
-                      child: Text(
-                        Localizer.getLocaleById(LocaleId.save, context),
-                        style: Theme.of(context).textTheme.button,
-                      ),
-                      onPressed: _saveSettings,
-                    ),
-                  ],
+                      );
+                    },
+                  ),
                 ),
               ],
             ),

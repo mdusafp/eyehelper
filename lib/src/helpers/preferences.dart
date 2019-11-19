@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FastPreferences {
-
   static String notificationsShowedKey = 'notifications_showed';
   static String notificationsOpenedKey = 'notifications_opened';
   static String allDayTrainingMapKey = 'all_day_training_map';
@@ -12,7 +11,9 @@ class FastPreferences {
   static String todayTrainingDateKey = 'today_training_date';
   static String todayTrainingMapKey = 'today_training_map';
   static String isVibrationEnabled = 'is_vibration_enabled';
-  
+  // use this instead of settings repository
+  static String isNotificationEnabled = 'is_notification_enabled';
+
   SharedPreferences prefs;
 
   Future<void> init() async {

@@ -8,26 +8,18 @@ class EyeScreen extends StatefulWidget {
 }
 
 class _EyeScreenState extends State<EyeScreen> {
-
   bool showResult = false;
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       child: AnimatedCrossFade(
         duration: Duration(milliseconds: 300),
-        crossFadeState: showResult 
-          ? CrossFadeState.showFirst 
-          : CrossFadeState.showSecond,
-        firstChild: FinishTrainingScreen(
-          showProcessCallback: () => setState(()=> showResult = false)
-        ),
-        secondChild: SwiperMain(
-          showResultCallback: () => setState(()=> showResult = true)
-        ),
+        crossFadeState: showResult ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+        firstChild: FinishTrainingScreen(showProcessCallback: () => setState(() => showResult = false)),
+        secondChild: SwiperMain(showResultCallback: () => setState(() => showResult = true)),
       ),
     );
   }

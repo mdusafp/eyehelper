@@ -9,6 +9,7 @@ class SettingsRepository {
 
   NotificationSettings getSettings() {
     final settingsMap = {
+      /// [notificationsEnabled] is deprecated use fast prefs instead
       'notificationsEnabled': fastPreferences.prefs.getBool(_kNotificationsEnabled),
       'notificationFrequencyInMilliseconds': fastPreferences.prefs.getInt(_kNotificationFrequencyInMilliseconds),
       'dailyScheduleList': fastPreferences.prefs
@@ -42,7 +43,7 @@ class SettingsRepository {
   }
 
   // keys
-  final _kNotificationsEnabled = 'notifications_enabled';
+  final _kNotificationsEnabled = 'is_notification_enabled';
   final _kNotificationFrequencyInMilliseconds = 'notification_frequency_in_milliseconds';
   final _kDailyScheduleList = 'daily_schedule_list';
 }

@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:eyehelper/src/constants.dart';
 import 'package:eyehelper/src/helpers/preferences.dart';
 import 'package:eyehelper/src/models/swiper_screen_info.dart';
 import 'package:eyehelper/src/screens/eye_screen/eye_single_page.dart';
@@ -8,8 +6,6 @@ import 'package:eyehelper/src/screens/eye_screen/swiper_pagination.dart';
 import 'package:eyehelper/src/screens/eye_screen/today_training.dart';
 import 'package:eyehelper/src/theme.dart';
 import 'package:eyehelper/src/utils.dart';
-import 'package:eyehelper/src/widgets/bootom_bar.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
@@ -64,7 +60,7 @@ class _SwiperMainState extends State<SwiperMain> {
           space: 10.0,
           size: 6.0,
           activeSize: 8.0,
-          activeColor: EyehelperColorScheme.activeColor,
+          activeColor: Theme.of(context).accentColor,
         ),
       ),
       itemBuilder: (BuildContext context, int index) {
@@ -100,9 +96,11 @@ class _SwiperMainState extends State<SwiperMain> {
 
     dayCountersMap[countersHelper.todayFormattedNoHours] =
         (dayCountersMap[countersHelper.todayFormattedNoHours] ?? 0) + 1;
-    dayCountersMap.removeWhere((key, value) =>
-        countersHelper.dateTimeNow.difference(countersHelper.formatterNoHours.parse(key)).abs() >
-        Duration(days: 365).abs());
+    dayCountersMap.removeWhere(
+      (key, value) =>
+          countersHelper.dateTimeNow.difference(countersHelper.formatterNoHours.parse(key)).abs() >
+          Duration(days: 365).abs(),
+    );
     await preferences.setString(FastPreferences.dayCountersKey, json.encode(dayCountersMap));
 
     await countersHelper.setPassed(index);

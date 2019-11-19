@@ -1,10 +1,8 @@
-import 'package:eyehelper/src/colors.dart';
+import 'package:flutter/material.dart';
 import 'package:eyehelper/src/constants.dart';
 import 'package:eyehelper/src/enums/screens.enum.dart';
 import 'package:eyehelper/src/utils.dart';
- 
 import 'package:eyehelper/src/widgets/clip_shadow_path.dart';
-import 'package:flutter/material.dart';
 
 class BottomWavy extends StatefulWidget {
   BottomWavy({
@@ -26,13 +24,13 @@ class _BottomWavyState extends State<BottomWavy> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData themeData = Theme.of(context);
+
     final statisticsButton = IconButton(
       icon: Image.asset(
         'assets/stat_menu_icon.png',
-        height: 25,
-        color: widget.currentIndex == INDEX_STATISTICS_SCREEN
-            ? StandardStyleColors.activeColor
-            : StandardStyleColors.lightGrey,
+        height: 24.0,
+        color: widget.currentIndex == INDEX_STATISTICS_SCREEN ? themeData.accentColor : themeData.primaryColor,
       ),
       onPressed: () => widget.onTap(INDEX_STATISTICS_SCREEN),
     );
@@ -42,12 +40,12 @@ class _BottomWavyState extends State<BottomWavy> {
       width: eyeWidth,
       child: FittedBox(
         child: FloatingActionButton(
-          backgroundColor: StandardStyleColors.activeColor,
+          backgroundColor: themeData.accentColor,
           heroTag: 'mainBtn',
           child: Icon(
             Icons.remove_red_eye,
-            color: StandardStyleColors.backgroundWhite,
-            size: 30.0,
+            color: themeData.backgroundColor,
+            size: 32.0,
           ),
           onPressed: () => widget.onTap(INDEX_EYE_SCREEN),
         ),
@@ -55,12 +53,10 @@ class _BottomWavyState extends State<BottomWavy> {
     );
 
     final notificationsButton = IconButton(
-      icon: Image.asset(
-        'assets/notif_menu_icon.png',
-        height: 25,
-        color: widget.currentIndex == INDEX_NOTIFICATIONS_SCREEN
-            ? StandardStyleColors.activeColor
-            : StandardStyleColors.lightGrey,
+      icon: Icon(
+        Icons.settings,
+        size: 24.0,
+        color: widget.currentIndex == INDEX_NOTIFICATIONS_SCREEN ? themeData.accentColor : themeData.primaryColor,
       ),
       color: Theme.of(context).primaryColor,
       onPressed: () => widget.onTap(INDEX_NOTIFICATIONS_SCREEN),
@@ -72,18 +68,18 @@ class _BottomWavyState extends State<BottomWavy> {
         children: <Widget>[
           ClipShadowPath(
             clipper: BottomWaveClipper(),
-            shadow: Shadow(blurRadius: 10, color: StandardStyleColors.lightGrey),
+            shadow: Shadow(blurRadius: 10, color: themeData.primaryColor),
             child: Container(
-              color: StandardStyleColors.backgroundWhite,
+              color: themeData.backgroundColor,
               height: Utils().PREFERED_HEIGHT_FOR_CUSTOM_BOTTOM_BAR,
               width: MediaQuery.of(context).size.width,
               child: Material(
                 type: MaterialType.transparency,
                 child: Padding(
                   padding: EdgeInsets.only(
-                    top: 10,
-                    left: 30,
-                    right: 30,
+                    top: 16.0,
+                    left: 32.0,
+                    right: 32.0,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -94,11 +90,8 @@ class _BottomWavyState extends State<BottomWavy> {
             ),
           ),
           Container(
-            padding: EdgeInsets.only(bottom: (Utils().PREFERED_HEIGHT_FOR_CUSTOM_BOTTOM_BAR - eyeHeight) * 3/4),
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: mainButton
-            ),
+            padding: EdgeInsets.only(bottom: (Utils().PREFERED_HEIGHT_FOR_CUSTOM_BOTTOM_BAR - eyeHeight) * 3 / 4),
+            child: Align(alignment: Alignment.bottomCenter, child: mainButton),
           ),
         ],
       ),
