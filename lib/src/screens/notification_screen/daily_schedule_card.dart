@@ -1,6 +1,7 @@
 import 'dart:core';
 import 'package:eyehelper/src/locale/Localizer.dart';
 import 'package:eyehelper/src/locale/ru.dart';
+import 'package:eyehelper/src/screens/notification_screen/custom_time_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +52,7 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
       builder: (context) {
         return Container(
           height: 256.0,
-          child: CupertinoTimerPicker(
+          child: CustomTimerPicker(
             initialTimerDuration: _startOfWork,
             // some bug exists with this mode
             // mode: CupertinoTimerPickerMode.hm,
@@ -73,7 +74,7 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
       builder: (context) {
         return Container(
           height: 256.0,
-          child: CupertinoTimerPicker(
+          child: CustomTimerPicker(
             initialTimerDuration: _endOfWork,
             // some bug exists with this mode
             // mode: CupertinoTimerPickerMode.hm,
@@ -136,7 +137,12 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
               child: Text(Localizer.getLocaleById(LocaleId.from, context)),
             ),
             InkWell(
-              child: Text(startText),
+              child: Text(startText, 
+                style: themeData.textTheme.display1.copyWith(
+                  color: themeData.primaryColor,
+                  decoration: TextDecoration.underline
+                )
+              ),
               onTap: _showStartTimePicker,
             ),
             Padding(
@@ -144,7 +150,12 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
               child: Text(Localizer.getLocaleById(LocaleId.to, context)),
             ),
             InkWell(
-              child: Text(endText),
+              child: Text(endText,
+                style: themeData.textTheme.display1.copyWith(
+                  color: themeData.primaryColor,
+                  decoration: TextDecoration.underline
+                )
+              ),
               onTap: _showEndTimePicker,
             ),
           ],
@@ -179,7 +190,7 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
         gradient: _isActive ? activeGradient : inactiveGradient,
         boxShadow: [
           const BoxShadow(
-            color: Color(0x55000000),
+            color: Color(0x3A000000),
             offset: Offset(0.0, 6.0),
             blurRadius: 8.0,
             spreadRadius: 0.0,

@@ -106,7 +106,7 @@ class _StatisticCardState extends State<StatisticCard> {
               ),
         ),
         AspectRatio(
-          aspectRatio: 1.05,
+          aspectRatio: 1.06,
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(SPACING)),
@@ -218,7 +218,9 @@ class _StatisticCardState extends State<StatisticCard> {
         children: <Widget>[
           Text(
             _getTitle(),
-            style: Theme.of(context).textTheme.display2.copyWith(color: Theme.of(context).backgroundColor),
+            style: Theme.of(context).textTheme.display2.copyWith(
+              color: Theme.of(context).primaryColorDark,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 65.0),
@@ -230,7 +232,9 @@ class _StatisticCardState extends State<StatisticCard> {
             padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20.0),
             child: Text(
               Localizer.getLocaleById(LocaleId.not_enough_data, context),
-              style: Theme.of(context).textTheme.display2.copyWith(color: Theme.of(context).backgroundColor),
+              style: Theme.of(context).textTheme.display2.copyWith(
+                color: Theme.of(context).primaryColorDark,
+              ),
               textAlign: TextAlign.center,
             ),
           ),

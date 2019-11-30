@@ -119,7 +119,7 @@ class NotificationFrequencyPickerState extends State<NotificationFrequencyPicker
         ),
         boxShadow: [
           const BoxShadow(
-            color: Color(0x55000000),
+            color: Color(0x3A000000),
             offset: Offset(0.0, 6.0),
             blurRadius: 8.0,
             spreadRadius: 0.0,
