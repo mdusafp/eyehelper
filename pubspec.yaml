@@ -20,7 +20,7 @@ dependencies:
   flutter_local_notifications: 0.8.0 # Notification
   flutter_time_picker_spinner: 1.0.5 # Notifications time picker
   logger: 0.7.0 # Print beautiful logs
-  path_provider: 0.4.1 # Notifications Sound
+  path_provider: 1.6.0 # Notifications Sound
   shared_preferences: 0.5.3 # Statistic and notification
   share: 0.6.2 #for sharing the app
   tuple: 1.0.2 # Extended data structure

@@ -2,15 +2,11 @@ import 'package:flutter/material.dart';
 import 'ru.dart';
 
 class Localizer {
-  static var defaultLang = 'en';
+  static var defaultLang = 'ru';
 
   static var supportedLangs = [
     //Locale('en', 'EN'),
     Locale('ru', 'RU'),
-  ];
-
-  static var langsSupportedBySite = [
-    'ru', /*'en'*/
   ];
 
   static Map<String, Map<LocaleId, String>> _locales = {
@@ -22,7 +18,7 @@ class Localizer {
     String res = id.toString();
     String locale = Localizations.localeOf(context).languageCode;
 
-    if (locale == null || !langsSupportedBySite.contains(locale)) {
+    if (locale == null) {
       locale = defaultLang;
     }
 
