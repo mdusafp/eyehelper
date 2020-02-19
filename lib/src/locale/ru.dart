@@ -104,6 +104,13 @@ enum LocaleId {
   many_hours,
   from,
   to,
+
+  // texts for exercise reminder notification
+  notification_reminder_exercise_title,
+  notification_reminder_excercise_body,
+
+  // other
+  ok,
 }
 
 Map<LocaleId, String> localeRu = {
@@ -211,4 +218,11 @@ Map<LocaleId, String> localeRu = {
   LocaleId.many_hours: "часов",
   LocaleId.from: "с",
   LocaleId.to: "по",
+
+  // texts for exercise reminder notification
+  LocaleId.notification_reminder_exercise_title: "Напоминание",
+  LocaleId.notification_reminder_excercise_body: "Пора делать зарядку!",
+
+  // others
+  LocaleId.ok: 'Ок',
 };

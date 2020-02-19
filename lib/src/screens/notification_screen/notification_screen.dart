@@ -66,7 +66,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   padding: const EdgeInsets.only(
                     left: 16.0,
                     right: 16.0,
-                    bottom: 16.0,
+                    bottom: 32.0,
                   ),
                   child: Text(
                     Localizer.getLocaleById(LocaleId.choose_time, context),
