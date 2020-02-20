@@ -16,6 +16,7 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
+  Set<int> _errorIndexes;
   NotificationSettings _notificationSettings;
   NotificationsHelper _notificationsHelper;
   SettingsRepository _repository;
@@ -28,6 +29,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
     _repository = new SettingsRepository(FastPreferences());
     _notificationsHelper = new NotificationsHelper(context);
     _notificationSettings = _repository.getSettings();
+
+    _errorIndexes = new Set();
+    _notificationSettings.dailyScheduleList.asMap().forEach((i, schedule) {
+      if (schedule.endOfWorkInMilliseconds <= schedule.startOfWorkInMilliseconds) {
+        _errorIndexes.add(i);
+      }
+    });
   }
 
   Future<void> _saveSettings() async {
@@ -66,7 +74,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   padding: const EdgeInsets.only(
                     left: 16.0,
                     right: 16.0,
-                    bottom: 16.0,
+                    bottom: 32.0,
                   ),
                   child: Text(
                     Localizer.getLocaleById(LocaleId.choose_time, context),
@@ -88,6 +96,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         padding: const EdgeInsets.only(bottom: 16.0),
                         child: DailyScheduleCard(
                           name: Localizer.getLocaleById(schedule.localeId, context),
+                          showError: _errorIndexes.contains(i),
                           isActive: schedule.isWorkingDay,
                           initialStartOfWork: Duration(milliseconds: schedule.startOfWorkInMilliseconds),
                           initialEndOfWork: Duration(milliseconds: schedule.endOfWorkInMilliseconds),
@@ -95,7 +104,21 @@ class _NotificationScreenState extends State<NotificationScreen> {
                             schedule.isWorkingDay = isWorkingDay;
                             schedule.startOfWorkInMilliseconds = startOfWork.inMilliseconds;
                             schedule.endOfWorkInMilliseconds = endOfWork.inMilliseconds;
-                            await _saveSettings();
+
+                            try {
+                              await _saveSettings();
+                              _errorIndexes.clear();
+                            } catch (e) {
+                              _errorIndexes.clear();
+
+                              _notificationSettings.dailyScheduleList.asMap().forEach((i, schedule) {
+                                if (schedule.endOfWorkInMilliseconds <= schedule.startOfWorkInMilliseconds) {
+                                  _errorIndexes.add(i);
+                                }
+                              });
+                            }
+
+                            setState(() {});
                           },
                         ),
                       );

@@ -4,7 +4,6 @@ import 'package:eyehelper/src/models/swiper_screen_info.dart';
 import 'package:eyehelper/src/screens/eye_screen/eye_single_page.dart';
 import 'package:eyehelper/src/screens/eye_screen/swiper_pagination.dart';
 import 'package:eyehelper/src/screens/eye_screen/today_training.dart';
-import 'package:eyehelper/src/theme.dart';
 import 'package:eyehelper/src/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -33,7 +32,6 @@ class _SwiperMainState extends State<SwiperMain> {
         _isLoading = false;
       });
     });
-
     super.initState();
   }
 

@@ -81,6 +81,7 @@ enum LocaleId {
   exercise_frequency_per_day,
   exercise_per_month,
   responses_on_push,
+  skipped_days,
   current_week,
   current_day,
   current_month,
@@ -104,6 +105,16 @@ enum LocaleId {
   many_hours,
   from,
   to,
+
+  // texts for exercise reminder notification
+  notification_reminder_exercise_title,
+  notification_reminder_excercise_body,
+
+  // other
+  ok,
+
+  // errors
+  wrong_work_time,
 }
 
 Map<LocaleId, String> localeRu = {
@@ -186,6 +197,7 @@ Map<LocaleId, String> localeRu = {
   // texts for statistics
   LocaleId.exercise_frequency_per_day: "Частота выполнения упражнений в течении дня",
   LocaleId.exercise_per_month: "Упражнений за этот месяц",
+  LocaleId.skipped_days: "Пропущено дней",
   LocaleId.responses_on_push: "Откликов на уведомления",
   LocaleId.current_week: "Текущая неделя",
   LocaleId.current_day: "Текущий день",
@@ -211,4 +223,14 @@ Map<LocaleId, String> localeRu = {
   LocaleId.many_hours: "часов",
   LocaleId.from: "с",
   LocaleId.to: "по",
+
+  // texts for exercise reminder notification
+  LocaleId.notification_reminder_exercise_title: "Напоминание",
+  LocaleId.notification_reminder_excercise_body: "Пора делать зарядку!",
+
+  // others
+  LocaleId.ok: 'Ок',
+
+  // errors
+  LocaleId.wrong_work_time: 'Выбран неверный промежуток времени',
 };

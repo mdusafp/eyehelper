@@ -102,13 +102,12 @@ class _EyeSinglePageState extends State<EyeSinglePage> implements FlareControlle
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 6.0, bottom: 10.0),
-                        child: 
-                          AnimatedFace(
-                            info: widget.info,
-                            isPaused: isFacePaused,
-                            visible: isFaceVisible,
-                            controller: isTrainingStarted ? this : null,
-                          ),
+                        child: AnimatedFace(
+                          info: widget.info,
+                          isPaused: isFacePaused,
+                          visible: isFaceVisible,
+                          controller: isTrainingStarted ? this : null,
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 10.0),

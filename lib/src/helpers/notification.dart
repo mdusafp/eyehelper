@@ -1,6 +1,9 @@
-import 'dart:async';
-import 'dart:typed_data';
 import 'dart:ui';
+import 'dart:async';
+import 'dart:developer' as logger;
+import 'dart:typed_data';
+import 'package:eyehelper/src/locale/Localizer.dart';
+import 'package:eyehelper/src/locale/ru.dart';
 import 'package:eyehelper/src/models/notification_settings.dart';
 import 'package:eyehelper/src/screens/home_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,6 +14,10 @@ class NotificationsHelper {
   BuildContext _context;
   Int64List _vibrationPattern = Int64List.fromList([0, 1000, 5000, 2000]);
   FlutterLocalNotificationsPlugin _plugin;
+  // Meta required for Android 8.0+
+  String _channelId = 'eyehelper-notifications-channel-id';
+  String _channelName = 'eyehelper-notifications';
+  String _channelDescription = 'Channel for excercise reminders';
 
   NotificationsHelper(BuildContext context) {
     _context = context;
@@ -36,63 +43,72 @@ class NotificationsHelper {
       return;
     }
 
-    final now = DateTime.now();
+    DateTime now = DateTime.now();
     final todayIndex = now.weekday - 1;
-    final todaySchedule = settings.dailyScheduleList[todayIndex];
-    // array where today is the first day of week
-    // i do it to setup schedules for week
+    // array where 7 days starts from now
+    // for example today is friday
+    // array: [friday, saturday, sunday, monday, tuesday, wednesday, thursday]
     final orderedScheduleList = [
       ...settings.dailyScheduleList.skip(todayIndex),
       ...settings.dailyScheduleList.take(todayIndex),
     ];
-    // setup notifications
-    for (final schedule in orderedScheduleList) {
+
+    for (int scheduleIndex = 0; scheduleIndex < orderedScheduleList.length; scheduleIndex++) {
+      final schedule = orderedScheduleList[scheduleIndex];
+
       if (!schedule.isWorkingDay) {
         continue;
       }
-      // we should shift start time in case if user working right now.
-      int hoursInMilliseconds = now.hour * 60 * 60 * 1000;
-      int startTime = hoursInMilliseconds > todaySchedule.startOfWorkInMilliseconds
-          ? hoursInMilliseconds
-          : todaySchedule.startOfWorkInMilliseconds;
 
-      // schedule reminders
-      startTime += settings.notificationFrequencyInMilliseconds;
-      while (startTime < todaySchedule.endOfWorkInMilliseconds) {
-        final scheduleTime = now
-            .subtract(Duration(
-              hours: now.hour,
-              minutes: now.minute,
-              seconds: now.second,
-              milliseconds: now.millisecond,
-            ))
-            .add(Duration(milliseconds: startTime));
+      if (schedule.endOfWorkInMilliseconds <= schedule.startOfWorkInMilliseconds) {
+        logger.log('Wrong working range for ${Localizer.getLocaleById(schedule.localeId, _context)} day');
+        throw new Exception('Wrong working range');
+      }
 
+      // compute notifications time
+      int workingTimeInMilliseconds = schedule.endOfWorkInMilliseconds - schedule.startOfWorkInMilliseconds;
+      int scheduleDatesLength = (workingTimeInMilliseconds / settings.notificationFrequencyInMilliseconds).floor();
+
+      // get start of notifiable day to increment
+      DateTime currentDay = now.add(Duration(days: scheduleIndex));
+      DateTime startOfDay = new DateTime(currentDay.year, currentDay.month, currentDay.day);
+
+      // create list of expected notifications
+      List<DateTime> scheduleDates = List.generate(scheduleDatesLength, (index) {
+        // user shouldn't be notified when he came to work but at the end should be
+        // that's why +1
+        int incrementInMilliseconds = settings.notificationFrequencyInMilliseconds * (index + 1);
+        int scheduleDateInMilliseconds = schedule.startOfWorkInMilliseconds + incrementInMilliseconds;
+        return startOfDay.add(Duration(milliseconds: scheduleDateInMilliseconds));
+      })
+          // we shouldn't setup notifications before
+          .where((time) => time.isAfter(now))
+          .toList();
+
+      logger.log('======= START $scheduleIndex START ======='.padLeft(20).padRight(20));
+      scheduleDates.forEach((date) {
+        logger.log(date.toIso8601String());
+      });
+      logger.log('======= END $scheduleIndex END ======='.padLeft(20).padRight(20));
+
+      // Loop and schedule notifications
+      for (final time in scheduleDates) {
         await scheduleNotification(
-          // probably issue
-          // var nextYear = DateTime.now()..add(Duration(minutes: 365 * 5 + 5));
-          // var heheYear = DateTime.now()..add(Duration(minutes: 365 * 5 + 3));
-          // var loloYear = DateTime.now()..add(Duration(minutes: 365 * 5 + 8));
-          // print((DateTime.now().millisecondsSinceEpoch / 1000).floor()); 1574155429
-          // print((nextYear.millisecondsSinceEpoch / 1000).floor()); 1574155429
-          // print((heheYear.millisecondsSinceEpoch / 1000).floor()); 1574155429
-          // print((loloYear.millisecondsSinceEpoch / 1000).floor()); 1574155429
-          (scheduleTime.millisecondsSinceEpoch / 1000).floor(),
-          'Напоминание',
-          'Пора делать зарядку!',
-          scheduleTime,
+          (time.millisecondsSinceEpoch / 1000).floor(),
+          Localizer.getLocaleById(LocaleId.notification_reminder_exercise_title, _context),
+          Localizer.getLocaleById(LocaleId.notification_reminder_excercise_body, _context),
+          time,
         );
-        startTime += settings.notificationFrequencyInMilliseconds;
       }
     }
   }
 
   /// Schedule single notification with [title] and [body] of message in [scheduledNotificationDateTime]
   Future<void> scheduleNotification(int id, String title, String body, DateTime scheduledNotificationDateTime) async {
-    var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-      'your other channel id',
-      'your other channel name',
-      'your other channel description',
+    final androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+      _channelId,
+      _channelName,
+      _channelDescription,
       icon: 'secondary_icon',
       sound: 'slow_spring_board',
       largeIcon: 'sample_large_icon',
@@ -101,8 +117,8 @@ class NotificationsHelper {
       color: const Color.fromARGB(255, 255, 0, 0),
     );
 
-    var iOSPlatformChannelSpecifics = new IOSNotificationDetails(sound: "slow_spring_board.aiff");
-    var platformChannelSpecifics = new NotificationDetails(
+    final iOSPlatformChannelSpecifics = new IOSNotificationDetails(sound: "slow_spring_board.aiff");
+    final platformChannelSpecifics = new NotificationDetails(
       androidPlatformChannelSpecifics,
       iOSPlatformChannelSpecifics,
     );
@@ -116,6 +132,7 @@ class NotificationsHelper {
     );
   }
 
+  /// Triggered when user taps on a notification
   Future onSelectNotification(String payload) async {
     if (payload != null) {
       debugPrint('notification payload: ' + payload);
@@ -127,8 +144,8 @@ class NotificationsHelper {
     );
   }
 
+  /// Display a dialog with the notification details, tap ok to go to another page
   Future onDidRecieveLocalNotification(int id, String title, String body, String payload) async {
-    // display a dialog with the notification details, tap ok to go to another page
     showDialog(
       context: _context,
       builder: (BuildContext context) => new CupertinoAlertDialog(
@@ -137,7 +154,7 @@ class NotificationsHelper {
         actions: [
           CupertinoDialogAction(
             isDefaultAction: true,
-            child: new Text('Ok'),
+            child: new Text(Localizer.getLocaleById(LocaleId.ok, context)),
             onPressed: () async {
               Navigator.of(context, rootNavigator: true).pop();
               await Navigator.push(
