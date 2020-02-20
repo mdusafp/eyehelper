@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:eyehelper/src/helpers/preferences.dart';
 import 'package:eyehelper/src/locale/ru.dart';
 import 'package:eyehelper/src/models/swiper_screen_info.dart';
+import 'package:eyehelper/src/repositories/statistics_repository.dart';
 import 'package:eyehelper/src/screens/eye_screen/today_training.dart';
 import 'package:eyehelper/src/screens/statistics_screen/statistics_card.dart';
 import 'package:eyehelper/src/utils.dart';
@@ -24,17 +25,17 @@ const Map<int, CardType> cardTypes = {
 
 class Statistics {
   final String exercisePerMonth;
-  final String responsesOnPush;
+  final String skippedDays;
   final List<Tuple2<int, double>> weekStats;
   final List<Tuple2<int, double>> dayStats;
 
   Statistics({
     @required int exercisePerMonth,
-    @required int responsesOnPush,
+    @required int skippedDays,
     @required List<Tuple2<int, double>> weekStats,
     @required List<Tuple2<int, double>> dayStats,
   })  : this.exercisePerMonth = exercisePerMonth.toString(),
-        this.responsesOnPush = '$responsesOnPush%',
+        this.skippedDays = skippedDays.toString(),
         this.weekStats = weekStats,
         this.dayStats = dayStats;
 }
@@ -45,6 +46,14 @@ class StatisticsScreen extends StatefulWidget {
 }
 
 class _StatisticsScreenState extends State<StatisticsScreen> {
+  StatisticsRepository _statisticsRepository;
+
+  @override
+  initState() {
+    super.initState();
+    _statisticsRepository = new StatisticsRepository(FastPreferences());
+  }
+
   Future<Statistics> fetchStatistics() async {
     SharedPreferences preferences = FastPreferences().prefs;
 
@@ -89,19 +98,9 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
       });
     }
 
-    int notifCounters;
-    int allNotifs = preferences.getInt(FastPreferences.notificationsShowedKey);
-    int openedNotifs = preferences.getInt(FastPreferences.notificationsOpenedKey);
-
-    if (allNotifs == null || allNotifs == 0 || openedNotifs == null) {
-      notifCounters = 0;
-    } else {
-      notifCounters = (openedNotifs / allNotifs * 100).toInt();
-    }
-
     return Statistics(
       exercisePerMonth: monthCount,
-      responsesOnPush: notifCounters,
+      skippedDays: _statisticsRepository.skippedDays,
       weekStats: weekStat,
       dayStats: todayCastedStat,
     );
@@ -162,18 +161,20 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                         right: 16.0,
                         bottom: Utils().PREFERED_HEIGHT_FOR_CUSTOM_BOTTOM_BAR,
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          StatisticValue(
-                            label: Localizer.getLocaleById(LocaleId.exercise_per_month, context),
-                            value: snapshot.data.exercisePerMonth.toString(),
-                          ),
-                          StatisticValue(
-                            label: Localizer.getLocaleById(LocaleId.responses_on_push, context),
-                            value: snapshot.data.responsesOnPush.toString(),
-                          ),
-                        ],
+                      child: IntrinsicHeight(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            StatisticValue(
+                              label: Localizer.getLocaleById(LocaleId.exercise_per_month, context),
+                              value: snapshot.data.exercisePerMonth.toString(),
+                            ),
+                            StatisticValue(
+                              label: Localizer.getLocaleById(LocaleId.skipped_days, context),
+                              value: snapshot.data.skippedDays.toString(),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],

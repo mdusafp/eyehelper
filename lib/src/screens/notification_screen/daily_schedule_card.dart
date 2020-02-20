@@ -1,7 +1,9 @@
 import 'dart:core';
+import 'dart:math' as math;
 import 'package:eyehelper/src/locale/Localizer.dart';
 import 'package:eyehelper/src/locale/ru.dart';
 import 'package:eyehelper/src/screens/notification_screen/custom_time_picker.dart';
+import 'package:eyehelper/src/theme.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +17,7 @@ class DailyScheduleCard extends StatefulWidget {
   final Duration initialStartOfWork;
   final Duration initialEndOfWork;
   final bool isActive;
+  final bool showError;
   final OnChange onChange;
 
   const DailyScheduleCard({
@@ -24,6 +27,7 @@ class DailyScheduleCard extends StatefulWidget {
     this.initialStartOfWork = const Duration(hours: 8, minutes: 00, seconds: 00),
     this.initialEndOfWork = const Duration(hours: 17, minutes: 00, seconds: 00),
     this.isActive = false,
+    this.showError = false,
   }) : super(key: key);
 
   @override
@@ -137,11 +141,14 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
               child: Text(Localizer.getLocaleById(LocaleId.from, context)),
             ),
             InkWell(
-              child: Text(startText, 
+              child: Text(
+                startText,
                 style: themeData.textTheme.display1.copyWith(
-                  color: themeData.primaryColor,
-                  decoration: TextDecoration.underline
-                )
+                  color: _isActive
+                      ? themeData.backgroundColor.withOpacity(.65)
+                      : themeData.backgroundColor.withOpacity(.4),
+                  decoration: TextDecoration.underline,
+                ),
               ),
               onTap: _showStartTimePicker,
             ),
@@ -150,11 +157,14 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
               child: Text(Localizer.getLocaleById(LocaleId.to, context)),
             ),
             InkWell(
-              child: Text(endText,
+              child: Text(
+                endText,
                 style: themeData.textTheme.display1.copyWith(
-                  color: themeData.primaryColor,
-                  decoration: TextDecoration.underline
-                )
+                  color: _isActive
+                      ? themeData.backgroundColor.withOpacity(.65)
+                      : themeData.backgroundColor.withOpacity(.4),
+                  decoration: TextDecoration.underline,
+                ),
               ),
               onTap: _showEndTimePicker,
             ),
@@ -182,64 +192,116 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
       colors: [inactiveCardColor.withLightness(.5).toColor(), inactiveCardColor.withLightness(.4).toColor()],
     );
 
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeIn,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(20.0)),
-        gradient: _isActive ? activeGradient : inactiveGradient,
-        boxShadow: [
-          const BoxShadow(
-            color: Color(0x3A000000),
-            offset: Offset(0.0, 6.0),
-            blurRadius: 8.0,
-            spreadRadius: 0.0,
-          ),
-        ],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
-        child: DefaultTextStyle(
-          style: themeData.textTheme.body1.copyWith(
-            color: _isActive ? themeData.backgroundColor : themeData.backgroundColor.withOpacity(.65),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(right: 16.0),
-                child: Container(
-                  height: 64.0,
-                  width: 64.0,
-                  child: Center(
-                    child: Text(
-                      widget.name.toUpperCase(),
-                      style: themeData.textTheme.title.copyWith(
-                        color: _isActive ? themeData.accentColor : themeData.primaryColor,
+    return Column(children: [
+      AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeIn,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+          gradient: _isActive ? activeGradient : inactiveGradient,
+          boxShadow: [
+            const BoxShadow(
+              color: Color(0x3A000000),
+              offset: Offset(0.0, 6.0),
+              blurRadius: 8.0,
+              spreadRadius: 0.0,
+            ),
+          ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
+          child: DefaultTextStyle(
+            style: themeData.textTheme.body1.copyWith(
+              color: _isActive ? themeData.backgroundColor : themeData.backgroundColor.withOpacity(.65),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(right: 16.0),
+                  child: Container(
+                    height: 64.0,
+                    width: 64.0,
+                    child: Center(
+                      child: Text(
+                        widget.name.toUpperCase(),
+                        style: themeData.textTheme.title.copyWith(
+                          color: _isActive ? themeData.accentColor : themeData.primaryColor,
+                        ),
                       ),
                     ),
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(12.0)),
-                    color: themeData.backgroundColor,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                      color: themeData.backgroundColor,
+                    ),
                   ),
                 ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: Text(Localizer.getLocaleById(_isActive ? LocaleId.working_time : LocaleId.weekend, context)),
-                  ),
-                  if (_isActive) _buildWorkingTime(),
-                ],
-              ),
-              _buildToggle(),
-            ],
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child:
+                          Text(Localizer.getLocaleById(_isActive ? LocaleId.working_time : LocaleId.weekend, context)),
+                    ),
+                    if (_isActive) _buildWorkingTime(),
+                  ],
+                ),
+                _buildToggle(),
+              ],
+            ),
           ),
         ),
       ),
+      if (widget.showError) _buildError()
+    ]);
+  }
+
+  Widget _buildError() {
+    TextTheme textTheme = Theme.of(context).textTheme;
+    HSLColor errorCardColor = HSLColor.fromColor(EyehelperColorScheme.errorColor);
+
+    return Stack(
+      children: [
+        Center(
+          child: Transform(
+            alignment: Alignment.bottomRight,
+            transform: Matrix4.rotationZ(-math.pi / 4),
+            child: Container(
+              color: EyehelperColorScheme.errorColor,
+              width: 32.0,
+              height: 32.0,
+            ),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(top: 16.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+            gradient: LinearGradient(
+              begin: Alignment.bottomLeft,
+              end: Alignment.topRight,
+              colors: [errorCardColor.withSaturation(.7).toColor(), errorCardColor.withSaturation(.6).toColor()],
+            ),
+            boxShadow: [
+              const BoxShadow(
+                color: Color(0x3A000000),
+                offset: Offset(0.0, 6.0),
+                blurRadius: 8.0,
+                spreadRadius: 0.0,
+              ),
+            ],
+          ),
+          width: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
+            child: Text(
+              Localizer.getLocaleById(LocaleId.wrong_work_time, context),
+              style: textTheme.body1.copyWith(color: EyehelperColorScheme.btnTextWhite.withOpacity(.85)),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

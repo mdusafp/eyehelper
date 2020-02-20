@@ -56,10 +56,13 @@ class NotificationsHelper {
     for (int scheduleIndex = 0; scheduleIndex < orderedScheduleList.length; scheduleIndex++) {
       final schedule = orderedScheduleList[scheduleIndex];
 
-      logger.log('$scheduleIndex. ${Localizer.getLocaleById(schedule.localeId, _context)} - ${schedule.isWorkingDay}');
-
       if (!schedule.isWorkingDay) {
         continue;
+      }
+
+      if (schedule.endOfWorkInMilliseconds <= schedule.startOfWorkInMilliseconds) {
+        logger.log('Wrong working range for ${Localizer.getLocaleById(schedule.localeId, _context)} day');
+        throw new Exception('Wrong working range');
       }
 
       // compute notifications time

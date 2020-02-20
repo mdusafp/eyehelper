@@ -32,7 +32,6 @@ class _SwiperMainState extends State<SwiperMain> {
         _isLoading = false;
       });
     });
-
     super.initState();
   }
 

@@ -81,6 +81,7 @@ enum LocaleId {
   exercise_frequency_per_day,
   exercise_per_month,
   responses_on_push,
+  skipped_days,
   current_week,
   current_day,
   current_month,
@@ -111,6 +112,9 @@ enum LocaleId {
 
   // other
   ok,
+
+  // errors
+  wrong_work_time,
 }
 
 Map<LocaleId, String> localeRu = {
@@ -193,6 +197,7 @@ Map<LocaleId, String> localeRu = {
   // texts for statistics
   LocaleId.exercise_frequency_per_day: "Частота выполнения упражнений в течении дня",
   LocaleId.exercise_per_month: "Упражнений за этот месяц",
+  LocaleId.skipped_days: "Пропущено дней",
   LocaleId.responses_on_push: "Откликов на уведомления",
   LocaleId.current_week: "Текущая неделя",
   LocaleId.current_day: "Текущий день",
@@ -225,4 +230,7 @@ Map<LocaleId, String> localeRu = {
 
   // others
   LocaleId.ok: 'Ок',
+
+  // errors
+  LocaleId.wrong_work_time: 'Выбран неверный промежуток времени',
 };

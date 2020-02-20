@@ -1,6 +1,7 @@
 import 'package:eyehelper/src/helpers/preferences.dart';
 import 'package:eyehelper/src/locale/ru.dart';
 import 'package:eyehelper/src/repositories/settings_repository.dart';
+import 'package:eyehelper/src/repositories/statistics_repository.dart';
 import 'package:eyehelper/src/screens/statistics_screen/statistics_screen.dart';
 import 'package:eyehelper/src/theme.dart';
 import 'package:eyehelper/src/utils.dart';
@@ -22,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 1;
   NotificationsHelper _notificationHelper;
   SettingsRepository _settingsRepository;
+  StatisticsRepository _statisticsRepository;
 
   bool dataLoading = true;
 
@@ -30,6 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _notificationHelper = new NotificationsHelper(context);
     _settingsRepository = new SettingsRepository(FastPreferences());
+    _statisticsRepository = new StatisticsRepository(FastPreferences());
     initAppConstants();
   }
 
@@ -38,6 +41,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
     // make text in toolbar black
     FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
+
+    final now = DateTime.now();
+    final startOfToday = DateTime(now.year, now.month, now.day);
+    _statisticsRepository.addActivity(startOfToday);
 
     final settings = _settingsRepository.getSettings();
     await _notificationHelper.scheduleExerciseReminders(settings);
