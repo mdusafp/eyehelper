@@ -84,7 +84,7 @@ class _StatisticCardState extends State<StatisticCard> {
     return Card(
       elevation: 8.0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      color: HSLColor.fromColor(Theme.of(context).backgroundColor).withLightness(.99).toColor(),
+      color: Colors.white,
       child: Container(
         padding: const EdgeInsets.only(
           top: SPACING,

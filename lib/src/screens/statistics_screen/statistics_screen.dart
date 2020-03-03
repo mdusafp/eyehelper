@@ -120,11 +120,11 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                 return Column(
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(top: Utils().PREFERED_HEIGHT_FOR_CUSTOM_APPBAR, bottom: 16.0),
+                      padding: EdgeInsets.only(top: Utils().PREFERED_HEIGHT_FOR_CUSTOM_APPBAR + 10, bottom: 16.0),
                       child: AspectRatio(
                         aspectRatio: Utils().IS_SMALL_DEVICE ? 1.15 : 1.17,
                         child: Swiper(
-                          scale: 0.8,
+                          scale: 0.9,
                           index: 0,
                           loop: false,
                           viewportFraction: 0.8,

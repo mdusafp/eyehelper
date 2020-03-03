@@ -18,7 +18,7 @@ class EyeHelperApp extends StatelessWidget {
     Utils().init(window);
 
     return MaterialApp(
-      title: 'Eyehelper',
+      title: 'Eye Helper',
       localizationsDelegates: [
         GlobalCupertinoLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,

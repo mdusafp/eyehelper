@@ -11,6 +11,8 @@ class FastPreferences {
   static String isVibrationEnabled = 'is_vibration_enabled';
   // use this instead of settings repository
   static String isNotificationEnabled = 'is_notification_enabled';
+  static String notificationFrequencyInMillisecondsKey = 'notification_frequency_in_milliseconds';
+  static String dailyScheduleListKey = 'daily_schedule_list';
 
   SharedPreferences prefs;
 

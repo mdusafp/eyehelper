@@ -61,7 +61,7 @@ class _ToolbarWavyState extends State<ToolbarWavy> {
   Align _buildNotification(BuildContext context) {
     final prefs = FastPreferences().prefs;
     final key = FastPreferences.isNotificationEnabled;
-    final value = prefs.getBool(key) ?? true;
+    final value = prefs.getBool(key) ?? false;
 
     return Align(
       alignment: Alignment.centerRight,

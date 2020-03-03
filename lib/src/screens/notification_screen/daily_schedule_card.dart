@@ -99,15 +99,12 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          Switch(
-            activeColor: Theme.of(context).backgroundColor,
-            value: _isActive,
-            onChanged: (value) {
-              setState(() {
-                _isActive = value;
-              });
-              widget.onChange(_isActive, _startOfWork, _endOfWork);
-            },
+          IgnorePointer(
+            child: Switch(
+              activeColor: Theme.of(context).backgroundColor,
+              value: _isActive,
+              onChanged: (value) {},
+            ),
           ),
         ],
       ),
@@ -143,7 +140,7 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
             InkWell(
               child: Text(
                 startText,
-                style: themeData.textTheme.display1.copyWith(
+                style: themeData.textTheme.subtitle.copyWith(
                   color: _isActive
                       ? themeData.backgroundColor.withOpacity(.65)
                       : themeData.backgroundColor.withOpacity(.4),
@@ -159,7 +156,7 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
             InkWell(
               child: Text(
                 endText,
-                style: themeData.textTheme.display1.copyWith(
+                style: themeData.textTheme.subtitle.copyWith(
                   color: _isActive
                       ? themeData.backgroundColor.withOpacity(.65)
                       : themeData.backgroundColor.withOpacity(.4),
@@ -192,69 +189,77 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
       colors: [inactiveCardColor.withLightness(.5).toColor(), inactiveCardColor.withLightness(.4).toColor()],
     );
 
-    return Column(children: [
-      AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeIn,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(20.0)),
-          gradient: _isActive ? activeGradient : inactiveGradient,
-          boxShadow: [
-            const BoxShadow(
-              color: Color(0x3A000000),
-              offset: Offset(0.0, 6.0),
-              blurRadius: 8.0,
-              spreadRadius: 0.0,
-            ),
-          ],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
-          child: DefaultTextStyle(
-            style: themeData.textTheme.body1.copyWith(
-              color: _isActive ? themeData.backgroundColor : themeData.backgroundColor.withOpacity(.65),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(right: 16.0),
-                  child: Container(
-                    height: 64.0,
-                    width: 64.0,
-                    child: Center(
-                      child: Text(
-                        widget.name.toUpperCase(),
-                        style: themeData.textTheme.title.copyWith(
-                          color: _isActive ? themeData.accentColor : themeData.primaryColor,
+    return InkWell(
+      onTap: (){
+        setState(() {
+          _isActive = !_isActive;
+        });
+        widget.onChange(_isActive, _startOfWork, _endOfWork);
+      },
+      child: Column(children: [
+        AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeIn,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+            gradient: _isActive ? activeGradient : inactiveGradient,
+            boxShadow: [
+              const BoxShadow(
+                color: Color(0x3A000000),
+                offset: Offset(0.0, 6.0),
+                blurRadius: 8.0,
+                spreadRadius: 0.0,
+              ),
+            ],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
+            child: DefaultTextStyle(
+              style: themeData.textTheme.body1.copyWith(
+                color: _isActive ? themeData.backgroundColor : themeData.backgroundColor.withOpacity(.65),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(right: 16.0),
+                    child: Container(
+                      height: 64.0,
+                      width: 64.0,
+                      child: Center(
+                        child: Text(
+                          widget.name.toUpperCase(),
+                          style: themeData.textTheme.title.copyWith(
+                            color: _isActive ? themeData.accentColor : themeData.primaryColor,
+                          ),
                         ),
                       ),
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(12.0)),
-                      color: themeData.backgroundColor,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                        color: themeData.backgroundColor,
+                      ),
                     ),
                   ),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
-                      child:
-                          Text(Localizer.getLocaleById(_isActive ? LocaleId.working_time : LocaleId.weekend, context)),
-                    ),
-                    if (_isActive) _buildWorkingTime(),
-                  ],
-                ),
-                _buildToggle(),
-              ],
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child:
+                            Text(Localizer.getLocaleById(_isActive ? LocaleId.working_time : LocaleId.weekend, context)),
+                      ),
+                      if (_isActive) _buildWorkingTime(),
+                    ],
+                  ),
+                  _buildToggle(),
+                ],
+              ),
             ),
           ),
         ),
-      ),
-      if (widget.showError) _buildError()
-    ]);
+        if (widget.showError) _buildError()
+      ]),
+    );
   }
 
   Widget _buildError() {

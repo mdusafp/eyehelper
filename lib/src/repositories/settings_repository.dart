@@ -10,10 +10,11 @@ class SettingsRepository {
   NotificationSettings getSettings() {
     final settingsMap = {
       /// [notificationsEnabled] is deprecated use fast prefs instead
-      'notificationsEnabled': fastPreferences.prefs.getBool(_kNotificationsEnabled),
-      'notificationFrequencyInMilliseconds': fastPreferences.prefs.getInt(_kNotificationFrequencyInMilliseconds),
-      'dailyScheduleList': fastPreferences.prefs
-          .getStringList(_kDailyScheduleList)
+      'notificationsEnabled': FastPreferences().prefs.getBool(FastPreferences.isNotificationEnabled),
+      'notificationFrequencyInMilliseconds': FastPreferences().prefs.getInt(
+        FastPreferences.notificationFrequencyInMillisecondsKey,),
+      'dailyScheduleList': FastPreferences().prefs
+          .getStringList(FastPreferences.dailyScheduleListKey)
           ?.asMap()
           ?.map((i, schedule) {
             Map<String, dynamic> map = {
@@ -30,20 +31,15 @@ class SettingsRepository {
 
   Future<void> saveSettings(NotificationSettings notificationSettings) async {
     await Future.wait([
-      fastPreferences.prefs.setBool(_kNotificationsEnabled, notificationSettings.notificationsEnabled),
-      fastPreferences.prefs.setInt(
-        _kNotificationFrequencyInMilliseconds,
+      FastPreferences().prefs.setBool(FastPreferences.isNotificationEnabled, notificationSettings.notificationsEnabled),
+      FastPreferences().prefs.setInt(
+        FastPreferences.notificationFrequencyInMillisecondsKey,
         notificationSettings.notificationFrequencyInMilliseconds,
       ),
-      fastPreferences.prefs.setStringList(
-        _kDailyScheduleList,
+      FastPreferences().prefs.setStringList(
+        FastPreferences.dailyScheduleListKey,
         notificationSettings.dailyScheduleList.map((d) => json.encode(d.toMap())).toList(),
       ),
     ]);
   }
-
-  // keys
-  final _kNotificationsEnabled = 'is_notification_enabled';
-  final _kNotificationFrequencyInMilliseconds = 'notification_frequency_in_milliseconds';
-  final _kDailyScheduleList = 'daily_schedule_list';
 }

@@ -108,62 +108,62 @@ class NotificationFrequencyPickerState extends State<NotificationFrequencyPicker
     ThemeData themeData = Theme.of(context);
     HSLColor activeCardColor = HSLColor.fromColor(themeData.accentColor);
 
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(20.0)),
-        gradient: LinearGradient(
-          begin: Alignment.bottomLeft,
-          end: Alignment.topRight,
-          colors: [activeCardColor.withLightness(.5).toColor(), activeCardColor.withLightness(.4).toColor()],
+    return InkWell(
+      onTap: (){
+        showModalBottomSheet(context: context, builder: (context) => _buildModal());
+      },
+      child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+          gradient: LinearGradient(
+            begin: Alignment.bottomLeft,
+            end: Alignment.topRight,
+            colors: [activeCardColor.withLightness(.5).toColor(), activeCardColor.withLightness(.4).toColor()],
+          ),
+          boxShadow: [
+            const BoxShadow(
+              color: Color(0x3A000000),
+              offset: Offset(0.0, 6.0),
+              blurRadius: 8.0,
+              spreadRadius: 0.0,
+            ),
+          ],
         ),
-        boxShadow: [
-          const BoxShadow(
-            color: Color(0x3A000000),
-            offset: Offset(0.0, 6.0),
-            blurRadius: 8.0,
-            spreadRadius: 0.0,
-          ),
-        ],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
-        child: DefaultTextStyle(
-          style: themeData.textTheme.display1.copyWith(
-            color: themeData.backgroundColor.withOpacity(.85),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
-                child: Row(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: Icon(Icons.access_time, color: themeData.backgroundColor),
-                    ),
-                    Text(
-                      _getFrequencyTitle(_selectedFrequency),
-                      style: themeData.textTheme.title.copyWith(color: themeData.backgroundColor),
-                    ),
-                  ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
+          child: DefaultTextStyle(
+            style: themeData.textTheme.display1.copyWith(
+              color: themeData.backgroundColor.withOpacity(.85),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: Row(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: Icon(Icons.access_time, color: themeData.backgroundColor),
+                      ),
+                      Text(
+                        _getFrequencyTitle(_selectedFrequency),
+                        style: themeData.textTheme.title.copyWith(color: themeData.backgroundColor),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
-                child: Text(Localizer.getLocaleById(LocaleId.we_will_notify, context)),
-              ),
-              InkWell(
-                child: Text(
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: Text(Localizer.getLocaleById(LocaleId.we_will_notify, context)),
+                ),
+                Text(
                   Localizer.getLocaleById(LocaleId.change, context),
                   style: TextStyle(decoration: TextDecoration.underline),
                 ),
-                onTap: () {
-                  showModalBottomSheet(context: context, builder: (context) => _buildModal());
-                },
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

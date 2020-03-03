@@ -109,15 +109,12 @@ class NotificationsHelper {
       _channelId,
       _channelName,
       _channelDescription,
-      icon: 'secondary_icon',
-      sound: 'slow_spring_board',
-      largeIcon: 'sample_large_icon',
       largeIconBitmapSource: BitmapSource.Drawable,
       vibrationPattern: _vibrationPattern,
       color: const Color.fromARGB(255, 255, 0, 0),
     );
 
-    final iOSPlatformChannelSpecifics = new IOSNotificationDetails(sound: "slow_spring_board.aiff");
+    final iOSPlatformChannelSpecifics = new IOSNotificationDetails();
     final platformChannelSpecifics = new NotificationDetails(
       androidPlatformChannelSpecifics,
       iOSPlatformChannelSpecifics,

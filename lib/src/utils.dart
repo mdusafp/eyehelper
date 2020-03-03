@@ -60,5 +60,5 @@ class ScreenUtil {
 
   get scaleWidth => _screenWidth / instance.width;
 
-  setSp(num fontSize) => fontSize * scaleWidth * (Utils().IS_SMALL_DEVICE ? 1.3 : 1);
+  setSp(num fontSize) => fontSize * scaleWidth * (Utils().IS_SMALL_DEVICE ? 1.1 : 0.8);
 }
