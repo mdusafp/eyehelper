@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "648413487443",
+    "firebase_url": "https://eye-helper-4ee78.firebaseio.com",
+    "project_id": "eye-helper-4ee78",
+    "storage_bucket": "eye-helper-4ee78.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:648413487443:android:a13405fdd68590110181a6",
+        "android_client_info": {
+          "package_name": "com.example.eyehelper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "648413487443-v90k5kvc3e5c87t5eug7n5p6elhttupn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5wXut8qgbvEBlL01U370yNbTjRgWMIFk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "648413487443-v90k5kvc3e5c87t5eug7n5p6elhttupn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
