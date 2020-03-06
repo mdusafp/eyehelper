@@ -30,6 +30,13 @@
             {
               "client_id": "648413487443-v90k5kvc3e5c87t5eug7n5p6elhttupn.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "648413487443-e8l6d84oud6eh3r3l5qdf6g6n4sqgpoa.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.eyehelper"
+              }
             }
           ]
         }
