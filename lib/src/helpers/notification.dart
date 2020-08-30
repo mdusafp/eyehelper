@@ -35,7 +35,7 @@ class NotificationsHelper {
   Future<void> cancelAll() async {
     await _plugin.cancelAll();
   }
-
+  
   Future<void> scheduleExerciseReminders(NotificationSettings settings) async {
     await cancelAll();
 

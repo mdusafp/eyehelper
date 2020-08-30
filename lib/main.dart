@@ -14,5 +14,9 @@ void main() {
 
   runZoned(() {
     runApp(EyeHelperApp());
-  }, onError: Crashlytics.instance.recordError);
+  }, onError: (error, stack){
+    print(error);
+    print(stack);
+    Crashlytics.instance.recordError(error, stack);
+  });
 }

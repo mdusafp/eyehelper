@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:eyehelper/src/helpers/preferences.dart';
 import 'package:eyehelper/src/models/notification_settings.dart';
+import 'package:eyehelper/src/screens/notification_screen/dtos/week.dart';
 
 class SettingsRepository {
   final FastPreferences fastPreferences;
@@ -18,7 +19,7 @@ class SettingsRepository {
           ?.asMap()
           ?.map((i, schedule) {
             Map<String, dynamic> map = {
-              'localeId': week[i],
+              'localeId': weekList[i].shortLocale,
             };
             return MapEntry(i, DailySchedule.fromMap(map..addAll(json.decode(schedule))));
           })

@@ -2,9 +2,11 @@ import 'package:eyehelper/src/helpers/preferences.dart';
 import 'package:eyehelper/src/locale/ru.dart';
 import 'package:eyehelper/src/repositories/settings_repository.dart';
 import 'package:eyehelper/src/repositories/statistics_repository.dart';
+import 'package:eyehelper/src/screens/onboarding_screen.dart';
 import 'package:eyehelper/src/screens/statistics_screen/statistics_screen.dart';
 import 'package:eyehelper/src/theme.dart';
 import 'package:eyehelper/src/utils.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:eyehelper/src/constants.dart';
 import 'package:eyehelper/src/locale/Localizer.dart';
@@ -13,6 +15,7 @@ import 'package:eyehelper/src/screens/eye_screen/eye_screen.dart';
 import 'package:eyehelper/src/screens/notification_screen/notification_screen.dart';
 import 'package:eyehelper/src/widgets/bootom_bar.dart';
 import 'package:eyehelper/src/widgets/toolbar.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -30,6 +33,15 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   initState() {
     super.initState();
+    SchedulerBinding.instance.addPostFrameCallback((_){
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          fullscreenDialog: true,
+          builder: (context) => OnBoardingScreen()
+        )
+      );
+    });
+    
     _notificationHelper = new NotificationsHelper(context);
     _settingsRepository = new SettingsRepository(FastPreferences());
     _statisticsRepository = new StatisticsRepository(FastPreferences());
@@ -47,7 +59,10 @@ class _HomeScreenState extends State<HomeScreen> {
     _statisticsRepository.addActivity(startOfToday);
 
     final settings = _settingsRepository.getSettings();
-    await _notificationHelper.scheduleExerciseReminders(settings);
+    _notificationHelper.scheduleExerciseReminders(settings).catchError((e, stack){
+      debugPrint(e);
+      Crashlytics().recordError(e, stack);
+    });
 
     if (mounted) {
       setState(() => dataLoading = false);

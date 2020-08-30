@@ -19,10 +19,13 @@ class FastPreferences {
   Future<void> init() async {
     if (prefs == null) {
       prefs = await SharedPreferences.getInstance();
+      print("prefs inited");
     }
   }
 
   static final FastPreferences _singleton = FastPreferences._internal();
+
+  bool get isInited => prefs != null;
 
   factory FastPreferences() {
     return _singleton;

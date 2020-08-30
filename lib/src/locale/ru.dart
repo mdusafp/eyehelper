@@ -103,6 +103,17 @@ enum LocaleId {
   two_hours,
   few_hours,
   many_hours,
+
+  few_days,
+  one_day,
+  two_days,
+  
+  onceADay,
+  twiceADay,
+  threeADay,
+  onceInTwoDays,
+  manualSettings,
+
   from,
   to,
 
@@ -115,6 +126,13 @@ enum LocaleId {
 
   // errors
   wrong_work_time,
+
+  onb_title1,
+  onb_title2,
+  onb_title3,
+  onb_subtitle1,
+  onb_subtitle2,
+  onb_subtitle3,
 }
 
 Map<LocaleId, String> localeRu = {
@@ -160,7 +178,7 @@ Map<LocaleId, String> localeRu = {
   // texts for notifications
   LocaleId.notifications_on: "Напоминания включены",
   LocaleId.choose_time:
-      "Выберите время, в которое вы находитесь за компьютером, приложение будет напоминать вам делать упражнения.",
+      "Выберите время, в которое вы находитесь за компьютером, приложение будет напоминать вам делать упражнения в рабочее время.",
   LocaleId.apply_to_all: "Применить ко всем",
   LocaleId.exercise_frequency: "Как часто вы хотите, чтобы приложение напоминало вам сделать упражнения?",
   LocaleId.times_per: "Раз в",
@@ -213,7 +231,7 @@ Map<LocaleId, String> localeRu = {
   LocaleId.value: "Оценить",
   LocaleId.not_now: "Не сейчас",
 
-  LocaleId.not_enough_data: "Недостаточно данных для отображения",
+  LocaleId.not_enough_data: "Выполняйте еще упражнения, чтобы мы могли составить статистику",
 
   // texts for notification frequency
   LocaleId.zero_hours: "часов",
@@ -221,6 +239,18 @@ Map<LocaleId, String> localeRu = {
   LocaleId.two_hours: "часа",
   LocaleId.few_hours: "часов",
   LocaleId.many_hours: "часов",
+
+
+  LocaleId.one_day: "день",
+  LocaleId.two_days: "дня",
+  LocaleId.few_days: "дней",
+
+  LocaleId.onceADay: "1 раз в день",
+  LocaleId.twiceADay: "2 раза в день",
+  LocaleId.threeADay: "3 раза в день",
+  LocaleId.onceInTwoDays: "1 раз в два дня",
+  LocaleId.manualSettings: "Ручная настройка",
+
   LocaleId.from: "с",
   LocaleId.to: "по",
 
@@ -233,4 +263,11 @@ Map<LocaleId, String> localeRu = {
 
   // errors
   LocaleId.wrong_work_time: 'Выбран неверный промежуток времени',
+  
+  LocaleId.onb_title1: "Твоим глазам нужен отдых!",
+  LocaleId.onb_title2: "А что за упражнения?",
+  LocaleId.onb_title3: "Мы тебе напомним!",
+  LocaleId.onb_subtitle1: "Неужели наши глаза не заслужили хоть немного отдыха в течение рабочего дня?\nДавай договоримся каждый день выполнять упражнения",
+  LocaleId.onb_subtitle2: "Мы расскажем тебе про упражнения и покажем как их делать.\nТы только заглядывай иногда…",
+  LocaleId.onb_subtitle3: "Расскажи в какое время и в какие дни работаешь за компьютером и приложение поможет тебе заботиться о своих глазах",
 };

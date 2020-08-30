@@ -3,8 +3,9 @@ import 'dart:math' as math;
 import 'package:eyehelper/src/locale/Localizer.dart';
 import 'package:eyehelper/src/locale/ru.dart';
 import 'package:eyehelper/src/screens/notification_screen/custom_time_picker.dart';
+import 'package:eyehelper/src/screens/notification_screen/dtos/time_formatter.dart';
 import 'package:eyehelper/src/theme.dart';
-import 'package:intl/intl.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -34,7 +35,7 @@ class DailyScheduleCard extends StatefulWidget {
   DailyScheduleCardState createState() => DailyScheduleCardState();
 }
 
-DateFormat _timeFormatter = new DateFormat.Hm();
+
 
 class DailyScheduleCardState extends State<DailyScheduleCard> {
   Duration _startOfWork;
@@ -49,44 +50,27 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
     _isActive = widget.isActive;
   }
 
-  // TODO: use one method instead of copy paste
-  void _showStartTimePicker() {
+  
+  void _showIntervalTimePicker() {
     showModalBottomSheet(
       context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(24), topRight: Radius.circular(24))
+      ),
+      clipBehavior: Clip.antiAliasWithSaveLayer,
       builder: (context) {
         return Container(
           height: 256.0,
-          child: CustomTimerPicker(
-            initialTimerDuration: _startOfWork,
-            // some bug exists with this mode
-            // mode: CupertinoTimerPickerMode.hm,
-            onTimerDurationChanged: (timer) {
+          child: IntervalPicker(
+            endDuration: _endOfWork,
+            startDuration: _startOfWork,
+            onChanged: (start, end){
               setState(() {
-                _startOfWork = timer;
+                _endOfWork = end;
+                _startOfWork = start;
               });
-              widget.onChange(_isActive, _startOfWork, _endOfWork);
-            },
-          ),
-        );
-      },
-    );
-  }
-
-  void _showEndTimePicker() {
-    showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        return Container(
-          height: 256.0,
-          child: CustomTimerPicker(
-            initialTimerDuration: _endOfWork,
-            // some bug exists with this mode
-            // mode: CupertinoTimerPickerMode.hm,
-            onTimerDurationChanged: (timer) {
-              setState(() {
-                _endOfWork = timer;
-              });
-              widget.onChange(_isActive, _startOfWork, _endOfWork);
+              //widget.onChange(_isActive, _startOfWork, _endOfWork);
             },
           ),
         );
@@ -116,14 +100,8 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
 
     // The reason to put isUtc true to fix the bug when modal display utc values
     // widget display in local date
-    String startText = _timeFormatter.format(DateTime.fromMillisecondsSinceEpoch(
-      _startOfWork.inMilliseconds,
-      isUtc: true,
-    ));
-    String endText = _timeFormatter.format(DateTime.fromMillisecondsSinceEpoch(
-      _endOfWork.inMilliseconds,
-      isUtc: true,
-    ));
+    String startText = CustomTimeFormatter().format(_endOfWork);
+    String endText = CustomTimeFormatter().format(_endOfWork, isEndOfDay: true);
 
     return AbsorbPointer(
       absorbing: !_isActive,
@@ -147,7 +125,7 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
                   decoration: TextDecoration.underline,
                 ),
               ),
-              onTap: _showStartTimePicker,
+              onTap: _showIntervalTimePicker,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -163,7 +141,7 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
                   decoration: TextDecoration.underline,
                 ),
               ),
-              onTap: _showEndTimePicker,
+              onTap: _showIntervalTimePicker,
             ),
           ],
         ),

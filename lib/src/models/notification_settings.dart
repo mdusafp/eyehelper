@@ -1,4 +1,6 @@
 import 'package:eyehelper/src/locale/ru.dart';
+import 'package:eyehelper/src/screens/notification_screen/dtos/time_card_info.dart';
+import 'package:eyehelper/src/screens/notification_screen/dtos/week.dart';
 import 'package:flutter/material.dart';
 
 const _defaultStartOfWorkInMilliseconds = 1000 * 60 * 60 * 8;
@@ -37,22 +39,35 @@ class DailySchedule {
   }
 }
 
-const List<LocaleId> week = [
-  LocaleId.monday_short,
-  LocaleId.tuesday_short,
-  LocaleId.wednesday_short,
-  LocaleId.thursday_short,
-  LocaleId.friday_short,
-  LocaleId.saturday_short,
-  LocaleId.sunday_short,
-];
+class CustomSchedule {
+  TimeCardInfo cardInfo;
+  bool isActive;
+
+  CustomSchedule({
+    this.cardInfo,
+    this.isActive = true,
+  });
+
+  CustomSchedule.fromMap(Map<String, dynamic> map) {
+    isActive = map['isActive'];
+    cardInfo = TimeCardInfo.fromMap(map['cardInfo']);
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'cardInfo': cardInfo.toMap(),
+      'isActive': isActive,
+    };
+  }
+}
+
 
 const _defaultNotificationsEnabled = false;
 const _defaultNotificationFrequencyInMilliseconds = Duration.millisecondsPerHour * 1;
-List<DailySchedule> _defaultDailyScheduleList = week
+List<DailySchedule> _defaultDailyScheduleList = weekList
     .asMap()
     // set working day in weekdays
-    .map((i, localeId) => MapEntry(i, new DailySchedule(localeId: localeId, isWorkingDay: i < 5)))
+    .map((i, weekDay) => MapEntry(i, new DailySchedule(localeId: weekDay.shortLocale, isWorkingDay: i < 5)))
     .values
     .toList();
 
@@ -60,6 +75,7 @@ class NotificationSettings {
   bool notificationsEnabled;
   int notificationFrequencyInMilliseconds;
   List<DailySchedule> dailyScheduleList;
+  List<CustomSchedule> customScheduleList;
 
   NotificationSettings({
     this.notificationsEnabled,
