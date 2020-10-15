@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:eyehelper/src/helpers/notification.dart';
 import 'package:eyehelper/src/helpers/preferences.dart';
 import 'package:eyehelper/src/models/notification_settings.dart';
-import 'package:eyehelper/src/repositories/settings_repository.dart';
 import 'package:eyehelper/src/screens/notification_screen/notification_frequency_picker.dart';
 import 'package:eyehelper/src/utils.dart';
 import 'package:eyehelper/src/locale/Localizer.dart';
@@ -26,9 +25,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
   Set<int> _errorIndexes;
   NotificationSettings _notificationSettings;
   NotificationsHelper _notificationsHelper;
-  SettingsRepository _repository;
   Duration frequency;
-  
+
   //TEMP
   Frequency currentFreq;
   //
@@ -37,9 +35,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
   void initState() {
     super.initState();
     frequency = new Duration();
-    _repository = new SettingsRepository(FastPreferences());
     _notificationsHelper = new NotificationsHelper(context);
-    _notificationSettings = _repository.getSettings();
+    _notificationSettings = NotificationsHelper.getUpdatedSettings();
+
+    try {
+      currentFreq =
+          frequencies.firstWhere((element) => element.timesADay == _notificationSettings.timesADay);
+    } catch (e) {/* No such element */}
 
     _errorIndexes = new Set();
     _notificationSettings.dailyScheduleList.asMap().forEach((i, schedule) {
@@ -47,37 +49,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
         _errorIndexes.add(i);
       }
     });
-    _notificationSettings.customScheduleList = [
-      CustomSchedule(
-        cardInfo: TimeCardInfo(Duration(hours: 13), {
-          WeekDay.byEnum(WeekDaysEnum.monday) : true,
-          WeekDay.byEnum(WeekDaysEnum.tuesday) : true,
-          WeekDay.byEnum(WeekDaysEnum.thursday) : true,
-          WeekDay.byEnum(WeekDaysEnum.wednesday) : true,
-          WeekDay.byEnum(WeekDaysEnum.friday) : true,
-          WeekDay.byEnum(WeekDaysEnum.saturday) : false,
-          WeekDay.byEnum(WeekDaysEnum.sunday) : false,
-        }),
-        isActive: true
-      ),
-      CustomSchedule(
-        cardInfo: TimeCardInfo(Duration(hours: 17), {
-          WeekDay.byEnum(WeekDaysEnum.monday) : true,
-          WeekDay.byEnum(WeekDaysEnum.tuesday) : true,
-          WeekDay.byEnum(WeekDaysEnum.thursday) : true,
-          WeekDay.byEnum(WeekDaysEnum.wednesday) : true,
-          WeekDay.byEnum(WeekDaysEnum.friday) : true,
-          WeekDay.byEnum(WeekDaysEnum.saturday) : false,
-          WeekDay.byEnum(WeekDaysEnum.sunday) : false,
-        }),
-        isActive: true
-      ),
-    ];
   }
 
   Future<void> _saveSettings() async {
-    await _repository.saveSettings(_notificationSettings);
-    await _notificationsHelper.scheduleExerciseReminders(_notificationSettings);
+    await NotificationsHelper.saveSettings(_notificationSettings);
+    await _notificationsHelper.scheduleExerciseReminders().catchError((e, stack) {
+      debugPrint(e);
+      Crashlytics().recordError(e, stack);
+    });
   }
 
   @override
@@ -97,11 +76,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
               children: <Widget>[
                 AnimatedCrossFade(
                   duration: Duration(milliseconds: 400),
-                  crossFadeState: 
-                    (FastPreferences().prefs
-                      .getBool(FastPreferences.isNotificationEnabled) ?? false)
-                        ? CrossFadeState.showSecond
-                        : CrossFadeState.showFirst,
+                  crossFadeState: _notificationSettings?.notificationsEnabled ?? false
+                      ? CrossFadeState.showSecond
+                      : CrossFadeState.showFirst,
                   firstChild: Column(
                     children: <Widget>[
                       Container(height: 10),
@@ -119,10 +96,15 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           "Включите их\nчтобы приложение подсказало вам,\nчто пора позаниматься, когда вы будете на работе.",
                           // Localizer.getLocaleById(LocaleId.choose_time, context),
                           textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.body1.copyWith(color: Theme.of(context).primaryColor),
+                          style: Theme.of(context)
+                              .textTheme
+                              .body1
+                              .copyWith(color: Theme.of(context).primaryColor),
                         ),
                       ),
-                      Container(height: 24,),
+                      Container(
+                        height: 24,
+                      ),
                       Container(
                         width: MediaQuery.of(context).size.width,
                         child: Center(
@@ -130,11 +112,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
                             parentSize: MediaQuery.of(context).size,
                             width: 250,
                             onPressed: () async {
-                              await FastPreferences().prefs.setBool(FastPreferences.isNotificationEnabled, true);
+                              _notificationSettings.notificationsEnabled = true;
                               // final settings = _settingsRepository.getSettings();
                               // await _notificationHelper.scheduleExerciseReminders(settings);
 
                               setState(() {});
+
+                              _saveSettings();
                             },
                             child: Text(
                               "Включить Уведомления",
@@ -147,26 +131,31 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   ),
                   secondChild: Column(
                     children: <Widget>[
-                      Container(height: 10,),
+                      Container(
+                        height: 10,
+                      ),
                       _getNotificationsEnabledHeader(),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 32.0, top: 32.0),
                         child: NotificationFrequencyPicker(
-                          initialFrequency: frequencies[0],
+                          initialFrequency: currentFreq ?? frequencies[0],
                           onChange: (frequency) async {
                             currentFreq = frequency;
                             setState(() {});
-                            //_notificationSettings.notificationFrequencyInMilliseconds = frequency.duration.inMilliseconds;
-                            // await _saveSettings();
+                            _notificationSettings.type = frequency?.type == FrequencyType.manual
+                                ? NotificationSettings.manualNotifType
+                                : NotificationSettings.autoNotifType;
+                            _notificationSettings.timesADay = frequency.timesADay;
+                            _saveSettings();
                           },
                         ),
                       ),
                       AnimatedCrossFade(
                         duration: Duration(milliseconds: 400),
-                        crossFadeState: currentFreq != null && 
-                          currentFreq.type == FrequencyType.manual 
-                            ? CrossFadeState.showFirst
-                            : CrossFadeState.showSecond,
+                        crossFadeState:
+                            currentFreq != null && currentFreq.type == FrequencyType.manual
+                                ? CrossFadeState.showFirst
+                                : CrossFadeState.showSecond,
                         firstChild: Column(
                           children: <Widget>[
                             Padding(
@@ -178,7 +167,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
                               child: Text(
                                 "Установите время, в которое вы хотите получать уведомления и приложение напомнит вам об упражнениях",
                                 textAlign: TextAlign.center,
-                                style: Theme.of(context).textTheme.display1.copyWith(color: Theme.of(context).primaryColorDark),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .display1
+                                    .copyWith(color: Theme.of(context).primaryColorDark),
                               ),
                             ),
                             Padding(
@@ -200,18 +192,21 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                         schedule.isActive = isActive;
                                         schedule.cardInfo = cardInfo;
 
-                                        // try {
-                                        //   await _saveSettings();
-                                        //   _errorIndexes.clear();
-                                        // } catch (e) {
-                                        //   _errorIndexes.clear();
+                                        try {
+                                          await _saveSettings();
+                                          _errorIndexes.clear();
+                                        } catch (e) {
+                                          _errorIndexes.clear();
 
-                                        //   _notificationSettings.dailyScheduleList.asMap().forEach((i, schedule) {
-                                        //     if (schedule.endOfWorkInMilliseconds <= schedule.startOfWorkInMilliseconds) {
-                                        //       _errorIndexes.add(i);
-                                        //     }
-                                        //   });
-                                        // }
+                                          _notificationSettings.dailyScheduleList
+                                              .asMap()
+                                              .forEach((i, schedule) {
+                                            if (schedule.endOfWorkInMilliseconds <=
+                                                schedule.startOfWorkInMilliseconds) {
+                                              _errorIndexes.add(i);
+                                            }
+                                          });
+                                        }
 
                                         setState(() {});
                                       },
@@ -220,7 +215,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                 },
                               ),
                             ),
-
                             Container(
                               width: MediaQuery.of(context).size.width,
                               child: Center(
@@ -230,23 +224,24 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                     TimeCardInfo infoResult;
 
                                     bool shouldAdd = await showDialog<bool>(
-                                      context: context,
-                                      child: Center(child: TimePickerDialog(
-                                        showAdd: true,
-                                        customTitle: "Укажите параметры",
-                                        initInfo: TimeCardInfo.defaultCard,
-                                        onChanged: (info){
-                                          infoResult = info;
-                                        },
-                                      ))
-                                    );
-                                    if (shouldAdd != null && shouldAdd){
+                                        context: context,
+                                        child: Center(
+                                            child: TimePickerDialog(
+                                          showAdd: true,
+                                          customTitle: "Укажите параметры",
+                                          initInfo: TimeCardInfo.defaultCard13,
+                                          onChanged: (info) {
+                                            infoResult = info;
+                                          },
+                                        )));
+                                    if (shouldAdd != null && shouldAdd) {
                                       _notificationSettings.customScheduleList.add(
                                         CustomSchedule(cardInfo: infoResult, isActive: false),
                                       );
                                     }
 
                                     setState(() {});
+                                    _saveSettings();
                                   },
                                   child: Text(
                                     "Добавить время",
@@ -268,7 +263,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
                               child: Text(
                                 Localizer.getLocaleById(LocaleId.choose_time, context),
                                 textAlign: TextAlign.center,
-                                style: Theme.of(context).textTheme.display1.copyWith(color: Theme.of(context).primaryColorDark),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .display1
+                                    .copyWith(color: Theme.of(context).primaryColorDark),
                               ),
                             ),
                             Padding(
@@ -287,11 +285,15 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                       name: Localizer.getLocaleById(schedule.localeId, context),
                                       showError: _errorIndexes.contains(i),
                                       isActive: schedule.isWorkingDay,
-                                      initialStartOfWork: Duration(milliseconds: schedule.startOfWorkInMilliseconds),
-                                      initialEndOfWork: Duration(milliseconds: schedule.endOfWorkInMilliseconds),
-                                      onChange: (bool isWorkingDay, Duration startOfWork, Duration endOfWork) async {
+                                      initialStartOfWork: Duration(
+                                          milliseconds: schedule.startOfWorkInMilliseconds),
+                                      initialEndOfWork:
+                                          Duration(milliseconds: schedule.endOfWorkInMilliseconds),
+                                      onChange: (bool isWorkingDay, Duration startOfWork,
+                                          Duration endOfWork) async {
                                         schedule.isWorkingDay = isWorkingDay;
-                                        schedule.startOfWorkInMilliseconds = startOfWork.inMilliseconds;
+                                        schedule.startOfWorkInMilliseconds =
+                                            startOfWork.inMilliseconds;
                                         schedule.endOfWorkInMilliseconds = endOfWork.inMilliseconds;
 
                                         try {
@@ -300,8 +302,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                         } catch (e) {
                                           _errorIndexes.clear();
 
-                                          _notificationSettings.dailyScheduleList.asMap().forEach((i, schedule) {
-                                            if (schedule.endOfWorkInMilliseconds <= schedule.startOfWorkInMilliseconds) {
+                                          _notificationSettings.dailyScheduleList
+                                              .asMap()
+                                              .forEach((i, schedule) {
+                                            if (schedule.endOfWorkInMilliseconds <=
+                                                schedule.startOfWorkInMilliseconds) {
                                               _errorIndexes.add(i);
                                             }
                                           });
@@ -317,7 +322,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           ],
                         ),
                       )
-                      
                     ],
                   ),
                 ),
@@ -333,30 +337,31 @@ class _NotificationScreenState extends State<NotificationScreen> {
     return Padding(
       padding: const EdgeInsets.only(left: 24.0, right: 24.0),
       child: Row(
-          children: <Widget>[
-            Expanded(
-              child: Text(
-                  (FastPreferences().prefs.getBool(FastPreferences.isNotificationEnabled) ?? false)
-                    ? "Уведомления включены"
-                    : "Уведомления отключены",
-                  // Localizer.getLocaleById(LocaleId.choose_time, context),
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headline.copyWith(color: Theme.of(context).accentColor),
-                ),
+        children: <Widget>[
+          Expanded(
+            child: Text(
+              _notificationSettings?.notificationsEnabled ?? false
+                  ? "Уведомления включены"
+                  : "Уведомления отключены",
+              // Localizer.getLocaleById(LocaleId.choose_time, context),
+              textAlign: TextAlign.center,
+              style: Theme.of(context)
+                  .textTheme
+                  .headline
+                  .copyWith(color: Theme.of(context).accentColor),
             ),
-            Switch(
-              onChanged: (value) async {
-                await FastPreferences().prefs.setBool(FastPreferences.isNotificationEnabled, value);
+          ),
+          Switch(
+            onChanged: (value) async {
+              _notificationSettings.notificationsEnabled = value;
+              setState(() {});
 
-                // final settings = _settingsRepository.getSettings();
-                // await _notificationHelper.scheduleExerciseReminders(settings);
-
-                setState(() {});
-              },
-              value: FastPreferences().prefs.getBool(FastPreferences.isNotificationEnabled) ?? false,
-            ),
-          ],
-        ),
+              _saveSettings();
+            },
+            value: _notificationSettings?.notificationsEnabled ?? false,
+          ),
+        ],
+      ),
     );
   }
 }

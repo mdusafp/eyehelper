@@ -27,6 +27,7 @@ enum LocaleId {
 
   begin_btn_txt,
   continue_btn_txt,
+  setup_notifications_btn_txt,
 
   // texts for training
   watch_up,
@@ -107,7 +108,7 @@ enum LocaleId {
   few_days,
   one_day,
   two_days,
-  
+
   onceADay,
   twiceADay,
   threeADay,
@@ -149,8 +150,10 @@ Map<LocaleId, String> localeRu = {
 
   LocaleId.turn_eyes_up_down: "Поводите глазами снизу вверх и наоборот.",
   LocaleId.turn_eyes_left_right: "Поводите глазами слева направо и наоборот.",
-  LocaleId.screw_up_your_eyes: "Крепко зажмрурьте глаза на 10 секунд, не открывая глаза расслабьте мышцы на 10 секунд",
-  LocaleId.focus_for_10_sec: "Сфокусируйтесь сначала на ближнем предмете (10 сек), потом на дальнем (10 сек).",
+  LocaleId.screw_up_your_eyes:
+      "Крепко зажмрурьте глаза на 10 секунд, не открывая глаза расслабьте мышцы на 10 секунд",
+  LocaleId.focus_for_10_sec:
+      "Сфокусируйтесь сначала на ближнем предмете (10 сек), потом на дальнем (10 сек).",
   LocaleId.blink_fast_20_times: "Быстро поморгайте",
   LocaleId.rub_hands_and_attach_to_eyes:
       "Потрите руки друг о друга до появления тепла. Приложите руки к глазам на 15 секунд (не давить). Подумайте о своей мечте.",
@@ -161,6 +164,7 @@ Map<LocaleId, String> localeRu = {
 
   LocaleId.begin_btn_txt: "Начать",
   LocaleId.continue_btn_txt: "Продолжить",
+  LocaleId.setup_notifications_btn_txt: "Настроить уведомления",
 
   // texts for training
   LocaleId.watch_up: "Смотрите\n вверх",
@@ -180,7 +184,8 @@ Map<LocaleId, String> localeRu = {
   LocaleId.choose_time:
       "Выберите время, в которое вы находитесь за компьютером, приложение будет напоминать вам делать упражнения в рабочее время.",
   LocaleId.apply_to_all: "Применить ко всем",
-  LocaleId.exercise_frequency: "Как часто вы хотите, чтобы приложение напоминало вам сделать упражнения?",
+  LocaleId.exercise_frequency:
+      "Как часто вы хотите, чтобы приложение напоминало вам сделать упражнения?",
   LocaleId.times_per: "Раз в",
   LocaleId.hour: "ч",
   LocaleId.minute: "мин",
@@ -223,11 +228,14 @@ Map<LocaleId, String> localeRu = {
 
   // texts for finish
   LocaleId.good_job: "Отлично!",
-  LocaleId.you_done_excercises: "Вы выполнили упражнения. Повторяйте чаще и ваши глаза скажут вам спасибо!",
+  LocaleId.you_done_excercises:
+      "Вы выполнили упражнения. Повторяйте чаще и ваши глаза скажут вам спасибо!",
   LocaleId.set_mark: "Оценить приложение",
   LocaleId.continue_btn_text: "Продолжить",
-  LocaleId.want_to_set_mark: "Желаете оценить нас в ${Platform.isAndroid ? 'Google Play' : 'App Store'}?",
-  LocaleId.there_is_app: "'Есть крутое приложение для тренировки глаз. Советую скачать! ${getAppUrl()}'",
+  LocaleId.want_to_set_mark:
+      "Желаете оценить нас в ${Platform.isAndroid ? 'Google Play' : 'App Store'}?",
+  LocaleId.there_is_app:
+      "'Есть крутое приложение для тренировки глаз. Советую скачать! ${getAppUrl()}'",
   LocaleId.value: "Оценить",
   LocaleId.not_now: "Не сейчас",
 
@@ -239,7 +247,6 @@ Map<LocaleId, String> localeRu = {
   LocaleId.two_hours: "часа",
   LocaleId.few_hours: "часов",
   LocaleId.many_hours: "часов",
-
 
   LocaleId.one_day: "день",
   LocaleId.two_days: "дня",
@@ -263,11 +270,14 @@ Map<LocaleId, String> localeRu = {
 
   // errors
   LocaleId.wrong_work_time: 'Выбран неверный промежуток времени',
-  
+
   LocaleId.onb_title1: "Твоим глазам нужен отдых!",
-  LocaleId.onb_title2: "А что за упражнения?",
+  LocaleId.onb_title2: "Что за упражнения?",
   LocaleId.onb_title3: "Мы тебе напомним!",
-  LocaleId.onb_subtitle1: "Неужели наши глаза не заслужили хоть немного отдыха в течение рабочего дня?\nДавай договоримся каждый день выполнять упражнения",
-  LocaleId.onb_subtitle2: "Мы расскажем тебе про упражнения и покажем как их делать.\nТы только заглядывай иногда…",
-  LocaleId.onb_subtitle3: "Расскажи в какое время и в какие дни работаешь за компьютером и приложение поможет тебе заботиться о своих глазах",
+  LocaleId.onb_subtitle1:
+      "Неужели наши глаза не заслужили хоть немного отдыха в течение рабочего дня?\nДавай договоримся каждый день выполнять упражнения",
+  LocaleId.onb_subtitle2:
+      "Мы расскажем тебе про упражнения для расслабления твоих глаз и покажем как их делать.\nТы только заглядывай иногда…)",
+  LocaleId.onb_subtitle3:
+      "Расскажи в какое время и в какие дни работаешь за компьютером и приложение поможет тебе заботиться о своих глазах",
 };

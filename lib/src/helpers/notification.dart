@@ -1,11 +1,14 @@
+import 'dart:convert';
 import 'dart:ui';
 import 'dart:async';
 import 'dart:developer' as logger;
 import 'dart:typed_data';
+import 'package:eyehelper/src/helpers/preferences.dart';
 import 'package:eyehelper/src/locale/Localizer.dart';
 import 'package:eyehelper/src/locale/ru.dart';
 import 'package:eyehelper/src/models/notification_settings.dart';
 import 'package:eyehelper/src/screens/home_screen.dart';
+import 'package:eyehelper/src/screens/notification_screen/dtos/week.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -27,7 +30,8 @@ class NotificationsHelper {
     final initializationSettingsIOS = new IOSInitializationSettings(
       onDidReceiveLocalNotification: onDidRecieveLocalNotification,
     );
-    final initializationSettings = new InitializationSettings(initializationSettingsAndroid, initializationSettingsIOS);
+    final initializationSettings =
+        new InitializationSettings(initializationSettingsAndroid, initializationSettingsIOS);
     _plugin.initialize(initializationSettings, onSelectNotification: onSelectNotification);
   }
 
@@ -35,76 +39,82 @@ class NotificationsHelper {
   Future<void> cancelAll() async {
     await _plugin.cancelAll();
   }
-  
-  Future<void> scheduleExerciseReminders(NotificationSettings settings) async {
+
+  Future<void> scheduleExerciseReminders() async {
+    NotificationSettings settings = getUpdatedSettings();
     await cancelAll();
 
-    if (!settings.notificationsEnabled) {
-      return;
-    }
+    // if (!settings.notificationsEnabled) {
+    //   return;
+    // }
 
-    DateTime now = DateTime.now();
-    final todayIndex = now.weekday - 1;
-    // array where 7 days starts from now
-    // for example today is friday
-    // array: [friday, saturday, sunday, monday, tuesday, wednesday, thursday]
-    final orderedScheduleList = [
-      ...settings.dailyScheduleList.skip(todayIndex),
-      ...settings.dailyScheduleList.take(todayIndex),
-    ];
+    // DateTime now = DateTime.now();
+    // final todayIndex = now.weekday - 1;
+    // // array where 7 days starts from now
+    // // for example today is friday
+    // // array: [friday, saturday, sunday, monday, tuesday, wednesday, thursday]
+    // final orderedScheduleList = [
+    //   ...settings.dailyScheduleList.skip(todayIndex),
+    //   ...settings.dailyScheduleList.take(todayIndex),
+    // ];
 
-    for (int scheduleIndex = 0; scheduleIndex < orderedScheduleList.length; scheduleIndex++) {
-      final schedule = orderedScheduleList[scheduleIndex];
+    // for (int scheduleIndex = 0; scheduleIndex < orderedScheduleList.length; scheduleIndex++) {
+    //   final schedule = orderedScheduleList[scheduleIndex];
 
-      if (!schedule.isWorkingDay) {
-        continue;
-      }
+    //   if (!schedule.isWorkingDay) {
+    //     continue;
+    //   }
 
-      if (schedule.endOfWorkInMilliseconds <= schedule.startOfWorkInMilliseconds) {
-        logger.log('Wrong working range for ${Localizer.getLocaleById(schedule.localeId, _context)} day');
-        throw new Exception('Wrong working range');
-      }
+    //   if (schedule.endOfWorkInMilliseconds <= schedule.startOfWorkInMilliseconds) {
+    //     logger.log(
+    //         'Wrong working range for ${Localizer.getLocaleById(schedule.localeId, _context)} day');
+    //     throw new Exception('Wrong working range');
+    //   }
 
-      // compute notifications time
-      int workingTimeInMilliseconds = schedule.endOfWorkInMilliseconds - schedule.startOfWorkInMilliseconds;
-      int scheduleDatesLength = (workingTimeInMilliseconds / settings.notificationFrequencyInMilliseconds).floor();
+    //   // compute notifications time
+    //   int workingTimeInMilliseconds =
+    //       schedule.endOfWorkInMilliseconds - schedule.startOfWorkInMilliseconds;
+    //   int scheduleDatesLength =
+    //       (workingTimeInMilliseconds / settings.notificationFrequencyInMilliseconds).floor();
 
-      // get start of notifiable day to increment
-      DateTime currentDay = now.add(Duration(days: scheduleIndex));
-      DateTime startOfDay = new DateTime(currentDay.year, currentDay.month, currentDay.day);
+    //   // get start of notifiable day to increment
+    //   DateTime currentDay = now.add(Duration(days: scheduleIndex));
+    //   DateTime startOfDay = new DateTime(currentDay.year, currentDay.month, currentDay.day);
 
-      // create list of expected notifications
-      List<DateTime> scheduleDates = List.generate(scheduleDatesLength, (index) {
-        // user shouldn't be notified when he came to work but at the end should be
-        // that's why +1
-        int incrementInMilliseconds = settings.notificationFrequencyInMilliseconds * (index + 1);
-        int scheduleDateInMilliseconds = schedule.startOfWorkInMilliseconds + incrementInMilliseconds;
-        return startOfDay.add(Duration(milliseconds: scheduleDateInMilliseconds));
-      })
-          // we shouldn't setup notifications before
-          .where((time) => time.isAfter(now))
-          .toList();
+    //   // create list of expected notifications
+    //   List<DateTime> scheduleDates = List.generate(scheduleDatesLength, (index) {
+    //     // user shouldn't be notified when he came to work but at the end should be
+    //     // that's why +1
+    //     int incrementInMilliseconds = settings.notificationFrequencyInMilliseconds * (index + 1);
+    //     int scheduleDateInMilliseconds =
+    //         schedule.startOfWorkInMilliseconds + incrementInMilliseconds;
+    //     return startOfDay.add(Duration(milliseconds: scheduleDateInMilliseconds));
+    //   })
+    //       // we shouldn't setup notifications before
+    //       .where((time) => time.isAfter(now))
+    //       .toList();
 
-      logger.log('======= START $scheduleIndex START ======='.padLeft(20).padRight(20));
-      scheduleDates.forEach((date) {
-        logger.log(date.toIso8601String());
-      });
-      logger.log('======= END $scheduleIndex END ======='.padLeft(20).padRight(20));
+    //   logger.log('======= START $scheduleIndex START ======='.padLeft(20).padRight(20));
+    //   scheduleDates.forEach((date) {
+    //     logger.log(date.toIso8601String());
+    //   });
+    //   logger.log('======= END $scheduleIndex END ======='.padLeft(20).padRight(20));
 
-      // Loop and schedule notifications
-      for (final time in scheduleDates) {
-        await scheduleNotification(
-          (time.millisecondsSinceEpoch / 1000).floor(),
-          Localizer.getLocaleById(LocaleId.notification_reminder_exercise_title, _context),
-          Localizer.getLocaleById(LocaleId.notification_reminder_excercise_body, _context),
-          time,
-        );
-      }
-    }
+    //   // Loop and schedule notifications
+    //   for (final time in scheduleDates) {
+    //     await scheduleNotification(
+    //       (time.millisecondsSinceEpoch / 1000).floor(),
+    //       Localizer.getLocaleById(LocaleId.notification_reminder_exercise_title, _context),
+    //       Localizer.getLocaleById(LocaleId.notification_reminder_excercise_body, _context),
+    //       time,
+    //     );
+    //   }
+    // }
   }
 
   /// Schedule single notification with [title] and [body] of message in [scheduledNotificationDateTime]
-  Future<void> scheduleNotification(int id, String title, String body, DateTime scheduledNotificationDateTime) async {
+  Future<void> scheduleNotification(
+      int id, String title, String body, DateTime scheduledNotificationDateTime) async {
     final androidPlatformChannelSpecifics = new AndroidNotificationDetails(
       _channelId,
       _channelName,
@@ -165,5 +175,68 @@ class NotificationsHelper {
         ],
       ),
     );
+  }
+
+  static NotificationSettings getUpdatedSettings() {
+    var list = FastPreferences().prefs.getStringList(FastPreferences.customScheduleListKey);
+
+    final settingsMap = {
+      /// [notificationsEnabled] is deprecated use fast prefs instead
+      'notificationsEnabled':
+          FastPreferences().prefs.getBool(FastPreferences.isNotificationEnabled),
+      // 'notificationFrequencyInMilliseconds': FastPreferences().prefs.getInt(
+      //       FastPreferences.notificationFrequencyInMillisecondsKey,
+      //     ),
+      'timesADay': FastPreferences().prefs.getInt(FastPreferences.timesADay),
+      'customScheduleList': FastPreferences()
+          .prefs
+          .getStringList(FastPreferences.customScheduleListKey)
+          ?.asMap()
+          ?.map((i, schedule) {
+            return MapEntry(i, CustomSchedule.fromMap(json.decode(schedule)));
+          })
+          ?.values
+          ?.toList(),
+      'notifType': FastPreferences().prefs.getString(FastPreferences.notificationTypeKey),
+      'dailyScheduleList': FastPreferences()
+          .prefs
+          .getStringList(FastPreferences.dailyScheduleListKey)
+          ?.asMap()
+          ?.map((i, schedule) {
+            Map<String, dynamic> map = {
+              'localeId': weekList[i].shortLocale,
+            };
+            return MapEntry(i, DailySchedule.fromMap(map..addAll(json.decode(schedule))));
+          })
+          ?.values
+          ?.toList(),
+    };
+
+    return NotificationSettings.fromMap(settingsMap);
+  }
+
+  static Future<void> saveSettings(NotificationSettings notificationSettings) async {
+    await Future.wait([
+      FastPreferences().prefs.setString(
+            FastPreferences.notificationTypeKey,
+            notificationSettings.type,
+          ),
+      FastPreferences().prefs.setInt(
+            FastPreferences.timesADay,
+            notificationSettings.timesADay,
+          ),
+      FastPreferences().prefs.setBool(
+            FastPreferences.isNotificationEnabled,
+            notificationSettings.notificationsEnabled,
+          ),
+      FastPreferences().prefs.setStringList(
+            FastPreferences.dailyScheduleListKey,
+            notificationSettings.dailyScheduleList.map((d) => json.encode(d.toMap())).toList(),
+          ),
+      FastPreferences().prefs.setStringList(
+            FastPreferences.customScheduleListKey,
+            notificationSettings.customScheduleList.map((d) => json.encode(d.toMap())).toList(),
+          ),
+    ]);
   }
 }

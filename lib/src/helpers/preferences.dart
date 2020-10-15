@@ -9,10 +9,13 @@ class FastPreferences {
   static String todayTrainingDateKey = 'today_training_date';
   static String todayTrainingMapKey = 'today_training_map';
   static String isVibrationEnabled = 'is_vibration_enabled';
+  static String wasOnboardingShown = 'was_onboardingShown';
   // use this instead of settings repository
   static String isNotificationEnabled = 'is_notification_enabled';
-  static String notificationFrequencyInMillisecondsKey = 'notification_frequency_in_milliseconds';
+  static String notificationTypeKey = 'notification_type';
   static String dailyScheduleListKey = 'daily_schedule_list';
+  static String customScheduleListKey = 'custom_schedule_list';
+  static String timesADay = 'times_a_day';
 
   SharedPreferences prefs;
 

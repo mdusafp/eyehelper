@@ -25,10 +25,9 @@ class TimeScheduleCard extends StatefulWidget {
     @required this.onChange,
     this.isActive = false,
     @required this.initialInfo,
-  }) : 
-  assert (initialInfo != null),
-  assert (onChange != null),
-  super(key: key);
+  })  : assert(initialInfo != null),
+        assert(onChange != null),
+        super(key: key);
 
   @override
   TimeScheduleCardState createState() => TimeScheduleCardState();
@@ -43,7 +42,6 @@ class TimeScheduleCardState extends State<TimeScheduleCard> {
     super.initState();
     _isActive = widget.isActive;
   }
-
 
   Widget _buildToggle() {
     return Expanded(
@@ -74,18 +72,24 @@ class TimeScheduleCardState extends State<TimeScheduleCard> {
     final activeGradient = LinearGradient(
       begin: Alignment.bottomLeft,
       end: Alignment.topRight,
-      colors: [activeCardColor.withLightness(.5).toColor(), activeCardColor.withLightness(.4).toColor()],
+      colors: [
+        activeCardColor.withLightness(.5).toColor(),
+        activeCardColor.withLightness(.4).toColor()
+      ],
     );
 
     final inactiveGradient = LinearGradient(
       begin: Alignment.bottomLeft,
       end: Alignment.topRight,
-      colors: [inactiveCardColor.withLightness(.5).toColor(), inactiveCardColor.withLightness(.4).toColor()],
+      colors: [
+        inactiveCardColor.withLightness(.5).toColor(),
+        inactiveCardColor.withLightness(.4).toColor()
+      ],
     );
-  
+
     return InkWell(
       onLongPress: showParamsDialog,
-      onTap: (){
+      onTap: () {
         setState(() {
           _isActive = !_isActive;
         });
@@ -111,7 +115,9 @@ class TimeScheduleCardState extends State<TimeScheduleCard> {
             padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
             child: DefaultTextStyle(
               style: themeData.textTheme.body1.copyWith(
-                color: _isActive ? themeData.backgroundColor : themeData.backgroundColor.withOpacity(.65),
+                color: _isActive
+                    ? themeData.backgroundColor
+                    : themeData.backgroundColor.withOpacity(.65),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -128,40 +134,39 @@ class TimeScheduleCardState extends State<TimeScheduleCard> {
                         child: Padding(
                           padding: const EdgeInsets.only(bottom: 8.0),
                           child: Text(
-                              CustomTimeFormatter().format(currentInfo.time, isEndOfDay: true), 
-                              style: Theme.of(context).textTheme.headline
+                            CustomTimeFormatter().format(currentInfo.time, isEndOfDay: true),
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline
                                 .copyWith(color: Colors.white, fontSize: 28),
-                            ),
+                          ),
                         ),
                       ),
                       Container(height: 8),
                       GestureDetector(
                         onTap: showParamsDialog,
                         child: Container(
-                          constraints: BoxConstraints(
-                            minWidth: 140,
-                            maxWidth: 230
-                          ),
+                          constraints: BoxConstraints(minWidth: 140, maxWidth: 230),
                           child: Row(
                             children: List.generate(
-                              weekList.length, (index) => 
-                                Expanded(
-                                  child: CircleAvatar(
-                                    backgroundColor: currentInfo.weekDays[weekList[index]] ?? false
-                                      ? Colors.white : Colors.white24,
-                                    minRadius: 13,
-                                    child: Center(
-                                      child: Text(
-                                        Localizer.getLocaleById(weekList[index].shortLocale, context),
-                                        style: Theme.of(context).textTheme.display2.copyWith(
+                              weekList.length,
+                              (index) => Expanded(
+                                child: CircleAvatar(
+                                  backgroundColor: currentInfo.weekDays[weekList[index]] ?? false
+                                      ? Colors.white
+                                      : Colors.white24,
+                                  minRadius: 13,
+                                  child: Center(
+                                    child: Text(
+                                      Localizer.getLocaleById(weekList[index].shortLocale, context),
+                                      style: Theme.of(context).textTheme.display2.copyWith(
                                           color: currentInfo.weekDays[weekList[index]] ?? false
-                                            ? Theme.of(context).primaryColorDark 
-                                            : Colors.white
-                                        ),
-                                      ),
+                                              ? Theme.of(context).primaryColorDark
+                                              : Colors.white),
                                     ),
                                   ),
                                 ),
+                              ),
                             ),
                           ),
                         ),
@@ -178,18 +183,18 @@ class TimeScheduleCardState extends State<TimeScheduleCard> {
     );
   }
 
-  
   void showParamsDialog() {
     showDialog<bool>(
-      context: context,
-      child: Center(child: TimePickerDialog(
-        initInfo: currentInfo,
-        onChanged: (info){
-          setState(() {
-            currentInfo = info;
-          });
-        },
-      ))
-    );
+        context: context,
+        child: Center(
+            child: TimePickerDialog(
+          initInfo: currentInfo,
+          onChanged: (info) {
+            setState(() {
+              currentInfo = info;
+            });
+            widget.onChange(_isActive, currentInfo);
+          },
+        )));
   }
 }

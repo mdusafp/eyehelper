@@ -10,13 +10,13 @@ import 'package:eyehelper/src/custom_packages/fancy_on_boarding/src/page_reveal.
 import 'package:eyehelper/src/custom_packages/fancy_on_boarding/src/pager_indicator.dart';
 import 'package:flutter/material.dart';
 
-
 class FancyOnBoarding extends StatefulWidget {
   final List<PageModel> pageList;
   final VoidCallback onDoneButtonPressed;
   final VoidCallback onSkipButtonPressed;
   final VoidCallback onNextButtonPressed;
   final VoidCallback onBackButtonPressed;
+  final Function(int) pageIndexChanged;
 
   final ShapeBorder doneButtonShape;
   final TextStyle doneButtonTextStyle;
@@ -24,7 +24,7 @@ class FancyOnBoarding extends StatefulWidget {
   final TextStyle skipButtonTextStyle;
   final Color skipButtonColor;
   final bool showSkipButton;
-  
+
   FancyOnBoarding({
     Key key,
     @required this.pageList,
@@ -32,20 +32,21 @@ class FancyOnBoarding extends StatefulWidget {
     this.onNextButtonPressed,
     this.onSkipButtonPressed,
     this.onBackButtonPressed,
+    this.pageIndexChanged,
     this.doneButtonShape,
     this.doneButtonTextStyle,
     this.doneButtonBackgroundColor,
     this.skipButtonTextStyle,
     this.skipButtonColor,
     this.showSkipButton = true,
-  }) : assert(pageList.length != 0), super(key: key);
+  })  : assert(pageList.length != 0),
+        super(key: key);
 
   @override
   FancyOnBoardingState createState() => FancyOnBoardingState();
 }
 
-class FancyOnBoardingState extends State<FancyOnBoarding>
-    with TickerProviderStateMixin {
+class FancyOnBoardingState extends State<FancyOnBoarding> with TickerProviderStateMixin {
   StreamController<SlideUpdate> slideUpdateStream;
   AnimatedPageDragger animatedPageDragger;
   List<PageModel> pageList;
@@ -103,12 +104,12 @@ class FancyOnBoardingState extends State<FancyOnBoarding>
           bottom: 24,
           right: 20,
           child: InkResponse(
-            child: Icon(pageList.length - 1 < activeIndex + 1 ? Icons.done : Icons.navigate_next, size: 32, color: Theme.of(context).accentColor),
-            onTap:
-                widget.onDoneButtonPressed != null && widget.onNextButtonPressed != null 
+            child: Icon(pageList.length - 1 < activeIndex + 1 ? Icons.done : Icons.navigate_next,
+                size: 32, color: Theme.of(context).accentColor),
+            onTap: widget.onDoneButtonPressed != null && widget.onNextButtonPressed != null
                 ? pageList.length - 1 < activeIndex + 1
-                  ? widget.onDoneButtonPressed
-                  : widget.onNextButtonPressed
+                    ? widget.onDoneButtonPressed
+                    : widget.onNextButtonPressed
                 : next,
           ),
         ),
@@ -121,8 +122,7 @@ class FancyOnBoardingState extends State<FancyOnBoarding>
               opacity: _getOpacity(),
               child: InkResponse(
                 child: Icon(Icons.navigate_before, size: 32, color: Theme.of(context).accentColor),
-                onTap:
-                    widget.onBackButtonPressed ?? back,
+                onTap: widget.onBackButtonPressed ?? back,
               ),
             ),
           ),
@@ -142,10 +142,10 @@ class FancyOnBoardingState extends State<FancyOnBoarding>
   }
 
   back() async {
-    if (animating){
+    if (animating) {
       return;
     }
-    if (activeIndex == 0){
+    if (activeIndex == 0) {
       return;
     }
     slideDirection = SlideDirection.leftToRight;
@@ -162,16 +162,18 @@ class FancyOnBoardingState extends State<FancyOnBoarding>
     animating = false;
     setState(() {
       activeIndex = nextPageIndex;
+      if (widget.pageIndexChanged != null) {
+        widget.pageIndexChanged(activeIndex);
+      }
     });
   }
 
-  
   next() async {
-    if (animating){
+    if (animating) {
       return;
     }
-    if (pageList.length - 1 < activeIndex + 1){
-      if (widget.onDoneButtonPressed != null){
+    if (pageList.length - 1 < activeIndex + 1) {
+      if (widget.onDoneButtonPressed != null) {
         widget.onDoneButtonPressed();
       } else {
         Navigator.of(context).pop();
@@ -192,6 +194,9 @@ class FancyOnBoardingState extends State<FancyOnBoarding>
     animating = false;
     setState(() {
       activeIndex = nextPageIndex;
+      if (widget.pageIndexChanged != null) {
+        widget.pageIndexChanged(activeIndex);
+      }
     });
   }
 
@@ -241,15 +246,17 @@ class FancyOnBoardingState extends State<FancyOnBoarding>
 
           animatedPageDragger.dispose();
         }
+        if (widget.pageIndexChanged != null) {
+          widget.pageIndexChanged(activeIndex);
+        }
       });
     });
   }
 
   double _getOpacity() {
-    if (activeIndex - 1 == 0 &&
-        slideDirection == SlideDirection.leftToRight) return 1 - slidePercent;
-    if (activeIndex == 0 &&
-        slideDirection == SlideDirection.rightToLeft) return slidePercent;
+    if (activeIndex - 1 == 0 && slideDirection == SlideDirection.leftToRight)
+      return 1 - slidePercent;
+    if (activeIndex == 0 && slideDirection == SlideDirection.rightToLeft) return slidePercent;
     if (activeIndex == 0) return 0.0;
     return 1.0;
   }
