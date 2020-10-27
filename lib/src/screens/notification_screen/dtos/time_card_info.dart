@@ -10,7 +10,7 @@ class TimeCardInfo {
 
   factory TimeCardInfo.fromMap(Map<String, dynamic> map) {
     return TimeCardInfo(
-      CustomTimeFormatter().parse(map['time']),
+      CustomTimeFormatter().parse(map['time'], withMinutes: true),
       WeekDay.parseValueMap(map['weekDays']),
     );
   }

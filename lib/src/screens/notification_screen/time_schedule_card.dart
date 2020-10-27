@@ -6,7 +6,9 @@ import 'package:eyehelper/src/screens/notification_screen/dtos/time_card_info.da
 import 'package:eyehelper/src/screens/notification_screen/dtos/time_formatter.dart';
 import 'package:eyehelper/src/screens/notification_screen/dtos/week.dart';
 import 'package:eyehelper/src/screens/notification_screen/picker_dialog.dart';
+import 'package:eyehelper/src/screens/notification_screen/slide_left_actions.dart';
 import 'package:eyehelper/src/theme.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,11 +21,13 @@ class TimeScheduleCard extends StatefulWidget {
   final bool isActive;
   final TimeCardInfo initialInfo;
   final OnChange onChange;
+  final Function onDelete;
 
   const TimeScheduleCard({
     Key key,
     @required this.onChange,
     this.isActive = false,
+    this.onDelete,
     @required this.initialInfo,
   })  : assert(initialInfo != null),
         assert(onChange != null),
@@ -87,82 +91,93 @@ class TimeScheduleCardState extends State<TimeScheduleCard> {
       ],
     );
 
-    return InkWell(
-      onLongPress: showParamsDialog,
-      onTap: () {
-        setState(() {
-          _isActive = !_isActive;
-        });
-        widget.onChange(_isActive, currentInfo);
-      },
-      child: Column(children: [
-        AnimatedContainer(
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeIn,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(20.0)),
-            gradient: _isActive ? activeGradient : inactiveGradient,
-            boxShadow: [
-              const BoxShadow(
-                color: Color(0x3A000000),
-                offset: Offset(0.0, 6.0),
-                blurRadius: 8.0,
-                spreadRadius: 0.0,
-              ),
-            ],
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
-            child: DefaultTextStyle(
-              style: themeData.textTheme.body1.copyWith(
-                color: _isActive
-                    ? themeData.backgroundColor
-                    : themeData.backgroundColor.withOpacity(.65),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    height: 64.0,
-                    width: 16.0,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      GestureDetector(
-                        onTap: showParamsDialog,
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 8.0),
-                          child: Text(
-                            CustomTimeFormatter().format(currentInfo.time, isEndOfDay: true),
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline
-                                .copyWith(color: Colors.white, fontSize: 28),
+    return Slidable(
+      actionPane: SlidableDrawerActionPane(),
+      actionExtentRatio: 0.7,
+      secondaryActions: [
+        ListPrefsSlideAction(
+          color: Colors.transparent,
+          onEdit: showParamsDialog,
+          onDelete: widget.onDelete,
+        ),
+      ],
+      child: InkWell(
+        onLongPress: showParamsDialog,
+        onTap: () {
+          setState(() {
+            _isActive = !_isActive;
+          });
+          widget.onChange(_isActive, currentInfo);
+        },
+        child: Column(children: [
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeIn,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(20.0)),
+              gradient: _isActive ? activeGradient : inactiveGradient,
+              boxShadow: [
+                const BoxShadow(
+                  color: Color(0x3A000000),
+                  offset: Offset(0.0, 6.0),
+                  blurRadius: 8.0,
+                  spreadRadius: 0.0,
+                ),
+              ],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
+              child: DefaultTextStyle(
+                style: themeData.textTheme.body1.copyWith(
+                  color: _isActive
+                      ? themeData.backgroundColor
+                      : themeData.backgroundColor.withOpacity(.65),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      height: 64.0,
+                      width: 16.0,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        GestureDetector(
+                          onTap: showParamsDialog,
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 8.0),
+                            child: Text(
+                              CustomTimeFormatter().format(currentInfo.time, isEndOfDay: true),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline
+                                  .copyWith(color: Colors.white, fontSize: 28),
+                            ),
                           ),
                         ),
-                      ),
-                      Container(height: 8),
-                      GestureDetector(
-                        onTap: showParamsDialog,
-                        child: Container(
-                          constraints: BoxConstraints(minWidth: 140, maxWidth: 230),
-                          child: Row(
-                            children: List.generate(
-                              weekList.length,
-                              (index) => Expanded(
-                                child: CircleAvatar(
-                                  backgroundColor: currentInfo.weekDays[weekList[index]] ?? false
-                                      ? Colors.white
-                                      : Colors.white24,
-                                  minRadius: 13,
-                                  child: Center(
-                                    child: Text(
-                                      Localizer.getLocaleById(weekList[index].shortLocale, context),
-                                      style: Theme.of(context).textTheme.display2.copyWith(
-                                          color: currentInfo.weekDays[weekList[index]] ?? false
-                                              ? Theme.of(context).primaryColorDark
-                                              : Colors.white),
+                        Container(height: 8),
+                        GestureDetector(
+                          onTap: showParamsDialog,
+                          child: Container(
+                            constraints: BoxConstraints(minWidth: 140, maxWidth: 230),
+                            child: Row(
+                              children: List.generate(
+                                weekList.length,
+                                (index) => Expanded(
+                                  child: CircleAvatar(
+                                    backgroundColor: currentInfo.weekDays[weekList[index]] ?? false
+                                        ? Colors.white
+                                        : Colors.white24,
+                                    minRadius: 13,
+                                    child: Center(
+                                      child: Text(
+                                        Localizer.getLocaleById(weekList[index].shortLocale, context),
+                                        style: Theme.of(context).textTheme.display2.copyWith(
+                                            color: currentInfo.weekDays[weekList[index]] ?? false
+                                                ? Theme.of(context).primaryColorDark
+                                                : Colors.white),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -170,31 +185,33 @@ class TimeScheduleCardState extends State<TimeScheduleCard> {
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  _buildToggle(),
-                ],
+                      ],
+                    ),
+                    _buildToggle(),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-      ]),
+        ]),
+      ),
     );
   }
 
-  void showParamsDialog() {
-    showDialog<bool>(
+  void showParamsDialog() async {
+
+    await showDialog<bool>(
         context: context,
         child: Center(
             child: TimePickerDialog(
           initInfo: currentInfo,
+          onDelete: widget.onDelete,
           onChanged: (info) {
             setState(() {
               currentInfo = info;
             });
-            widget.onChange(_isActive, currentInfo);
           },
         )));
+    widget.onChange(_isActive, currentInfo);
   }
 }

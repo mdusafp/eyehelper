@@ -48,8 +48,8 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
     _isActive = widget.isActive;
   }
 
-  void _showIntervalTimePicker() {
-    showModalBottomSheet(
+  void _showIntervalTimePicker() async {
+    await showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(
           borderRadius:
@@ -66,12 +66,12 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
                 _endOfWork = end;
                 _startOfWork = start;
               });
-              widget.onChange(_isActive, _startOfWork, _endOfWork);
             },
           ),
         );
       },
     );
+    widget.onChange(_isActive, _startOfWork, _endOfWork);
   }
 
   Widget _buildToggle() {

@@ -39,7 +39,7 @@ class NotificationFrequencyPickerState extends State<NotificationFrequencyPicker
     _selectedFrequencyIndex = frequencies.indexWhere((frequency) {
       return frequency.type == widget.initialFrequency.type;
     });
-    if (_selectedFrequencyIndex < 0 || _selectedFrequencyIndex == null){
+    if (_selectedFrequencyIndex < 0 || _selectedFrequencyIndex == null) {
       _selectedFrequencyIndex = 0;
     }
     //_selectedFrequency = _frequencies[index];
@@ -56,11 +56,13 @@ class NotificationFrequencyPickerState extends State<NotificationFrequencyPicker
     return '$timesPer $hours $postfix';
   }
 
-  Widget _buildModal() {
+  Widget _buildModal(Function(int) onSelect) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20),)
-      ),
+          borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(20),
+        topRight: Radius.circular(20),
+      )),
       child: LayoutBuilder(
         builder: (context, constraints) {
           return Column(
@@ -76,7 +78,10 @@ class NotificationFrequencyPickerState extends State<NotificationFrequencyPicker
                 child: Text(
                   Localizer.getLocaleById(LocaleId.exercise_frequency, context),
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.display2.copyWith(color: Theme.of(context).primaryColorDark),
+                  style: Theme.of(context)
+                      .textTheme
+                      .display2
+                      .copyWith(color: Theme.of(context).primaryColorDark),
                 ),
               ),
               Padding(
@@ -89,10 +94,11 @@ class NotificationFrequencyPickerState extends State<NotificationFrequencyPicker
                     itemExtent: _modalHeight / 2,
                     children: frequencies.map((frequency) {
                       return Center(
-                        child: Text(Localizer.getLocaleById(frequency.title, context), style: Theme.of(context).textTheme.body1),
+                        child: Text(Localizer.getLocaleById(frequency.title, context),
+                            style: Theme.of(context).textTheme.body1),
                       );
                     }).toList(),
-                    onSelectedItemChanged: _onSelectFrequency,
+                    onSelectedItemChanged: onSelect,
                   ),
                 ),
               ),
@@ -103,29 +109,29 @@ class NotificationFrequencyPickerState extends State<NotificationFrequencyPicker
     );
   }
 
-  void _onSelectFrequency(int index) async {
-    setState(() {
-      _selectedFrequencyIndex = index;
-      // reinit controller to set initialItem
-      _controller = new FixedExtentScrollController(initialItem: index);
-    });
-    widget.onChange(frequencies[index]);
-  }
-
   @override
   Widget build(BuildContext context) {
     ThemeData themeData = Theme.of(context);
     HSLColor activeCardColor = HSLColor.fromColor(themeData.accentColor);
 
     return InkWell(
-      onTap: (){
-        showModalBottomSheet(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(24), topRight: Radius.circular(24))
-          ),
-          clipBehavior: Clip.antiAliasWithSaveLayer,
-          context: context, builder: (context) => _buildModal());
+      onTap: () async {
+        Frequency selectedFrequency = frequencies[_selectedFrequencyIndex ?? 0];
+        await showModalBottomSheet(
+            shape: RoundedRectangleBorder(
+                borderRadius:
+                    BorderRadius.only(topLeft: Radius.circular(24), topRight: Radius.circular(24))),
+            clipBehavior: Clip.antiAliasWithSaveLayer,
+            context: context,
+            builder: (context) => _buildModal((index) {
+                  setState(() {
+                    _selectedFrequencyIndex = index;
+                    // reinit controller to set initialItem
+                    _controller = new FixedExtentScrollController(initialItem: index);
+                  });
+                }));
+        selectedFrequency = frequencies[_selectedFrequencyIndex];
+        widget.onChange(selectedFrequency);
       },
       child: Container(
         width: double.infinity,
@@ -134,7 +140,10 @@ class NotificationFrequencyPickerState extends State<NotificationFrequencyPicker
           gradient: LinearGradient(
             begin: Alignment.bottomLeft,
             end: Alignment.topRight,
-            colors: [activeCardColor.withLightness(.5).toColor(), activeCardColor.withLightness(.4).toColor()],
+            colors: [
+              activeCardColor.withLightness(.5).toColor(),
+              activeCardColor.withLightness(.4).toColor()
+            ],
           ),
           boxShadow: [
             const BoxShadow(
@@ -163,7 +172,8 @@ class NotificationFrequencyPickerState extends State<NotificationFrequencyPicker
                         child: Icon(Icons.access_time, color: themeData.backgroundColor),
                       ),
                       Text(
-                        Localizer.getLocaleById(frequencies[_selectedFrequencyIndex].title, context),
+                        Localizer.getLocaleById(
+                            frequencies[_selectedFrequencyIndex].title, context),
                         style: themeData.textTheme.title.copyWith(color: themeData.backgroundColor),
                       ),
                     ],

@@ -12,8 +12,9 @@ class TimePickerDialog extends StatefulWidget {
   final String customTitle;
   final TimeCardInfo initInfo;
   final Function(TimeCardInfo) onChanged;
+  final Function onDelete;
 
-  const TimePickerDialog({Key key, this.showAdd = false, this.customTitle, @required this.initInfo, @required this.onChanged}) : super(key: key);
+  const TimePickerDialog({Key key, this.showAdd = false, this.customTitle, @required this.initInfo, @required this.onChanged, this.onDelete}) : super(key: key);
 
   @override
   _TimePickerDialogState createState() => _TimePickerDialogState();
@@ -152,6 +153,32 @@ class _TimePickerDialogState extends State<TimePickerDialog> {
                                           child: Text(
                                             "Добавить",
                                             style: Theme.of(context).textTheme.button,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                if (!widget.showAdd)
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 32.0),
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      child: Center(
+                                        child: FlatRoundCustomButton(
+                                          heightAbs: 40,
+                                          color: Colors.redAccent[700],
+                                          parentSize: MediaQuery.of(context).size,
+                                          onPressed: () {
+                                            if (widget.onDelete != null){
+                                              widget.onDelete();
+                                            }
+                                            Navigator.of(context).maybePop(false);
+                                          },
+                                          child: Text(
+                                            "Удалить",
+                                            style: Theme.of(context).textTheme.button.copyWith(
+                                              color: Colors.redAccent[700],
+                                            ),
                                           ),
                                         ),
                                       ),

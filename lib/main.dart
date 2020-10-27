@@ -3,9 +3,13 @@ import 'dart:async';
 import 'package:eyehelper/src/app.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 void main() {
   ErrorWidget.builder = (FlutterErrorDetails details) => Container();
+
+  tz.initializeTimeZones();
 
   Crashlytics.instance.enableInDevMode = true;
 
@@ -14,7 +18,7 @@ void main() {
 
   runZoned(() {
     runApp(EyeHelperApp());
-  }, onError: (error, stack){
+  }, onError: (error, stack) {
     print(error);
     print(stack);
     Crashlytics.instance.recordError(error, stack);

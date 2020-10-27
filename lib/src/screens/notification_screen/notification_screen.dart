@@ -69,8 +69,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
             padding: EdgeInsets.only(
               top: Utils().PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
               bottom: Utils().PREFERED_HEIGHT_FOR_CUSTOM_BOTTOM_BAR + 10.0,
-              left: 16.0,
-              right: 16.0,
+              // left: 16.0,
+              // right: 16.0,
             ),
             child: Column(
               children: <Widget>[
@@ -79,55 +79,58 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   crossFadeState: _notificationSettings?.notificationsEnabled ?? false
                       ? CrossFadeState.showSecond
                       : CrossFadeState.showFirst,
-                  firstChild: Column(
-                    children: <Widget>[
-                      Container(height: 10),
-                      _getNotificationsEnabledHeader(),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 65.0),
-                        child: Image.asset(
-                          'assets/firstImageFace5.png',
-                          height: 200,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 24.0, right: 24.0),
-                        child: Text(
-                          "Включите их\nчтобы приложение подсказало вам,\nчто пора позаниматься, когда вы будете на работе.",
-                          // Localizer.getLocaleById(LocaleId.choose_time, context),
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context)
-                              .textTheme
-                              .body1
-                              .copyWith(color: Theme.of(context).primaryColor),
-                        ),
-                      ),
-                      Container(
-                        height: 24,
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        child: Center(
-                          child: RoundCustomButton(
-                            parentSize: MediaQuery.of(context).size,
-                            width: 250,
-                            onPressed: () async {
-                              _notificationSettings.notificationsEnabled = true;
-                              // final settings = _settingsRepository.getSettings();
-                              // await _notificationHelper.scheduleExerciseReminders(settings);
-
-                              setState(() {});
-
-                              _saveSettings();
-                            },
-                            child: Text(
-                              "Включить Уведомления",
-                              style: Theme.of(context).textTheme.button,
-                            ),
+                  firstChild: Padding(
+                    padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                    child: Column(
+                      children: <Widget>[
+                        Container(height: 10),
+                        _getNotificationsEnabledHeader(),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 65.0),
+                          child: Image.asset(
+                            'assets/firstImageFace5.png',
+                            height: 200,
                           ),
                         ),
-                      )
-                    ],
+                        Padding(
+                          padding: const EdgeInsets.only(left: 24.0, right: 24.0),
+                          child: Text(
+                            "Включите их\nчтобы приложение подсказало вам,\nчто пора позаниматься, когда вы будете на работе.",
+                            // Localizer.getLocaleById(LocaleId.choose_time, context),
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .body1
+                                .copyWith(color: Theme.of(context).primaryColor),
+                          ),
+                        ),
+                        Container(
+                          height: 24,
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          child: Center(
+                            child: RoundCustomButton(
+                              parentSize: MediaQuery.of(context).size,
+                              width: 250,
+                              onPressed: () async {
+                                _notificationSettings.notificationsEnabled = true;
+                                // final settings = _settingsRepository.getSettings();
+                                // await _notificationHelper.scheduleExerciseReminders(settings);
+
+                                setState(() {});
+
+                                _saveSettings();
+                              },
+                              child: Text(
+                                "Включить Уведомления",
+                                style: Theme.of(context).textTheme.button,
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                   secondChild: Column(
                     children: <Widget>[
@@ -136,7 +139,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       ),
                       _getNotificationsEnabledHeader(),
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 32.0, top: 32.0),
+                        padding: const EdgeInsets.only(bottom: 32.0, top: 32.0, left: 16.0, right: 16.0),
                         child: NotificationFrequencyPicker(
                           initialFrequency: currentFreq ?? frequencies[0],
                           onChange: (frequency) async {
@@ -160,8 +163,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           children: <Widget>[
                             Padding(
                               padding: const EdgeInsets.only(
-                                left: 16.0,
-                                right: 16.0,
+                                left: 32.0,
+                                right: 32.0,
                                 bottom: 32.0,
                               ),
                               child: Text(
@@ -174,7 +177,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(bottom: 16.0),
+                              padding: const EdgeInsets.only(bottom: 16.0, left: 16.0, right: 16.0),
                               child: ListView.builder(
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
@@ -188,6 +191,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                     child: TimeScheduleCard(
                                       initialInfo: schedule.cardInfo,
                                       isActive: schedule.isActive,
+                                      onDelete: (){
+                                        _notificationSettings.customScheduleList.remove(schedule);
+                                        setState(() {});
+                                      _saveSettings();
+                                      },
                                       onChange: (bool isActive, TimeCardInfo cardInfo) async {
                                         schedule.isActive = isActive;
                                         schedule.cardInfo = cardInfo;
@@ -280,7 +288,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                   final schedule = _notificationSettings.dailyScheduleList[i];
 
                                   return Padding(
-                                    padding: const EdgeInsets.only(bottom: 16.0),
+                                    padding: const EdgeInsets.only(bottom: 16.0, left: 16.0, right: 16.0),
                                     child: DailyScheduleCard(
                                       name: Localizer.getLocaleById(schedule.localeId, context),
                                       showError: _errorIndexes.contains(i),
