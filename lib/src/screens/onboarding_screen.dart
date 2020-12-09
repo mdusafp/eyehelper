@@ -20,67 +20,69 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          FancyOnBoarding(
-            key: key,
-            onDoneButtonPressed: () {
-              FastPreferences().prefs.setBool(FastPreferences.wasOnboardingShown, true);
-              Navigator.of(context).pop();
-            },
-            onSkipButtonPressed: () {
-              Navigator.of(context).pop();
-            },
-            pageIndexChanged: (index) {
-              setState(() {
-                currentIndex = index;
-              });
-            },
-            pageList: [
-              PageModel(
+          SafeArea(
+            child: FancyOnBoarding(
+              key: key,
+              onDoneButtonPressed: () {
+                FastPreferences().prefs.setBool(FastPreferences.wasOnboardingShown, true);
+                Navigator.of(context).pop();
+              },
+              onSkipButtonPressed: () {
+                Navigator.of(context).pop();
+              },
+              pageIndexChanged: (index) {
+                setState(() {
+                  currentIndex = index;
+                });
+              },
+              pageList: [
+                PageModel(
+                    color: Colors.white,
+                    heroAssetPath: 'assets/work_onb.png',
+                    title: Text(
+                      Localizer.getLocaleById(LocaleId.onb_title1, context),
+                      style: Theme.of(context).textTheme.title.copyWith(
+                            color: Theme.of(context).accentColor,
+                          ),
+                    ),
+                    body: Text(
+                      Localizer.getLocaleById(LocaleId.onb_subtitle1, context),
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.body1.copyWith(
+                            color: Theme.of(context).primaryColor,
+                          ),
+                    )),
+                PageModel(
+                    color: Colors.white,
+                    heroAssetPath: 'assets/exercises_onb.png',
+                    title: Text(Localizer.getLocaleById(LocaleId.onb_title2, context),
+                        style: Theme.of(context).textTheme.title.copyWith(
+                              color: Theme.of(context).accentColor,
+                            )),
+                    body: Text(
+                      Localizer.getLocaleById(LocaleId.onb_subtitle2, context),
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.body1.copyWith(
+                            color: Theme.of(context).primaryColor,
+                          ),
+                    )),
+                PageModel(
                   color: Colors.white,
-                  heroAssetPath: 'assets/work_onb.png',
+                  heroAssetPath: 'assets/notif_onb.png',
                   title: Text(
-                    Localizer.getLocaleById(LocaleId.onb_title1, context),
+                    Localizer.getLocaleById(LocaleId.onb_title3, context),
                     style: Theme.of(context).textTheme.title.copyWith(
                           color: Theme.of(context).accentColor,
                         ),
                   ),
-                  body: Text(
-                    Localizer.getLocaleById(LocaleId.onb_subtitle1, context),
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.body1.copyWith(
-                          color: Theme.of(context).primaryColor,
-                        ),
-                  )),
-              PageModel(
-                  color: Colors.white,
-                  heroAssetPath: 'assets/exercises_onb.png',
-                  title: Text(Localizer.getLocaleById(LocaleId.onb_title2, context),
-                      style: Theme.of(context).textTheme.title.copyWith(
-                            color: Theme.of(context).accentColor,
+                  body: Text(Localizer.getLocaleById(LocaleId.onb_subtitle3, context),
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.body1.copyWith(
+                            color: Theme.of(context).primaryColor,
                           )),
-                  body: Text(
-                    Localizer.getLocaleById(LocaleId.onb_subtitle2, context),
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.body1.copyWith(
-                          color: Theme.of(context).primaryColor,
-                        ),
-                  )),
-              PageModel(
-                color: Colors.white,
-                heroAssetPath: 'assets/notif_onb.png',
-                title: Text(
-                  Localizer.getLocaleById(LocaleId.onb_title3, context),
-                  style: Theme.of(context).textTheme.title.copyWith(
-                        color: Theme.of(context).accentColor,
-                      ),
                 ),
-                body: Text(Localizer.getLocaleById(LocaleId.onb_subtitle3, context),
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.body1.copyWith(
-                          color: Theme.of(context).primaryColor,
-                        )),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),

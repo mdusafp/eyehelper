@@ -193,7 +193,7 @@ class NotificationsHelper {
       _channelName,
       _channelDescription,
       vibrationPattern: _vibrationPattern,
-      color: const Color.fromARGB(255, 255, 0, 0),
+      //color: const Color.fromARGB(255, 255, 0, 0),
     );
 
     final iOSPlatformChannelSpecifics = new IOSNotificationDetails();
