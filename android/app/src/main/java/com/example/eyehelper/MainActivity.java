@@ -1,4 +1,4 @@
-package com.example.eyehelper;
+package com.fluttergods.eyehelper;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;

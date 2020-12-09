@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:flutter/foundation.dart';
 import 'package:eyehelper/src/app.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -8,10 +8,9 @@ import 'package:timezone/timezone.dart' as tz;
 
 void main() {
   ErrorWidget.builder = (FlutterErrorDetails details) => Container();
-
+  
   tz.initializeTimeZones();
-
-  Crashlytics.instance.enableInDevMode = true;
+  Crashlytics.instance.enableInDevMode = !kReleaseMode;
 
   // Pass all uncaught errors from the framework to Crashlytics.
   FlutterError.onError = Crashlytics.instance.recordFlutterError;

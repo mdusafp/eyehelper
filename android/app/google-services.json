@@ -8,12 +8,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:648413487443:android:a13405fdd68590110181a6",
+        "mobilesdk_app_id": "1:648413487443:android:8568ccfe016e94430181a6",
         "android_client_info": {
-          "package_name": "com.example.eyehelper"
+          "package_name": "com.fluttergods.eyehelper"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "648413487443-62s4h3sav93te5shqef2huo3hn5qsl18.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fluttergods.eyehelper",
+            "certificate_hash": "a00e8b8d96f169f320db677db73974b3a68421d0"
+          }
+        },
         {
           "client_id": "648413487443-v90k5kvc3e5c87t5eug7n5p6elhttupn.apps.googleusercontent.com",
           "client_type": 3
@@ -32,10 +40,10 @@
               "client_type": 3
             },
             {
-              "client_id": "648413487443-e8l6d84oud6eh3r3l5qdf6g6n4sqgpoa.apps.googleusercontent.com",
+              "client_id": "648413487443-cofgbadhp5vhd3reftd8br1hsifu28et.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.eyehelper"
+                "bundle_id": "com.fluttergods.eyehelper"
               }
             }
           ]

@@ -13,6 +13,7 @@ import 'package:tuple/tuple.dart';
 import 'package:flutter/material.dart';
 import 'package:eyehelper/src/locale/Localizer.dart';
 import 'package:eyehelper/src/screens/statistics_screen/statistics_value.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 const SPACING = 16.0;
 
@@ -108,6 +109,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Crashlytics.instance.crash();
+
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
