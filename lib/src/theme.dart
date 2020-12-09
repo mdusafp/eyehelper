@@ -8,6 +8,7 @@ class EyehelperColorScheme {
   static const Color backgroundWhite = Color(0xFFFFFFFF);
   static const Color btnTextWhite = Color(0xFFFFFFFF);
   static const Color errorColor = Color(0xFFE74C3C);
+  static const Color warningColor = Color(0xFFFFCC00);
   static const Color transparent = Colors.transparent;
   static Color black10 = Colors.black.withOpacity(0.1);
 }

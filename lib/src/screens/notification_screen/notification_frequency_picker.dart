@@ -1,13 +1,14 @@
+import 'package:eyehelper/src/screens/notification_screen/dtos/frequency.dart';
 import 'package:eyehelper/src/screens/notification_screen/dtos/notification_frequency.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:eyehelper/src/locale/Localizer.dart';
 import 'package:eyehelper/src/locale/ru.dart';
 
-typedef void OnChange(NotificationFrequency frequency);
+typedef void OnChange(Frequency frequency);
 
 class NotificationFrequencyPicker extends StatefulWidget {
-  final Duration initialFrequency;
+  final Frequency initialFrequency;
   final OnChange onChange;
 
   const NotificationFrequencyPicker({
@@ -22,24 +23,27 @@ class NotificationFrequencyPicker extends StatefulWidget {
 
 class NotificationFrequencyPickerState extends State<NotificationFrequencyPicker> {
   List<NotificationFrequency> _frequencies;
-  NotificationFrequency _selectedFrequency;
+  int _selectedFrequencyIndex;
   FixedExtentScrollController _controller;
 
   final double _modalHeight = 128.0;
 
   @override
   initState() {
-    _frequencies = [
-      new NotificationFrequency(LocaleId.one_hour, new Duration(hours: 1)),
-      new NotificationFrequency(LocaleId.two_hours, new Duration(hours: 2)),
-      new NotificationFrequency(LocaleId.two_hours, new Duration(hours: 4)), // 4 часа, а не  часов
-      new NotificationFrequency(LocaleId.many_hours, new Duration(hours: 8)),
-    ];
-    int index = _frequencies.indexWhere((frequency) {
-      return frequency.duration.inMilliseconds == widget.initialFrequency.inMilliseconds;
+    // _frequencies = [
+    //   new NotificationFrequency(LocaleId.one_hour, new Duration(hours: 1)),
+    //   new NotificationFrequency(LocaleId.two_hours, new Duration(hours: 2)),
+    //   new NotificationFrequency(LocaleId.two_hours, new Duration(hours: 4)), // 4 часа, а не  часов
+    //   new NotificationFrequency(LocaleId.many_hours, new Duration(hours: 8)),
+    // ];
+    _selectedFrequencyIndex = frequencies.indexWhere((frequency) {
+      return frequency.type == widget.initialFrequency.type;
     });
-    _selectedFrequency = _frequencies[index];
-    _controller = new FixedExtentScrollController(initialItem: index);
+    if (_selectedFrequencyIndex < 0 || _selectedFrequencyIndex == null) {
+      _selectedFrequencyIndex = 0;
+    }
+    //_selectedFrequency = _frequencies[index];
+    _controller = new FixedExtentScrollController(initialItem: _selectedFrequencyIndex);
 
     super.initState();
   }
@@ -52,55 +56,57 @@ class NotificationFrequencyPickerState extends State<NotificationFrequencyPicker
     return '$timesPer $hours $postfix';
   }
 
-  Widget _buildModal() {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(
-                bottom: 16.0,
-                left: 32.0,
-                right: 32.0,
-                top: 32.0,
-              ),
-              child: Text(
-                Localizer.getLocaleById(LocaleId.exercise_frequency, context),
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.display2.copyWith(color: Theme.of(context).primaryColorDark),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 48.0),
-              child: SizedBox(
-                height: _modalHeight,
-                child: CupertinoPicker(
-                  scrollController: _controller,
-                  backgroundColor: Colors.transparent,
-                  itemExtent: _modalHeight / 2,
-                  children: _frequencies.map((frequency) {
-                    return Center(
-                      child: Text(_getFrequencyTitle(frequency), style: Theme.of(context).textTheme.body1),
-                    );
-                  }).toList(),
-                  onSelectedItemChanged: _onSelectFrequency,
+  Widget _buildModal(Function(int) onSelect) {
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(20),
+        topRight: Radius.circular(20),
+      )),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(
+                  bottom: 16.0,
+                  left: 32.0,
+                  right: 32.0,
+                  top: 32.0,
+                ),
+                child: Text(
+                  Localizer.getLocaleById(LocaleId.exercise_frequency, context),
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context)
+                      .textTheme
+                      .display2
+                      .copyWith(color: Theme.of(context).primaryColorDark),
                 ),
               ),
-            ),
-          ],
-        );
-      },
+              Padding(
+                padding: const EdgeInsets.only(bottom: 48.0),
+                child: SizedBox(
+                  height: _modalHeight,
+                  child: CupertinoPicker(
+                    scrollController: _controller,
+                    backgroundColor: Colors.transparent,
+                    itemExtent: _modalHeight / 2,
+                    children: frequencies.map((frequency) {
+                      return Center(
+                        child: Text(Localizer.getLocaleById(frequency.title, context),
+                            style: Theme.of(context).textTheme.body1),
+                      );
+                    }).toList(),
+                    onSelectedItemChanged: onSelect,
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      ),
     );
-  }
-
-  void _onSelectFrequency(int index) async {
-    setState(() {
-      _selectedFrequency = _frequencies[index];
-      // reinit controller to set initialItem
-      _controller = new FixedExtentScrollController(initialItem: index);
-    });
-    widget.onChange(_selectedFrequency);
   }
 
   @override
@@ -109,8 +115,23 @@ class NotificationFrequencyPickerState extends State<NotificationFrequencyPicker
     HSLColor activeCardColor = HSLColor.fromColor(themeData.accentColor);
 
     return InkWell(
-      onTap: (){
-        showModalBottomSheet(context: context, builder: (context) => _buildModal());
+      onTap: () async {
+        Frequency selectedFrequency = frequencies[_selectedFrequencyIndex ?? 0];
+        await showModalBottomSheet(
+            shape: RoundedRectangleBorder(
+                borderRadius:
+                    BorderRadius.only(topLeft: Radius.circular(24), topRight: Radius.circular(24))),
+            clipBehavior: Clip.antiAliasWithSaveLayer,
+            context: context,
+            builder: (context) => _buildModal((index) {
+                  setState(() {
+                    _selectedFrequencyIndex = index;
+                    // reinit controller to set initialItem
+                    _controller = new FixedExtentScrollController(initialItem: index);
+                  });
+                }));
+        selectedFrequency = frequencies[_selectedFrequencyIndex];
+        widget.onChange(selectedFrequency);
       },
       child: Container(
         width: double.infinity,
@@ -119,7 +140,10 @@ class NotificationFrequencyPickerState extends State<NotificationFrequencyPicker
           gradient: LinearGradient(
             begin: Alignment.bottomLeft,
             end: Alignment.topRight,
-            colors: [activeCardColor.withLightness(.5).toColor(), activeCardColor.withLightness(.4).toColor()],
+            colors: [
+              activeCardColor.withLightness(.5).toColor(),
+              activeCardColor.withLightness(.4).toColor()
+            ],
           ),
           boxShadow: [
             const BoxShadow(
@@ -148,7 +172,8 @@ class NotificationFrequencyPickerState extends State<NotificationFrequencyPicker
                         child: Icon(Icons.access_time, color: themeData.backgroundColor),
                       ),
                       Text(
-                        _getFrequencyTitle(_selectedFrequency),
+                        Localizer.getLocaleById(
+                            frequencies[_selectedFrequencyIndex].title, context),
                         style: themeData.textTheme.title.copyWith(color: themeData.backgroundColor),
                       ),
                     ],

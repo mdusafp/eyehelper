@@ -1,5 +1,4 @@
 import 'package:eyehelper/src/helpers/notification.dart';
-import 'package:eyehelper/src/repositories/settings_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:eyehelper/src/helpers/preferences.dart';
 import 'package:eyehelper/src/theme.dart';
@@ -16,14 +15,9 @@ class ToolbarWavy extends StatefulWidget {
 }
 
 class _ToolbarWavyState extends State<ToolbarWavy> {
-  NotificationsHelper _notificationHelper;
-  SettingsRepository _settingsRepository;
-
   @override
   initState() {
     super.initState();
-    _notificationHelper = new NotificationsHelper(context);
-    _settingsRepository = new SettingsRepository(FastPreferences());
   }
 
   @override
@@ -45,44 +39,17 @@ class _ToolbarWavyState extends State<ToolbarWavy> {
                 child: Center(
                   child: Text(
                     widget.title,
-                    style: Theme.of(context).textTheme.title.copyWith(color: Theme.of(context).accentColor),
+                    style: Theme.of(context)
+                        .textTheme
+                        .title
+                        .copyWith(color: Theme.of(context).accentColor),
                   ),
                 ),
               ),
-              if (FastPreferences().prefs != null && widget.currentIndex == 1) _buildVibration(context),
-              if (FastPreferences().prefs != null && widget.currentIndex == 2) _buildNotification(context),
+              if (FastPreferences().prefs != null && widget.currentIndex == 1)
+                _buildVibration(context),
+              // if (FastPreferences().prefs != null && widget.currentIndex == 2) _buildNotification(context),
             ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Align _buildNotification(BuildContext context) {
-    final prefs = FastPreferences().prefs;
-    final key = FastPreferences.isNotificationEnabled;
-    final value = prefs.getBool(key) ?? false;
-
-    return Align(
-      alignment: Alignment.centerRight,
-      child: Padding(
-        padding: EdgeInsets.only(right: MediaQuery.of(context).size.width * 1 / 12),
-        child: InkWell(
-          onTap: () async {
-            await prefs.setBool(key, !value);
-
-            final settings = _settingsRepository.getSettings();
-            await _notificationHelper.scheduleExerciseReminders(settings);
-
-            setState(() {});
-          },
-          child: Container(
-            height: Utils().PREFERED_HEIGHT_FOR_CUSTOM_APPBAR * 1 / 3,
-            width: Utils().PREFERED_HEIGHT_FOR_CUSTOM_APPBAR * 1 / 3,
-            child: Icon(
-              value ? Icons.notifications_active : Icons.notifications_off,
-              color: value ? Theme.of(context).accentColor : EyehelperColorScheme.mainDark,
-            ),
           ),
         ),
       ),

@@ -3,8 +3,9 @@ import 'dart:math' as math;
 import 'package:eyehelper/src/locale/Localizer.dart';
 import 'package:eyehelper/src/locale/ru.dart';
 import 'package:eyehelper/src/screens/notification_screen/custom_time_picker.dart';
+import 'package:eyehelper/src/screens/notification_screen/dtos/time_formatter.dart';
 import 'package:eyehelper/src/theme.dart';
-import 'package:intl/intl.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -34,8 +35,6 @@ class DailyScheduleCard extends StatefulWidget {
   DailyScheduleCardState createState() => DailyScheduleCardState();
 }
 
-DateFormat _timeFormatter = new DateFormat.Hm();
-
 class DailyScheduleCardState extends State<DailyScheduleCard> {
   Duration _startOfWork;
   Duration _endOfWork;
@@ -49,49 +48,30 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
     _isActive = widget.isActive;
   }
 
-  // TODO: use one method instead of copy paste
-  void _showStartTimePicker() {
-    showModalBottomSheet(
+  void _showIntervalTimePicker() async {
+    await showModalBottomSheet(
       context: context,
+      shape: RoundedRectangleBorder(
+          borderRadius:
+              BorderRadius.only(topLeft: Radius.circular(24), topRight: Radius.circular(24))),
+      clipBehavior: Clip.antiAliasWithSaveLayer,
       builder: (context) {
         return Container(
           height: 256.0,
-          child: CustomTimerPicker(
-            initialTimerDuration: _startOfWork,
-            // some bug exists with this mode
-            // mode: CupertinoTimerPickerMode.hm,
-            onTimerDurationChanged: (timer) {
+          child: IntervalPicker(
+            endDuration: _endOfWork,
+            startDuration: _startOfWork,
+            onChanged: (start, end) {
               setState(() {
-                _startOfWork = timer;
+                _endOfWork = end;
+                _startOfWork = start;
               });
-              widget.onChange(_isActive, _startOfWork, _endOfWork);
             },
           ),
         );
       },
     );
-  }
-
-  void _showEndTimePicker() {
-    showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        return Container(
-          height: 256.0,
-          child: CustomTimerPicker(
-            initialTimerDuration: _endOfWork,
-            // some bug exists with this mode
-            // mode: CupertinoTimerPickerMode.hm,
-            onTimerDurationChanged: (timer) {
-              setState(() {
-                _endOfWork = timer;
-              });
-              widget.onChange(_isActive, _startOfWork, _endOfWork);
-            },
-          ),
-        );
-      },
-    );
+    widget.onChange(_isActive, _startOfWork, _endOfWork);
   }
 
   Widget _buildToggle() {
@@ -116,20 +96,16 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
 
     // The reason to put isUtc true to fix the bug when modal display utc values
     // widget display in local date
-    String startText = _timeFormatter.format(DateTime.fromMillisecondsSinceEpoch(
-      _startOfWork.inMilliseconds,
-      isUtc: true,
-    ));
-    String endText = _timeFormatter.format(DateTime.fromMillisecondsSinceEpoch(
-      _endOfWork.inMilliseconds,
-      isUtc: true,
-    ));
+    String startText = CustomTimeFormatter().format(_startOfWork);
+    String endText = CustomTimeFormatter().format(_endOfWork, isEndOfDay: true);
 
     return AbsorbPointer(
       absorbing: !_isActive,
       child: DefaultTextStyle(
         style: themeData.textTheme.display1.copyWith(
-          color: _isActive ? themeData.backgroundColor.withOpacity(.65) : themeData.backgroundColor.withOpacity(.4),
+          color: _isActive
+              ? themeData.backgroundColor.withOpacity(.65)
+              : themeData.backgroundColor.withOpacity(.4),
         ),
         child: Row(
           children: <Widget>[
@@ -147,7 +123,7 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
                   decoration: TextDecoration.underline,
                 ),
               ),
-              onTap: _showStartTimePicker,
+              onTap: _showIntervalTimePicker,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -163,7 +139,7 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
                   decoration: TextDecoration.underline,
                 ),
               ),
-              onTap: _showEndTimePicker,
+              onTap: _showIntervalTimePicker,
             ),
           ],
         ),
@@ -180,17 +156,24 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
     final activeGradient = LinearGradient(
       begin: Alignment.bottomLeft,
       end: Alignment.topRight,
-      colors: [activeCardColor.withLightness(.5).toColor(), activeCardColor.withLightness(.4).toColor()],
+      colors: [
+        activeCardColor.withLightness(.5).toColor(),
+        activeCardColor.withLightness(.4).toColor()
+      ],
     );
 
     final inactiveGradient = LinearGradient(
       begin: Alignment.bottomLeft,
       end: Alignment.topRight,
-      colors: [inactiveCardColor.withLightness(.5).toColor(), inactiveCardColor.withLightness(.4).toColor()],
+      colors: [
+        inactiveCardColor.withLightness(.5).toColor(),
+        inactiveCardColor.withLightness(.4).toColor()
+      ],
     );
 
     return InkWell(
-      onTap: (){
+      onLongPress: _showIntervalTimePicker,
+      onTap: () {
         setState(() {
           _isActive = !_isActive;
         });
@@ -216,7 +199,9 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
             padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
             child: DefaultTextStyle(
               style: themeData.textTheme.body1.copyWith(
-                color: _isActive ? themeData.backgroundColor : themeData.backgroundColor.withOpacity(.65),
+                color: _isActive
+                    ? themeData.backgroundColor
+                    : themeData.backgroundColor.withOpacity(.65),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -245,8 +230,8 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.only(bottom: 8.0),
-                        child:
-                            Text(Localizer.getLocaleById(_isActive ? LocaleId.working_time : LocaleId.weekend, context)),
+                        child: Text(Localizer.getLocaleById(
+                            _isActive ? LocaleId.working_time : LocaleId.weekend, context)),
                       ),
                       if (_isActive) _buildWorkingTime(),
                     ],
@@ -286,7 +271,10 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
             gradient: LinearGradient(
               begin: Alignment.bottomLeft,
               end: Alignment.topRight,
-              colors: [errorCardColor.withSaturation(.7).toColor(), errorCardColor.withSaturation(.6).toColor()],
+              colors: [
+                errorCardColor.withSaturation(.7).toColor(),
+                errorCardColor.withSaturation(.6).toColor()
+              ],
             ),
             boxShadow: [
               const BoxShadow(
@@ -302,7 +290,8 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
             padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
             child: Text(
               Localizer.getLocaleById(LocaleId.wrong_work_time, context),
-              style: textTheme.body1.copyWith(color: EyehelperColorScheme.btnTextWhite.withOpacity(.85)),
+              style: textTheme.body1
+                  .copyWith(color: EyehelperColorScheme.btnTextWhite.withOpacity(.85)),
             ),
           ),
         ),
