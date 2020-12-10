@@ -109,8 +109,6 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Crashlytics.instance.crash();
-
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
@@ -123,7 +121,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                 return Column(
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(top: Utils().PREFERED_HEIGHT_FOR_CUSTOM_APPBAR + 10, bottom: 16.0),
+                      padding: EdgeInsets.only(
+                          top: Utils().PREFERED_HEIGHT_FOR_CUSTOM_APPBAR + 10, bottom: 16.0),
                       child: AspectRatio(
                         aspectRatio: Utils().IS_SMALL_DEVICE ? 1.15 : 1.17,
                         child: Swiper(
@@ -153,7 +152,10 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                       padding: const EdgeInsets.only(left: 16.0, right: 16.0),
                       child: Text(
                         Localizer.getLocaleById(LocaleId.exercise_frequency_per_day, context),
-                        style: Theme.of(context).textTheme.body1.copyWith(color: Theme.of(context).primaryColorDark),
+                        style: Theme.of(context)
+                            .textTheme
+                            .body1
+                            .copyWith(color: Theme.of(context).primaryColorDark),
                         textAlign: TextAlign.center,
                       ),
                     ),

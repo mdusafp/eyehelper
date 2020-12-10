@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:eyehelper/src/screens/notification_screen/dtos/frequency.dart';
 import 'package:eyehelper/src/screens/notification_screen/dtos/time_card_info.dart';
 import 'package:eyehelper/src/screens/notification_screen/dtos/week.dart';
@@ -139,7 +140,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       ),
                       _getNotificationsEnabledHeader(),
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 32.0, top: 32.0, left: 16.0, right: 16.0),
+                        padding:
+                            const EdgeInsets.only(bottom: 32.0, top: 32.0, left: 16.0, right: 16.0),
                         child: NotificationFrequencyPicker(
                           initialFrequency: currentFreq ?? frequencies[0],
                           onChange: (frequency) async {
@@ -191,10 +193,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                     child: TimeScheduleCard(
                                       initialInfo: schedule.cardInfo,
                                       isActive: schedule.isActive,
-                                      onDelete: (){
+                                      onDelete: () {
                                         _notificationSettings.customScheduleList.remove(schedule);
                                         setState(() {});
-                                      _saveSettings();
+                                        _saveSettings();
                                       },
                                       onChange: (bool isActive, TimeCardInfo cardInfo) async {
                                         schedule.isActive = isActive;
@@ -288,7 +290,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                   final schedule = _notificationSettings.dailyScheduleList[i];
 
                                   return Padding(
-                                    padding: const EdgeInsets.only(bottom: 16.0, left: 16.0, right: 16.0),
+                                    padding: const EdgeInsets.only(
+                                        bottom: 16.0, left: 16.0, right: 16.0),
                                     child: DailyScheduleCard(
                                       name: Localizer.getLocaleById(schedule.localeId, context),
                                       showError: _errorIndexes.contains(i),
@@ -347,12 +350,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
       child: Row(
         children: <Widget>[
           Expanded(
-            child: Text(
+            child: AutoSizeText(
               _notificationSettings?.notificationsEnabled ?? false
                   ? "Уведомления включены"
                   : "Уведомления отключены",
               // Localizer.getLocaleById(LocaleId.choose_time, context),
               textAlign: TextAlign.center,
+              maxLines: 1,
               style: Theme.of(context)
                   .textTheme
                   .headline

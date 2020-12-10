@@ -141,12 +141,12 @@ Map<LocaleId, String> localeRu = {
   LocaleId.excercises: "Упражнения",
   LocaleId.notifications: "Уведомления",
 
-  LocaleId.vertical_movements: "1. Вертикальные движения",
-  LocaleId.horizontal_movements: "2. Горизонтальные движения",
-  LocaleId.screw_up_movements: "3. Зажмуривания",
-  LocaleId.blinking_movements: "4. Моргание",
-  LocaleId.focus_movements: "5. Фокусировка",
-  LocaleId.palming_movements: "6. Пальминг",
+  LocaleId.vertical_movements: "Вертикальные движения",
+  LocaleId.horizontal_movements: "Горизонтальные движения",
+  LocaleId.screw_up_movements: "Зажмуривания",
+  LocaleId.blinking_movements: "Моргание",
+  LocaleId.focus_movements: "Фокусировка",
+  LocaleId.palming_movements: "Пальминг",
 
   LocaleId.turn_eyes_up_down: "Поводите глазами снизу вверх и наоборот.",
   LocaleId.turn_eyes_left_right: "Поводите глазами слева направо и наоборот.",
@@ -218,7 +218,7 @@ Map<LocaleId, String> localeRu = {
   LocaleId.weekend: "Выходной день",
 
   // texts for statistics
-  LocaleId.exercise_frequency_per_day: "Частота выполнения упражнений в течении дня",
+  LocaleId.exercise_frequency_per_day: "Частота выполнения упражнений",
   LocaleId.exercise_per_month: "Упражнений за этот месяц",
   LocaleId.skipped_days: "Пропущено дней",
   LocaleId.responses_on_push: "Откликов на уведомления",
