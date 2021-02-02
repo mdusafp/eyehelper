@@ -56,7 +56,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
     await NotificationsHelper.saveSettings(_notificationSettings);
     await _notificationsHelper.scheduleExerciseReminders().catchError((e, stack) {
       debugPrint(e);
-      Crashlytics().recordError(e, stack);
+      FirebaseCrashlytics.instance.recordError(e, stack);
     });
   }
 
