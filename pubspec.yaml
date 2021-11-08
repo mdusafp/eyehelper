@@ -1,6 +1,6 @@
 name: eyehelper
 description: A new Flutter project.
-version: 1.0.2+3
+version: 1.0.5+9
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -17,6 +17,7 @@ dependencies:
   flare_flutter: 1.6.2 # Animation
   firebase_core: 0.7.0
   firebase_crashlytics: 0.4.0 # Handle errors and send to cloud
+  firebase_analytics: 7.0.1
   flutter_statusbarcolor: 0.2.3 # Animation
   flutter_swiper: 1.1.4 # Swipe on main screen
   flutter_local_notifications: 2.0.1+1 # Notification
@@ -26,11 +27,13 @@ dependencies:
   shared_preferences: 0.5.3 # Statistic and notification
   share: 0.6.2 #for sharing the app
   tuple: 1.0.2 # Extended data structure
-  url_launcher: 5.1.4 #to go in AppStore
+  url_launcher: 5.5.0 #to go in AppStore
   vibration: 1.1.0 # For vibrating while doing excercises.
   flutter_native_timezone: 1.0.4
   flutter_slidable: 0.5.7
   auto_size_text: "any"
+  permission_handler: ^5.0.1+1
+  app_review: 2.0.1
 
 dev_dependencies:
   flutter_test:

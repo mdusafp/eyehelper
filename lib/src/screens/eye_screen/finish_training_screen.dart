@@ -1,9 +1,14 @@
+import 'dart:io';
+
+import 'package:app_review/app_review.dart';
 import 'package:eyehelper/app_id.dart';
+import 'package:eyehelper/src/helpers/preferences.dart';
 import 'package:eyehelper/src/locale/Localizer.dart';
 import 'package:eyehelper/src/locale/ru.dart';
 import 'package:eyehelper/src/screens/eye_screen/rating_stars.dart';
 import 'package:eyehelper/src/theme.dart';
 import 'package:eyehelper/src/utils.dart';
+import 'package:eyehelper/src/widgets/alert_dialog.dart';
 
 import 'package:eyehelper/src/widgets/custom_rounded_button.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +27,26 @@ class FinishTrainingScreen extends StatefulWidget {
 class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
   bool ratingChanged = false;
   bool liked = false;
+  int initRating = 0;
+  FastPreferences fastPrefs;
+  @override
+  void initState() {
+    fastPrefs = FastPreferences();
+    liked = fastPrefs?.prefs?.getBool(FastPreferences.userLikedApp) ?? false;
+    initRating = fastPrefs?.prefs?.getInt(FastPreferences.userAppRating) ?? 0;
+    super.initState();
+  }
+
+  bool get shouldShowDialog {
+    final lastRated = fastPrefs?.prefs?.getInt(FastPreferences.userRatedTheAppTime);
+    if (lastRated == null || lastRated is! int) {
+      return true;
+    }
+    if (DateTime.fromMillisecondsSinceEpoch(lastRated).difference(DateTime.now()).inDays > 7) {
+      return true;
+    }
+    return false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +78,9 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
                           child: Center(
                             child: Text(
                               Localizer.getLocaleById(LocaleId.good_job, context),
-                              style: Theme.of(context).textTheme.title, // StandardStyleTexts.eyeScreenHeader,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .title, // StandardStyleTexts.eyeScreenHeader,
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -61,8 +88,10 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
                         Padding(
                           padding: EdgeInsets.only(top: 6.0, bottom: 6.0, left: 20.0, right: 20.0),
                           child: Center(
-                            child: Text(Localizer.getLocaleById(LocaleId.you_done_excercises, context),
-                                style: Theme.of(context).textTheme.subtitle, textAlign: TextAlign.center),
+                            child: Text(
+                                Localizer.getLocaleById(LocaleId.you_done_excercises, context),
+                                style: Theme.of(context).textTheme.subtitle,
+                                textAlign: TextAlign.center),
                           ),
                         ),
                         Padding(
@@ -93,7 +122,8 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
                                   setState(() {
                                     liked = !liked;
                                   });
-                                  if (liked) {
+                                  fastPrefs.prefs.setBool(FastPreferences.userLikedApp, liked);
+                                  if (liked && shouldShowDialog) {
                                     _showWantToValueDialog();
                                   }
                                 },
@@ -112,7 +142,8 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
                                 highlightColor: Colors.transparent,
                                 radius: 25.0,
                                 onTap: () {
-                                  Share.share(Localizer.getLocaleById(LocaleId.there_is_app, context));
+                                  Share.share(
+                                      Localizer.getLocaleById(LocaleId.there_is_app, context));
                                 },
                                 child: Container(
                                   width: 100.0,
@@ -145,12 +176,19 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
                         Container(
                             child: StarRating(
                           onRatingChanged: (rating) async {
-                            if (rating > 3) {
+                            fastPrefs.prefs.setInt(FastPreferences.userAppRating, rating?.toInt());
+                            if (rating > 3 && shouldShowDialog) {
+                              if (rating == 5) {
+                                liked = true;
+                                fastPrefs.prefs.setBool(FastPreferences.userLikedApp, liked);
+                                setState(() {});
+                              }
                               _showWantToValueDialog();
                             }
                           },
-                          initRating: 0,
-                          width: MediaQuery.of(context).size.width - MediaQuery.of(context).size.width * 0.4,
+                          initRating: initRating,
+                          width: MediaQuery.of(context).size.width -
+                              MediaQuery.of(context).size.width * 0.4,
                         )),
                         Padding(
                           padding: EdgeInsets.only(top: 10.0),
@@ -192,32 +230,23 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
   void _showWantToValueDialog() {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        actions: <Widget>[
-          MaterialButton(
-            child: Text(
-              Localizer.getLocaleById(LocaleId.not_now, context),
-              style: Theme.of(context).textTheme.display3.copyWith(color: Theme.of(context).accentColor),
-            ),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-          MaterialButton(
-            child: Text(
-              Localizer.getLocaleById(LocaleId.value, context),
-              style: Theme.of(context).textTheme.display3.copyWith(color: Theme.of(context).accentColor),
-            ),
-            onPressed: () async {
-              if (await canLaunch(getAppUrl())) launch(getAppUrl());
-            },
-          ),
-        ],
-        title: Text(
-          Localizer.getLocaleById(LocaleId.want_to_set_mark, context),
-          style: Theme.of(context).textTheme.display3.copyWith(color: Theme.of(context).primaryColorDark),
-        ),
+      builder: (context) => EyeHelperAlertDialog(
+        subtitle:
+            'Вы можете оценить наше приложение в ${Platform.isAndroid ? 'Google Play' : 'App Store'}, это поможет нам развиваться и становиться лучше',
+        mainBtnTitle: Localizer.getLocaleById(LocaleId.value, context),
+        mainBtnCallback: () async {
+          fastPrefs.prefs.setInt(
+            FastPreferences.userRatedTheAppTime,
+            DateTime.now().millisecondsSinceEpoch,
+          );
+          await AppReview.requestReview;
+          Navigator.of(context).pop();
+        },
+        secondaryBtnTitle: "Закрыть",
+        secondaryBtnCallback: () {
+          Navigator.of(context).pop();
+        },
+        title: Localizer.getLocaleById(LocaleId.want_to_set_mark, context),
       ),
     );
   }

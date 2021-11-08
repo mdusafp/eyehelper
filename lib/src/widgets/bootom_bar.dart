@@ -17,7 +17,7 @@ class BottomWavy extends StatefulWidget {
   _BottomWavyState createState() => _BottomWavyState();
 }
 
-class _BottomWavyState extends State<BottomWavy> {
+class _BottomWavyState extends State<BottomWavy> with SingleTickerProviderStateMixin {
   final double eyeWidth = Utils().PREFERED_EYE_SIZE;
   final double eyeHeight = Utils().PREFERED_EYE_SIZE;
   Screens selectedScreen = Screens.main;
@@ -30,7 +30,9 @@ class _BottomWavyState extends State<BottomWavy> {
       icon: Image.asset(
         'assets/stat_menu_icon.png',
         height: 24.0,
-        color: widget.currentIndex == INDEX_STATISTICS_SCREEN ? themeData.accentColor : themeData.primaryColor,
+        color: widget.currentIndex == INDEX_STATISTICS_SCREEN
+            ? themeData.accentColor
+            : themeData.primaryColor,
       ),
       onPressed: () => widget.onTap(INDEX_STATISTICS_SCREEN),
     );
@@ -40,12 +42,15 @@ class _BottomWavyState extends State<BottomWavy> {
       width: eyeWidth,
       child: FittedBox(
         child: FloatingActionButton(
-          backgroundColor: themeData.accentColor,
+          mini: widget.currentIndex != INDEX_EYE_SCREEN,
+          backgroundColor: widget.currentIndex == INDEX_EYE_SCREEN
+              ? themeData.accentColor
+              : themeData.primaryColor,
           heroTag: 'mainBtn',
           child: Icon(
             Icons.remove_red_eye,
             color: themeData.backgroundColor,
-            size: 32.0,
+            size: widget.currentIndex == INDEX_EYE_SCREEN ? 32.0 : 24,
           ),
           onPressed: () => widget.onTap(INDEX_EYE_SCREEN),
         ),
@@ -56,7 +61,9 @@ class _BottomWavyState extends State<BottomWavy> {
       icon: Icon(
         Icons.settings,
         size: 24.0,
-        color: widget.currentIndex == INDEX_NOTIFICATIONS_SCREEN ? themeData.accentColor : themeData.primaryColor,
+        color: widget.currentIndex == INDEX_NOTIFICATIONS_SCREEN
+            ? themeData.accentColor
+            : themeData.primaryColor,
       ),
       color: Theme.of(context).primaryColor,
       onPressed: () => widget.onTap(INDEX_NOTIFICATIONS_SCREEN),
@@ -90,7 +97,8 @@ class _BottomWavyState extends State<BottomWavy> {
             ),
           ),
           Container(
-            padding: EdgeInsets.only(bottom: (Utils().PREFERED_HEIGHT_FOR_CUSTOM_BOTTOM_BAR - eyeHeight) * 3 / 4),
+            padding: EdgeInsets.only(
+                bottom: (Utils().PREFERED_HEIGHT_FOR_CUSTOM_BOTTOM_BAR - eyeHeight) * 3 / 4),
             child: Align(alignment: Alignment.bottomCenter, child: mainButton),
           ),
         ],

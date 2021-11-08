@@ -42,7 +42,7 @@ android {
         applicationId "com.fluttergods.eyehelper"
         minSdkVersion 21
         multiDexEnabled true
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

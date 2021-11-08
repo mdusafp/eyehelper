@@ -113,19 +113,16 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           child: Center(
                             child: RoundCustomButton(
                               parentSize: MediaQuery.of(context).size,
-                              width: 250,
                               onPressed: () async {
-                                _notificationSettings.notificationsEnabled = true;
-                                // final settings = _settingsRepository.getSettings();
-                                // await _notificationHelper.scheduleExerciseReminders(settings);
-
-                                setState(() {});
-
-                                _saveSettings();
+                                await _switchNotifications(true);
                               },
-                              child: Text(
-                                "Включить Уведомления",
-                                style: Theme.of(context).textTheme.button,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+                                child: AutoSizeText(
+                                  "Включить Уведомления",
+                                  maxLines: 1,
+                                  style: Theme.of(context).textTheme.button,
+                                ),
                               ),
                             ),
                           ),
@@ -253,9 +250,12 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                     setState(() {});
                                     _saveSettings();
                                   },
-                                  child: Text(
-                                    "Добавить время",
-                                    style: Theme.of(context).textTheme.button,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+                                    child: AutoSizeText(
+                                      "Добавить время",
+                                      style: Theme.of(context).textTheme.button,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -365,15 +365,23 @@ class _NotificationScreenState extends State<NotificationScreen> {
           ),
           Switch(
             onChanged: (value) async {
-              _notificationSettings.notificationsEnabled = value;
-              setState(() {});
-
-              _saveSettings();
+              await _switchNotifications(value);
             },
             value: _notificationSettings?.notificationsEnabled ?? false,
           ),
         ],
       ),
     );
+  }
+
+  Future<void> _switchNotifications(bool value) async {
+    final shouldContinue = value ? await NotificationsHelper.requestPermissions(context) : true;
+    if (!shouldContinue) {
+      return;
+    }
+    _notificationSettings.notificationsEnabled = value;
+    setState(() {});
+
+    _saveSettings();
   }
 }

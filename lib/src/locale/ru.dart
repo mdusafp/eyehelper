@@ -134,6 +134,7 @@ enum LocaleId {
   onb_subtitle1,
   onb_subtitle2,
   onb_subtitle3,
+  setup_notifications,
 }
 
 Map<LocaleId, String> localeRu = {
@@ -233,7 +234,7 @@ Map<LocaleId, String> localeRu = {
   LocaleId.set_mark: "Оценить приложение",
   LocaleId.continue_btn_text: "Продолжить",
   LocaleId.want_to_set_mark:
-      "Желаете оценить нас в ${Platform.isAndroid ? 'Google Play' : 'App Store'}?",
+      "Хотите оценить нас в ${Platform.isAndroid ? 'Google Play' : 'App Store'}?",
   LocaleId.there_is_app:
       "'Есть крутое приложение для тренировки глаз. Советую скачать! ${getAppUrl()}'",
   LocaleId.value: "Оценить",
@@ -280,4 +281,5 @@ Map<LocaleId, String> localeRu = {
       "Мы расскажем тебе про упражнения для расслабления твоих глаз и покажем как их делать.\nТы только заглядывай иногда…)",
   LocaleId.onb_subtitle3:
       "Расскажи в какое время и в какие дни работаешь за компьютером и приложение поможет тебе заботиться о своих глазах",
+  LocaleId.setup_notifications: "Настроить уведомления",
 };

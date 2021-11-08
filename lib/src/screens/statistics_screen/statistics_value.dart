@@ -18,7 +18,7 @@ class StatisticValue extends StatelessWidget {
         elevation: 8.0,
         color: Theme.of(context).accentColor,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -26,7 +26,10 @@ class StatisticValue extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: Text(
                   value,
-                  style: Theme.of(context).textTheme.title.copyWith(color: Theme.of(context).backgroundColor),
+                  style: Theme.of(context)
+                      .textTheme
+                      .title
+                      .copyWith(color: Theme.of(context).backgroundColor),
                 ),
               ),
               Text(

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:eyehelper/src/helpers/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:eyehelper/src/app.dart';

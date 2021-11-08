@@ -68,6 +68,12 @@ class FancyOnBoardingState extends State<FancyOnBoarding> with TickerProviderSta
 
   @override
   Widget build(BuildContext context) {
+    print(slideDirection == SlideDirection.leftToRight
+        ? 1 - slidePercent
+        : slideDirection == SlideDirection.rightToLeft
+            ? slidePercent
+            : 1.0);
+    print(slideDirection);
     return Stack(
       children: [
         FancyPage(
@@ -136,7 +142,30 @@ class FancyOnBoardingState extends State<FancyOnBoarding> with TickerProviderSta
                   onTap: widget.onSkipButtonPressed ?? () => Navigator.of(context).pop(),
                 ),
               )
-            : Offstage()
+            : Offstage(),
+        if (pageList[activeIndex].button != null ||
+            (pageList.length > activeIndex + 1 &&
+                slideDirection == SlideDirection.rightToLeft &&
+                pageList[activeIndex + 1].button != null))
+          Positioned(
+              bottom: 100.0,
+              left: 0.0,
+              right: 0.0,
+              child: Opacity(
+                opacity: slideDirection == SlideDirection.leftToRight
+                    ? 1 - slidePercent
+                    : slideDirection == SlideDirection.rightToLeft
+                        ? slidePercent
+                        : 1.0,
+                child: Column(
+                  children: [
+                    if (slideDirection == SlideDirection.rightToLeft)
+                      pageList[activeIndex + 1].button
+                    else
+                      pageList[activeIndex].button
+                  ],
+                ),
+              ))
       ],
     );
   }

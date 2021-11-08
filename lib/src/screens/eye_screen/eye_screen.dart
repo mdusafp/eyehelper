@@ -18,7 +18,8 @@ class _EyeScreenState extends State<EyeScreen> {
       child: AnimatedCrossFade(
         duration: Duration(milliseconds: 300),
         crossFadeState: showResult ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-        firstChild: FinishTrainingScreen(showProcessCallback: () => setState(() => showResult = false)),
+        firstChild:
+            FinishTrainingScreen(showProcessCallback: () => setState(() => showResult = false)),
         secondChild: SwiperMain(showResultCallback: () => setState(() => showResult = true)),
       ),
     );

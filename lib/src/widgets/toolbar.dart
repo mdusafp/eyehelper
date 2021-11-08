@@ -1,4 +1,5 @@
 import 'package:eyehelper/src/helpers/notification.dart';
+import 'package:eyehelper/src/screens/about_exercises_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:eyehelper/src/helpers/preferences.dart';
 import 'package:eyehelper/src/theme.dart';
@@ -33,6 +34,7 @@ class _ToolbarWavyState extends State<ToolbarWavy> {
           decoration: BoxDecoration(color: themeData.backgroundColor),
           child: Stack(
             children: <Widget>[
+              _buildQuestion(context),
               Container(
                 width: MediaQuery.of(context).size.width,
                 height: Utils().PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
@@ -56,7 +58,7 @@ class _ToolbarWavyState extends State<ToolbarWavy> {
     );
   }
 
-  Align _buildVibration(BuildContext context) {
+  Widget _buildVibration(BuildContext context) {
     final prefs = FastPreferences().prefs;
     final key = FastPreferences.isVibrationEnabled;
     final value = prefs.getBool(key) ?? true;
@@ -76,6 +78,29 @@ class _ToolbarWavyState extends State<ToolbarWavy> {
             child: Icon(
               Icons.vibration,
               color: value ? Theme.of(context).accentColor : EyehelperColorScheme.mainDark,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildQuestion(BuildContext context) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Padding(
+        padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 1 / 12),
+        child: InkWell(
+          onTap: () async {
+            Navigator.of(context).push(MaterialPageRoute(
+                fullscreenDialog: true, builder: (context) => AboutExercisesScreen()));
+          },
+          child: Container(
+            height: Utils().PREFERED_HEIGHT_FOR_CUSTOM_APPBAR * 1 / 3,
+            width: Utils().PREFERED_HEIGHT_FOR_CUSTOM_APPBAR * 1 / 3,
+            child: Icon(
+              Icons.help_outline,
+              color: Theme.of(context).accentColor,
             ),
           ),
         ),

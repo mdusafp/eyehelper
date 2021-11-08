@@ -1,5 +1,6 @@
 import 'dart:core';
 import 'dart:math' as math;
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:eyehelper/src/locale/Localizer.dart';
 import 'package:eyehelper/src/locale/ru.dart';
 import 'package:eyehelper/src/screens/notification_screen/dtos/time_card_info.dart';
@@ -171,8 +172,10 @@ class TimeScheduleCardState extends State<TimeScheduleCard> {
                                         : Colors.white24,
                                     minRadius: 13,
                                     child: Center(
-                                      child: Text(
-                                        Localizer.getLocaleById(weekList[index].shortLocale, context),
+                                      child: AutoSizeText(
+                                        Localizer.getLocaleById(
+                                            weekList[index].shortLocale, context),
+                                        maxLines: 1,
                                         style: Theme.of(context).textTheme.display2.copyWith(
                                             color: currentInfo.weekDays[weekList[index]] ?? false
                                                 ? Theme.of(context).primaryColorDark
@@ -199,7 +202,6 @@ class TimeScheduleCardState extends State<TimeScheduleCard> {
   }
 
   void showParamsDialog() async {
-
     await showDialog<bool>(
         context: context,
         child: Center(

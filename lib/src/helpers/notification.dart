@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'dart:async';
 import 'dart:developer' as logger;
 import 'dart:typed_data';
+import 'package:eyehelper/src/helpers/permission_manager.dart';
 import 'package:eyehelper/src/helpers/preferences.dart';
 import 'package:eyehelper/src/locale/Localizer.dart';
 import 'package:eyehelper/src/locale/ru.dart';
@@ -32,11 +33,19 @@ class NotificationsHelper {
     // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
     final initializationSettingsAndroid = new AndroidInitializationSettings('app_icon');
     final initializationSettingsIOS = new IOSInitializationSettings(
+      requestAlertPermission: false,
+      requestBadgePermission: false,
+      requestSoundPermission: false,
       onDidReceiveLocalNotification: onDidRecieveLocalNotification,
     );
     final initializationSettings = new InitializationSettings(
         android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
     _plugin.initialize(initializationSettings, onSelectNotification: onSelectNotification);
+  }
+
+  static Future<bool> requestPermissions(BuildContext context) {
+    return PermissionsManager.checkPermissionsWithDialog(
+        context: context, group: Permission.notification, errorTitle: null, errorSubtitle: null);
   }
 
   /// Cancel all notifications
@@ -220,11 +229,6 @@ class NotificationsHelper {
     if (payload != null) {
       debugPrint('notification payload: ' + payload);
     }
-
-    await Navigator.push(
-      _context,
-      new MaterialPageRoute(builder: (context) => HomeScreen()),
-    );
   }
 
   /// Display a dialog with the notification details, tap ok to go to another page
