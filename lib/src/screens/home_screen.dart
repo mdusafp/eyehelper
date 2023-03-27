@@ -16,7 +16,6 @@ import 'package:eyehelper/src/screens/notification_screen/notification_screen.da
 import 'package:eyehelper/src/widgets/bootom_bar.dart';
 import 'package:eyehelper/src/widgets/toolbar.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
 class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
@@ -24,7 +23,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 1;
-  StatisticsRepository _statisticsRepository;
+  late StatisticsRepository _statisticsRepository;
 
   bool dataLoading = true;
 
@@ -37,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
       if (!(FastPreferences().prefs.getBool(FastPreferences.wasOnboardingShown) ?? false)) {
         Navigator.of(context).push(CupertinoPageRoute(
             fullscreenDialog: true, builder: (context) => AboutExercisesScreen()));
-        SchedulerBinding.instance.addPostFrameCallback((_) async {
+        SchedulerBinding.instance!.addPostFrameCallback((_) async {
           await Navigator.of(context).push(
             CupertinoPageRoute(
               fullscreenDialog: true,
@@ -57,7 +56,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> initAppConstants() async {
     await FastPreferences().init();
     // make text in toolbar black
-    FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
 
     final now = DateTime.now();
     final startOfToday = DateTime(now.year, now.month, now.day);

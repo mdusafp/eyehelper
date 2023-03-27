@@ -31,10 +31,10 @@ class Statistics {
   final List<Tuple2<int, double>> dayStats;
 
   Statistics({
-    @required int exercisePerMonth,
-    @required int skippedDays,
-    @required List<Tuple2<int, double>> weekStats,
-    @required List<Tuple2<int, double>> dayStats,
+    required int exercisePerMonth,
+    required int skippedDays,
+    required List<Tuple2<int, double>> weekStats,
+    required List<Tuple2<int, double>> dayStats,
   })  : this.exercisePerMonth = exercisePerMonth.toString(),
         this.skippedDays = skippedDays.toString(),
         this.weekStats = weekStats,
@@ -47,7 +47,7 @@ class StatisticsScreen extends StatefulWidget {
 }
 
 class _StatisticsScreenState extends State<StatisticsScreen> {
-  StatisticsRepository _statisticsRepository;
+  late StatisticsRepository _statisticsRepository;
 
   @override
   initState() {
@@ -58,23 +58,23 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
   Future<Statistics> fetchStatistics() async {
     SharedPreferences preferences = FastPreferences().prefs;
 
-    String temp = preferences.getString(FastPreferences.allDayTrainingMapKey);
+    String? temp = preferences.getString(FastPreferences.allDayTrainingMapKey);
     Map<String, dynamic> todayStat = temp == null ? null : json.decode(temp);
 
     List<Tuple2<int, double>> todayCastedStat = [];
     if (todayStat != null) {
       for (int i = 0; i < SwiperScreenInfo.flareActorByIndex.length; i++) {
         int value = todayStat[i.toString()];
-        todayCastedStat.add(Tuple2<int, double>(i, (value ?? 0).toDouble()));
+        todayCastedStat.add(Tuple2<int, double>(i, (value).toDouble()));
       }
     }
 
     List<Tuple2<int, double>> weekStat = [];
     int monthCount = 0;
 
-    String dayCountersJson = preferences.getString(FastPreferences.dayCountersKey);
+    String? dayCountersJson = preferences.getString(FastPreferences.dayCountersKey);
     if (dayCountersJson != null) {
-      Map<String, dynamic> dayCountersMap = json.decode(dayCountersJson);
+      Map<String, double> dayCountersMap = json.decode(dayCountersJson);
 
       DateTime time = DateTime.now();
       DateTime mondayTemp = time.add(Duration(days: -(time.weekday - 1)));
@@ -89,9 +89,9 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
       dayCountersMap.forEach((key, value) {
         try {
           if (value != 0 &&
-              TodayTrainingCounters().formatterNoHours.parse(key)?.month == time.month &&
-              TodayTrainingCounters().formatterNoHours.parse(key)?.year == time.year) {
-            monthCount += value;
+              TodayTrainingCounters().formatterNoHours.parse(key).month == time.month &&
+              TodayTrainingCounters().formatterNoHours.parse(key).year == time.year) {
+            monthCount += value.toInt();
           }
         } catch (e) {
           print(e);
@@ -112,7 +112,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
-          child: FutureBuilder(
+          child: FutureBuilder<Statistics>(
             future: fetchStatistics(),
             builder: (context, snapshot) {
               if (snapshot.data == null) {
@@ -140,8 +140,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                                 barHeight: 0.0, // make background transparent
                                 barActiveColor: Theme.of(context).accentColor.withOpacity(.65),
                                 coordsList: cardTypes[index] == CardType.week
-                                    ? snapshot.data.weekStats
-                                    : snapshot.data.dayStats,
+                                    ? snapshot.data?.weekStats
+                                    : snapshot.data?.dayStats,
                               ),
                             );
                           },
@@ -154,8 +154,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                         Localizer.getLocaleById(LocaleId.exercise_frequency_per_day, context),
                         style: Theme.of(context)
                             .textTheme
-                            .body1
-                            .copyWith(color: Theme.of(context).primaryColorDark),
+                            .bodyText2
+                            ?.copyWith(color: Theme.of(context).primaryColorDark),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -172,11 +172,11 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                           children: <Widget>[
                             StatisticValue(
                               label: Localizer.getLocaleById(LocaleId.exercise_per_month, context),
-                              value: snapshot.data.exercisePerMonth.toString(),
+                              value: snapshot.data?.exercisePerMonth.toString() ?? '',
                             ),
                             StatisticValue(
                               label: Localizer.getLocaleById(LocaleId.skipped_days, context),
-                              value: snapshot.data.skippedDays.toString(),
+                              value: snapshot.data?.skippedDays.toString() ?? '',
                             ),
                           ],
                         ),

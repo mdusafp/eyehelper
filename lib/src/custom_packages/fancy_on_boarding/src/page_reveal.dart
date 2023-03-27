@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 
 class PageReveal extends StatelessWidget {
   final double revealPercent;
-  final Widget child;
+  final Widget? child;
 
   PageReveal({
-    this.revealPercent,
+    required this.revealPercent,
     this.child,
   });
 
@@ -17,7 +17,7 @@ class PageReveal extends StatelessWidget {
         shadow: Shadow(
           blurRadius: 10,
           offset: Offset(0, 0),
-          color: Theme.of(context).accentColor,//color: Color(0xFF000000).withOpacity(0.25),
+          color: Theme.of(context).accentColor, //color: Color(0xFF000000).withOpacity(0.25),
         ),
         clipper: CircleRevealClipper(revealPercent),
       ),
@@ -47,8 +47,7 @@ class CircleRevealClipper extends CustomClipper<Rect> {
     final radius = distanceToCorner * revealPercent;
     final diameter = 2 * radius;
 
-    return Rect.fromLTWH(
-        epicenter.dx - radius, epicenter.dy - radius, diameter, diameter);
+    return Rect.fromLTWH(epicenter.dx - radius, epicenter.dy - radius, diameter, diameter);
   }
 
   @override
@@ -57,22 +56,21 @@ class CircleRevealClipper extends CustomClipper<Rect> {
   }
 }
 
-
 class ClipShadowShadowPainter extends CustomPainter {
-  final Shadow shadow;
+  final Shadow? shadow;
   final CustomClipper<Rect> clipper;
 
-  ClipShadowShadowPainter({@required this.shadow, @required this.clipper});
+  ClipShadowShadowPainter({required this.shadow, required this.clipper});
 
   @override
   void paint(Canvas canvas, Size size) {
-    if (shadow == null){
+    if (shadow == null) {
       return;
     }
-    var paint = shadow.toPaint();
+    var paint = shadow!.toPaint();
     var clipPath = Path();
-    clipPath.addOval(clipper.getClip(size).shift(shadow.offset));
-    
+    clipPath.addOval(clipper.getClip(size).shift(shadow!.offset));
+
     canvas.drawPath(clipPath, paint);
   }
 

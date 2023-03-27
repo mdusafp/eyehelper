@@ -5,9 +5,9 @@ class StatisticValue extends StatelessWidget {
   final String value;
 
   const StatisticValue({
-    Key key,
-    @required this.label,
-    @required this.value,
+    Key? key,
+    required this.label,
+    required this.value,
   }) : super(key: key);
 
   @override
@@ -28,13 +28,13 @@ class StatisticValue extends StatelessWidget {
                   value,
                   style: Theme.of(context)
                       .textTheme
-                      .title
-                      .copyWith(color: Theme.of(context).backgroundColor),
+                      .headline6
+                      ?.copyWith(color: Theme.of(context).backgroundColor),
                 ),
               ),
               Text(
                 label,
-                style: Theme.of(context).textTheme.display1.copyWith(
+                style: Theme.of(context).textTheme.headline4?.copyWith(
                       color: Theme.of(context).backgroundColor.withOpacity(.65),
                     ),
                 textAlign: TextAlign.center,

@@ -6,9 +6,9 @@ import 'package:eyehelper/src/widgets/clip_shadow_path.dart';
 
 class BottomWavy extends StatefulWidget {
   BottomWavy({
-    Key key,
-    this.onTap,
-    this.currentIndex,
+    Key? key,
+    required this.onTap,
+    required this.currentIndex,
   }) : super(key: key);
 
   final Function onTap;

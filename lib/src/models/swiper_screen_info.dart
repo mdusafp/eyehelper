@@ -1,8 +1,7 @@
 import 'package:eyehelper/src/locale/ru.dart';
 import 'package:flutter/material.dart';
 
-class SwiperScreenInfo{
-
+class SwiperScreenInfo {
   final String flareName;
   final String animationName;
   final String fakeImgName;
@@ -19,32 +18,26 @@ class SwiperScreenInfo{
   final int times;
 
   const SwiperScreenInfo({
-    @required this.flareName,
-    @required this.animationName,
-    @required this.fakeImgName,
-    @required this.title,
-    @required this.mainText,
-    @required this.durationText,
-    @required this.vibrations,
-    @required this.duration,
-    @required this.firstTextTime,
-    @required this.secondTextTime,
-    @required this.trainingAnimationName,
-    @required this.times,
-    @required this.trainingFirstText,
-    @required this.trainingSecondText,
+    required this.flareName,
+    required this.animationName,
+    required this.fakeImgName,
+    required this.title,
+    required this.mainText,
+    required this.durationText,
+    required this.vibrations,
+    required this.duration,
+    required this.firstTextTime,
+    required this.secondTextTime,
+    required this.trainingAnimationName,
+    required this.times,
+    required this.trainingFirstText,
+    required this.trainingSecondText,
   });
-
 
   //App configuration
   static const Map<int, SwiperScreenInfo> flareActorByIndex = {
     0: SwiperScreenInfo(
-      vibrations: [
-        0.67,
-        3.67,
-        5.33,
-        8.33
-      ],
+      vibrations: [0.67, 3.67, 5.33, 8.33],
       duration: 9.0,
       times: 3,
       trainingAnimationName: 'trainingTopBot',
@@ -60,12 +53,7 @@ class SwiperScreenInfo{
       trainingSecondText: LocaleId.watch_down,
     ),
     1: SwiperScreenInfo(
-      vibrations: [
-        0.67,
-        3.67,
-        5.33,
-        8.33
-      ],
+      vibrations: [0.67, 3.67, 5.33, 8.33],
       duration: 9.0,
       times: 3,
       flareName: 'assets/lrtbFaceFast.flr',
@@ -100,10 +88,7 @@ class SwiperScreenInfo{
       trainingSecondText: LocaleId.relax_eyes,
     ),
     3: SwiperScreenInfo(
-      vibrations: [
-        0.0,
-        0.167
-      ],
+      vibrations: [0.0, 0.167],
       duration: 0.33,
       times: 25,
       flareName: 'assets/blinkingFast.flr',
@@ -119,10 +104,7 @@ class SwiperScreenInfo{
       trainingSecondText: LocaleId.fast_blink,
     ),
     4: SwiperScreenInfo(
-      vibrations: [
-        0.0,
-        10.0
-      ],
+      vibrations: [0.0, 10.0],
       duration: 20.0,
       times: 3,
       flareName: 'assets/farSeingFast.flr',
@@ -157,5 +139,4 @@ class SwiperScreenInfo{
       trainingSecondText: LocaleId.apply_to_eyes,
     ),
   };
-
 }

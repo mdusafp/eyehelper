@@ -6,16 +6,16 @@ import 'package:flutter/material.dart';
 
 class AnimatedFace extends StatelessWidget {
   final SwiperScreenInfo info;
-  final FlareController controller;
+  final FlareController? controller;
   final bool isPaused;
   final bool visible;
 
   AnimatedFace({
-    Key key,
-    this.info,
+    Key? key,
+    required this.info,
     this.isPaused = false,
     this.visible = true,
-    this.controller,
+    required this.controller,
   }) : super(key: key);
 
   @override

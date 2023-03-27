@@ -23,23 +23,21 @@ class FastPreferences {
   static String userRatedTheAppTime = 'user_rated_app_last_time';
   static String wasOpened = 'first_time_opened';
 
-  SharedPreferences prefs;
+  late SharedPreferences prefs;
 
   Future<void> init() async {
-    if (prefs == null) {
-      prefs = await SharedPreferences.getInstance();
-      final wasOpened = prefs.getBool(FastPreferences.wasOpened) ?? false;
-      if (!wasOpened) {
-        AppAnalytics().sendEvent(
-          FastPreferences.wasOpened,
-          params: {
-            'platform': Platform.isIOS ? 'iOS' : 'Android',
-          },
-        );
-        prefs.setBool(FastPreferences.wasOpened, true);
-      }
-      print("prefs inited");
+    prefs = await SharedPreferences.getInstance();
+    final wasOpened = prefs.getBool(FastPreferences.wasOpened) ?? false;
+    if (!wasOpened) {
+      AppAnalytics().sendEvent(
+        FastPreferences.wasOpened,
+        params: {
+          'platform': Platform.isIOS ? 'iOS' : 'Android',
+        },
+      );
+      prefs.setBool(FastPreferences.wasOpened, true);
     }
+    print("prefs inited");
   }
 
   static final FastPreferences _singleton = FastPreferences._internal();

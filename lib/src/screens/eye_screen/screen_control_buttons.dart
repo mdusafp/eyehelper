@@ -11,13 +11,13 @@ class ScreenControlButtons extends StatefulWidget {
   final Function callbackStartFace;
 
   const ScreenControlButtons({
-    Key key,
-    @required this.paused,
-    @required this.stopped,
-    @required this.pauseResumeCallback,
-    @required this.finishCallback,
-    @required this.callbackStartFace,
-    @required this.text,
+    Key? key,
+    required this.paused,
+    required this.stopped,
+    required this.pauseResumeCallback,
+    required this.finishCallback,
+    required this.callbackStartFace,
+    required this.text,
   }) : super(key: key);
 
   @override
@@ -26,8 +26,8 @@ class ScreenControlButtons extends StatefulWidget {
 
 class _ScreenControlButtonsState extends State<ScreenControlButtons> {
   int counterVal = 3;
-  String counterStr;
-  Timer _startCounterTimer;
+  String counterStr = '';
+  late Timer _startCounterTimer;
 
   bool trainingStarted = false;
 
@@ -73,7 +73,8 @@ class _ScreenControlButtonsState extends State<ScreenControlButtons> {
               Expanded(
                 flex: 1,
                 child: RoundControlButton(
-                  imagePath: mainTimerPause ? 'assets/pause_control.png' : 'assets/play_control.png',
+                  imagePath:
+                      mainTimerPause ? 'assets/pause_control.png' : 'assets/play_control.png',
                   callback: () {
                     setState(() {
                       mainTimerPause = !mainTimerPause;
@@ -96,10 +97,9 @@ class _ScreenControlButtonsState extends State<ScreenControlButtons> {
                               Text(
                                 !trainingStarted ? counterStr : widget.text,
                                 textAlign: TextAlign.center,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .body1
-                                    .copyWith(color: Theme.of(context).accentColor, fontWeight: FontWeight.w600),
+                                style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                                    color: Theme.of(context).accentColor,
+                                    fontWeight: FontWeight.w600),
                               )
                             ],
                           ),

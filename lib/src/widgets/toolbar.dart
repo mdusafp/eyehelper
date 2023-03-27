@@ -8,9 +8,9 @@ import 'package:eyehelper/src/widgets/clip_shadow_path.dart';
 
 class ToolbarWavy extends StatefulWidget {
   final String title;
-  final int currentIndex;
+  final int? currentIndex;
 
-  ToolbarWavy({Key key, this.title, this.currentIndex}) : super(key: key);
+  ToolbarWavy({Key? key, required this.title, this.currentIndex}) : super(key: key);
 
   _ToolbarWavyState createState() => _ToolbarWavyState();
 }
@@ -43,8 +43,8 @@ class _ToolbarWavyState extends State<ToolbarWavy> {
                     widget.title,
                     style: Theme.of(context)
                         .textTheme
-                        .title
-                        .copyWith(color: Theme.of(context).accentColor),
+                        .headline6
+                        ?.copyWith(color: Theme.of(context).accentColor),
                   ),
                 ),
               ),

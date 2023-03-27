@@ -10,9 +10,9 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 
 class OnBoardingScreen extends StatefulWidget {
-  final Function(int) onSetupSettings;
+  final Function(int)? onSetupSettings;
 
-  const OnBoardingScreen({Key key, this.onSetupSettings}) : super(key: key);
+  const OnBoardingScreen({Key? key, this.onSetupSettings}) : super(key: key);
 
   @override
   _OnBoardingScreenState createState() => _OnBoardingScreenState();
@@ -50,14 +50,14 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     heroAssetPath: 'assets/work_onb.png',
                     title: Text(
                       Localizer.getLocaleById(LocaleId.onb_title1, context),
-                      style: Theme.of(context).textTheme.title.copyWith(
+                      style: Theme.of(context).textTheme.headline6?.copyWith(
                             color: Theme.of(context).accentColor,
                           ),
                     ),
                     body: Text(
                       Localizer.getLocaleById(LocaleId.onb_subtitle1, context),
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.body1.copyWith(
+                      style: Theme.of(context).textTheme.bodyText2?.copyWith(
                             color: Theme.of(context).primaryColor,
                           ),
                     )),
@@ -65,13 +65,13 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     color: Colors.white,
                     heroAssetPath: 'assets/exercises_onb.png',
                     title: Text(Localizer.getLocaleById(LocaleId.onb_title2, context),
-                        style: Theme.of(context).textTheme.title.copyWith(
+                        style: Theme.of(context).textTheme.headline6?.copyWith(
                               color: Theme.of(context).accentColor,
                             )),
                     body: Text(
                       Localizer.getLocaleById(LocaleId.onb_subtitle2, context),
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.body1.copyWith(
+                      style: Theme.of(context).textTheme.bodyText2?.copyWith(
                             color: Theme.of(context).primaryColor,
                           ),
                     )),
@@ -80,7 +80,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   heroAssetPath: 'assets/notif_onb.png',
                   title: Text(
                     Localizer.getLocaleById(LocaleId.onb_title3, context),
-                    style: Theme.of(context).textTheme.title.copyWith(
+                    style: Theme.of(context).textTheme.headline6?.copyWith(
                           color: Theme.of(context).accentColor,
                         ),
                   ),
@@ -116,7 +116,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     children: [
                       Text(Localizer.getLocaleById(LocaleId.onb_subtitle3, context),
                           textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.body1.copyWith(
+                          style: Theme.of(context).textTheme.bodyText2?.copyWith(
                                 color: Theme.of(context).primaryColor,
                               )),
                     ],

@@ -22,9 +22,9 @@ class DailyScheduleCard extends StatefulWidget {
   final OnChange onChange;
 
   const DailyScheduleCard({
-    Key key,
-    @required this.name,
-    @required this.onChange,
+    Key? key,
+    required this.name,
+    required this.onChange,
     this.initialStartOfWork = const Duration(hours: 8, minutes: 00, seconds: 00),
     this.initialEndOfWork = const Duration(hours: 17, minutes: 00, seconds: 00),
     this.isActive = false,
@@ -36,9 +36,9 @@ class DailyScheduleCard extends StatefulWidget {
 }
 
 class DailyScheduleCardState extends State<DailyScheduleCard> {
-  Duration _startOfWork;
-  Duration _endOfWork;
-  bool _isActive;
+  Duration _startOfWork = Duration();
+  Duration _endOfWork = Duration();
+  bool _isActive = false;
 
   @override
   void initState() {
@@ -102,7 +102,7 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
     return AbsorbPointer(
       absorbing: !_isActive,
       child: DefaultTextStyle(
-        style: themeData.textTheme.display1.copyWith(
+        style: themeData.textTheme.headline4!.copyWith(
           color: _isActive
               ? themeData.backgroundColor.withOpacity(.65)
               : themeData.backgroundColor.withOpacity(.4),
@@ -116,7 +116,7 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
             InkWell(
               child: Text(
                 startText,
-                style: themeData.textTheme.subtitle.copyWith(
+                style: themeData.textTheme.subtitle2?.copyWith(
                   color: _isActive
                       ? themeData.backgroundColor.withOpacity(.65)
                       : themeData.backgroundColor.withOpacity(.4),
@@ -132,7 +132,7 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
             InkWell(
               child: Text(
                 endText,
-                style: themeData.textTheme.subtitle.copyWith(
+                style: themeData.textTheme.subtitle2?.copyWith(
                   color: _isActive
                       ? themeData.backgroundColor.withOpacity(.65)
                       : themeData.backgroundColor.withOpacity(.4),
@@ -198,7 +198,7 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
             child: DefaultTextStyle(
-              style: themeData.textTheme.body1.copyWith(
+              style: themeData.textTheme.bodyText2!.copyWith(
                 color: _isActive
                     ? themeData.backgroundColor
                     : themeData.backgroundColor.withOpacity(.65),
@@ -214,7 +214,7 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
                       child: Center(
                         child: Text(
                           widget.name.toUpperCase(),
-                          style: themeData.textTheme.title.copyWith(
+                          style: themeData.textTheme.headline6?.copyWith(
                             color: _isActive ? themeData.accentColor : themeData.primaryColor,
                           ),
                         ),
@@ -290,8 +290,8 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
             padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
             child: Text(
               Localizer.getLocaleById(LocaleId.wrong_work_time, context),
-              style: textTheme.body1
-                  .copyWith(color: EyehelperColorScheme.btnTextWhite.withOpacity(.85)),
+              style: textTheme.bodyText2
+                  ?.copyWith(color: EyehelperColorScheme.btnTextWhite.withOpacity(.85)),
             ),
           ),
         ),

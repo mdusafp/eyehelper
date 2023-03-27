@@ -5,10 +5,10 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 
 class CustomSwiperBuilder extends SwiperPlugin {
   ///color when current index,if set null , will be Theme.of(context).primaryColor
-  final Color activeColor;
+  final Color? activeColor;
 
   ///,if set null , will be Theme.of(context).scaffoldBackgroundColor
-  final Color color;
+  final Color? color;
 
   ///Size of the dot when activate
   final double activeSize;
@@ -19,7 +19,7 @@ class CustomSwiperBuilder extends SwiperPlugin {
   /// Space between dots
   final double space;
 
-  final Key key;
+  final Key? key;
 
   const CustomSwiperBuilder({
     this.activeColor,
@@ -36,8 +36,8 @@ class CustomSwiperBuilder extends SwiperPlugin {
       print(
           "The itemCount is too big, we suggest use FractionPaginationBuilder instead of DotSwiperPaginationBuilder in this sitituation");
     }
-    Color activeColor = this.activeColor;
-    Color color = this.color;
+    Color? activeColor = this.activeColor;
+    Color? color = this.color;
 
     if (activeColor == null || color == null) {
       ThemeData themeData = Theme.of(context);
@@ -45,7 +45,8 @@ class CustomSwiperBuilder extends SwiperPlugin {
       color = this.color ?? themeData.scaffoldBackgroundColor;
     }
 
-    if (config.indicatorLayout != PageIndicatorLayout.NONE && config.layout == SwiperLayout.DEFAULT) {
+    if (config.indicatorLayout != PageIndicatorLayout.NONE &&
+        config.layout == SwiperLayout.DEFAULT) {
       return new PageIndicator(
         count: config.itemCount,
         controller: config.pageController,
@@ -132,12 +133,12 @@ class PageIndicator extends StatefulWidget {
   final double activeSize;
 
   PageIndicator({
-    Key key,
+    Key? key,
     this.size: 20.0,
     this.space: 5.0,
-    this.count,
+    required this.count,
     this.activeSize: 20.0,
-    this.controller,
+    required this.controller,
     this.color: Colors.white30,
     this.layout: PageIndicatorLayout.SLIDE,
     this.activeColor: Colors.white,
@@ -169,8 +170,12 @@ class _PageIndicatorState extends State<PageIndicator> {
             Expanded(
               child: Center(
                 child: Icon(
-                  widget.controller.page >= i - 0.5 && widget.controller.page <= i + 0.5
-                      ? TodayTrainingCounters().getPassed(i) ? Icons.check_circle : Icons.lens
+                  widget.controller.page != null &&
+                          widget.controller.page! >= i - 0.5 &&
+                          widget.controller.page! <= i + 0.5
+                      ? TodayTrainingCounters().getPassed(i)
+                          ? Icons.check_circle
+                          : Icons.lens
                       : TodayTrainingCounters().getPassed(i)
                           ? Icons.check_circle_outline
                           : Icons.radio_button_unchecked,

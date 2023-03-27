@@ -18,11 +18,12 @@ class Utils {
 
   Utils._internal();
 
-  void init(Window window) {
+  void init(SingletonFlutterWindow window) {
     ScreenUtil.instance = ScreenUtil(width: 360, height: 640)..init(window);
 
     IS_SMALL_DEVICE =
-        Utils.calculateDiagonal(window.physicalSize.width, window.physicalSize.height) < SMALL_DEVICE_LIMIT;
+        Utils.calculateDiagonal(window.physicalSize.width, window.physicalSize.height) <
+            SMALL_DEVICE_LIMIT;
 
     if (IS_SMALL_DEVICE && !ADAPTED) {
       PREFERED_HEIGHT_FOR_CUSTOM_APPBAR *= 3 / 4;
@@ -44,9 +45,7 @@ class ScreenUtil {
   double width;
   double height;
 
-  bool allowFontScaling;
-
-  static double _screenWidth;
+  static late double _screenWidth;
 
   ScreenUtil({this.width = 1080, this.height = 1920});
 
@@ -54,7 +53,7 @@ class ScreenUtil {
     return instance;
   }
 
-  void init(Window window) {
+  void init(SingletonFlutterWindow window) {
     _screenWidth = window.physicalSize.width;
   }
 

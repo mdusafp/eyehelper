@@ -1,11 +1,8 @@
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:eyehelper/src/widgets/alert_dialog.dart';
-import 'package:eyehelper/src/widgets/custom_rounded_button.dart';
-import 'package:flutter/material.dart';
 import 'dart:io';
 
+import 'package:eyehelper/src/widgets/alert_dialog.dart';
+import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
-export 'package:permission_handler/permission_handler.dart';
 
 class PermissionsManager {
   static final String _tag = "PermissionsManager";
@@ -16,18 +13,16 @@ class PermissionsManager {
   }
 
   static Future<bool> checkPermissionsWithDialog({
-    @required BuildContext context,
-    @required Permission group,
-    @required String errorTitle,
-    @required String errorSubtitle,
-    String disabledTitle,
-    String disabledSubitle,
+    required BuildContext context,
+    required Permission group,
+    String? errorTitle,
+    String? errorSubtitle,
+    String? disabledTitle,
+    String? disabledSubitle,
   }) async {
     PermissionStatus permission = await group.status;
 
     switch (permission) {
-      case PermissionStatus.undetermined:
-        return await requestPermissions(group);
       case PermissionStatus.denied:
         if (Platform.isAndroid) {
           bool result = await requestPermissions(group);

@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:eyehelper/src/helpers/preferences.dart';
 import 'package:eyehelper/src/models/swiper_screen_info.dart';
 import 'package:eyehelper/src/screens/eye_screen/eye_single_page.dart';
@@ -9,9 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 class SwiperMain extends StatefulWidget {
-  final Function showResultCallback;
+  final Function? showResultCallback;
 
-  const SwiperMain({Key key, this.showResultCallback}) : super(key: key);
+  const SwiperMain({Key? key, this.showResultCallback}) : super(key: key);
 
   @override
   _SwiperMainState createState() => new _SwiperMainState();
@@ -58,12 +59,15 @@ class _SwiperMainState extends State<SwiperMain> {
           space: 10.0,
           size: 6.0,
           activeSize: 8.0,
-          activeColor: Theme.of(context).accentColor,
+          activeColor: Theme.of(context).colorScheme.secondary,
         ),
       ),
       itemBuilder: (BuildContext context, int index) {
-        SwiperScreenInfo info = SwiperScreenInfo.flareActorByIndex[index];
+        SwiperScreenInfo? info = SwiperScreenInfo.flareActorByIndex[index];
 
+        if (info == null) {
+          return Container();
+        }
         return EyeSinglePage(
           info: info,
           controller: swiperController,
@@ -77,14 +81,15 @@ class _SwiperMainState extends State<SwiperMain> {
     return Container(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
-      child: new Material(color: Colors.white, child: new Container(child: Stack(children: <Widget>[swiper]))),
+      child: new Material(
+          color: Colors.white, child: new Container(child: Stack(children: <Widget>[swiper]))),
     );
   }
 
   _processStart(index) async {
     var preferences = FastPreferences().prefs;
 
-    String dayCountersJson = preferences.getString(FastPreferences.dayCountersKey);
+    String? dayCountersJson = preferences.getString(FastPreferences.dayCountersKey);
     Map<String, dynamic> dayCountersMap;
     if (dayCountersJson == null) {
       dayCountersMap = {};
@@ -109,8 +114,9 @@ class _SwiperMainState extends State<SwiperMain> {
   _processFinish() async {
     var preferences = FastPreferences().prefs;
 
-    if (await countersHelper.checkFinishedAll() && !preferences.getBool(FastPreferences.finishScreenShowedKey)) {
-      widget.showResultCallback();
+    if (await countersHelper.checkFinishedAll() &&
+        !(preferences.getBool(FastPreferences.finishScreenShowedKey) ?? false)) {
+      widget.showResultCallback?.call();
       await preferences.setBool(FastPreferences.finishScreenShowedKey, true);
     } else {
       swiperController.next();

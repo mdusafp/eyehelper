@@ -12,9 +12,9 @@ class NotificationFrequencyPicker extends StatefulWidget {
   final OnChange onChange;
 
   const NotificationFrequencyPicker({
-    Key key,
-    @required this.initialFrequency,
-    @required this.onChange,
+    Key? key,
+    required this.initialFrequency,
+    required this.onChange,
   }) : super(key: key);
 
   @override
@@ -22,9 +22,9 @@ class NotificationFrequencyPicker extends StatefulWidget {
 }
 
 class NotificationFrequencyPickerState extends State<NotificationFrequencyPicker> {
-  List<NotificationFrequency> _frequencies;
-  int _selectedFrequencyIndex;
-  FixedExtentScrollController _controller;
+  List<NotificationFrequency>? _frequencies;
+  int? _selectedFrequencyIndex;
+  FixedExtentScrollController? _controller;
 
   final double _modalHeight = 128.0;
 
@@ -39,11 +39,11 @@ class NotificationFrequencyPickerState extends State<NotificationFrequencyPicker
     _selectedFrequencyIndex = frequencies.indexWhere((frequency) {
       return frequency.type == widget.initialFrequency.type;
     });
-    if (_selectedFrequencyIndex < 0 || _selectedFrequencyIndex == null) {
+    if (_selectedFrequencyIndex == null || _selectedFrequencyIndex! < 0) {
       _selectedFrequencyIndex = 0;
     }
     //_selectedFrequency = _frequencies[index];
-    _controller = new FixedExtentScrollController(initialItem: _selectedFrequencyIndex);
+    _controller = new FixedExtentScrollController(initialItem: _selectedFrequencyIndex!);
 
     super.initState();
   }
@@ -80,8 +80,8 @@ class NotificationFrequencyPickerState extends State<NotificationFrequencyPicker
                   textAlign: TextAlign.center,
                   style: Theme.of(context)
                       .textTheme
-                      .display2
-                      .copyWith(color: Theme.of(context).primaryColorDark),
+                      .headline3
+                      ?.copyWith(color: Theme.of(context).primaryColorDark),
                 ),
               ),
               Padding(
@@ -95,7 +95,7 @@ class NotificationFrequencyPickerState extends State<NotificationFrequencyPicker
                     children: frequencies.map((frequency) {
                       return Center(
                         child: Text(Localizer.getLocaleById(frequency.title, context),
-                            style: Theme.of(context).textTheme.body1),
+                            style: Theme.of(context).textTheme.bodyText2),
                       );
                     }).toList(),
                     onSelectedItemChanged: onSelect,
@@ -130,7 +130,7 @@ class NotificationFrequencyPickerState extends State<NotificationFrequencyPicker
                     _controller = new FixedExtentScrollController(initialItem: index);
                   });
                 }));
-        selectedFrequency = frequencies[_selectedFrequencyIndex];
+        selectedFrequency = frequencies[_selectedFrequencyIndex ?? 0];
         widget.onChange(selectedFrequency);
       },
       child: Container(
@@ -157,7 +157,7 @@ class NotificationFrequencyPickerState extends State<NotificationFrequencyPicker
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
           child: DefaultTextStyle(
-            style: themeData.textTheme.display1.copyWith(
+            style: themeData.textTheme.headline4!.copyWith(
               color: themeData.backgroundColor.withOpacity(.85),
             ),
             child: Column(
@@ -173,8 +173,9 @@ class NotificationFrequencyPickerState extends State<NotificationFrequencyPicker
                       ),
                       Text(
                         Localizer.getLocaleById(
-                            frequencies[_selectedFrequencyIndex].title, context),
-                        style: themeData.textTheme.title.copyWith(color: themeData.backgroundColor),
+                            frequencies[_selectedFrequencyIndex ?? 0].title, context),
+                        style: themeData.textTheme.headline6
+                            ?.copyWith(color: themeData.backgroundColor),
                       ),
                     ],
                   ),

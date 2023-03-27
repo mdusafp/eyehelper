@@ -7,8 +7,8 @@ class PagerIndicator extends StatelessWidget {
   final bool isRtl;
 
   PagerIndicator({
-    this.viewModel,
-    this.isRtl,
+    required this.viewModel,
+    this.isRtl = false,
   });
 
   @override
@@ -31,8 +31,7 @@ class PagerIndicator extends StatelessWidget {
       }
 
       bool isHollow = i > viewModel.activeIndex ||
-          (i == viewModel.activeIndex &&
-              viewModel.slideDirection == SlideDirection.leftToRight);
+          (i == viewModel.activeIndex && viewModel.slideDirection == SlideDirection.leftToRight);
 
       bubbles.add(
         PageBubble(
@@ -82,7 +81,7 @@ class PageBubble extends StatelessWidget {
   final PageBubbleViewModel viewModel;
 
   PageBubble({
-    this.viewModel,
+    required this.viewModel,
   });
 
   @override
@@ -97,13 +96,13 @@ class PageBubble extends StatelessWidget {
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: viewModel.isHollow
-                ? Theme.of(context).accentColor
-                    .withAlpha((0x88 * viewModel.activePercent).round())
+                ? Theme.of(context).accentColor.withAlpha((0x88 * viewModel.activePercent).round())
                 : Theme.of(context).accentColor,
             border: Border.all(
               color: viewModel.isHollow
-                  ? Theme.of(context).accentColor.withAlpha(
-                      (0x88 * (1.0 - viewModel.activePercent)).round())
+                  ? Theme.of(context)
+                      .accentColor
+                      .withAlpha((0x88 * (1.0 - viewModel.activePercent)).round())
                   : Theme.of(context).accentColor,
               width: 2.0,
             ),
@@ -129,9 +128,9 @@ class PageBubbleViewModel {
 Widget _renderImageAsset(String assetPath,
     {double width = 24, double height = 24, Color color = Colors.white}) {
   return Image.asset(
-      assetPath,
-      color: color,
-      width: width,
-      height: height,
-    );
+    assetPath,
+    color: color,
+    width: width,
+    height: height,
+  );
 }

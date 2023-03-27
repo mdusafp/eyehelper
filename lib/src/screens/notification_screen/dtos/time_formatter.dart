@@ -19,7 +19,7 @@ class CustomTimeFormatter {
 
     return Duration(
       hours: _timeFormatter.parse(str, true).hour,
-      minutes: withMinutes ? _timeFormatter.parse(str, true).minute : null,
+      minutes: withMinutes ? _timeFormatter.parse(str, true).minute : 0,
     );
   }
 }

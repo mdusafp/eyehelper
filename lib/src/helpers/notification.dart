@@ -1,8 +1,8 @@
-import 'dart:convert';
-import 'dart:ui';
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer' as logger;
 import 'dart:typed_data';
+
 import 'package:eyehelper/src/helpers/permission_manager.dart';
 import 'package:eyehelper/src/helpers/preferences.dart';
 import 'package:eyehelper/src/locale/Localizer.dart';
@@ -12,23 +12,21 @@ import 'package:eyehelper/src/screens/home_screen.dart';
 import 'package:eyehelper/src/screens/notification_screen/dtos/week.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
-import 'package:timezone/data/latest.dart' as tz;
+import 'package:permission_handler/permission_handler.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 class NotificationsHelper {
-  BuildContext _context;
+  final BuildContext _context;
   Int64List _vibrationPattern = Int64List.fromList([0, 1000, 5000, 2000]);
-  FlutterLocalNotificationsPlugin _plugin;
+  late FlutterLocalNotificationsPlugin _plugin;
   // Meta required for Android 8.0+
   String _channelId = 'eyehelper-notifications-channel-id';
   String _channelName = 'eyehelper-notifications';
   String _channelDescription = 'Channel for excercise reminders';
 
-  NotificationsHelper(BuildContext context) {
-    _context = context;
+  NotificationsHelper(BuildContext context) : _context = context {
     _plugin = new FlutterLocalNotificationsPlugin();
     // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
     final initializationSettingsAndroid = new AndroidInitializationSettings('app_icon');
@@ -62,10 +60,10 @@ class NotificationsHelper {
     }
 
     if (settings.type == NotificationSettings.manualNotifType) {
-      for (int i = 0; i < settings.customScheduleList.length; i++) {
+      for (int i = 0; i < (settings.customScheduleList?.length ?? 0); i++) {
         logger.log('======= START $i START ======='.padLeft(20).padRight(20));
 
-        CustomSchedule currentSchedule = settings.customScheduleList[i];
+        CustomSchedule currentSchedule = settings.customScheduleList![i];
         if (!currentSchedule.isActive) {
           continue;
         }
@@ -83,12 +81,13 @@ class NotificationsHelper {
         for (int scheduleIndex = 0; scheduleIndex < orderedScheduleList.length; scheduleIndex++) {
           final schedule = orderedScheduleList[scheduleIndex];
 
-          if (!(settings.customScheduleList[i].cardInfo.weekDays[schedule] ?? false)) {
+          if (!(settings.customScheduleList![i].cardInfo?.weekDays[schedule] ?? false) ||
+              currentSchedule.cardInfo == null) {
             continue;
           }
 
           // compute notifications time
-          int notificationTimeInMilliseconds = currentSchedule.cardInfo.time.inMilliseconds;
+          int notificationTimeInMilliseconds = currentSchedule.cardInfo!.time.inMilliseconds;
 
           //(workingTimeInMilliseconds / settings.notificationFrequencyInMilliseconds).floor();
 
@@ -200,7 +199,7 @@ class NotificationsHelper {
     final androidPlatformChannelSpecifics = new AndroidNotificationDetails(
       _channelId,
       _channelName,
-      _channelDescription,
+      channelDescription: _channelDescription,
       vibrationPattern: _vibrationPattern,
       //color: const Color.fromARGB(255, 255, 0, 0),
     );
@@ -213,31 +212,33 @@ class NotificationsHelper {
 
     tz.Location loc = tz.getLocation(await FlutterNativeTimezone.getLocalTimezone());
     await _plugin
-        .zonedSchedule(id, title, body, tz.TZDateTime.from(scheduledNotificationDateTime, loc),
-            platformChannelSpecifics,
-            androidAllowWhileIdle: true,
-            uiLocalNotificationDateInterpretation:
-                UILocalNotificationDateInterpretation.absoluteTime,
-            scheduledNotificationRepeatFrequency: ScheduledNotificationRepeatFrequency.weekly)
+        .zonedSchedule(
+      id,
+      title,
+      body,
+      tz.TZDateTime.from(scheduledNotificationDateTime, loc),
+      platformChannelSpecifics,
+      androidAllowWhileIdle: true,
+      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+      matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime,
+    )
         .catchError((e) {
       print(e);
     });
   }
 
   /// Triggered when user taps on a notification
-  Future onSelectNotification(String payload) async {
-    if (payload != null) {
-      debugPrint('notification payload: ' + payload);
-    }
+  Future onSelectNotification(String? payload) async {
+    debugPrint('notification payload: ' + (payload ?? ''));
   }
 
   /// Display a dialog with the notification details, tap ok to go to another page
-  Future onDidRecieveLocalNotification(int id, String title, String body, String payload) async {
+  Future onDidRecieveLocalNotification(int id, String? title, String? body, String? payload) async {
     showDialog(
       context: _context,
       builder: (BuildContext context) => new CupertinoAlertDialog(
-        title: new Text(title),
-        content: new Text(body),
+        title: Text(title ?? ''),
+        content: Text(body ?? ''),
         actions: [
           CupertinoDialogAction(
             isDefaultAction: true,
@@ -272,24 +273,24 @@ class NotificationsHelper {
           .prefs
           .getStringList(FastPreferences.customScheduleListKey)
           ?.asMap()
-          ?.map((i, schedule) {
+          .map((i, schedule) {
             return MapEntry(i, CustomSchedule.fromMap(json.decode(schedule)));
           })
-          ?.values
-          ?.toList(),
+          .values
+          .toList(),
       'notifType': FastPreferences().prefs.getString(FastPreferences.notificationTypeKey),
       'dailyScheduleList': FastPreferences()
           .prefs
           .getStringList(FastPreferences.dailyScheduleListKey)
           ?.asMap()
-          ?.map((i, schedule) {
+          .map((i, schedule) {
             Map<String, dynamic> map = {
               'localeId': weekList[i].shortLocale,
             };
             return MapEntry(i, DailySchedule.fromMap(map..addAll(json.decode(schedule))));
           })
-          ?.values
-          ?.toList(),
+          .values
+          .toList(),
     };
 
     return NotificationSettings.fromMap(settingsMap);
@@ -297,13 +298,18 @@ class NotificationsHelper {
 
   static Future<void> saveSettings(NotificationSettings notificationSettings) async {
     await Future.wait([
-      FastPreferences().prefs.setString(
-            FastPreferences.notificationTypeKey,
-            notificationSettings.type,
-          ),
+      if (notificationSettings.type != null)
+        FastPreferences().prefs.setString(
+              FastPreferences.notificationTypeKey,
+              notificationSettings.type!,
+            )
+      else
+        FastPreferences().prefs.remove(
+              FastPreferences.notificationTypeKey,
+            ),
       FastPreferences().prefs.setInt(
             FastPreferences.timesADay,
-            notificationSettings.timesADay,
+            notificationSettings.timesADay ?? 1,
           ),
       FastPreferences().prefs.setBool(
             FastPreferences.isNotificationEnabled,
@@ -315,28 +321,30 @@ class NotificationsHelper {
           ),
       FastPreferences().prefs.setStringList(
             FastPreferences.customScheduleListKey,
-            notificationSettings.customScheduleList.map((d) => json.encode(d.toMap())).toList(),
+            (notificationSettings.customScheduleList ?? [])
+                .map((d) => json.encode(d.toMap()))
+                .toList(),
           ),
     ]);
   }
 }
 
-extension _MapSkiper on Map<WeekDay, bool> {
-  List<WeekDay> toListSkipEnabled(int index) {
-    if (this == null || index == null) {
-      return null;
-    }
+// extension _MapSkiper on Map<WeekDay, bool> {
+//   List<WeekDay>? toListSkipEnabled(int? index) {
+//     if (index == null) {
+//       return null;
+//     }
 
-    this.removeWhere((key, value) => !value);
-    return this.keys.skip(index);
-  }
+//     this.removeWhere((key, value) => !value);
+//     return this.keys.skip(index).toList();
+//   }
 
-  List<WeekDay> toListTakeEnabled(int index) {
-    if (this == null || index == null) {
-      return null;
-    }
+//   List<WeekDay>? toListTakeEnabled(int? index) {
+//     if (index == null) {
+//       return null;
+//     }
 
-    this.removeWhere((key, value) => !value);
-    return this.keys.take(index);
-  }
-}
+//     this.removeWhere((key, value) => !value);
+//     return this.keys.take(index).toList();
+//   }
+// }

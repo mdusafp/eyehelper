@@ -1,21 +1,18 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:eyehelper/src/screens/notification_screen/dtos/frequency.dart';
-import 'package:eyehelper/src/screens/notification_screen/dtos/time_card_info.dart';
-import 'package:eyehelper/src/screens/notification_screen/dtos/week.dart';
-import 'package:eyehelper/src/screens/notification_screen/picker_dialog.dart';
-import 'package:eyehelper/src/screens/notification_screen/time_schedule_card.dart';
-import 'package:eyehelper/src/widgets/custom_rounded_button.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:eyehelper/src/helpers/notification.dart';
-import 'package:eyehelper/src/helpers/preferences.dart';
-import 'package:eyehelper/src/models/notification_settings.dart';
-import 'package:eyehelper/src/screens/notification_screen/notification_frequency_picker.dart';
-import 'package:eyehelper/src/utils.dart';
 import 'package:eyehelper/src/locale/Localizer.dart';
 import 'package:eyehelper/src/locale/ru.dart';
+import 'package:eyehelper/src/models/notification_settings.dart';
 import 'package:eyehelper/src/screens/notification_screen/daily_schedule_card.dart';
+import 'package:eyehelper/src/screens/notification_screen/dtos/frequency.dart';
+import 'package:eyehelper/src/screens/notification_screen/dtos/time_card_info.dart';
+import 'package:eyehelper/src/screens/notification_screen/notification_frequency_picker.dart';
+import 'package:eyehelper/src/screens/notification_screen/picker_dialog.dart' as Dialog;
+import 'package:eyehelper/src/screens/notification_screen/time_schedule_card.dart';
+import 'package:eyehelper/src/utils.dart';
+import 'package:eyehelper/src/widgets/custom_rounded_button.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/material.dart';
 
 class NotificationScreen extends StatefulWidget {
   @override
@@ -23,19 +20,18 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
-  Set<int> _errorIndexes;
-  NotificationSettings _notificationSettings;
-  NotificationsHelper _notificationsHelper;
-  Duration frequency;
+  late Set<int> _errorIndexes;
+  late NotificationSettings _notificationSettings;
+  late NotificationsHelper _notificationsHelper;
 
   //TEMP
-  Frequency currentFreq;
+  Frequency? currentFreq;
   //
 
   @override
   void initState() {
     super.initState();
-    frequency = new Duration();
+    // frequency = new Duration();
     _notificationsHelper = new NotificationsHelper(context);
     _notificationSettings = NotificationsHelper.getUpdatedSettings();
 
@@ -65,7 +61,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
     return Scaffold(
       body: SingleChildScrollView(
         child: DefaultTextStyle(
-          style: Theme.of(context).textTheme.body1,
+          style: Theme.of(context).textTheme.bodyText2!,
           child: Padding(
             padding: EdgeInsets.only(
               top: Utils().PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
@@ -77,7 +73,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
               children: <Widget>[
                 AnimatedCrossFade(
                   duration: Duration(milliseconds: 400),
-                  crossFadeState: _notificationSettings?.notificationsEnabled ?? false
+                  crossFadeState: _notificationSettings.notificationsEnabled
                       ? CrossFadeState.showSecond
                       : CrossFadeState.showFirst,
                   firstChild: Padding(
@@ -101,8 +97,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                             textAlign: TextAlign.center,
                             style: Theme.of(context)
                                 .textTheme
-                                .body1
-                                .copyWith(color: Theme.of(context).primaryColor),
+                                .bodyText2
+                                ?.copyWith(color: Theme.of(context).primaryColor),
                           ),
                         ),
                         Container(
@@ -144,7 +140,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           onChange: (frequency) async {
                             currentFreq = frequency;
                             setState(() {});
-                            _notificationSettings.type = frequency?.type == FrequencyType.manual
+                            _notificationSettings.type = frequency.type == FrequencyType.manual
                                 ? NotificationSettings.manualNotifType
                                 : NotificationSettings.autoNotifType;
                             _notificationSettings.timesADay = frequency.timesADay;
@@ -155,7 +151,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       AnimatedCrossFade(
                         duration: Duration(milliseconds: 400),
                         crossFadeState:
-                            currentFreq != null && currentFreq.type == FrequencyType.manual
+                            currentFreq != null && currentFreq!.type == FrequencyType.manual
                                 ? CrossFadeState.showFirst
                                 : CrossFadeState.showSecond,
                         firstChild: Column(
@@ -171,8 +167,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                 textAlign: TextAlign.center,
                                 style: Theme.of(context)
                                     .textTheme
-                                    .display1
-                                    .copyWith(color: Theme.of(context).primaryColorDark),
+                                    .headline4
+                                    ?.copyWith(color: Theme.of(context).primaryColorDark),
                               ),
                             ),
                             Padding(
@@ -181,9 +177,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
                                 padding: EdgeInsets.zero,
-                                itemCount: _notificationSettings.customScheduleList.length,
+                                itemCount: _notificationSettings.customScheduleList?.length ?? 0,
                                 itemBuilder: (context, i) {
-                                  final schedule = _notificationSettings.customScheduleList[i];
+                                  final schedule = _notificationSettings.customScheduleList![i];
 
                                   return Padding(
                                     padding: const EdgeInsets.only(bottom: 16.0),
@@ -191,11 +187,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                       initialInfo: schedule.cardInfo,
                                       isActive: schedule.isActive,
                                       onDelete: () {
-                                        _notificationSettings.customScheduleList.remove(schedule);
+                                        _notificationSettings.customScheduleList!.remove(schedule);
                                         setState(() {});
                                         _saveSettings();
                                       },
-                                      onChange: (bool isActive, TimeCardInfo cardInfo) async {
+                                      onChange: (bool isActive, TimeCardInfo? cardInfo) async {
                                         schedule.isActive = isActive;
                                         schedule.cardInfo = cardInfo;
 
@@ -228,21 +224,24 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                 child: RoundCustomButton(
                                   parentSize: MediaQuery.of(context).size,
                                   onPressed: () async {
-                                    TimeCardInfo infoResult;
+                                    TimeCardInfo? infoResult;
 
-                                    bool shouldAdd = await showDialog<bool>(
+                                    bool? shouldAdd = await showDialog<bool>(
                                         context: context,
-                                        child: Center(
-                                            child: TimePickerDialog(
-                                          showAdd: true,
-                                          customTitle: "Укажите параметры",
-                                          initInfo: TimeCardInfo.defaultCard13,
-                                          onChanged: (info) {
-                                            infoResult = info;
-                                          },
-                                        )));
+                                        builder: (context) {
+                                          return Center(
+                                            child: Dialog.TimePickerDialog(
+                                              showAdd: true,
+                                              customTitle: "Укажите параметры",
+                                              initInfo: TimeCardInfo.defaultCard13,
+                                              onChanged: (info) {
+                                                infoResult = info;
+                                              },
+                                            ),
+                                          );
+                                        });
                                     if (shouldAdd != null && shouldAdd) {
-                                      _notificationSettings.customScheduleList.add(
+                                      _notificationSettings.customScheduleList?.add(
                                         CustomSchedule(cardInfo: infoResult, isActive: false),
                                       );
                                     }
@@ -275,8 +274,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                 textAlign: TextAlign.center,
                                 style: Theme.of(context)
                                     .textTheme
-                                    .display1
-                                    .copyWith(color: Theme.of(context).primaryColorDark),
+                                    .headline4
+                                    ?.copyWith(color: Theme.of(context).primaryColorDark),
                               ),
                             ),
                             Padding(
@@ -351,7 +350,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         children: <Widget>[
           Expanded(
             child: AutoSizeText(
-              _notificationSettings?.notificationsEnabled ?? false
+              _notificationSettings.notificationsEnabled
                   ? "Уведомления включены"
                   : "Уведомления отключены",
               // Localizer.getLocaleById(LocaleId.choose_time, context),
@@ -359,15 +358,15 @@ class _NotificationScreenState extends State<NotificationScreen> {
               maxLines: 1,
               style: Theme.of(context)
                   .textTheme
-                  .headline
-                  .copyWith(color: Theme.of(context).accentColor),
+                  .headline5
+                  ?.copyWith(color: Theme.of(context).colorScheme.secondary),
             ),
           ),
           Switch(
             onChanged: (value) async {
               await _switchNotifications(value);
             },
-            value: _notificationSettings?.notificationsEnabled ?? false,
+            value: _notificationSettings.notificationsEnabled,
           ),
         ],
       ),

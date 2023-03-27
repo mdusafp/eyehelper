@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:app_review/app_review.dart';
-import 'package:eyehelper/app_id.dart';
 import 'package:eyehelper/src/helpers/preferences.dart';
 import 'package:eyehelper/src/locale/Localizer.dart';
 import 'package:eyehelper/src/locale/ru.dart';
@@ -9,16 +8,14 @@ import 'package:eyehelper/src/screens/eye_screen/rating_stars.dart';
 import 'package:eyehelper/src/theme.dart';
 import 'package:eyehelper/src/utils.dart';
 import 'package:eyehelper/src/widgets/alert_dialog.dart';
-
 import 'package:eyehelper/src/widgets/custom_rounded_button.dart';
 import 'package:flutter/material.dart';
-import 'package:share/share.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:share_plus/share_plus.dart';
 
 class FinishTrainingScreen extends StatefulWidget {
-  final Function showProcessCallback;
+  final Function? showProcessCallback;
 
-  const FinishTrainingScreen({Key key, this.showProcessCallback}) : super(key: key);
+  const FinishTrainingScreen({Key? key, this.showProcessCallback}) : super(key: key);
 
   @override
   _FinishTrainingScreenState createState() => _FinishTrainingScreenState();
@@ -28,17 +25,17 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
   bool ratingChanged = false;
   bool liked = false;
   int initRating = 0;
-  FastPreferences fastPrefs;
+  late FastPreferences fastPrefs;
   @override
   void initState() {
     fastPrefs = FastPreferences();
-    liked = fastPrefs?.prefs?.getBool(FastPreferences.userLikedApp) ?? false;
-    initRating = fastPrefs?.prefs?.getInt(FastPreferences.userAppRating) ?? 0;
+    liked = fastPrefs.prefs.getBool(FastPreferences.userLikedApp) ?? false;
+    initRating = fastPrefs.prefs.getInt(FastPreferences.userAppRating) ?? 0;
     super.initState();
   }
 
   bool get shouldShowDialog {
-    final lastRated = fastPrefs?.prefs?.getInt(FastPreferences.userRatedTheAppTime);
+    final lastRated = fastPrefs.prefs.getInt(FastPreferences.userRatedTheAppTime);
     if (lastRated == null || lastRated is! int) {
       return true;
     }
@@ -80,7 +77,7 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
                               Localizer.getLocaleById(LocaleId.good_job, context),
                               style: Theme.of(context)
                                   .textTheme
-                                  .title, // StandardStyleTexts.eyeScreenHeader,
+                                  .headline6, // StandardStyleTexts.eyeScreenHeader,
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -90,7 +87,7 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
                           child: Center(
                             child: Text(
                                 Localizer.getLocaleById(LocaleId.you_done_excercises, context),
-                                style: Theme.of(context).textTheme.subtitle,
+                                style: Theme.of(context).textTheme.subtitle2,
                                 textAlign: TextAlign.center),
                           ),
                         ),
@@ -168,7 +165,7 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
                           child: Center(
                             child: Text(
                               Localizer.getLocaleById(LocaleId.set_mark, context),
-                              style: Theme.of(context).textTheme.subtitle,
+                              style: Theme.of(context).textTheme.subtitle2,
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -176,7 +173,7 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
                         Container(
                             child: StarRating(
                           onRatingChanged: (rating) async {
-                            fastPrefs.prefs.setInt(FastPreferences.userAppRating, rating?.toInt());
+                            fastPrefs.prefs.setInt(FastPreferences.userAppRating, rating.toInt());
                             if (rating > 3 && shouldShowDialog) {
                               if (rating == 5) {
                                 liked = true;
@@ -212,7 +209,7 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
                 child: RoundCustomButton(
                   parentSize: MediaQuery.of(context).size,
                   onPressed: () async {
-                    widget.showProcessCallback();
+                    widget.showProcessCallback?.call();
                   },
                   child: Text(
                     Localizer.getLocaleById(LocaleId.continue_btn_txt, context),

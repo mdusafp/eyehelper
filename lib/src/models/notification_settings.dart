@@ -1,7 +1,6 @@
 import 'package:eyehelper/src/locale/ru.dart';
 import 'package:eyehelper/src/screens/notification_screen/dtos/time_card_info.dart';
 import 'package:eyehelper/src/screens/notification_screen/dtos/week.dart';
-import 'package:flutter/material.dart';
 
 const _defaultStartOfWorkInMilliseconds = 1000 * 60 * 60 * 8;
 const _defaultEndOfWorkInMilliseconds = 1000 * 60 * 60 * 16;
@@ -9,18 +8,18 @@ const _defaultIsWorkingDay = false;
 
 class DailySchedule {
   LocaleId localeId;
-  int startOfWorkInMilliseconds;
-  int endOfWorkInMilliseconds;
-  bool isWorkingDay;
+  int startOfWorkInMilliseconds = _defaultStartOfWorkInMilliseconds;
+  int endOfWorkInMilliseconds = _defaultEndOfWorkInMilliseconds;
+  bool isWorkingDay = _defaultIsWorkingDay;
 
   DailySchedule({
     this.startOfWorkInMilliseconds = _defaultStartOfWorkInMilliseconds,
     this.endOfWorkInMilliseconds = _defaultEndOfWorkInMilliseconds,
     this.isWorkingDay = _defaultIsWorkingDay,
-    @required this.localeId,
+    required this.localeId,
   });
 
-  DailySchedule.fromMap(Map<String, dynamic> map) {
+  DailySchedule.fromMap(Map<String, dynamic> map) : localeId = LocaleId.one_day {
     localeId = map['localeId'];
     startOfWorkInMilliseconds =
         map['startOfWorkInMilliseconds'] ?? _defaultStartOfWorkInMilliseconds;
@@ -41,7 +40,7 @@ class DailySchedule {
 }
 
 class CustomSchedule {
-  TimeCardInfo cardInfo;
+  TimeCardInfo? cardInfo;
   bool isActive;
 
   CustomSchedule({
@@ -49,14 +48,14 @@ class CustomSchedule {
     this.isActive = true,
   });
 
-  CustomSchedule.fromMap(Map<String, dynamic> map) {
+  CustomSchedule.fromMap(Map<String, dynamic> map) : isActive = false {
     isActive = map['isActive'];
     cardInfo = TimeCardInfo.fromMap(map['cardInfo']);
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'cardInfo': cardInfo.toMap(),
+      'cardInfo': cardInfo?.toMap(),
       'isActive': isActive,
     };
   }
@@ -82,38 +81,39 @@ class NotificationSettings {
   static const String autoNotifType = "Auto";
   static const String manualNotifType = "Manual";
 
-  bool notificationsEnabled;
+  bool notificationsEnabled = _defaultNotificationsEnabled;
   //int notificationFrequencyInMilliseconds;
   List<DailySchedule> dailyScheduleList;
-  List<CustomSchedule> customScheduleList;
-  String type;
-  int timesADay;
+  List<CustomSchedule>? customScheduleList;
+  String? type;
+  int? timesADay;
 
   NotificationSettings({
-    this.notificationsEnabled,
+    this.notificationsEnabled = _defaultNotificationsEnabled,
     //this.notificationFrequencyInMilliseconds,
-    this.dailyScheduleList,
+    this.dailyScheduleList = const <DailySchedule>[],
     this.customScheduleList,
     this.timesADay,
     this.type,
   });
 
-  NotificationSettings.fromMap(Map<String, dynamic> map) {
-    notificationsEnabled = map['notificationsEnabled'] ?? _defaultNotificationsEnabled;
-    // notificationFrequencyInMilliseconds =
-    //     map['notificationFrequencyInMilliseconds'] ?? _defaultNotificationFrequencyInMilliseconds;
-    dailyScheduleList = map['dailyScheduleList'] ?? _defaultDailyScheduleList;
-    customScheduleList = map['customScheduleList'] ?? _defaultManualScheduleList;
-    type = map['notifType'] ?? autoNotifType;
-    timesADay = map['timesADay'] ?? _defaultTimesADay;
+  static NotificationSettings fromMap(Map<String, dynamic> map) {
+    return NotificationSettings(
+      notificationsEnabled: map['notificationsEnabled'] ?? _defaultNotificationsEnabled,
+      dailyScheduleList: map['dailyScheduleList'] ?? _defaultDailyScheduleList,
+      customScheduleList: map['customScheduleList'] ?? _defaultManualScheduleList,
+      type: map['notifType'] ?? autoNotifType,
+      timesADay: map['timesADay'] ?? _defaultTimesADay,
+    );
   }
 
   Map<String, dynamic> toMap() {
     return {
       'notificationsEnabled': notificationsEnabled,
       //'notificationFrequencyInMilliseconds': notificationFrequencyInMilliseconds,
-      'dailyScheduleList': List.from(dailyScheduleList?.map((d) => d.toMap())),
-      'customScheduleList': List.from(customScheduleList?.map((d) => d.toMap())),
+      'dailyScheduleList': List.from(dailyScheduleList.map((d) => d.toMap())),
+      'customScheduleList':
+          customScheduleList == null ? null : List.from(customScheduleList!.map((d) => d.toMap())),
       'notifType': type,
       'timesADay': timesADay,
     };

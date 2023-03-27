@@ -8,14 +8,14 @@ class StarRating extends StatefulWidget {
   final int starCount;
   final RatingChangeCallback onRatingChanged;
   final int initRating;
-  final double width;
-  final Color color;
-  final Color disableColor;
+  final double? width;
+  final Color? color;
+  final Color? disableColor;
 
   StarRating({
     this.starCount = 5,
     this.initRating = 0,
-    @required this.onRatingChanged,
+    required this.onRatingChanged,
     this.width,
     this.color,
     this.disableColor,
@@ -26,7 +26,7 @@ class StarRating extends StatefulWidget {
 }
 
 class _StarRatingState extends State<StarRating> {
-  int rating;
+  int rating = 0;
 
   @override
   void initState() {

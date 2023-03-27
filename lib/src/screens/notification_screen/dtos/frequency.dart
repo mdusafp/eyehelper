@@ -1,18 +1,13 @@
 import 'package:eyehelper/src/locale/ru.dart';
 
-enum FrequencyType{
-  onceADay,
-  twiceADay,
-  threeADay,
-  manual
-}
+enum FrequencyType { onceADay, twiceADay, threeADay, manual }
 
 class Frequency {
   final FrequencyType type;
   final LocaleId title;
   final int timesADay;
 
-  const Frequency({this.type, this.title, this.timesADay});
+  const Frequency({required this.type, required this.title, required this.timesADay});
 }
 
 const List<Frequency> frequencies = [

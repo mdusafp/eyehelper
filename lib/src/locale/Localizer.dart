@@ -22,10 +22,10 @@ class Localizer {
       locale = defaultLang;
     }
 
-    Map translation = _locales[locale];
+    Map? translation = _locales[locale];
 
     try {
-      res = translation[id];
+      res = translation![id];
     } catch (e) {
       print(e);
     }

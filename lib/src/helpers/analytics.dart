@@ -13,7 +13,7 @@ mixin HttpAnalytics {
 }
 
 class AnalyticsHelper {
-  static void sendEvent(String eventName, {Map<String, dynamic> params}) {
+  static void sendEvent(String eventName, {Map<String, dynamic>? params}) {
     try {
       final analytics = AppAnalytics();
       analytics.sendEvent(eventName, params: params ?? {});

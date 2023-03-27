@@ -12,22 +12,22 @@ import 'package:flutter/material.dart';
 
 class FancyOnBoarding extends StatefulWidget {
   final List<PageModel> pageList;
-  final VoidCallback onDoneButtonPressed;
-  final VoidCallback onSkipButtonPressed;
-  final VoidCallback onNextButtonPressed;
-  final VoidCallback onBackButtonPressed;
-  final Function(int) pageIndexChanged;
+  final VoidCallback? onDoneButtonPressed;
+  final VoidCallback? onSkipButtonPressed;
+  final VoidCallback? onNextButtonPressed;
+  final VoidCallback? onBackButtonPressed;
+  final Function(int)? pageIndexChanged;
 
-  final ShapeBorder doneButtonShape;
-  final TextStyle doneButtonTextStyle;
-  final Color doneButtonBackgroundColor;
-  final TextStyle skipButtonTextStyle;
-  final Color skipButtonColor;
+  final ShapeBorder? doneButtonShape;
+  final TextStyle? doneButtonTextStyle;
+  final Color? doneButtonBackgroundColor;
+  final TextStyle? skipButtonTextStyle;
+  final Color? skipButtonColor;
   final bool showSkipButton;
 
   FancyOnBoarding({
-    Key key,
-    @required this.pageList,
+    Key? key,
+    required this.pageList,
     this.onDoneButtonPressed,
     this.onNextButtonPressed,
     this.onSkipButtonPressed,
@@ -47,9 +47,9 @@ class FancyOnBoarding extends StatefulWidget {
 }
 
 class FancyOnBoardingState extends State<FancyOnBoarding> with TickerProviderStateMixin {
-  StreamController<SlideUpdate> slideUpdateStream;
-  AnimatedPageDragger animatedPageDragger;
-  List<PageModel> pageList;
+  late StreamController<SlideUpdate> slideUpdateStream;
+  AnimatedPageDragger? animatedPageDragger;
+  late List<PageModel> pageList;
   int activeIndex = 0;
   int nextPageIndex = 0;
   SlideDirection slideDirection = SlideDirection.none;
@@ -111,7 +111,7 @@ class FancyOnBoardingState extends State<FancyOnBoarding> with TickerProviderSta
           right: 20,
           child: InkResponse(
             child: Icon(pageList.length - 1 < activeIndex + 1 ? Icons.done : Icons.navigate_next,
-                size: 32, color: Theme.of(context).accentColor),
+                size: 32, color: Theme.of(context).colorScheme.secondary),
             onTap: widget.onDoneButtonPressed != null && widget.onNextButtonPressed != null
                 ? pageList.length - 1 < activeIndex + 1
                     ? widget.onDoneButtonPressed
@@ -127,7 +127,8 @@ class FancyOnBoardingState extends State<FancyOnBoarding> with TickerProviderSta
             child: Opacity(
               opacity: _getOpacity(),
               child: InkResponse(
-                child: Icon(Icons.navigate_before, size: 32, color: Theme.of(context).accentColor),
+                child: Icon(Icons.navigate_before,
+                    size: 32, color: Theme.of(context).colorScheme.secondary),
                 onTap: widget.onBackButtonPressed ?? back,
               ),
             ),
@@ -138,7 +139,8 @@ class FancyOnBoardingState extends State<FancyOnBoarding> with TickerProviderSta
                 top: 28,
                 right: 16,
                 child: InkResponse(
-                  child: Icon(Icons.close, size: 32, color: Theme.of(context).accentColor),
+                  child:
+                      Icon(Icons.close, size: 32, color: Theme.of(context).colorScheme.secondary),
                   onTap: widget.onSkipButtonPressed ?? () => Navigator.of(context).pop(),
                 ),
               )
@@ -160,9 +162,9 @@ class FancyOnBoardingState extends State<FancyOnBoarding> with TickerProviderSta
                 child: Column(
                   children: [
                     if (slideDirection == SlideDirection.rightToLeft)
-                      pageList[activeIndex + 1].button
+                      pageList[activeIndex + 1].button ?? Container()
                     else
-                      pageList[activeIndex].button
+                      pageList[activeIndex].button ?? Container()
                   ],
                 ),
               ))
@@ -187,12 +189,12 @@ class FancyOnBoardingState extends State<FancyOnBoarding> with TickerProviderSta
       vsync: this,
     );
     animating = true;
-    await animatedPageDragger.run();
+    await animatedPageDragger?.run();
     animating = false;
     setState(() {
       activeIndex = nextPageIndex;
       if (widget.pageIndexChanged != null) {
-        widget.pageIndexChanged(activeIndex);
+        widget.pageIndexChanged?.call(activeIndex);
       }
     });
   }
@@ -203,7 +205,7 @@ class FancyOnBoardingState extends State<FancyOnBoarding> with TickerProviderSta
     }
     if (pageList.length - 1 < activeIndex + 1) {
       if (widget.onDoneButtonPressed != null) {
-        widget.onDoneButtonPressed();
+        widget.onDoneButtonPressed!();
       } else {
         Navigator.of(context).pop();
       }
@@ -219,12 +221,12 @@ class FancyOnBoardingState extends State<FancyOnBoarding> with TickerProviderSta
       vsync: this,
     );
     animating = true;
-    await animatedPageDragger.run();
+    await animatedPageDragger?.run();
     animating = false;
     setState(() {
       activeIndex = nextPageIndex;
       if (widget.pageIndexChanged != null) {
-        widget.pageIndexChanged(activeIndex);
+        widget.pageIndexChanged!(activeIndex);
       }
     });
   }
@@ -263,7 +265,7 @@ class FancyOnBoardingState extends State<FancyOnBoarding> with TickerProviderSta
             nextPageIndex = activeIndex;
           }
 
-          animatedPageDragger.run();
+          animatedPageDragger?.run();
         } else if (event.updateType == UpdateType.animating) {
           slideDirection = event.direction;
           slidePercent = event.slidePercent;
@@ -273,10 +275,10 @@ class FancyOnBoardingState extends State<FancyOnBoarding> with TickerProviderSta
           slideDirection = SlideDirection.none;
           slidePercent = 0.0;
 
-          animatedPageDragger.dispose();
+          animatedPageDragger?.dispose();
         }
         if (widget.pageIndexChanged != null) {
-          widget.pageIndexChanged(activeIndex);
+          widget.pageIndexChanged!(activeIndex);
         }
       });
     });
@@ -292,7 +294,7 @@ class FancyOnBoardingState extends State<FancyOnBoarding> with TickerProviderSta
 
   @override
   void dispose() {
-    slideUpdateStream?.close();
+    slideUpdateStream.close();
     super.dispose();
   }
 }

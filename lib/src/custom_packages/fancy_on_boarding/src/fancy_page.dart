@@ -6,7 +6,7 @@ class FancyPage extends StatelessWidget {
   final double percentVisible;
 
   FancyPage({
-    this.model,
+    required this.model,
     this.percentVisible = 1.0,
   });
 
@@ -23,27 +23,23 @@ class FancyPage extends StatelessWidget {
             padding: EdgeInsets.only(left: 24, right: 24),
             child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               //Transform(
-                // transform: Matrix4.translationValues(
-                //   0.0, 50.0 * (1.0 - percentVisible), 0.0),
-                //child: 
-                Padding(
-                  padding: EdgeInsets.only(bottom: 25.0),
-                  child: _renderImageAsset(model.heroAssetPath,
-                      width: 200, height: 200, color: model.heroAssetColor),
-                ),
+              // transform: Matrix4.translationValues(
+              //   0.0, 50.0 * (1.0 - percentVisible), 0.0),
+              //child:
+              Padding(
+                padding: EdgeInsets.only(bottom: 25.0),
+                child: _renderImageAsset(model.heroAssetPath,
+                    width: 200, height: 200, color: model.heroAssetColor),
+              ),
               //),
               Transform(
-                transform: Matrix4.translationValues(
-                    0.0, 30.0 * (1.0 - percentVisible), 0.0),
-                child: Padding(
-                    padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                    child: model.title),
+                transform: Matrix4.translationValues(0.0, 30.0 * (1.0 - percentVisible), 0.0),
+                child:
+                    Padding(padding: EdgeInsets.only(top: 10.0, bottom: 10.0), child: model.title),
               ),
               Transform(
-                transform: Matrix4.translationValues(
-                    0.0, 30.0 * (1.0 - percentVisible), 0.0),
-                child: Padding(
-                    padding: EdgeInsets.only(bottom: 75.0), child: model.body),
+                transform: Matrix4.translationValues(0.0, 30.0 * (1.0 - percentVisible), 0.0),
+                child: Padding(padding: EdgeInsets.only(bottom: 75.0), child: model.body),
               ),
             ]),
           ),
@@ -51,12 +47,11 @@ class FancyPage extends StatelessWidget {
   }
 }
 
-Widget _renderImageAsset(String assetPath,
-    {double width = 24, double height = 24, Color color}) {
+Widget _renderImageAsset(String assetPath, {double width = 24, double height = 24, Color? color}) {
   return Image.asset(
-      assetPath,
-      color: color,
-      width: width,
-      height: height,
-    );
+    assetPath,
+    color: color,
+    width: width,
+    height: height,
+  );
 }

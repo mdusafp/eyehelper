@@ -6,17 +6,17 @@ class EyeHelperAlertDialog extends StatefulWidget {
   final String title;
   final String subtitle;
   final String mainBtnTitle;
-  final String secondaryBtnTitle;
+  final String? secondaryBtnTitle;
   final Function mainBtnCallback;
-  final Function secondaryBtnCallback;
+  final Function? secondaryBtnCallback;
 
   EyeHelperAlertDialog({
-    Key key,
-    @required this.title,
-    @required this.subtitle,
-    @required this.mainBtnTitle,
+    Key? key,
+    required this.title,
+    required this.subtitle,
+    required this.mainBtnTitle,
     this.secondaryBtnTitle,
-    @required this.mainBtnCallback,
+    required this.mainBtnCallback,
     this.secondaryBtnCallback,
   })  : assert(title != null && title.isNotEmpty),
         assert(subtitle != null && subtitle.isNotEmpty),
@@ -54,7 +54,7 @@ class _EyeHelperAlertDialogState extends State<EyeHelperAlertDialog> {
                       widget.title,
                       textAlign: TextAlign.center,
                       maxLines: 2,
-                      style: Theme.of(context).textTheme.headline5.copyWith(
+                      style: Theme.of(context).textTheme.headline5?.copyWith(
                             color: Theme.of(context).primaryColorDark,
                           ),
                     ),
@@ -64,7 +64,7 @@ class _EyeHelperAlertDialogState extends State<EyeHelperAlertDialog> {
                     Text(
                       widget.subtitle,
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.bodyText2.copyWith(
+                      style: Theme.of(context).textTheme.bodyText2?.copyWith(
                             color: Theme.of(context).primaryColor,
                           ),
                     ),
@@ -85,7 +85,7 @@ class _EyeHelperAlertDialogState extends State<EyeHelperAlertDialog> {
                     ),
                     if (widget.secondaryBtnCallback != null &&
                         widget.secondaryBtnTitle != null &&
-                        widget.secondaryBtnTitle.isNotEmpty) ...[
+                        widget.secondaryBtnTitle!.isNotEmpty) ...[
                       Container(
                         height: 8,
                       ),
@@ -97,10 +97,10 @@ class _EyeHelperAlertDialogState extends State<EyeHelperAlertDialog> {
                               focusColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                               height: 48,
-                              onPressed: widget.secondaryBtnCallback,
+                              onPressed: () => widget.secondaryBtnCallback!(),
                               child: Text(
-                                widget.secondaryBtnTitle,
-                                style: Theme.of(context).textTheme.button.copyWith(
+                                widget.secondaryBtnTitle!,
+                                style: Theme.of(context).textTheme.button?.copyWith(
                                       color: Theme.of(context).primaryColorDark,
                                     ),
                               ),

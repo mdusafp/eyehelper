@@ -26,31 +26,31 @@ class EyehelperTheme {
       primaryColorDark: EyehelperColorScheme.mainDark,
       accentColorBrightness: Brightness.light,
       textTheme: TextTheme(
-        title: TextStyle(
+        headline6: TextStyle(
           fontSize: ScreenUtil().setSp(10.0),
           height: 1.0,
           fontWeight: FontWeight.bold,
           fontFamily: fontFamily,
         ),
-        subtitle: TextStyle(
+        subtitle2: TextStyle(
           fontSize: ScreenUtil().setSp(9.0),
           height: 1.0,
           fontWeight: FontWeight.w200,
           fontFamily: fontFamily,
         ),
-        headline: TextStyle(
+        headline5: TextStyle(
           fontSize: ScreenUtil().setSp(8.0),
           height: 1.0,
           fontWeight: FontWeight.w600,
           fontFamily: fontFamily,
         ),
-        body1: TextStyle(
+        bodyText2: TextStyle(
           fontSize: ScreenUtil().setSp(8.0),
           height: 1.0,
           fontWeight: FontWeight.normal,
           fontFamily: fontFamily,
         ),
-        body2: TextStyle(
+        bodyText1: TextStyle(
           fontSize: ScreenUtil().setSp(7.0),
           height: 1.0,
           fontWeight: FontWeight.normal,
@@ -63,25 +63,25 @@ class EyehelperTheme {
           fontWeight: FontWeight.normal,
           fontFamily: fontFamily,
         ),
-        display1: TextStyle(
+        headline4: TextStyle(
           fontSize: ScreenUtil().setSp(7.0),
           height: 1.0,
           fontWeight: FontWeight.normal,
           fontFamily: fontFamily,
         ),
-        display2: TextStyle(
+        headline3: TextStyle(
           fontSize: ScreenUtil().setSp(6.0),
           height: 1.0,
           fontWeight: FontWeight.normal,
           fontFamily: fontFamily,
         ),
-        display3: TextStyle(
+        headline2: TextStyle(
           fontSize: ScreenUtil().setSp(5.0),
           height: 1.0,
           fontWeight: FontWeight.normal,
           fontFamily: fontFamily,
         ),
-        display4: TextStyle(
+        headline1: TextStyle(
           fontSize: ScreenUtil().setSp(4.0),
           height: 1.0,
           fontWeight: FontWeight.normal,

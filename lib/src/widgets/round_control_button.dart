@@ -7,9 +7,9 @@ class RoundControlButton extends StatelessWidget {
   static final double BTN_DIAMETER = 50.0;
 
   const RoundControlButton({
-    Key key,
-    @required this.callback,
-    @required this.imagePath,
+    Key? key,
+    required this.callback,
+    required this.imagePath,
   }) : super(key: key);
 
   @override

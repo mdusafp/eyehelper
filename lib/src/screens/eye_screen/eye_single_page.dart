@@ -1,20 +1,18 @@
 import 'dart:async';
-import 'dart:ui';
-import 'package:eyehelper/src/helpers/preferences.dart';
-import 'package:eyehelper/src/utils.dart';
-import 'package:flare_dart/math/mat2d.dart';
-import 'package:flare_flutter/flare.dart';
-import 'package:flare_flutter/flare_controller.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:vibration/vibration.dart';
 
+import 'package:eyehelper/src/helpers/preferences.dart';
 import 'package:eyehelper/src/locale/Localizer.dart';
 import 'package:eyehelper/src/locale/ru.dart';
 import 'package:eyehelper/src/models/swiper_screen_info.dart';
 import 'package:eyehelper/src/screens/eye_screen/screen_control_buttons.dart';
+import 'package:eyehelper/src/utils.dart';
 import 'package:eyehelper/src/widgets/animated_face.dart';
 import 'package:eyehelper/src/widgets/custom_rounded_button.dart';
+import 'package:flare_flutter/flare.dart';
+import 'package:flare_flutter/flare_controller.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:flutter_vibrate/flutter_vibrate.dart';
 
 class EyeSinglePage extends StatefulWidget {
   final SwiperScreenInfo info;
@@ -23,11 +21,11 @@ class EyeSinglePage extends StatefulWidget {
   final Function finishBtnCallback;
 
   const EyeSinglePage({
-    Key key,
-    @required this.info,
-    @required this.controller,
-    @required this.startBtnCallback,
-    @required this.finishBtnCallback,
+    Key? key,
+    required this.info,
+    required this.controller,
+    required this.startBtnCallback,
+    required this.finishBtnCallback,
   }) : super(key: key);
 
   @override
@@ -39,13 +37,13 @@ class _EyeSinglePageState extends State<EyeSinglePage> implements FlareControlle
   bool isFaceVisible = true;
   bool isTrainingStarted = false;
 
-  ActorAnimation _face;
+  ActorAnimation? _face;
   double _faceAmount = 1.0;
   double _speed = 1.0;
   double _faceTime = 0.0;
 
   int _counter = 0;
-  Timer counterTimer;
+  Timer? counterTimer;
 
   String trainingText = '';
 
@@ -73,30 +71,36 @@ class _EyeSinglePageState extends State<EyeSinglePage> implements FlareControlle
                         height: Utils().PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 18.0, bottom: 20.0, left: 20.0, right: 20.0),
+                        padding:
+                            const EdgeInsets.only(top: 18.0, bottom: 20.0, left: 20.0, right: 20.0),
                         child: Center(
                           child: Text(
                             Localizer.getLocaleById(widget.info.title, context),
-                            style: textTheme.title.copyWith(color: Theme.of(context).primaryColorDark),
+                            style: textTheme.headline6
+                                ?.copyWith(color: Theme.of(context).primaryColorDark),
                             textAlign: TextAlign.center,
                           ),
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 6.0, bottom: 20.0, left: 20.0, right: 20.0),
+                        padding:
+                            const EdgeInsets.only(top: 6.0, bottom: 20.0, left: 20.0, right: 20.0),
                         child: Center(
                           child: Text(
                             Localizer.getLocaleById(widget.info.mainText, context),
-                            style: textTheme.subtitle.copyWith(color: Theme.of(context).primaryColorDark),
+                            style: textTheme.subtitle2
+                                ?.copyWith(color: Theme.of(context).primaryColorDark),
                             textAlign: TextAlign.center,
                           ),
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 6.0, bottom: 20.0, left: 20.0, right: 20.0),
+                        padding:
+                            const EdgeInsets.only(top: 6.0, bottom: 20.0, left: 20.0, right: 20.0),
                         child: Text(
                           Localizer.getLocaleById(widget.info.durationText, context),
-                          style: textTheme.title.copyWith(color: Theme.of(context).accentColor),
+                          style: textTheme.headline6
+                              ?.copyWith(color: Theme.of(context).colorScheme.secondary),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -123,7 +127,9 @@ class _EyeSinglePageState extends State<EyeSinglePage> implements FlareControlle
             ),
           ),
         ),
-        Positioned(bottom: Utils().PREFERED_HEIGHT_FOR_CUSTOM_BOTTOM_BAR + 30.0, child: getControls(context))
+        Positioned(
+            bottom: Utils().PREFERED_HEIGHT_FOR_CUSTOM_BOTTOM_BAR + 30.0,
+            child: getControls(context))
       ],
     );
   }
@@ -177,26 +183,30 @@ class _EyeSinglePageState extends State<EyeSinglePage> implements FlareControlle
   @override
   bool advance(FlutterActorArtboard artboard, double elapsed) {
     _faceTime += elapsed * _speed;
-    double relativeTime = _faceTime % _face.duration;
-    _face.apply(relativeTime, artboard, _faceAmount);
+    double relativeTime = _faceTime % (_face?.duration ?? 1);
+    _face?.apply(relativeTime, artboard, _faceAmount);
 
-    if (widget.info.firstTextTime < relativeTime + 0.05 && widget.info.firstTextTime > relativeTime - 0.05) {
-      setState(() => trainingText = Localizer.getLocaleById(widget.info.trainingFirstText, context));
+    if (widget.info.firstTextTime < relativeTime + 0.05 &&
+        widget.info.firstTextTime > relativeTime - 0.05) {
+      setState(
+          () => trainingText = Localizer.getLocaleById(widget.info.trainingFirstText, context));
       if ((FastPreferences().prefs.getBool(FastPreferences.isVibrationEnabled) ?? true)) {
-        Vibration.vibrate();
+        Vibrate.vibrate();
       }
     }
 
-    if (widget.info.secondTextTime < relativeTime + 0.05 && widget.info.secondTextTime > relativeTime - 0.05) {
-      setState(() => trainingText = Localizer.getLocaleById(widget.info.trainingSecondText, context));
+    if (widget.info.secondTextTime < relativeTime + 0.05 &&
+        widget.info.secondTextTime > relativeTime - 0.05) {
+      setState(
+          () => trainingText = Localizer.getLocaleById(widget.info.trainingSecondText, context));
       if ((FastPreferences().prefs.getBool(FastPreferences.isVibrationEnabled) ?? true)) {
-        Vibration.vibrate();
+        Vibrate.vibrate();
       }
     }
 
     if (relativeTime >= widget.info.duration - 0.02 && counterTimer == null) {
       counterTimer = Timer(Duration(milliseconds: 300), () {
-        counterTimer.cancel();
+        counterTimer!.cancel();
         counterTimer = null;
       });
 
@@ -219,8 +229,8 @@ class _EyeSinglePageState extends State<EyeSinglePage> implements FlareControlle
   }
 
   @override
-  void setViewTransform(Mat2D viewTransform) {}
+  void setViewTransform(dynamic viewTransform) {}
 
   @override
-  ValueNotifier<bool> isActive;
+  ValueNotifier<bool> isActive = ValueNotifier<bool>(true);
 }

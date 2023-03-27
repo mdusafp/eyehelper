@@ -12,7 +12,7 @@ class NoAnimationInSlideOut extends PageRouteBuilder {
   static final Animatable<double> _fastOutSlowInTween = CurveTween(curve: Curves.fastOutSlowIn);
   static final Animatable<double> _easeInTween = CurveTween(curve: Curves.easeIn);
 
-  NoAnimationInSlideOut({this.child})
+  NoAnimationInSlideOut({required this.child})
       : super(
           pageBuilder: (BuildContext context, Animation<double> animation,
               Animation<double> secondaryAnimation) {

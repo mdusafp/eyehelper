@@ -22,7 +22,7 @@ class _AboutExercisesScreenState extends State<AboutExercisesScreen> {
           style: Theme.of(context)
               .textTheme
               .headline5
-              .copyWith(color: Theme.of(context).primaryColorDark),
+              ?.copyWith(color: Theme.of(context).primaryColorDark),
         ),
         backgroundColor: Colors.white,
         brightness: Brightness.dark,
@@ -56,7 +56,7 @@ class _AboutExercisesScreenState extends State<AboutExercisesScreen> {
                   style: Theme.of(context)
                       .textTheme
                       .bodyText2
-                      .copyWith(color: Theme.of(context).accentColor, fontWeight: FontWeight.bold),
+                      ?.copyWith(color: Theme.of(context).accentColor, fontWeight: FontWeight.bold),
                 ),
                 TextSpan(
                     text:

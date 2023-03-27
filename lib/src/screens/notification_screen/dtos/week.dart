@@ -17,11 +17,11 @@ class WeekDay {
   final LocaleId shortLocale;
   final LocaleId fullLocale;
 
-  const WeekDay({this.weekDay, this.shortLocale, this.fullLocale});
+  const WeekDay({required this.weekDay, required this.shortLocale, required this.fullLocale});
 
   WeekDay.byEnum(this.weekDay)
-      : shortLocale = shortLocaleByEnum[weekDay],
-        fullLocale = fullLocaleByEnum[weekDay];
+      : shortLocale = shortLocaleByEnum[weekDay] ?? LocaleId.monday_short,
+        fullLocale = fullLocaleByEnum[weekDay] ?? LocaleId.monday;
 
   static Map<WeekDay, bool> parseValueMap(Map<String, dynamic> map) {
     Map<WeekDay, bool> result = {};
@@ -34,7 +34,7 @@ class WeekDay {
   static Map<String, bool> createValueMap(Map<WeekDay, bool> map) {
     Map<String, bool> result = {};
     map.keys.forEach((item) {
-      result[item.weekDay.toString()] = map[item];
+      result[item.weekDay.toString()] = map[item] ?? false;
     });
     return result;
   }

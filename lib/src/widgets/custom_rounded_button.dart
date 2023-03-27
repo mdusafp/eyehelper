@@ -7,15 +7,15 @@ import 'package:flutter/material.dart';
 class RoundCustomButton extends StatelessWidget {
   final Size parentSize;
   final Widget child;
-  final double width;
+  final double? width;
   final double heightAbs;
   final Function onPressed;
   final BoxShadow shadow;
 
   const RoundCustomButton({
-    Key key,
-    @required this.parentSize,
-    @required this.child,
+    Key? key,
+    required this.parentSize,
+    required this.child,
     this.shadow = const BoxShadow(
       color: Color(0x26000000),
       offset: Offset(0.0, 3.0),
@@ -23,7 +23,7 @@ class RoundCustomButton extends StatelessWidget {
     ),
     this.width,
     this.heightAbs = 50.0,
-    @required this.onPressed,
+    required this.onPressed,
   }) : super(key: key);
 
   @override
@@ -39,7 +39,7 @@ class RoundCustomButton extends StatelessWidget {
       child: Material(
         type: MaterialType.transparency,
         child: InkWell(
-          onTap: onPressed,
+          onTap: () => onPressed(),
           customBorder: new RoundedRectangleBorder(
             borderRadius: new BorderRadius.circular(30.0),
           ),
@@ -53,19 +53,19 @@ class RoundCustomButton extends StatelessWidget {
 class FlatRoundCustomButton extends StatelessWidget {
   final Size parentSize;
   final Widget child;
-  final double width;
+  final double? width;
   final double heightAbs;
   final Function onPressed;
-  final Color color;
+  final Color? color;
 
   const FlatRoundCustomButton({
-    Key key,
-    @required this.parentSize,
-    @required this.child,
+    Key? key,
+    required this.parentSize,
+    required this.child,
     this.width,
     this.color,
     this.heightAbs = 50.0,
-    @required this.onPressed,
+    required this.onPressed,
   }) : super(key: key);
 
   @override
@@ -84,7 +84,7 @@ class FlatRoundCustomButton extends StatelessWidget {
       child: Material(
         type: MaterialType.transparency,
         child: InkWell(
-          onTap: onPressed,
+          onTap: () => onPressed(),
           customBorder: new RoundedRectangleBorder(
             borderRadius: new BorderRadius.circular(30.0),
           ),
