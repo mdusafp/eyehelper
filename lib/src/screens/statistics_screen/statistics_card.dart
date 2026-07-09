@@ -6,7 +6,6 @@ import 'package:eyehelper/src/screens/statistics_screen/statistics_screen.dart';
 import 'package:eyehelper/src/theme.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
 import 'package:tuple/tuple.dart';
 
 // TODO: use constants from theme
@@ -84,15 +83,15 @@ class _StatisticCardState extends State<StatisticCard> {
       sum += item.item2;
     });
 
-    return GlassCard(
-      margin: const EdgeInsets.symmetric(horizontal: 4),
-      padding: const EdgeInsets.only(
-        top: SPACING,
-        right: SPACING,
-        left: SPACING / 2,
-        bottom: SPACING / 2,
-      ),
-      child: SizedBox(
+    return Card(
+      elevation: 8.0,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      color: Colors.white,
+      child: Container(
+        padding: const EdgeInsets.only(
+          top: SPACING,
+          right: SPACING,
+        ),
         width: double.infinity,
         child: sum <= 0 ? _getNoDataView() : _getStatsView(context),
       ),
