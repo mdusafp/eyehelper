@@ -11,6 +11,7 @@ import 'package:eyehelper/src/screens/notification_screen/picker_dialog.dart' as
 import 'package:eyehelper/src/screens/notification_screen/time_schedule_card.dart';
 import 'package:eyehelper/src/widgets/custom_rounded_button.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:eyehelper/src/widgets/adaptive_switch.dart';
 import 'package:flutter/material.dart';
 
 class NotificationScreen extends StatefulWidget {
@@ -362,7 +363,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   ?.copyWith(color: Theme.of(context).colorScheme.secondary),
             ),
           ),
-          Switch(
+          AdaptiveSwitch(
             onChanged: (value) async {
               await _switchNotifications(value);
             },

@@ -7,6 +7,7 @@ import 'package:eyehelper/src/screens/notification_screen/dtos/time_formatter.da
 import 'package:eyehelper/src/screens/notification_screen/dtos/week.dart';
 import 'package:eyehelper/src/screens/notification_screen/picker_dialog.dart' as Dialog;
 import 'package:flutter/cupertino.dart';
+import 'package:eyehelper/src/widgets/adaptive_switch.dart';
 import 'package:flutter/material.dart';
 
 // callback to update parent data (without setState to don't rerender whole widget tree)
@@ -46,8 +47,8 @@ class TimeScheduleCardState extends State<TimeScheduleCard> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          Switch(
-            activeColor: Theme.of(context).colorScheme.surface,
+          AdaptiveSwitch(
+            activeColor: Theme.of(context).colorScheme.surface.withAlpha(0x59),
             value: _isActive,
             onChanged: (value) {
               setState(() {

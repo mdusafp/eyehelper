@@ -7,6 +7,7 @@ import 'package:eyehelper/src/screens/notification_screen/dtos/time_formatter.da
 import 'package:eyehelper/src/theme.dart';
 
 import 'package:flutter/cupertino.dart';
+import 'package:eyehelper/src/widgets/adaptive_switch.dart';
 import 'package:flutter/material.dart';
 
 // callback to update parent data (without setState to don't rerender whole widget tree)
@@ -80,8 +81,8 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           IgnorePointer(
-            child: Switch(
-              activeColor: Theme.of(context).colorScheme.surface,
+            child: AdaptiveSwitch(
+              activeColor: Theme.of(context).colorScheme.surface.withAlpha(0x59),
               value: _isActive,
               onChanged: (value) {},
             ),
