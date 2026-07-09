@@ -36,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
     initAppConstants().then((_) {
       if (!(FastPreferences().prefs.getBool(FastPreferences.wasOnboardingShown) ?? false)) {
         Navigator.of(context).push(
-            CupertinoPageRoute(builder: (context) => AboutExercisesScreen()));
+            MaterialPageRoute(builder: (context) => AboutExercisesScreen()));
         SchedulerBinding.instance.addPostFrameCallback((_) async {
           await Navigator.of(context).push(
             CupertinoPageRoute(
@@ -100,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           onPressed: () {
             Navigator.of(context).push(
-                CupertinoPageRoute(builder: (context) => AboutExercisesScreen()));
+                MaterialPageRoute(builder: (context) => AboutExercisesScreen()));
           },
         ),
         actions: [
