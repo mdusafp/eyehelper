@@ -65,7 +65,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
           child: Padding(
             padding: EdgeInsets.only(
               top: MediaQuery.of(context).padding.top + 60,
-              bottom: 10.0,
+              bottom: MediaQuery.of(context).padding.bottom + 110.0,
               // left: 16.0,
               // right: 16.0,
             ),

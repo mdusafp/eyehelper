@@ -112,7 +112,6 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(width: 40),
         ],
       ),
-      topEdgeFade: false,
       bottomBar: GlassTabBar.bottom(
         selectedIndex: _currentIndex,
         onTabSelected: (index) => setState(() => _currentIndex = index),
