@@ -17,6 +17,9 @@ import 'package:flutter/scheduler.dart';
 import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
@@ -30,19 +33,19 @@ class _HomeScreenState extends State<HomeScreen> {
   initState() {
     super.initState();
 
-    _statisticsRepository = new StatisticsRepository(FastPreferences());
+    _statisticsRepository = StatisticsRepository(FastPreferences());
     initAppConstants().then((_) {
       if (!(FastPreferences().prefs.getBool(FastPreferences.wasOnboardingShown) ?? false)) {
         Navigator.of(context).push(CupertinoPageRoute(
             fullscreenDialog: true, builder: (context) => AboutExercisesScreen()));
-        SchedulerBinding.instance!.addPostFrameCallback((_) async {
+        SchedulerBinding.instance.addPostFrameCallback((_) async {
           await Navigator.of(context).push(
             CupertinoPageRoute(
               fullscreenDialog: true,
               builder: (context) => OnBoardingScreen(
                 onSetupSettings: (screenNum) {
-                  Future.delayed(Duration(milliseconds: 400)).then((value) => setState(
-                      () => _currentIndex = screenNum != null && screenNum is int ? screenNum : 1));
+                  Future.delayed(Duration(milliseconds: 400))
+                      .then((value) => setState(() => _currentIndex = screenNum));
                 },
               ),
             ),
@@ -102,8 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
           },
         ),
         actions: [
-          if (FastPreferences().isInited && _currentIndex == INDEX_EYE_SCREEN)
-            VibrationToggle(),
+          if (FastPreferences().isInited && _currentIndex == INDEX_EYE_SCREEN) VibrationToggle(),
         ],
       ),
       bottomBar: GlassTabBar.bottom(

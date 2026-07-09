@@ -82,7 +82,7 @@ class _SwiperMainState extends State<SwiperMain> {
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       child: new Material(
-          color: Colors.white, child: new Container(child: Stack(children: <Widget>[swiper]))),
+          color: Colors.transparent, child: new Container(child: Stack(children: <Widget>[swiper]))),
     );
   }
 

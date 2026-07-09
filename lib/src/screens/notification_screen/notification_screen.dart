@@ -59,6 +59,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       body: SingleChildScrollView(
         child: DefaultTextStyle(
           style: Theme.of(context).textTheme.bodyMedium!,
