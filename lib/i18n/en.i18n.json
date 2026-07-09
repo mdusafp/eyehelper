@@ -132,11 +132,52 @@
   },
   "about": {
     "title": "About the exercises",
-    "body1": "The app uses information about exercises based on the Avetisov system.",
-    "body2": "To get detailed information, tap the button below.",
-    "warningLabel": "Attention! ",
-    "disclaimer": "Before doing the exercises, we strongly recommend consulting your doctor. The developers are not responsible for any indirect, incidental, or unintentional harm caused in connection with using the app.",
+    "body1": "This app offers a set of guided eye exercises designed to help relax your eyes and ease strain.",
+    "body2": "Tap the button below to learn more about how they work.",
+    "warningLabel": "Important: ",
+    "disclaimer": "These exercises are for general wellness and are not intended to diagnose, treat, cure, or prevent any medical condition. Please consult a doctor or eye-care professional before starting, especially if you have an existing eye condition. Use of this app is at your own risk, and the developers are not liable for any injury, loss, or damage arising from its use.",
     "moreButton": "Learn more"
+  },
+  "learnMore": {
+    "title": "How these exercises work",
+    "intro1": "Your eyes have muscles too — the ones that move your gaze and the tiny ones that shift your focus between near and far. Like any muscle, they get tired and stiff when they hold one position for hours, which is exactly what happens when you stare at a screen. This routine is a simple, guided workout to help those muscles relax, loosen up, and switch focus more comfortably.",
+    "intro2": "Do it once a day, about 15 minutes, sitting up straight. Move slowly and gently, and start with fewer repetitions — a little fatigue at first is normal and eases as you go.",
+    "parts": [
+      {
+        "title": "Part 1 — Warm up & refresh",
+        "subtitle": "Gets circulation going around your eyes and eases tension.",
+        "exercises": [
+          { "name": "Eyelid massage", "text": "With clean fingertips, gently massage your closed eyelids for about a minute." },
+          { "name": "Gentle squeeze", "text": "Shut your eyes tightly for 3–5 seconds, then relax for 4–6 seconds. Repeat 6–8 times." },
+          { "name": "Quick blinks", "text": "Blink rapidly for 15 seconds, then rest your gaze forward for 5 seconds. Up to 6 rounds." },
+          { "name": "Light pressure", "text": "With eyes closed, rest two fingers very gently on each eyelid for 2–3 seconds while you breathe deeply. Repeat 4–6 times. Light touch only." },
+          { "name": "Brow resistance", "text": "Press your fingers to your eyebrows and gently frown and squint against that light resistance. Up to 8 times." }
+        ]
+      },
+      {
+        "title": "Part 2 — Move your gaze",
+        "subtitle": "Loosens the muscles that aim your eyes. Keep your head still and let only your eyes move.",
+        "exercises": [
+          { "name": "Up & down", "text": "Slowly look up, pause, look down, pause. 8–12 times." },
+          { "name": "Side to side", "text": "The same slow rhythm, left and right, as far as is comfortable. 8–12 times." },
+          { "name": "Diagonals", "text": "Lower-left to upper-right, 8 times; rest 30 seconds; then lower-right to upper-left, 8 times." },
+          { "name": "Circles", "text": "Trace a full slow circle with your eyes, clockwise 6–8 times, then counter-clockwise 6–8 times." }
+        ]
+      },
+      {
+        "title": "Part 3 — Near & far focus",
+        "subtitle": "Trains the focusing muscle to switch distances smoothly — the part that gets stuck after a long screen session.",
+        "exercises": [
+          { "name": "Near to far", "text": "Hold a finger about a foot from your face, focus on it, then shift focus to something across the room, then back. 10–12 times." },
+          { "name": "Coming closer", "text": "Keep looking at your finger as you slowly bring it toward the bridge of your nose, then move it back out. 10 times." },
+          { "name": "One eye at a time", "text": "Cover one eye and do the near-to-far shift, then switch. 8 times each." },
+          { "name": "Window spot", "text": "Put a small mark on a window, study it for 30 seconds, then look at something far outside, and back. 8 times." }
+        ]
+      }
+    ],
+    "tips": "A few things that help even more: good lighting, regular screen breaks, time outdoors, and letting your eyes rest often.",
+    "warningLabel": "Important: ",
+    "disclaimer": "These exercises are for general wellness and relaxation. They are not a treatment and are not intended to diagnose, cure, or prevent any medical condition. Please check with a doctor or eye-care professional before starting, especially if you have an existing eye condition. Use this app at your own discretion."
   },
   "permissions": {
     "noPermissionTitle": "No permission",

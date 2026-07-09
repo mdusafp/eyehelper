@@ -49,6 +49,7 @@ class TranslationsRu extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _Translations$finish$ru finish = _Translations$finish$ru._(_root);
 	@override late final _Translations$onboarding$ru onboarding = _Translations$onboarding$ru._(_root);
 	@override late final _Translations$about$ru about = _Translations$about$ru._(_root);
+	@override late final _Translations$learnMore$ru learnMore = _Translations$learnMore$ru._(_root);
 	@override late final _Translations$permissions$ru permissions = _Translations$permissions$ru._(_root);
 	@override late final _Translations$errors$ru errors = _Translations$errors$ru._(_root);
 }
@@ -262,6 +263,26 @@ class _Translations$about$ru extends Translations$about$en {
 	@override String get moreButton => 'Подробнее';
 }
 
+// Path: learnMore
+class _Translations$learnMore$ru extends Translations$learnMore$en {
+	_Translations$learnMore$ru._(TranslationsRu root) : this._root = root, super.internal(root);
+
+	final TranslationsRu _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Как работают эти упражнения';
+	@override String get intro1 => 'У глаз тоже есть мышцы — те, что двигают взгляд, и крошечные, что переключают фокус с близкого на далёкое. Как любые мышцы, они устают и «затекают», когда часами держат одно положение, — именно это происходит при работе за экраном. Этот комплекс — простая мягкая «зарядка», которая помогает этим мышцам расслабиться, размяться и легче переключать фокус.';
+	@override String get intro2 => 'Делайте раз в день около 15 минут, сидя с прямой спиной. Двигайтесь медленно и мягко, начинайте с меньшего числа повторов — лёгкая усталость поначалу нормальна и проходит.';
+	@override List<dynamic> get parts => [
+		_Translations$learnMore$parts$0$ru._(_root),
+		_Translations$learnMore$parts$1$ru._(_root),
+		_Translations$learnMore$parts$2$ru._(_root),
+	];
+	@override String get tips => 'Что помогает ещё сильнее: хорошее освещение, регулярные перерывы от экрана, время на улице и частый отдых для глаз.';
+	@override String get warningLabel => 'Важно: ';
+	@override String get disclaimer => 'Эти упражнения предназначены для общего оздоровления и расслабления. Это не лечение; они не предназначены для диагностики, лечения или профилактики каких-либо заболеваний. Перед началом проконсультируйтесь с врачом или офтальмологом, особенно при наличии заболеваний глаз. Вы используете приложение на своё усмотрение.';
+}
+
 // Path: permissions
 class _Translations$permissions$ru extends Translations$permissions$en {
 	_Translations$permissions$ru._(TranslationsRu root) : this._root = root, super.internal(root);
@@ -282,6 +303,201 @@ class _Translations$errors$ru extends Translations$errors$en {
 
 	// Translations
 	@override String get wrongWorkTime => 'Выбран неверный промежуток времени';
+}
+
+// Path: learnMore.parts.0
+class _Translations$learnMore$parts$0$ru extends Translations$learnMore$parts$0$en {
+	_Translations$learnMore$parts$0$ru._(TranslationsRu root) : this._root = root, super.internal(root);
+
+	final TranslationsRu _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Часть 1 — Разминка и расслабление';
+	@override String get subtitle => 'Улучшает кровообращение вокруг глаз и снимает напряжение.';
+	@override List<dynamic> get exercises => [
+		_Translations$learnMore$parts$0$exercises$0$ru._(_root),
+		_Translations$learnMore$parts$0$exercises$1$ru._(_root),
+		_Translations$learnMore$parts$0$exercises$2$ru._(_root),
+		_Translations$learnMore$parts$0$exercises$3$ru._(_root),
+		_Translations$learnMore$parts$0$exercises$4$ru._(_root),
+	];
+}
+
+// Path: learnMore.parts.1
+class _Translations$learnMore$parts$1$ru extends Translations$learnMore$parts$1$en {
+	_Translations$learnMore$parts$1$ru._(TranslationsRu root) : this._root = root, super.internal(root);
+
+	final TranslationsRu _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Часть 2 — Движение взгляда';
+	@override String get subtitle => 'Разминает мышцы, которые наводят глаза. Держите голову неподвижно, двигаются только глаза.';
+	@override List<dynamic> get exercises => [
+		_Translations$learnMore$parts$1$exercises$0$ru._(_root),
+		_Translations$learnMore$parts$1$exercises$1$ru._(_root),
+		_Translations$learnMore$parts$1$exercises$2$ru._(_root),
+		_Translations$learnMore$parts$1$exercises$3$ru._(_root),
+	];
+}
+
+// Path: learnMore.parts.2
+class _Translations$learnMore$parts$2$ru extends Translations$learnMore$parts$2$en {
+	_Translations$learnMore$parts$2$ru._(TranslationsRu root) : this._root = root, super.internal(root);
+
+	final TranslationsRu _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Часть 3 — Фокус вблизи и вдали';
+	@override String get subtitle => 'Тренирует фокусирующую мышцу плавно менять расстояние — именно она «залипает» после долгой работы за экраном.';
+	@override List<dynamic> get exercises => [
+		_Translations$learnMore$parts$2$exercises$0$ru._(_root),
+		_Translations$learnMore$parts$2$exercises$1$ru._(_root),
+		_Translations$learnMore$parts$2$exercises$2$ru._(_root),
+		_Translations$learnMore$parts$2$exercises$3$ru._(_root),
+	];
+}
+
+// Path: learnMore.parts.0.exercises.0
+class _Translations$learnMore$parts$0$exercises$0$ru extends Translations$learnMore$parts$0$exercises$0$en {
+	_Translations$learnMore$parts$0$exercises$0$ru._(TranslationsRu root) : this._root = root, super.internal(root);
+
+	final TranslationsRu _root; // ignore: unused_field
+
+	// Translations
+	@override String get name => 'Массаж век';
+	@override String get text => 'Чистыми подушечками пальцев мягко помассируйте закрытые веки около минуты.';
+}
+
+// Path: learnMore.parts.0.exercises.1
+class _Translations$learnMore$parts$0$exercises$1$ru extends Translations$learnMore$parts$0$exercises$1$en {
+	_Translations$learnMore$parts$0$exercises$1$ru._(TranslationsRu root) : this._root = root, super.internal(root);
+
+	final TranslationsRu _root; // ignore: unused_field
+
+	// Translations
+	@override String get name => 'Мягкое зажмуривание';
+	@override String get text => 'Крепко закройте глаза на 3–5 секунд, затем расслабьте на 4–6 секунд. Повторите 6–8 раз.';
+}
+
+// Path: learnMore.parts.0.exercises.2
+class _Translations$learnMore$parts$0$exercises$2$ru extends Translations$learnMore$parts$0$exercises$2$en {
+	_Translations$learnMore$parts$0$exercises$2$ru._(TranslationsRu root) : this._root = root, super.internal(root);
+
+	final TranslationsRu _root; // ignore: unused_field
+
+	// Translations
+	@override String get name => 'Быстрое моргание';
+	@override String get text => 'Моргайте часто 15 секунд, затем отдохните, глядя прямо, 5 секунд. До 6 подходов.';
+}
+
+// Path: learnMore.parts.0.exercises.3
+class _Translations$learnMore$parts$0$exercises$3$ru extends Translations$learnMore$parts$0$exercises$3$en {
+	_Translations$learnMore$parts$0$exercises$3$ru._(TranslationsRu root) : this._root = root, super.internal(root);
+
+	final TranslationsRu _root; // ignore: unused_field
+
+	// Translations
+	@override String get name => 'Лёгкое нажатие';
+	@override String get text => 'С закрытыми глазами мягко положите два пальца на каждое веко на 2–3 секунды, глубоко дыша. Повторите 4–6 раз. Только лёгкое касание.';
+}
+
+// Path: learnMore.parts.0.exercises.4
+class _Translations$learnMore$parts$0$exercises$4$ru extends Translations$learnMore$parts$0$exercises$4$en {
+	_Translations$learnMore$parts$0$exercises$4$ru._(TranslationsRu root) : this._root = root, super.internal(root);
+
+	final TranslationsRu _root; // ignore: unused_field
+
+	// Translations
+	@override String get name => 'Сопротивление бровям';
+	@override String get text => 'Прижмите пальцы к бровям и слегка хмурьтесь и щурьтесь, преодолевая лёгкое сопротивление. До 8 раз.';
+}
+
+// Path: learnMore.parts.1.exercises.0
+class _Translations$learnMore$parts$1$exercises$0$ru extends Translations$learnMore$parts$1$exercises$0$en {
+	_Translations$learnMore$parts$1$exercises$0$ru._(TranslationsRu root) : this._root = root, super.internal(root);
+
+	final TranslationsRu _root; // ignore: unused_field
+
+	// Translations
+	@override String get name => 'Вверх и вниз';
+	@override String get text => 'Медленно посмотрите вверх, пауза, вниз, пауза. 8–12 раз.';
+}
+
+// Path: learnMore.parts.1.exercises.1
+class _Translations$learnMore$parts$1$exercises$1$ru extends Translations$learnMore$parts$1$exercises$1$en {
+	_Translations$learnMore$parts$1$exercises$1$ru._(TranslationsRu root) : this._root = root, super.internal(root);
+
+	final TranslationsRu _root; // ignore: unused_field
+
+	// Translations
+	@override String get name => 'Из стороны в сторону';
+	@override String get text => 'В том же медленном ритме, влево и вправо, насколько комфортно. 8–12 раз.';
+}
+
+// Path: learnMore.parts.1.exercises.2
+class _Translations$learnMore$parts$1$exercises$2$ru extends Translations$learnMore$parts$1$exercises$2$en {
+	_Translations$learnMore$parts$1$exercises$2$ru._(TranslationsRu root) : this._root = root, super.internal(root);
+
+	final TranslationsRu _root; // ignore: unused_field
+
+	// Translations
+	@override String get name => 'По диагонали';
+	@override String get text => 'Из нижнего-левого в верхний-правый угол, 8 раз; отдых 30 секунд; затем из нижнего-правого в верхний-левый, 8 раз.';
+}
+
+// Path: learnMore.parts.1.exercises.3
+class _Translations$learnMore$parts$1$exercises$3$ru extends Translations$learnMore$parts$1$exercises$3$en {
+	_Translations$learnMore$parts$1$exercises$3$ru._(TranslationsRu root) : this._root = root, super.internal(root);
+
+	final TranslationsRu _root; // ignore: unused_field
+
+	// Translations
+	@override String get name => 'Круги';
+	@override String get text => 'Медленно опишите глазами полный круг, по часовой стрелке 6–8 раз, затем против часовой 6–8 раз.';
+}
+
+// Path: learnMore.parts.2.exercises.0
+class _Translations$learnMore$parts$2$exercises$0$ru extends Translations$learnMore$parts$2$exercises$0$en {
+	_Translations$learnMore$parts$2$exercises$0$ru._(TranslationsRu root) : this._root = root, super.internal(root);
+
+	final TranslationsRu _root; // ignore: unused_field
+
+	// Translations
+	@override String get name => 'От близкого к далёкому';
+	@override String get text => 'Держите палец примерно в 30 см от лица, сфокусируйтесь на нём, затем переведите фокус на предмет в другом конце комнаты и обратно. 10–12 раз.';
+}
+
+// Path: learnMore.parts.2.exercises.1
+class _Translations$learnMore$parts$2$exercises$1$ru extends Translations$learnMore$parts$2$exercises$1$en {
+	_Translations$learnMore$parts$2$exercises$1$ru._(TranslationsRu root) : this._root = root, super.internal(root);
+
+	final TranslationsRu _root; // ignore: unused_field
+
+	// Translations
+	@override String get name => 'Приближение';
+	@override String get text => 'Не отрывая взгляда от пальца, медленно ведите его к переносице, затем отводите обратно. 10 раз.';
+}
+
+// Path: learnMore.parts.2.exercises.2
+class _Translations$learnMore$parts$2$exercises$2$ru extends Translations$learnMore$parts$2$exercises$2$en {
+	_Translations$learnMore$parts$2$exercises$2$ru._(TranslationsRu root) : this._root = root, super.internal(root);
+
+	final TranslationsRu _root; // ignore: unused_field
+
+	// Translations
+	@override String get name => 'По одному глазу';
+	@override String get text => 'Закройте один глаз и сделайте переключение фокуса, затем поменяйте. По 8 раз на каждый.';
+}
+
+// Path: learnMore.parts.2.exercises.3
+class _Translations$learnMore$parts$2$exercises$3$ru extends Translations$learnMore$parts$2$exercises$3$en {
+	_Translations$learnMore$parts$2$exercises$3$ru._(TranslationsRu root) : this._root = root, super.internal(root);
+
+	final TranslationsRu _root; // ignore: unused_field
+
+	// Translations
+	@override String get name => 'Точка на окне';
+	@override String get text => 'Поставьте небольшую метку на окне, разглядывайте её 30 секунд, затем посмотрите на далёкий предмет на улице и обратно. 8 раз.';
 }
 
 /// The flat map containing all translations for locale <ru>.
@@ -411,6 +627,44 @@ extension on TranslationsRu {
 			'about.warningLabel' => 'Внимание! ',
 			'about.disclaimer' => 'Перед выполнением упражнений настоятельно рекомендуем вам обратиться к вашему лечащему врачу за консультацией. Разработчики не несут ответственность за любой косвенный, случайный или неумышленный вред, вызванный в связи с использованием приложения.',
 			'about.moreButton' => 'Подробнее',
+			'learnMore.title' => 'Как работают эти упражнения',
+			'learnMore.intro1' => 'У глаз тоже есть мышцы — те, что двигают взгляд, и крошечные, что переключают фокус с близкого на далёкое. Как любые мышцы, они устают и «затекают», когда часами держат одно положение, — именно это происходит при работе за экраном. Этот комплекс — простая мягкая «зарядка», которая помогает этим мышцам расслабиться, размяться и легче переключать фокус.',
+			'learnMore.intro2' => 'Делайте раз в день около 15 минут, сидя с прямой спиной. Двигайтесь медленно и мягко, начинайте с меньшего числа повторов — лёгкая усталость поначалу нормальна и проходит.',
+			'learnMore.parts.0.title' => 'Часть 1 — Разминка и расслабление',
+			'learnMore.parts.0.subtitle' => 'Улучшает кровообращение вокруг глаз и снимает напряжение.',
+			'learnMore.parts.0.exercises.0.name' => 'Массаж век',
+			'learnMore.parts.0.exercises.0.text' => 'Чистыми подушечками пальцев мягко помассируйте закрытые веки около минуты.',
+			'learnMore.parts.0.exercises.1.name' => 'Мягкое зажмуривание',
+			'learnMore.parts.0.exercises.1.text' => 'Крепко закройте глаза на 3–5 секунд, затем расслабьте на 4–6 секунд. Повторите 6–8 раз.',
+			'learnMore.parts.0.exercises.2.name' => 'Быстрое моргание',
+			'learnMore.parts.0.exercises.2.text' => 'Моргайте часто 15 секунд, затем отдохните, глядя прямо, 5 секунд. До 6 подходов.',
+			'learnMore.parts.0.exercises.3.name' => 'Лёгкое нажатие',
+			'learnMore.parts.0.exercises.3.text' => 'С закрытыми глазами мягко положите два пальца на каждое веко на 2–3 секунды, глубоко дыша. Повторите 4–6 раз. Только лёгкое касание.',
+			'learnMore.parts.0.exercises.4.name' => 'Сопротивление бровям',
+			'learnMore.parts.0.exercises.4.text' => 'Прижмите пальцы к бровям и слегка хмурьтесь и щурьтесь, преодолевая лёгкое сопротивление. До 8 раз.',
+			'learnMore.parts.1.title' => 'Часть 2 — Движение взгляда',
+			'learnMore.parts.1.subtitle' => 'Разминает мышцы, которые наводят глаза. Держите голову неподвижно, двигаются только глаза.',
+			'learnMore.parts.1.exercises.0.name' => 'Вверх и вниз',
+			'learnMore.parts.1.exercises.0.text' => 'Медленно посмотрите вверх, пауза, вниз, пауза. 8–12 раз.',
+			'learnMore.parts.1.exercises.1.name' => 'Из стороны в сторону',
+			'learnMore.parts.1.exercises.1.text' => 'В том же медленном ритме, влево и вправо, насколько комфортно. 8–12 раз.',
+			'learnMore.parts.1.exercises.2.name' => 'По диагонали',
+			'learnMore.parts.1.exercises.2.text' => 'Из нижнего-левого в верхний-правый угол, 8 раз; отдых 30 секунд; затем из нижнего-правого в верхний-левый, 8 раз.',
+			'learnMore.parts.1.exercises.3.name' => 'Круги',
+			'learnMore.parts.1.exercises.3.text' => 'Медленно опишите глазами полный круг, по часовой стрелке 6–8 раз, затем против часовой 6–8 раз.',
+			'learnMore.parts.2.title' => 'Часть 3 — Фокус вблизи и вдали',
+			'learnMore.parts.2.subtitle' => 'Тренирует фокусирующую мышцу плавно менять расстояние — именно она «залипает» после долгой работы за экраном.',
+			'learnMore.parts.2.exercises.0.name' => 'От близкого к далёкому',
+			'learnMore.parts.2.exercises.0.text' => 'Держите палец примерно в 30 см от лица, сфокусируйтесь на нём, затем переведите фокус на предмет в другом конце комнаты и обратно. 10–12 раз.',
+			'learnMore.parts.2.exercises.1.name' => 'Приближение',
+			'learnMore.parts.2.exercises.1.text' => 'Не отрывая взгляда от пальца, медленно ведите его к переносице, затем отводите обратно. 10 раз.',
+			'learnMore.parts.2.exercises.2.name' => 'По одному глазу',
+			'learnMore.parts.2.exercises.2.text' => 'Закройте один глаз и сделайте переключение фокуса, затем поменяйте. По 8 раз на каждый.',
+			'learnMore.parts.2.exercises.3.name' => 'Точка на окне',
+			'learnMore.parts.2.exercises.3.text' => 'Поставьте небольшую метку на окне, разглядывайте её 30 секунд, затем посмотрите на далёкий предмет на улице и обратно. 8 раз.',
+			'learnMore.tips' => 'Что помогает ещё сильнее: хорошее освещение, регулярные перерывы от экрана, время на улице и частый отдых для глаз.',
+			'learnMore.warningLabel' => 'Важно: ',
+			'learnMore.disclaimer' => 'Эти упражнения предназначены для общего оздоровления и расслабления. Это не лечение; они не предназначены для диагностики, лечения или профилактики каких-либо заболеваний. Перед началом проконсультируйтесь с врачом или офтальмологом, особенно при наличии заболеваний глаз. Вы используете приложение на своё усмотрение.',
 			'permissions.noPermissionTitle' => 'Нет разрешения',
 			'permissions.noPermissionSubtitle' => 'Мы не получили разрешение на отправку уведомлений, поэтому не можем настроить их сейчас. Вы можете настроить разрешения в настройках вашего устройства.',
 			'permissions.openSettings' => 'Открыть настройки',

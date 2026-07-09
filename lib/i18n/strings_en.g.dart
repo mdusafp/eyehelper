@@ -50,6 +50,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final Translations$finish$en finish = Translations$finish$en.internal(_root);
 	late final Translations$onboarding$en onboarding = Translations$onboarding$en.internal(_root);
 	late final Translations$about$en about = Translations$about$en.internal(_root);
+	late final Translations$learnMore$en learnMore = Translations$learnMore$en.internal(_root);
 	late final Translations$permissions$en permissions = Translations$permissions$en.internal(_root);
 	late final Translations$errors$en errors = Translations$errors$en.internal(_root);
 }
@@ -485,20 +486,53 @@ class Translations$about$en {
 	/// en: 'About the exercises'
 	String get title => 'About the exercises';
 
-	/// en: 'The app uses information about exercises based on the Avetisov system.'
-	String get body1 => 'The app uses information about exercises based on the Avetisov system.';
+	/// en: 'This app offers a set of guided eye exercises designed to help relax your eyes and ease strain.'
+	String get body1 => 'This app offers a set of guided eye exercises designed to help relax your eyes and ease strain.';
 
-	/// en: 'To get detailed information, tap the button below.'
-	String get body2 => 'To get detailed information, tap the button below.';
+	/// en: 'Tap the button below to learn more about how they work.'
+	String get body2 => 'Tap the button below to learn more about how they work.';
 
-	/// en: 'Attention! '
-	String get warningLabel => 'Attention! ';
+	/// en: 'Important: '
+	String get warningLabel => 'Important: ';
 
-	/// en: 'Before doing the exercises, we strongly recommend consulting your doctor. The developers are not responsible for any indirect, incidental, or unintentional harm caused in connection with using the app.'
-	String get disclaimer => 'Before doing the exercises, we strongly recommend consulting your doctor. The developers are not responsible for any indirect, incidental, or unintentional harm caused in connection with using the app.';
+	/// en: 'These exercises are for general wellness and are not intended to diagnose, treat, cure, or prevent any medical condition. Please consult a doctor or eye-care professional before starting, especially if you have an existing eye condition. Use of this app is at your own risk, and the developers are not liable for any injury, loss, or damage arising from its use.'
+	String get disclaimer => 'These exercises are for general wellness and are not intended to diagnose, treat, cure, or prevent any medical condition. Please consult a doctor or eye-care professional before starting, especially if you have an existing eye condition. Use of this app is at your own risk, and the developers are not liable for any injury, loss, or damage arising from its use.';
 
 	/// en: 'Learn more'
 	String get moreButton => 'Learn more';
+}
+
+// Path: learnMore
+class Translations$learnMore$en {
+	Translations$learnMore$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'How these exercises work'
+	String get title => 'How these exercises work';
+
+	/// en: 'Your eyes have muscles too — the ones that move your gaze and the tiny ones that shift your focus between near and far. Like any muscle, they get tired and stiff when they hold one position for hours, which is exactly what happens when you stare at a screen. This routine is a simple, guided workout to help those muscles relax, loosen up, and switch focus more comfortably.'
+	String get intro1 => 'Your eyes have muscles too — the ones that move your gaze and the tiny ones that shift your focus between near and far. Like any muscle, they get tired and stiff when they hold one position for hours, which is exactly what happens when you stare at a screen. This routine is a simple, guided workout to help those muscles relax, loosen up, and switch focus more comfortably.';
+
+	/// en: 'Do it once a day, about 15 minutes, sitting up straight. Move slowly and gently, and start with fewer repetitions — a little fatigue at first is normal and eases as you go.'
+	String get intro2 => 'Do it once a day, about 15 minutes, sitting up straight. Move slowly and gently, and start with fewer repetitions — a little fatigue at first is normal and eases as you go.';
+
+	List<dynamic> get parts => [
+		Translations$learnMore$parts$0$en.internal(_root),
+		Translations$learnMore$parts$1$en.internal(_root),
+		Translations$learnMore$parts$2$en.internal(_root),
+	];
+
+	/// en: 'A few things that help even more: good lighting, regular screen breaks, time outdoors, and letting your eyes rest often.'
+	String get tips => 'A few things that help even more: good lighting, regular screen breaks, time outdoors, and letting your eyes rest often.';
+
+	/// en: 'Important: '
+	String get warningLabel => 'Important: ';
+
+	/// en: 'These exercises are for general wellness and relaxation. They are not a treatment and are not intended to diagnose, cure, or prevent any medical condition. Please check with a doctor or eye-care professional before starting, especially if you have an existing eye condition. Use this app at your own discretion.'
+	String get disclaimer => 'These exercises are for general wellness and relaxation. They are not a treatment and are not intended to diagnose, cure, or prevent any medical condition. Please check with a doctor or eye-care professional before starting, especially if you have an existing eye condition. Use this app at your own discretion.';
 }
 
 // Path: permissions
@@ -529,6 +563,268 @@ class Translations$errors$en {
 
 	/// en: 'Invalid time range selected'
 	String get wrongWorkTime => 'Invalid time range selected';
+}
+
+// Path: learnMore.parts.0
+class Translations$learnMore$parts$0$en {
+	Translations$learnMore$parts$0$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Part 1 — Warm up & refresh'
+	String get title => 'Part 1 — Warm up & refresh';
+
+	/// en: 'Gets circulation going around your eyes and eases tension.'
+	String get subtitle => 'Gets circulation going around your eyes and eases tension.';
+
+	List<dynamic> get exercises => [
+		Translations$learnMore$parts$0$exercises$0$en.internal(_root),
+		Translations$learnMore$parts$0$exercises$1$en.internal(_root),
+		Translations$learnMore$parts$0$exercises$2$en.internal(_root),
+		Translations$learnMore$parts$0$exercises$3$en.internal(_root),
+		Translations$learnMore$parts$0$exercises$4$en.internal(_root),
+	];
+}
+
+// Path: learnMore.parts.1
+class Translations$learnMore$parts$1$en {
+	Translations$learnMore$parts$1$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Part 2 — Move your gaze'
+	String get title => 'Part 2 — Move your gaze';
+
+	/// en: 'Loosens the muscles that aim your eyes. Keep your head still and let only your eyes move.'
+	String get subtitle => 'Loosens the muscles that aim your eyes. Keep your head still and let only your eyes move.';
+
+	List<dynamic> get exercises => [
+		Translations$learnMore$parts$1$exercises$0$en.internal(_root),
+		Translations$learnMore$parts$1$exercises$1$en.internal(_root),
+		Translations$learnMore$parts$1$exercises$2$en.internal(_root),
+		Translations$learnMore$parts$1$exercises$3$en.internal(_root),
+	];
+}
+
+// Path: learnMore.parts.2
+class Translations$learnMore$parts$2$en {
+	Translations$learnMore$parts$2$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Part 3 — Near & far focus'
+	String get title => 'Part 3 — Near & far focus';
+
+	/// en: 'Trains the focusing muscle to switch distances smoothly — the part that gets stuck after a long screen session.'
+	String get subtitle => 'Trains the focusing muscle to switch distances smoothly — the part that gets stuck after a long screen session.';
+
+	List<dynamic> get exercises => [
+		Translations$learnMore$parts$2$exercises$0$en.internal(_root),
+		Translations$learnMore$parts$2$exercises$1$en.internal(_root),
+		Translations$learnMore$parts$2$exercises$2$en.internal(_root),
+		Translations$learnMore$parts$2$exercises$3$en.internal(_root),
+	];
+}
+
+// Path: learnMore.parts.0.exercises.0
+class Translations$learnMore$parts$0$exercises$0$en {
+	Translations$learnMore$parts$0$exercises$0$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Eyelid massage'
+	String get name => 'Eyelid massage';
+
+	/// en: 'With clean fingertips, gently massage your closed eyelids for about a minute.'
+	String get text => 'With clean fingertips, gently massage your closed eyelids for about a minute.';
+}
+
+// Path: learnMore.parts.0.exercises.1
+class Translations$learnMore$parts$0$exercises$1$en {
+	Translations$learnMore$parts$0$exercises$1$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Gentle squeeze'
+	String get name => 'Gentle squeeze';
+
+	/// en: 'Shut your eyes tightly for 3–5 seconds, then relax for 4–6 seconds. Repeat 6–8 times.'
+	String get text => 'Shut your eyes tightly for 3–5 seconds, then relax for 4–6 seconds. Repeat 6–8 times.';
+}
+
+// Path: learnMore.parts.0.exercises.2
+class Translations$learnMore$parts$0$exercises$2$en {
+	Translations$learnMore$parts$0$exercises$2$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Quick blinks'
+	String get name => 'Quick blinks';
+
+	/// en: 'Blink rapidly for 15 seconds, then rest your gaze forward for 5 seconds. Up to 6 rounds.'
+	String get text => 'Blink rapidly for 15 seconds, then rest your gaze forward for 5 seconds. Up to 6 rounds.';
+}
+
+// Path: learnMore.parts.0.exercises.3
+class Translations$learnMore$parts$0$exercises$3$en {
+	Translations$learnMore$parts$0$exercises$3$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Light pressure'
+	String get name => 'Light pressure';
+
+	/// en: 'With eyes closed, rest two fingers very gently on each eyelid for 2–3 seconds while you breathe deeply. Repeat 4–6 times. Light touch only.'
+	String get text => 'With eyes closed, rest two fingers very gently on each eyelid for 2–3 seconds while you breathe deeply. Repeat 4–6 times. Light touch only.';
+}
+
+// Path: learnMore.parts.0.exercises.4
+class Translations$learnMore$parts$0$exercises$4$en {
+	Translations$learnMore$parts$0$exercises$4$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Brow resistance'
+	String get name => 'Brow resistance';
+
+	/// en: 'Press your fingers to your eyebrows and gently frown and squint against that light resistance. Up to 8 times.'
+	String get text => 'Press your fingers to your eyebrows and gently frown and squint against that light resistance. Up to 8 times.';
+}
+
+// Path: learnMore.parts.1.exercises.0
+class Translations$learnMore$parts$1$exercises$0$en {
+	Translations$learnMore$parts$1$exercises$0$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Up & down'
+	String get name => 'Up & down';
+
+	/// en: 'Slowly look up, pause, look down, pause. 8–12 times.'
+	String get text => 'Slowly look up, pause, look down, pause. 8–12 times.';
+}
+
+// Path: learnMore.parts.1.exercises.1
+class Translations$learnMore$parts$1$exercises$1$en {
+	Translations$learnMore$parts$1$exercises$1$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Side to side'
+	String get name => 'Side to side';
+
+	/// en: 'The same slow rhythm, left and right, as far as is comfortable. 8–12 times.'
+	String get text => 'The same slow rhythm, left and right, as far as is comfortable. 8–12 times.';
+}
+
+// Path: learnMore.parts.1.exercises.2
+class Translations$learnMore$parts$1$exercises$2$en {
+	Translations$learnMore$parts$1$exercises$2$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Diagonals'
+	String get name => 'Diagonals';
+
+	/// en: 'Lower-left to upper-right, 8 times; rest 30 seconds; then lower-right to upper-left, 8 times.'
+	String get text => 'Lower-left to upper-right, 8 times; rest 30 seconds; then lower-right to upper-left, 8 times.';
+}
+
+// Path: learnMore.parts.1.exercises.3
+class Translations$learnMore$parts$1$exercises$3$en {
+	Translations$learnMore$parts$1$exercises$3$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Circles'
+	String get name => 'Circles';
+
+	/// en: 'Trace a full slow circle with your eyes, clockwise 6–8 times, then counter-clockwise 6–8 times.'
+	String get text => 'Trace a full slow circle with your eyes, clockwise 6–8 times, then counter-clockwise 6–8 times.';
+}
+
+// Path: learnMore.parts.2.exercises.0
+class Translations$learnMore$parts$2$exercises$0$en {
+	Translations$learnMore$parts$2$exercises$0$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Near to far'
+	String get name => 'Near to far';
+
+	/// en: 'Hold a finger about a foot from your face, focus on it, then shift focus to something across the room, then back. 10–12 times.'
+	String get text => 'Hold a finger about a foot from your face, focus on it, then shift focus to something across the room, then back. 10–12 times.';
+}
+
+// Path: learnMore.parts.2.exercises.1
+class Translations$learnMore$parts$2$exercises$1$en {
+	Translations$learnMore$parts$2$exercises$1$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Coming closer'
+	String get name => 'Coming closer';
+
+	/// en: 'Keep looking at your finger as you slowly bring it toward the bridge of your nose, then move it back out. 10 times.'
+	String get text => 'Keep looking at your finger as you slowly bring it toward the bridge of your nose, then move it back out. 10 times.';
+}
+
+// Path: learnMore.parts.2.exercises.2
+class Translations$learnMore$parts$2$exercises$2$en {
+	Translations$learnMore$parts$2$exercises$2$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'One eye at a time'
+	String get name => 'One eye at a time';
+
+	/// en: 'Cover one eye and do the near-to-far shift, then switch. 8 times each.'
+	String get text => 'Cover one eye and do the near-to-far shift, then switch. 8 times each.';
+}
+
+// Path: learnMore.parts.2.exercises.3
+class Translations$learnMore$parts$2$exercises$3$en {
+	Translations$learnMore$parts$2$exercises$3$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Window spot'
+	String get name => 'Window spot';
+
+	/// en: 'Put a small mark on a window, study it for 30 seconds, then look at something far outside, and back. 8 times.'
+	String get text => 'Put a small mark on a window, study it for 30 seconds, then look at something far outside, and back. 8 times.';
 }
 
 /// The flat map containing all translations for locale <en>.
@@ -653,11 +949,49 @@ extension on Translations {
 			'onboarding.subtitle2' => 'We\'ll tell you about exercises to relax your eyes and show you how to do them.\nJust check in every now and then… )',
 			'onboarding.subtitle3' => 'Tell us when and on which days you work at the computer, and the app will help you take care of your eyes.',
 			'about.title' => 'About the exercises',
-			'about.body1' => 'The app uses information about exercises based on the Avetisov system.',
-			'about.body2' => 'To get detailed information, tap the button below.',
-			'about.warningLabel' => 'Attention! ',
-			'about.disclaimer' => 'Before doing the exercises, we strongly recommend consulting your doctor. The developers are not responsible for any indirect, incidental, or unintentional harm caused in connection with using the app.',
+			'about.body1' => 'This app offers a set of guided eye exercises designed to help relax your eyes and ease strain.',
+			'about.body2' => 'Tap the button below to learn more about how they work.',
+			'about.warningLabel' => 'Important: ',
+			'about.disclaimer' => 'These exercises are for general wellness and are not intended to diagnose, treat, cure, or prevent any medical condition. Please consult a doctor or eye-care professional before starting, especially if you have an existing eye condition. Use of this app is at your own risk, and the developers are not liable for any injury, loss, or damage arising from its use.',
 			'about.moreButton' => 'Learn more',
+			'learnMore.title' => 'How these exercises work',
+			'learnMore.intro1' => 'Your eyes have muscles too — the ones that move your gaze and the tiny ones that shift your focus between near and far. Like any muscle, they get tired and stiff when they hold one position for hours, which is exactly what happens when you stare at a screen. This routine is a simple, guided workout to help those muscles relax, loosen up, and switch focus more comfortably.',
+			'learnMore.intro2' => 'Do it once a day, about 15 minutes, sitting up straight. Move slowly and gently, and start with fewer repetitions — a little fatigue at first is normal and eases as you go.',
+			'learnMore.parts.0.title' => 'Part 1 — Warm up & refresh',
+			'learnMore.parts.0.subtitle' => 'Gets circulation going around your eyes and eases tension.',
+			'learnMore.parts.0.exercises.0.name' => 'Eyelid massage',
+			'learnMore.parts.0.exercises.0.text' => 'With clean fingertips, gently massage your closed eyelids for about a minute.',
+			'learnMore.parts.0.exercises.1.name' => 'Gentle squeeze',
+			'learnMore.parts.0.exercises.1.text' => 'Shut your eyes tightly for 3–5 seconds, then relax for 4–6 seconds. Repeat 6–8 times.',
+			'learnMore.parts.0.exercises.2.name' => 'Quick blinks',
+			'learnMore.parts.0.exercises.2.text' => 'Blink rapidly for 15 seconds, then rest your gaze forward for 5 seconds. Up to 6 rounds.',
+			'learnMore.parts.0.exercises.3.name' => 'Light pressure',
+			'learnMore.parts.0.exercises.3.text' => 'With eyes closed, rest two fingers very gently on each eyelid for 2–3 seconds while you breathe deeply. Repeat 4–6 times. Light touch only.',
+			'learnMore.parts.0.exercises.4.name' => 'Brow resistance',
+			'learnMore.parts.0.exercises.4.text' => 'Press your fingers to your eyebrows and gently frown and squint against that light resistance. Up to 8 times.',
+			'learnMore.parts.1.title' => 'Part 2 — Move your gaze',
+			'learnMore.parts.1.subtitle' => 'Loosens the muscles that aim your eyes. Keep your head still and let only your eyes move.',
+			'learnMore.parts.1.exercises.0.name' => 'Up & down',
+			'learnMore.parts.1.exercises.0.text' => 'Slowly look up, pause, look down, pause. 8–12 times.',
+			'learnMore.parts.1.exercises.1.name' => 'Side to side',
+			'learnMore.parts.1.exercises.1.text' => 'The same slow rhythm, left and right, as far as is comfortable. 8–12 times.',
+			'learnMore.parts.1.exercises.2.name' => 'Diagonals',
+			'learnMore.parts.1.exercises.2.text' => 'Lower-left to upper-right, 8 times; rest 30 seconds; then lower-right to upper-left, 8 times.',
+			'learnMore.parts.1.exercises.3.name' => 'Circles',
+			'learnMore.parts.1.exercises.3.text' => 'Trace a full slow circle with your eyes, clockwise 6–8 times, then counter-clockwise 6–8 times.',
+			'learnMore.parts.2.title' => 'Part 3 — Near & far focus',
+			'learnMore.parts.2.subtitle' => 'Trains the focusing muscle to switch distances smoothly — the part that gets stuck after a long screen session.',
+			'learnMore.parts.2.exercises.0.name' => 'Near to far',
+			'learnMore.parts.2.exercises.0.text' => 'Hold a finger about a foot from your face, focus on it, then shift focus to something across the room, then back. 10–12 times.',
+			'learnMore.parts.2.exercises.1.name' => 'Coming closer',
+			'learnMore.parts.2.exercises.1.text' => 'Keep looking at your finger as you slowly bring it toward the bridge of your nose, then move it back out. 10 times.',
+			'learnMore.parts.2.exercises.2.name' => 'One eye at a time',
+			'learnMore.parts.2.exercises.2.text' => 'Cover one eye and do the near-to-far shift, then switch. 8 times each.',
+			'learnMore.parts.2.exercises.3.name' => 'Window spot',
+			'learnMore.parts.2.exercises.3.text' => 'Put a small mark on a window, study it for 30 seconds, then look at something far outside, and back. 8 times.',
+			'learnMore.tips' => 'A few things that help even more: good lighting, regular screen breaks, time outdoors, and letting your eyes rest often.',
+			'learnMore.warningLabel' => 'Important: ',
+			'learnMore.disclaimer' => 'These exercises are for general wellness and relaxation. They are not a treatment and are not intended to diagnose, cure, or prevent any medical condition. Please check with a doctor or eye-care professional before starting, especially if you have an existing eye condition. Use this app at your own discretion.',
 			'permissions.noPermissionTitle' => 'No permission',
 			'permissions.noPermissionSubtitle' => 'We didn\'t get permission to send notifications, so we can\'t set them up right now. You can configure permissions in your device settings.',
 			'permissions.openSettings' => 'Open settings',

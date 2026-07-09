@@ -1,10 +1,10 @@
 import 'package:eyehelper/src/theme.dart';
 import 'package:eyehelper/src/widgets/app_background.dart';
+import 'package:eyehelper/src/screens/learn_more_screen.dart';
 import 'package:eyehelper/src/widgets/custom_rounded_button.dart';
 import 'package:eyehelper/i18n/tr.dart';
 import 'package:flutter/material.dart';
 import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class AboutExercisesScreen extends StatefulWidget {
   @override
@@ -76,8 +76,9 @@ class _AboutExercisesScreenState extends State<AboutExercisesScreen> {
             RoundCustomButton(
               parentSize: MediaQuery.of(context).size,
               onPressed: () {
-                launch(
-                    "http://ktyis.ru/wp-content/uploads/%D0%93%D0%B8%D0%BC%D0%BD%D0%B0%D1%81%D1%82%D0%B8%D0%BA%D0%B0-%D0%B4%D0%BB%D1%8F-%D0%B3%D0%BB%D0%B0%D0%B7-%D0%BF%D0%BE-%D0%90%D0%B2%D0%B5%D1%82%D0%B8%D1%81%D0%BE%D0%B2%D1%83.pdf");
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const LearnMoreScreen()),
+                );
               },
               child: Text(
                 context.t.about.moreButton,
