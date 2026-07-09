@@ -1,5 +1,6 @@
 name: eyehelper
 description: Eye exercise reminder and training app.
+publish_to: none
 version: 1.0.5+9
 
 environment:

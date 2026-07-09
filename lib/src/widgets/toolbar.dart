@@ -48,7 +48,7 @@ class _ToolbarWavyState extends State<ToolbarWavy> {
                   ),
                 ),
               ),
-              if (FastPreferences().prefs != null && widget.currentIndex == 1)
+              if (FastPreferences().isInited && widget.currentIndex == 1)
                 _buildVibration(context),
               // if (FastPreferences().prefs != null && widget.currentIndex == 2) _buildNotification(context),
             ],

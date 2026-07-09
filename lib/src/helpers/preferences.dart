@@ -24,9 +24,14 @@ class FastPreferences {
   static String wasOpened = 'first_time_opened';
 
   late SharedPreferences prefs;
+  bool _isInited = false;
 
   Future<void> init() async {
+    if (_isInited) {
+      return;
+    }
     prefs = await SharedPreferences.getInstance();
+    _isInited = true;
     final wasOpened = prefs.getBool(FastPreferences.wasOpened) ?? false;
     if (!wasOpened) {
       AppAnalytics().sendEvent(
@@ -42,7 +47,7 @@ class FastPreferences {
 
   static final FastPreferences _singleton = FastPreferences._internal();
 
-  bool get isInited => prefs != null;
+  bool get isInited => _isInited;
 
   factory FastPreferences() {
     return _singleton;

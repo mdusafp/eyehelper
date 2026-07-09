@@ -1,5 +1,4 @@
 import 'package:flare_flutter/asset_provider.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
 
