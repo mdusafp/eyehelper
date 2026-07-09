@@ -1,4 +1,3 @@
-import 'package:eyehelper/src/helpers/notification.dart';
 import 'package:eyehelper/src/helpers/preferences.dart';
 import 'package:eyehelper/src/locale/ru.dart';
 import 'package:eyehelper/src/repositories/statistics_repository.dart';
@@ -6,13 +5,13 @@ import 'package:eyehelper/src/screens/about_exercises_screen.dart';
 import 'package:eyehelper/src/screens/onboarding_screen.dart';
 import 'package:eyehelper/src/screens/statistics_screen/statistics_screen.dart';
 import 'package:eyehelper/src/theme.dart';
-import 'package:eyehelper/src/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:eyehelper/src/constants.dart';
 import 'package:eyehelper/src/locale/Localizer.dart';
 import 'package:eyehelper/src/screens/eye_screen/eye_screen.dart';
 import 'package:eyehelper/src/screens/notification_screen/notification_screen.dart';
+import 'package:eyehelper/src/widgets/app_background.dart';
 import 'package:eyehelper/src/widgets/vibration_toggle.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
@@ -82,6 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return GlassScaffold(
       backgroundColor: EyehelperColorScheme.backgroundWhite,
+      background: const AppBackground(),
       appBar: GlassAppBar(
         title: Text(
           Localizer.getLocaleById(titles[_currentIndex], context),
