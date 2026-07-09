@@ -6,6 +6,7 @@ import 'package:eyehelper/src/app.dart';
 import 'package:eyehelper/src/helpers/preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
 void main() async {
@@ -15,6 +16,7 @@ void main() async {
     // Preferences are read synchronously all over the UI, so they must be
     // ready before the first frame.
     await FastPreferences().init();
+    await LiquidGlassWidgets.initialize();
 
     ErrorWidget.builder = (FlutterErrorDetails details) => Container();
 
@@ -23,7 +25,7 @@ void main() async {
     // Pass all uncaught errors from the framework to Crashlytics.
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
-    runApp(EyeHelperApp());
+    runApp(LiquidGlassWidgets.wrap(child: EyeHelperApp()));
   }, (error, stack) {
     print(error);
     print(stack);
