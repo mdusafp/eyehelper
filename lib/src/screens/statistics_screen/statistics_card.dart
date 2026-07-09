@@ -1,10 +1,9 @@
 import 'dart:async';
 
-import 'package:eyehelper/src/locale/Localizer.dart';
-import 'package:eyehelper/src/locale/ru.dart';
 import 'package:eyehelper/src/screens/statistics_screen/statistics_screen.dart';
 import 'package:eyehelper/src/theme.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:eyehelper/i18n/tr.dart';
 import 'package:flutter/material.dart';
 import 'package:tuple/tuple.dart';
 
@@ -19,13 +18,13 @@ class StatisticCard extends StatefulWidget {
   final List<Tuple2<int, double>>? coordsList;
 
   const StatisticCard({
-    Key? key,
+    super.key,
     required this.type,
     required this.barWidth,
     required this.barHeight,
     required this.barActiveColor,
     required this.coordsList,
-  }) : super(key: key);
+  });
 
   @override
   _StatisticCardState createState() => _StatisticCardState();
@@ -58,7 +57,7 @@ class _StatisticCardState extends State<StatisticCard> {
   @override
   void initState() {
     super.initState();
-    controller = new StreamController();
+    controller = StreamController();
     controller.stream.distinct().listen((BarTouchResponse response) {});
     if (widget.coordsList != null && widget.coordsList!.isNotEmpty) {
       List<Tuple2<int, double>> sortedCoordsList = List.from(widget.coordsList!);
@@ -83,10 +82,18 @@ class _StatisticCardState extends State<StatisticCard> {
       sum += item.item2;
     });
 
-    return Card(
-      elevation: 8.0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      color: Colors.white,
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(36),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.1),
+            blurRadius: 10,
+            offset: Offset(0, 4),
+          ),
+        ],
+      ),
       child: Container(
         padding: const EdgeInsets.only(
           top: SPACING,
@@ -98,64 +105,67 @@ class _StatisticCardState extends State<StatisticCard> {
     );
   }
 
-  Column _getStatsView(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Text(
-          _getTitle(),
-          style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                color: Theme.of(context).primaryColorDark,
+  Widget _getStatsView(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: <Widget>[
+          Text(
+            _getTitle(),
+            style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                  color: Theme.of(context).primaryColorDark,
+                ),
+          ),
+          AspectRatio(
+            aspectRatio: 1.06,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(SPACING)),
               ),
-        ),
-        AspectRatio(
-          aspectRatio: 1.06,
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(SPACING)),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(
-                top: SPACING,
-                right: SPACING / 2,
-              ),
-              child: BarChart(
-                BarChartData(
-                  barGroups: barChartGroupData ?? [],
-                  barTouchData: BarTouchData(
-                    enabled: false,
-                  ),
-                  titlesData: FlTitlesData(
-                    show: true,
-                    topTitles: const AxisTitles(),
-                    rightTitles: const AxisTitles(),
-                    bottomTitles: AxisTitles(
-                      sideTitles: SideTitles(
-                        showTitles: true,
-                        reservedSize: 30,
-                        getTitlesWidget: (value, meta) => Padding(
-                          padding: const EdgeInsets.only(top: SPACING / 2),
-                          child: Text(getBottomTitles(value), style: _titlesStyle(context)),
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  top: SPACING,
+                  right: SPACING / 2,
+                ),
+                child: BarChart(
+                  BarChartData(
+                    barGroups: barChartGroupData ?? [],
+                    barTouchData: BarTouchData(
+                      enabled: false,
+                    ),
+                    titlesData: FlTitlesData(
+                      show: true,
+                      topTitles: const AxisTitles(),
+                      rightTitles: const AxisTitles(),
+                      bottomTitles: AxisTitles(
+                        sideTitles: SideTitles(
+                          showTitles: true,
+                          reservedSize: 30,
+                          getTitlesWidget: (value, meta) => Padding(
+                            padding: const EdgeInsets.only(top: SPACING / 2),
+                            child: Text(getBottomTitles(value), style: _titlesStyle(context)),
+                          ),
+                        ),
+                      ),
+                      leftTitles: AxisTitles(
+                        sideTitles: SideTitles(
+                          showTitles: true,
+                          reservedSize: 36,
+                          getTitlesWidget: (value, meta) =>
+                              Text(getLeftTitles(value), style: _titlesStyle(context)),
                         ),
                       ),
                     ),
-                    leftTitles: AxisTitles(
-                      sideTitles: SideTitles(
-                        showTitles: true,
-                        reservedSize: 36,
-                        getTitlesWidget: (value, meta) =>
-                            Text(getLeftTitles(value), style: _titlesStyle(context)),
-                      ),
+                    borderData: FlBorderData(
+                      show: false,
                     ),
-                  ),
-                  borderData: FlBorderData(
-                    show: false,
                   ),
                 ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -179,14 +189,14 @@ class _StatisticCardState extends State<StatisticCard> {
     switch (widget.type!) {
       case CardType.week:
         bottomTitles = [
-          LocaleId.monday_short,
-          LocaleId.tuesday_short,
-          LocaleId.wednesday_short,
-          LocaleId.thursday_short,
-          LocaleId.friday_short,
-          LocaleId.saturday_short,
-          LocaleId.sunday_short,
-        ].map((title) => Localizer.getLocaleById(title, context)).toList();
+          'schedule.mondayShort',
+          'schedule.tuesdayShort',
+          'schedule.wednesdayShort',
+          'schedule.thursdayShort',
+          'schedule.fridayShort',
+          'schedule.saturdayShort',
+          'schedule.sundayShort',
+        ].map((title) => trKey(context, title)).toList();
         break;
       case CardType.day:
         bottomTitles = [
@@ -197,7 +207,7 @@ class _StatisticCardState extends State<StatisticCard> {
           ' 5',
           ' 6',
         ]
-            .map((title) => Localizer.getLocaleById(LocaleId.excercise_short, context) + title)
+            .map((title) => context.t.schedule.exerciseShort + title)
             .toList();
         break;
     }
@@ -210,21 +220,21 @@ class _StatisticCardState extends State<StatisticCard> {
       return '';
     }
 
-    LocaleId? result;
+    String result;
 
     switch (widget.type!) {
       case CardType.week:
-        result = LocaleId.current_week;
+        result = 'statistics.currentWeek';
         break;
       case CardType.day:
-        result = LocaleId.current_day;
+        result = 'statistics.currentDay';
         break;
     }
 
-    return Localizer.getLocaleById(result, context);
+    return trKey(context, result);
   }
 
-  _getNoDataView() {
+  Center _getNoDataView() {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -244,7 +254,7 @@ class _StatisticCardState extends State<StatisticCard> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20.0),
             child: Text(
-              Localizer.getLocaleById(LocaleId.not_enough_data, context),
+              context.t.statistics.notEnoughData,
               style: Theme.of(context).textTheme.displaySmall?.copyWith(
                     color: Theme.of(context).primaryColorDark,
                   ),

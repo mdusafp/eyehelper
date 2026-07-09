@@ -3,10 +3,9 @@ import 'package:eyehelper/src/custom_packages/fancy_on_boarding/src/fancy_on_boa
 import 'package:eyehelper/src/custom_packages/fancy_on_boarding/src/page_model.dart';
 import 'package:eyehelper/src/helpers/notification.dart';
 import 'package:eyehelper/src/helpers/preferences.dart';
-import 'package:eyehelper/src/locale/Localizer.dart';
-import 'package:eyehelper/src/locale/ru.dart';
 import 'package:eyehelper/src/widgets/custom_rounded_button.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:eyehelper/i18n/tr.dart';
 import 'package:flutter/material.dart';
 
 class OnBoardingScreen extends StatefulWidget {
@@ -49,13 +48,13 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     color: Colors.white,
                     heroAssetPath: 'assets/work_onb.png',
                     title: Text(
-                      Localizer.getLocaleById(LocaleId.onb_title1, context),
+                      context.t.onboarding.title1,
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
                             color: Theme.of(context).colorScheme.secondary,
                           ),
                     ),
                     body: Text(
-                      Localizer.getLocaleById(LocaleId.onb_subtitle1, context),
+                      context.t.onboarding.subtitle1,
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                             color: Theme.of(context).primaryColor,
@@ -64,12 +63,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 PageModel(
                     color: Colors.white,
                     heroAssetPath: 'assets/exercises_onb.png',
-                    title: Text(Localizer.getLocaleById(LocaleId.onb_title2, context),
+                    title: Text(context.t.onboarding.title2,
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
                               color: Theme.of(context).colorScheme.secondary,
                             )),
                     body: Text(
-                      Localizer.getLocaleById(LocaleId.onb_subtitle2, context),
+                      context.t.onboarding.subtitle2,
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                             color: Theme.of(context).primaryColor,
@@ -79,7 +78,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   color: Colors.white,
                   heroAssetPath: 'assets/notif_onb.png',
                   title: Text(
-                    Localizer.getLocaleById(LocaleId.onb_title3, context),
+                    context.t.onboarding.title3,
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
                           color: Theme.of(context).colorScheme.secondary,
                         ),
@@ -106,7 +105,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     child: Padding(
                       padding: const EdgeInsets.only(left: 12.0, right: 12.0),
                       child: AutoSizeText(
-                        Localizer.getLocaleById(LocaleId.setup_notifications, context),
+                        context.t.notifications.setupButton,
                         maxLines: 1,
                         style: Theme.of(context).textTheme.labelLarge,
                       ),
@@ -114,7 +113,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   ),
                   body: Column(
                     children: [
-                      Text(Localizer.getLocaleById(LocaleId.onb_subtitle3, context),
+                      Text(context.t.onboarding.subtitle3,
                           textAlign: TextAlign.center,
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                 color: Theme.of(context).primaryColor,

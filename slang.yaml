@@ -1,0 +1,12 @@
+base_locale: en
+input_directory: lib/i18n
+input_file_pattern: .i18n.json
+output_directory: lib/i18n
+output_file_name: strings.g.dart
+translate_var: t
+enum_name: AppLocale
+class_name: Translations
+fallback_strategy: base_locale
+string_interpolation: braces
+# flat map access (t['a.b.c']) is enabled by default and used for
+# translation keys stored as strings in models (exercise/day/frequency names).

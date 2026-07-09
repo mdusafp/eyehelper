@@ -1,8 +1,8 @@
-import 'package:eyehelper/src/locale/Localizer.dart';
 import 'package:eyehelper/src/screens/notification_screen/dtos/time_card_info.dart';
 import 'package:eyehelper/src/screens/notification_screen/dtos/week.dart';
 import 'package:eyehelper/src/widgets/custom_rounded_button.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:eyehelper/i18n/tr.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
@@ -83,7 +83,7 @@ class _TimePickerDialogState extends State<TimePickerDialog> {
                               shrinkWrap: true,
                               children: <Widget>[
                                 Container(height: 16),
-                                Center(child: Text(widget.customTitle ?? "Параметры")),
+                                Center(child: Text(widget.customTitle ?? context.t.notifications.paramsDefault)),
                                 Container(
                                   height: 140,
                                   child: CupertinoTimerPicker(
@@ -106,8 +106,7 @@ class _TimePickerDialogState extends State<TimePickerDialog> {
                                           child: Row(
                                             children: <Widget>[
                                               Expanded(
-                                                child: Text(Localizer.getLocaleById(
-                                                    weekList[index].fullLocale, context)),
+                                                child: Text(trKey(context, weekList[index].fullLocale)),
                                               ),
                                               SizedBox(
                                                 height: 30,
@@ -141,7 +140,7 @@ class _TimePickerDialogState extends State<TimePickerDialog> {
                                             Navigator.of(context).maybePop(true);
                                           },
                                           child: Text(
-                                            "Добавить",
+                                            context.t.common.add,
                                             style: Theme.of(context).textTheme.labelLarge,
                                           ),
                                         ),
@@ -163,7 +162,7 @@ class _TimePickerDialogState extends State<TimePickerDialog> {
                                             Navigator.of(context).maybePop(false);
                                           },
                                           child: Text(
-                                            "Удалить",
+                                            context.t.common.delete,
                                             style: Theme.of(context).textTheme.labelLarge?.copyWith(
                                                   color: Colors.redAccent[700],
                                                 ),

@@ -1,9 +1,8 @@
 import 'package:eyehelper/src/screens/notification_screen/dtos/frequency.dart';
 import 'package:eyehelper/src/screens/notification_screen/dtos/notification_frequency.dart';
+import 'package:eyehelper/i18n/tr.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:eyehelper/src/locale/Localizer.dart';
-import 'package:eyehelper/src/locale/ru.dart';
 
 typedef void OnChange(Frequency frequency);
 
@@ -31,10 +30,10 @@ class NotificationFrequencyPickerState extends State<NotificationFrequencyPicker
   @override
   initState() {
     // _frequencies = [
-    //   new NotificationFrequency(LocaleId.one_hour, new Duration(hours: 1)),
-    //   new NotificationFrequency(LocaleId.two_hours, new Duration(hours: 2)),
-    //   new NotificationFrequency(LocaleId.two_hours, new Duration(hours: 4)), // 4 часа, а не  часов
-    //   new NotificationFrequency(LocaleId.many_hours, new Duration(hours: 8)),
+    //   new NotificationFrequency('frequency.hourOne', new Duration(hours: 1)),
+    //   new NotificationFrequency('frequency.hoursTwo', new Duration(hours: 2)),
+    //   new NotificationFrequency('frequency.hoursTwo', new Duration(hours: 4)), // 4 часа, а не  часов
+    //   new NotificationFrequency('frequency.hoursMany', new Duration(hours: 8)),
     // ];
     _selectedFrequencyIndex = frequencies.indexWhere((frequency) {
       return frequency.type == widget.initialFrequency.type;
@@ -49,9 +48,9 @@ class NotificationFrequencyPickerState extends State<NotificationFrequencyPicker
   }
 
   String _getFrequencyTitle(NotificationFrequency frequency) {
-    String timesPer = Localizer.getLocaleById(LocaleId.times_per, context);
+    String timesPer = context.t.notifications.timesPer;
     String hours = frequency.duration.inHours.toString();
-    String postfix = Localizer.getLocaleById(frequency.localeId, context);
+    String postfix = trKey(context, frequency.localeId);
     // plural can't handle 3/4 hours in russian there is problem that's why i do that
     return '$timesPer $hours $postfix';
   }
@@ -76,7 +75,7 @@ class NotificationFrequencyPickerState extends State<NotificationFrequencyPicker
                   top: 32.0,
                 ),
                 child: Text(
-                  Localizer.getLocaleById(LocaleId.exercise_frequency, context),
+                  context.t.notifications.frequencyQuestion,
                   textAlign: TextAlign.center,
                   style: Theme.of(context)
                       .textTheme
@@ -94,7 +93,7 @@ class NotificationFrequencyPickerState extends State<NotificationFrequencyPicker
                     itemExtent: _modalHeight / 2,
                     children: frequencies.map((frequency) {
                       return Center(
-                        child: Text(Localizer.getLocaleById(frequency.title, context),
+                        child: Text(trKey(context, frequency.title),
                             style: Theme.of(context).textTheme.bodyMedium),
                       );
                     }).toList(),
@@ -172,8 +171,7 @@ class NotificationFrequencyPickerState extends State<NotificationFrequencyPicker
                         child: Icon(Icons.access_time, color: themeData.colorScheme.surface),
                       ),
                       Text(
-                        Localizer.getLocaleById(
-                            frequencies[_selectedFrequencyIndex ?? 0].title, context),
+                        trKey(context, frequencies[_selectedFrequencyIndex ?? 0].title),
                         style: themeData.textTheme.titleLarge
                             ?.copyWith(color: themeData.colorScheme.surface),
                       ),
@@ -182,10 +180,10 @@ class NotificationFrequencyPickerState extends State<NotificationFrequencyPicker
                 ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Text(Localizer.getLocaleById(LocaleId.we_will_notify, context)),
+                  child: Text(context.t.notifications.weWillNotify),
                 ),
                 Text(
-                  Localizer.getLocaleById(LocaleId.change, context),
+                  context.t.common.change,
                   style: TextStyle(decoration: TextDecoration.underline),
                 ),
               ],

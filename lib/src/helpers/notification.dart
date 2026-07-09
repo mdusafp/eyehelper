@@ -5,10 +5,9 @@ import 'dart:typed_data';
 
 import 'package:eyehelper/src/helpers/permission_manager.dart';
 import 'package:eyehelper/src/helpers/preferences.dart';
-import 'package:eyehelper/src/locale/Localizer.dart';
-import 'package:eyehelper/src/locale/ru.dart';
 import 'package:eyehelper/src/models/notification_settings.dart';
 import 'package:eyehelper/src/screens/notification_screen/dtos/week.dart';
+import 'package:eyehelper/i18n/tr.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
@@ -105,8 +104,8 @@ class NotificationsHelper {
           // Schedule notifications
           await scheduleNotification(
             (notificationTime.millisecondsSinceEpoch / 1000).floor(),
-            Localizer.getLocaleById(LocaleId.notification_reminder_exercise_title, _context),
-            Localizer.getLocaleById(LocaleId.notification_reminder_excercise_body, _context),
+            _context.t.notifications.reminderTitle,
+            _context.t.notifications.reminderBody,
             notificationTime,
           ).catchError((e) {
             print(e);
@@ -145,7 +144,7 @@ class NotificationsHelper {
 
         if (schedule.endOfWorkInMilliseconds <= schedule.startOfWorkInMilliseconds) {
           logger.log(
-              'Wrong working range for ${Localizer.getLocaleById(schedule.localeId, _context)} day');
+              'Wrong working range for ${trKey(_context, schedule.localeId)} day');
           continue;
         }
 
@@ -184,8 +183,8 @@ class NotificationsHelper {
         for (final time in scheduleDates) {
           await scheduleNotification(
             (time.millisecondsSinceEpoch / 1000).floor(),
-            Localizer.getLocaleById(LocaleId.notification_reminder_exercise_title, _context),
-            Localizer.getLocaleById(LocaleId.notification_reminder_excercise_body, _context),
+            _context.t.notifications.reminderTitle,
+            _context.t.notifications.reminderBody,
             time,
           );
         }

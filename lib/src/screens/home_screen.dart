@@ -1,14 +1,13 @@
 import 'package:eyehelper/src/helpers/preferences.dart';
-import 'package:eyehelper/src/locale/ru.dart';
 import 'package:eyehelper/src/repositories/statistics_repository.dart';
 import 'package:eyehelper/src/screens/about_exercises_screen.dart';
 import 'package:eyehelper/src/screens/onboarding_screen.dart';
 import 'package:eyehelper/src/screens/statistics_screen/statistics_screen.dart';
 import 'package:eyehelper/src/theme.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:eyehelper/i18n/tr.dart';
 import 'package:flutter/material.dart';
 import 'package:eyehelper/src/constants.dart';
-import 'package:eyehelper/src/locale/Localizer.dart';
 import 'package:eyehelper/src/screens/eye_screen/eye_screen.dart';
 import 'package:eyehelper/src/screens/notification_screen/notification_screen.dart';
 import 'package:eyehelper/src/widgets/app_background.dart';
@@ -69,9 +68,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Map titles = {
-    INDEX_STATISTICS_SCREEN: LocaleId.statistic,
-    INDEX_EYE_SCREEN: LocaleId.excercises,
-    INDEX_NOTIFICATIONS_SCREEN: LocaleId.notifications
+    INDEX_STATISTICS_SCREEN: 'common.statistics',
+    INDEX_EYE_SCREEN: 'common.exercises',
+    INDEX_NOTIFICATIONS_SCREEN: 'common.notifications'
   };
 
   Map screens = {
@@ -87,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
       background: const AppBackground(),
       appBar: GlassAppBar(
         title: Text(
-          Localizer.getLocaleById(titles[_currentIndex], context),
+          trKey(context, titles[_currentIndex]),
           style: Theme.of(context)
               .textTheme
               .titleLarge
@@ -113,11 +112,16 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       bottomBar: GlassTabBar.bottom(
+        glowOpacity: 0.03,
+        interactionGlowRadius: 1,
+        interactionBehavior: GlassInteractionBehavior.none,
         selectedIndex: _currentIndex,
+        interactionGlowColor: Theme.of(context).colorScheme.secondary,
+        indicatorColor: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.14),
         onTabSelected: (index) => setState(() => _currentIndex = index),
         selectedIconColor: Theme.of(context).colorScheme.secondary,
         tabs: [
-          GlassTab(icon: ImageIcon(AssetImage('assets/stat_menu_icon.png'))),
+          GlassTab(icon: Icon(Icons.bar_chart)),
           GlassTab(icon: Icon(Icons.remove_red_eye)),
           GlassTab(icon: Icon(Icons.settings)),
         ],

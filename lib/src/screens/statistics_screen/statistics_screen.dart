@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:eyehelper/src/helpers/preferences.dart';
-import 'package:eyehelper/src/locale/ru.dart';
 import 'package:eyehelper/src/models/swiper_screen_info.dart';
 import 'package:eyehelper/src/repositories/statistics_repository.dart';
 import 'package:eyehelper/src/screens/eye_screen/today_training.dart';
@@ -10,8 +9,8 @@ import 'package:eyehelper/src/utils.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tuple/tuple.dart';
+import 'package:eyehelper/i18n/tr.dart';
 import 'package:flutter/material.dart';
-import 'package:eyehelper/src/locale/Localizer.dart';
 import 'package:eyehelper/src/screens/statistics_screen/statistics_value.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
@@ -154,7 +153,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                     Padding(
                       padding: const EdgeInsets.only(left: 16.0, right: 16.0),
                       child: Text(
-                        Localizer.getLocaleById(LocaleId.exercise_frequency_per_day, context),
+                        context.t.statistics.exerciseFrequencyPerDay,
                         style: Theme.of(context)
                             .textTheme
                             .bodyMedium
@@ -174,11 +173,11 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
                             StatisticValue(
-                              label: Localizer.getLocaleById(LocaleId.exercise_per_month, context),
+                              label: context.t.statistics.exercisePerMonth,
                               value: snapshot.data?.exercisePerMonth.toString() ?? '',
                             ),
                             StatisticValue(
-                              label: Localizer.getLocaleById(LocaleId.skipped_days, context),
+                              label: context.t.statistics.skippedDays,
                               value: snapshot.data?.skippedDays.toString() ?? '',
                             ),
                           ],

@@ -1,4 +1,3 @@
-import 'package:eyehelper/src/locale/ru.dart';
 import 'package:eyehelper/src/screens/notification_screen/dtos/time_formatter.dart';
 import 'package:eyehelper/src/screens/notification_screen/dtos/week.dart';
 

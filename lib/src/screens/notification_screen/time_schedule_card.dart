@@ -1,13 +1,13 @@
 import 'dart:core';
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:eyehelper/src/locale/Localizer.dart';
 import 'package:eyehelper/src/screens/notification_screen/dtos/time_card_info.dart';
 import 'package:eyehelper/src/screens/notification_screen/dtos/time_formatter.dart';
 import 'package:eyehelper/src/screens/notification_screen/dtos/week.dart';
 import 'package:eyehelper/src/screens/notification_screen/picker_dialog.dart' as Dialog;
 import 'package:flutter/cupertino.dart';
 import 'package:eyehelper/src/widgets/adaptive_switch.dart';
+import 'package:eyehelper/i18n/tr.dart';
 import 'package:flutter/material.dart';
 
 // callback to update parent data (without setState to don't rerender whole widget tree)
@@ -157,7 +157,7 @@ class TimeScheduleCardState extends State<TimeScheduleCard> {
                                   minRadius: 13,
                                   child: Center(
                                     child: AutoSizeText(
-                                      Localizer.getLocaleById(weekList[index].shortLocale, context),
+                                      trKey(context, weekList[index].shortLocale),
                                       maxLines: 1,
                                       style: Theme.of(context).textTheme.displaySmall?.copyWith(
                                           color: currentInfo!.weekDays[weekList[index]] ?? false

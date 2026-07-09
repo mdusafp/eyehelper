@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:eyehelper/firebase_options.dart';
 import 'package:eyehelper/src/app.dart';
 import 'package:eyehelper/src/helpers/preferences.dart';
+import 'package:eyehelper/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
@@ -17,6 +18,9 @@ void main() async {
     // ready before the first frame.
     await FastPreferences().init();
     await LiquidGlassWidgets.initialize();
+    // English is the base locale; Russian devices get Russian, everyone
+    // else falls back to English.
+    LocaleSettings.useDeviceLocale();
 
     ErrorWidget.builder = (FlutterErrorDetails details) => Container();
 
@@ -25,7 +29,7 @@ void main() async {
     // Pass all uncaught errors from the framework to Crashlytics.
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
-    runApp(LiquidGlassWidgets.wrap(child: EyeHelperApp()));
+    runApp(TranslationProvider(child: LiquidGlassWidgets.wrap(child: EyeHelperApp())));
   }, (error, stack) {
     print(error);
     print(stack);

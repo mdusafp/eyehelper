@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
+import 'package:eyehelper/i18n/tr.dart';
 import 'package:flutter/material.dart';
 
 class IntervalPicker extends StatefulWidget {
@@ -47,7 +48,7 @@ class _IntervalPickerState extends State<IntervalPicker> {
         children: <Widget>[
           Container(height: 16),
           Text(
-            "Выберите интервал, в который вы находитесь на работе",
+            context.t.notifications.chooseWorkInterval,
             textAlign: TextAlign.center,
           ),
           Expanded(

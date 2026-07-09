@@ -1,5 +1,5 @@
 import 'dart:ui';
-import 'package:eyehelper/src/locale/Localizer.dart';
+import 'package:eyehelper/i18n/strings.g.dart';
 import 'package:eyehelper/src/routes.dart';
 import 'package:eyehelper/src/theme.dart';
 import 'package:eyehelper/src/utils.dart';
@@ -19,13 +19,14 @@ class EyeHelperApp extends StatelessWidget {
 
     return MaterialApp(
       title: 'Eye Helper',
-      localizationsDelegates: [
+      locale: TranslationProvider.of(context).flutterLocale,
+      localizationsDelegates: const [
         GlobalCupertinoLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
       ],
+      supportedLocales: AppLocaleUtils.supportedLocales,
       theme: EyehelperTheme.makeTheme(),
-      supportedLocales: Localizer.supportedLangs,
       debugShowCheckedModeBanner: false,
       routes: EyeHelperRoutes.routes,
     );

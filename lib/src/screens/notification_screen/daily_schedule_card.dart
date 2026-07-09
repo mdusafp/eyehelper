@@ -1,13 +1,12 @@
 import 'dart:core';
 import 'dart:math' as math;
-import 'package:eyehelper/src/locale/Localizer.dart';
-import 'package:eyehelper/src/locale/ru.dart';
 import 'package:eyehelper/src/screens/notification_screen/custom_time_picker.dart';
 import 'package:eyehelper/src/screens/notification_screen/dtos/time_formatter.dart';
 import 'package:eyehelper/src/theme.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:eyehelper/src/widgets/adaptive_switch.dart';
+import 'package:eyehelper/i18n/tr.dart';
 import 'package:flutter/material.dart';
 
 // callback to update parent data (without setState to don't rerender whole widget tree)
@@ -112,7 +111,7 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.only(right: 8.0),
-              child: Text(Localizer.getLocaleById(LocaleId.from, context)),
+              child: Text(context.t.schedule.from),
             ),
             InkWell(
               child: Text(
@@ -128,7 +127,7 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Text(Localizer.getLocaleById(LocaleId.to, context)),
+              child: Text(context.t.schedule.to),
             ),
             InkWell(
               child: Text(
@@ -231,8 +230,7 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.only(bottom: 8.0),
-                        child: Text(Localizer.getLocaleById(
-                            _isActive ? LocaleId.working_time : LocaleId.weekend, context)),
+                        child: Text(trKey(context, _isActive ? 'schedule.workingTime' : 'schedule.weekend')),
                       ),
                       if (_isActive) _buildWorkingTime(),
                     ],
@@ -290,7 +288,7 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
             child: Text(
-              Localizer.getLocaleById(LocaleId.wrong_work_time, context),
+              context.t.errors.wrongWorkTime,
               style: textTheme.bodyMedium
                   ?.copyWith(color: EyehelperColorScheme.btnTextWhite.withOpacity(.85)),
             ),

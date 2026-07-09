@@ -1,6 +1,7 @@
 import 'package:eyehelper/src/theme.dart';
 import 'package:eyehelper/src/widgets/app_background.dart';
 import 'package:eyehelper/src/widgets/custom_rounded_button.dart';
+import 'package:eyehelper/i18n/tr.dart';
 import 'package:flutter/material.dart';
 import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -19,7 +20,7 @@ class _AboutExercisesScreenState extends State<AboutExercisesScreen> {
       topEdgeFade: false,
       appBar: GlassAppBar(
         title: Text(
-          "Об упражнениях",
+          context.t.about.title,
           style: Theme.of(context)
               .textTheme
               .headlineSmall
@@ -52,15 +53,15 @@ class _AboutExercisesScreenState extends State<AboutExercisesScreen> {
               child: RichText(
                   text: TextSpan(style: Theme.of(context).textTheme.bodyMedium, children: [
                 TextSpan(
-                  text: 'В приложении используется информация об упражнениях по системе Аветисова.',
+                  text: context.t.about.body1,
                 ),
                 TextSpan(text: '\n\n'),
                 TextSpan(
-                  text: 'Для того чтобы получить подробную информацию, нажмите на кнопку ниже.',
+                  text: context.t.about.body2,
                 ),
                 TextSpan(text: '\n\n'),
                 TextSpan(
-                  text: 'Внимание! ',
+                  text: context.t.about.warningLabel,
                   style: Theme.of(context)
                       .textTheme
                       .bodyMedium
@@ -68,7 +69,7 @@ class _AboutExercisesScreenState extends State<AboutExercisesScreen> {
                 ),
                 TextSpan(
                     text:
-                        'Перед выполнением упражнений настоятельно рекомендуем вам обратиться к вашему лечащему врачу за консультацией. Разработчики не несут ответственность за любой косвенный, случайный или неумышленный вред, вызванный в связи с использованием приложения.'),
+                        context.t.about.disclaimer),
               ])),
             ),
             Container(height: 12.0),
@@ -79,7 +80,7 @@ class _AboutExercisesScreenState extends State<AboutExercisesScreen> {
                     "http://ktyis.ru/wp-content/uploads/%D0%93%D0%B8%D0%BC%D0%BD%D0%B0%D1%81%D1%82%D0%B8%D0%BA%D0%B0-%D0%B4%D0%BB%D1%8F-%D0%B3%D0%BB%D0%B0%D0%B7-%D0%BF%D0%BE-%D0%90%D0%B2%D0%B5%D1%82%D0%B8%D1%81%D0%BE%D0%B2%D1%83.pdf");
               },
               child: Text(
-                "Подробнее",
+                context.t.about.moreButton,
                 style: Theme.of(context).textTheme.labelLarge,
               ),
             ),

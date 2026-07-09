@@ -1,5 +1,4 @@
 import 'package:eyehelper/src/helpers/hashcode_utils.dart';
-import 'package:eyehelper/src/locale/ru.dart';
 import 'package:eyehelper/src/screens/notification_screen/dtos/time_formatter.dart';
 
 enum WeekDaysEnum {
@@ -14,14 +13,14 @@ enum WeekDaysEnum {
 
 class WeekDay {
   final WeekDaysEnum weekDay;
-  final LocaleId shortLocale;
-  final LocaleId fullLocale;
+  final String shortLocale;
+  final String fullLocale;
 
   const WeekDay({required this.weekDay, required this.shortLocale, required this.fullLocale});
 
   WeekDay.byEnum(this.weekDay)
-      : shortLocale = shortLocaleByEnum[weekDay] ?? LocaleId.monday_short,
-        fullLocale = fullLocaleByEnum[weekDay] ?? LocaleId.monday;
+      : shortLocale = shortLocaleByEnum[weekDay] ?? 'schedule.mondayShort',
+        fullLocale = fullLocaleByEnum[weekDay] ?? 'schedule.monday';
 
   static Map<WeekDay, bool> parseValueMap(Map<String, dynamic> map) {
     Map<WeekDay, bool> result = {};
@@ -64,53 +63,53 @@ class WeekDay {
   int get hashCode => hash2(weekDay.hashCode, shortLocale.hashCode);
 }
 
-const Map<WeekDaysEnum, LocaleId> shortLocaleByEnum = {
-  WeekDaysEnum.monday: LocaleId.monday_short,
-  WeekDaysEnum.tuesday: LocaleId.tuesday_short,
-  WeekDaysEnum.thursday: LocaleId.thursday_short,
-  WeekDaysEnum.wednesday: LocaleId.wednesday_short,
-  WeekDaysEnum.friday: LocaleId.friday_short,
-  WeekDaysEnum.saturday: LocaleId.saturday_short,
-  WeekDaysEnum.sunday: LocaleId.sunday_short,
+const Map<WeekDaysEnum, String> shortLocaleByEnum = {
+  WeekDaysEnum.monday: 'schedule.mondayShort',
+  WeekDaysEnum.tuesday: 'schedule.tuesdayShort',
+  WeekDaysEnum.thursday: 'schedule.thursdayShort',
+  WeekDaysEnum.wednesday: 'schedule.wednesdayShort',
+  WeekDaysEnum.friday: 'schedule.fridayShort',
+  WeekDaysEnum.saturday: 'schedule.saturdayShort',
+  WeekDaysEnum.sunday: 'schedule.sundayShort',
 };
 
-const Map<WeekDaysEnum, LocaleId> fullLocaleByEnum = {
-  WeekDaysEnum.monday: LocaleId.monday,
-  WeekDaysEnum.tuesday: LocaleId.tuesday,
-  WeekDaysEnum.thursday: LocaleId.thursday,
-  WeekDaysEnum.wednesday: LocaleId.wednesday,
-  WeekDaysEnum.friday: LocaleId.friday,
-  WeekDaysEnum.saturday: LocaleId.saturday,
-  WeekDaysEnum.sunday: LocaleId.sunday,
+const Map<WeekDaysEnum, String> fullLocaleByEnum = {
+  WeekDaysEnum.monday: 'schedule.monday',
+  WeekDaysEnum.tuesday: 'schedule.tuesday',
+  WeekDaysEnum.thursday: 'schedule.thursday',
+  WeekDaysEnum.wednesday: 'schedule.wednesday',
+  WeekDaysEnum.friday: 'schedule.friday',
+  WeekDaysEnum.saturday: 'schedule.saturday',
+  WeekDaysEnum.sunday: 'schedule.sunday',
 };
 
 const List<WeekDay> weekList = [
   const WeekDay(
       weekDay: WeekDaysEnum.monday,
-      shortLocale: LocaleId.monday_short,
-      fullLocale: LocaleId.monday),
+      shortLocale: 'schedule.mondayShort',
+      fullLocale: 'schedule.monday'),
   const WeekDay(
       weekDay: WeekDaysEnum.tuesday,
-      shortLocale: LocaleId.tuesday_short,
-      fullLocale: LocaleId.tuesday),
+      shortLocale: 'schedule.tuesdayShort',
+      fullLocale: 'schedule.tuesday'),
   const WeekDay(
       weekDay: WeekDaysEnum.wednesday,
-      shortLocale: LocaleId.wednesday_short,
-      fullLocale: LocaleId.wednesday),
+      shortLocale: 'schedule.wednesdayShort',
+      fullLocale: 'schedule.wednesday'),
   const WeekDay(
       weekDay: WeekDaysEnum.thursday,
-      shortLocale: LocaleId.thursday_short,
-      fullLocale: LocaleId.thursday),
+      shortLocale: 'schedule.thursdayShort',
+      fullLocale: 'schedule.thursday'),
   const WeekDay(
       weekDay: WeekDaysEnum.friday,
-      shortLocale: LocaleId.friday_short,
-      fullLocale: LocaleId.friday),
+      shortLocale: 'schedule.fridayShort',
+      fullLocale: 'schedule.friday'),
   const WeekDay(
       weekDay: WeekDaysEnum.saturday,
-      shortLocale: LocaleId.saturday_short,
-      fullLocale: LocaleId.saturday),
+      shortLocale: 'schedule.saturdayShort',
+      fullLocale: 'schedule.saturday'),
   const WeekDay(
       weekDay: WeekDaysEnum.sunday,
-      shortLocale: LocaleId.sunday_short,
-      fullLocale: LocaleId.sunday),
+      shortLocale: 'schedule.sundayShort',
+      fullLocale: 'schedule.sunday'),
 ];

@@ -1,4 +1,5 @@
 import 'package:eyehelper/src/widgets/alert_dialog.dart';
+import 'package:eyehelper/i18n/tr.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -57,15 +58,15 @@ class PermissionsManager {
     return showDialog(
       context: context,
       builder: (dialogContext) => EyeHelperAlertDialog(
-        title: title ?? "Нет разрешения",
+        title: title ?? context.t.permissions.noPermissionTitle,
         subtitle: subtitle ??
-            "Мы не получили разрешение на отправку уведомлений, поэтому не можем настроить их сейчас. Вы можете настроить разрешения в настройках вашего устройства.",
-        mainBtnTitle: "Открыть настройки",
+            context.t.permissions.noPermissionSubtitle,
+        mainBtnTitle: context.t.permissions.openSettings,
         mainBtnCallback: () {
           openAppSettings();
           Navigator.of(context).pop();
         },
-        secondaryBtnTitle: "Закрыть",
+        secondaryBtnTitle: context.t.common.close,
         secondaryBtnCallback: () {
           Navigator.of(context).pop();
         },

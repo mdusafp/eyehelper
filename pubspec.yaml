@@ -30,6 +30,8 @@ dependencies:
   permission_handler: ^12.0.3
   share_plus: ^12.0.2
   shared_preferences: ^2.5.5
+  slang: ^4.18.0
+  slang_flutter: ^4.18.0
   timezone: ^0.10.1
   tuple: ^2.0.2
   url_launcher: ^6.3.2
@@ -40,6 +42,7 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^6.0.0
   flutter_launcher_icons: ^0.14.4
+  slang_build_runner: ^4.18.0
 
 flutter_launcher_icons:
   image_path_android: "assets/app_icons/ic_launcher.png"

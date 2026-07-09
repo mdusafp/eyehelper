@@ -1,4 +1,3 @@
-import 'package:eyehelper/src/locale/ru.dart';
 import 'package:eyehelper/src/screens/notification_screen/dtos/time_card_info.dart';
 import 'package:eyehelper/src/screens/notification_screen/dtos/week.dart';
 
@@ -7,7 +6,7 @@ const _defaultEndOfWorkInMilliseconds = 1000 * 60 * 60 * 16;
 const _defaultIsWorkingDay = false;
 
 class DailySchedule {
-  LocaleId localeId;
+  String localeId;
   int startOfWorkInMilliseconds = _defaultStartOfWorkInMilliseconds;
   int endOfWorkInMilliseconds = _defaultEndOfWorkInMilliseconds;
   bool isWorkingDay = _defaultIsWorkingDay;
@@ -19,7 +18,7 @@ class DailySchedule {
     required this.localeId,
   });
 
-  DailySchedule.fromMap(Map<String, dynamic> map) : localeId = LocaleId.one_day {
+  DailySchedule.fromMap(Map<String, dynamic> map) : localeId = 'frequency.dayOne' {
     localeId = map['localeId'];
     startOfWorkInMilliseconds =
         map['startOfWorkInMilliseconds'] ?? _defaultStartOfWorkInMilliseconds;

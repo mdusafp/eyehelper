@@ -1,14 +1,13 @@
 import 'dart:async';
 
 import 'package:eyehelper/src/helpers/preferences.dart';
-import 'package:eyehelper/src/locale/Localizer.dart';
-import 'package:eyehelper/src/locale/ru.dart';
 import 'package:eyehelper/src/models/swiper_screen_info.dart';
 import 'package:eyehelper/src/screens/eye_screen/screen_control_buttons.dart';
 import 'package:eyehelper/src/widgets/animated_face.dart';
 import 'package:eyehelper/src/widgets/custom_rounded_button.dart';
 import 'package:flare_flutter/flare.dart';
 import 'package:flare_flutter/flare_controller.dart';
+import 'package:eyehelper/i18n/tr.dart';
 import 'package:flutter/material.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:vibration/vibration.dart';
@@ -74,7 +73,7 @@ class _EyeSinglePageState extends State<EyeSinglePage> implements FlareControlle
                             const EdgeInsets.only(top: 18.0, bottom: 20.0, left: 20.0, right: 20.0),
                         child: Center(
                           child: Text(
-                            Localizer.getLocaleById(widget.info.title, context),
+                            trKey(context, widget.info.title),
                             style: textTheme.titleLarge
                                 ?.copyWith(color: Theme.of(context).primaryColorDark),
                             textAlign: TextAlign.center,
@@ -86,7 +85,7 @@ class _EyeSinglePageState extends State<EyeSinglePage> implements FlareControlle
                             const EdgeInsets.only(top: 6.0, bottom: 20.0, left: 20.0, right: 20.0),
                         child: Center(
                           child: Text(
-                            Localizer.getLocaleById(widget.info.mainText, context),
+                            trKey(context, widget.info.mainText),
                             style: textTheme.titleSmall
                                 ?.copyWith(color: Theme.of(context).primaryColorDark),
                             textAlign: TextAlign.center,
@@ -97,7 +96,7 @@ class _EyeSinglePageState extends State<EyeSinglePage> implements FlareControlle
                         padding:
                             const EdgeInsets.only(top: 6.0, bottom: 20.0, left: 20.0, right: 20.0),
                         child: Text(
-                          Localizer.getLocaleById(widget.info.durationText, context),
+                          trKey(context, widget.info.durationText),
                           style: textTheme.titleLarge
                               ?.copyWith(color: Theme.of(context).colorScheme.secondary),
                           textAlign: TextAlign.center,
@@ -164,7 +163,7 @@ class _EyeSinglePageState extends State<EyeSinglePage> implements FlareControlle
             widget.startBtnCallback();
           },
           child: Text(
-            Localizer.getLocaleById(LocaleId.begin_btn_txt, context),
+            context.t.exercises.beginButton,
             style: Theme.of(context).textTheme.labelLarge,
           ),
         ),
@@ -188,7 +187,7 @@ class _EyeSinglePageState extends State<EyeSinglePage> implements FlareControlle
     if (widget.info.firstTextTime < relativeTime + 0.05 &&
         widget.info.firstTextTime > relativeTime - 0.05) {
       setState(
-          () => trainingText = Localizer.getLocaleById(widget.info.trainingFirstText, context));
+          () => trainingText = trKey(context, widget.info.trainingFirstText));
       if ((FastPreferences().prefs.getBool(FastPreferences.isVibrationEnabled) ?? true)) {
         Vibration.vibrate();
       }
@@ -197,7 +196,7 @@ class _EyeSinglePageState extends State<EyeSinglePage> implements FlareControlle
     if (widget.info.secondTextTime < relativeTime + 0.05 &&
         widget.info.secondTextTime > relativeTime - 0.05) {
       setState(
-          () => trainingText = Localizer.getLocaleById(widget.info.trainingSecondText, context));
+          () => trainingText = trKey(context, widget.info.trainingSecondText));
       if ((FastPreferences().prefs.getBool(FastPreferences.isVibrationEnabled) ?? true)) {
         Vibration.vibrate();
       }

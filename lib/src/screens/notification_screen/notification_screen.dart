@@ -1,7 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:eyehelper/src/helpers/notification.dart';
-import 'package:eyehelper/src/locale/Localizer.dart';
-import 'package:eyehelper/src/locale/ru.dart';
 import 'package:eyehelper/src/models/notification_settings.dart';
 import 'package:eyehelper/src/screens/notification_screen/daily_schedule_card.dart';
 import 'package:eyehelper/src/screens/notification_screen/dtos/frequency.dart';
@@ -12,6 +10,7 @@ import 'package:eyehelper/src/screens/notification_screen/time_schedule_card.dar
 import 'package:eyehelper/src/widgets/custom_rounded_button.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:eyehelper/src/widgets/adaptive_switch.dart';
+import 'package:eyehelper/i18n/tr.dart';
 import 'package:flutter/material.dart';
 
 class NotificationScreen extends StatefulWidget {
@@ -79,55 +78,52 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   crossFadeState: _notificationSettings.notificationsEnabled
                       ? CrossFadeState.showSecond
                       : CrossFadeState.showFirst,
-                  firstChild: Padding(
-                    padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-                    child: Column(
-                      children: <Widget>[
-                        Container(height: 10),
-                        _getNotificationsEnabledHeader(),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 65.0),
-                          child: Image.asset(
-                            'assets/firstImageFace5.png',
-                            height: 200,
-                          ),
+                  firstChild: Column(
+                    children: <Widget>[
+                      Container(height: 10),
+                      _getNotificationsEnabledHeader(),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 65.0),
+                        child: Image.asset(
+                          'assets/firstImageFace5.png',
+                          height: 200,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 24.0, right: 24.0),
-                          child: Text(
-                            "Включите их\nчтобы приложение подсказало вам,\nчто пора позаниматься, когда вы будете на работе.",
-                            // Localizer.getLocaleById(LocaleId.choose_time, context),
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
-                                ?.copyWith(color: Theme.of(context).primaryColor),
-                          ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 24.0, right: 24.0),
+                        child: Text(
+                          context.t.notifications.enablePrompt,
+                          // context.t.notifications.chooseTime,
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                              ?.copyWith(color: Theme.of(context).primaryColor),
                         ),
-                        Container(
-                          height: 24,
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          child: Center(
-                            child: RoundCustomButton(
-                              parentSize: MediaQuery.of(context).size,
-                              onPressed: () async {
-                                await _switchNotifications(true);
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 12.0, right: 12.0),
-                                child: AutoSizeText(
-                                  "Включить Уведомления",
-                                  maxLines: 1,
-                                  style: Theme.of(context).textTheme.labelLarge,
-                                ),
+                      ),
+                      Container(
+                        height: 24,
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        child: Center(
+                          child: RoundCustomButton(
+                            parentSize: MediaQuery.of(context).size,
+                            onPressed: () async {
+                              await _switchNotifications(true);
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+                              child: AutoSizeText(
+                                context.t.notifications.enableButton,
+                                maxLines: 1,
+                                style: Theme.of(context).textTheme.labelLarge,
                               ),
                             ),
                           ),
-                        )
-                      ],
-                    ),
+                        ),
+                      )
+                    ],
                   ),
                   secondChild: Column(
                     children: <Widget>[
@@ -166,7 +162,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                 bottom: 32.0,
                               ),
                               child: Text(
-                                "Установите время, в которое вы хотите получать уведомления и приложение напомнит вам об упражнениях",
+                                context.t.notifications.setTimePrompt,
                                 textAlign: TextAlign.center,
                                 style: Theme.of(context)
                                     .textTheme
@@ -235,7 +231,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                           return Center(
                                             child: Dialog.TimePickerDialog(
                                               showAdd: true,
-                                              customTitle: "Укажите параметры",
+                                              customTitle: context.t.notifications.specifyParams,
                                               initInfo: TimeCardInfo.defaultCard13,
                                               onChanged: (info) {
                                                 infoResult = info;
@@ -255,7 +251,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                   child: Padding(
                                     padding: const EdgeInsets.only(left: 12.0, right: 12.0),
                                     child: AutoSizeText(
-                                      "Добавить время",
+                                      context.t.notifications.addTime,
                                       style: Theme.of(context).textTheme.labelLarge,
                                     ),
                                   ),
@@ -273,7 +269,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                 bottom: 32.0,
                               ),
                               child: Text(
-                                Localizer.getLocaleById(LocaleId.choose_time, context),
+                                context.t.notifications.chooseTime,
                                 textAlign: TextAlign.center,
                                 style: Theme.of(context)
                                     .textTheme
@@ -295,7 +291,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                     padding: const EdgeInsets.only(
                                         bottom: 16.0, left: 16.0, right: 16.0),
                                     child: DailyScheduleCard(
-                                      name: Localizer.getLocaleById(schedule.localeId, context),
+                                      name: trKey(context, schedule.localeId),
                                       showError: _errorIndexes.contains(i),
                                       isActive: schedule.isWorkingDay,
                                       initialStartOfWork: Duration(
@@ -346,19 +342,20 @@ class _NotificationScreenState extends State<NotificationScreen> {
     );
   }
 
-  Padding _getNotificationsEnabledHeader() {
+  Widget _getNotificationsEnabledHeader() {
     return Padding(
       padding: const EdgeInsets.only(left: 24.0, right: 24.0),
       child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Expanded(
-            child: AutoSizeText(
+            child: Text(
               _notificationSettings.notificationsEnabled
-                  ? "Уведомления включены"
-                  : "Уведомления отключены",
-              // Localizer.getLocaleById(LocaleId.choose_time, context),
-              textAlign: TextAlign.center,
-              maxLines: 1,
+                  ? context.t.notifications.enabledStatus
+                  : context.t.notifications.disabledStatus,
+              // context.t.notifications.chooseTime,
+              textAlign: TextAlign.left,
               style: Theme.of(context)
                   .textTheme
                   .headlineSmall

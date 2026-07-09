@@ -1,15 +1,14 @@
-import 'package:eyehelper/src/locale/ru.dart';
 import 'package:flutter/material.dart';
 
 class SwiperScreenInfo {
   final String flareName;
   final String animationName;
   final String fakeImgName;
-  final LocaleId title;
-  final LocaleId mainText;
-  final LocaleId durationText;
-  final LocaleId trainingFirstText;
-  final LocaleId trainingSecondText;
+  final String title;
+  final String mainText;
+  final String durationText;
+  final String trainingFirstText;
+  final String trainingSecondText;
   final List<double> vibrations;
   final double duration;
   final double firstTextTime;
@@ -44,13 +43,13 @@ class SwiperScreenInfo {
       flareName: 'assets/lrtbFaceFast.flr',
       animationName: 'fastTopBot',
       fakeImgName: 'assets/firstImageFace1.png',
-      title: LocaleId.vertical_movements,
-      mainText: LocaleId.turn_eyes_up_down,
-      durationText: LocaleId.retry_three_times,
+      title: 'exercises.verticalMovements',
+      mainText: 'exercises.turnEyesUpDown',
+      durationText: 'exercises.retryThreeTimes',
       firstTextTime: 0.0,
-      trainingFirstText: LocaleId.watch_up,
+      trainingFirstText: 'training.watchUp',
       secondTextTime: 4.5,
-      trainingSecondText: LocaleId.watch_down,
+      trainingSecondText: 'training.watchDown',
     ),
     1: SwiperScreenInfo(
       vibrations: [0.67, 3.67, 5.33, 8.33],
@@ -60,13 +59,13 @@ class SwiperScreenInfo {
       animationName: 'fastLeftRight',
       trainingAnimationName: 'trainingLeftRight',
       fakeImgName: 'assets/firstImageFace1.png',
-      title: LocaleId.horizontal_movements,
-      mainText: LocaleId.turn_eyes_left_right,
-      durationText: LocaleId.retry_three_times,
+      title: 'exercises.horizontalMovements',
+      mainText: 'exercises.turnEyesLeftRight',
+      durationText: 'exercises.retryThreeTimes',
       firstTextTime: 0.0,
-      trainingFirstText: LocaleId.watch_left,
+      trainingFirstText: 'training.watchLeft',
       secondTextTime: 4.5,
-      trainingSecondText: LocaleId.watch_right,
+      trainingSecondText: 'training.watchRight',
     ),
     2: SwiperScreenInfo(
       vibrations: [
@@ -79,13 +78,13 @@ class SwiperScreenInfo {
       animationName: 'screwUp',
       trainingAnimationName: 'trainingScrewUp',
       fakeImgName: 'assets/firstImageFace3.png',
-      title: LocaleId.screw_up_movements,
-      mainText: LocaleId.screw_up_your_eyes,
-      durationText: LocaleId.retry_three_times,
+      title: 'exercises.screwUpMovements',
+      mainText: 'exercises.screwUpYourEyes',
+      durationText: 'exercises.retryThreeTimes',
       firstTextTime: 0.0,
-      trainingFirstText: LocaleId.screw_up,
+      trainingFirstText: 'training.screwUp',
       secondTextTime: 10.0,
-      trainingSecondText: LocaleId.relax_eyes,
+      trainingSecondText: 'training.relaxEyes',
     ),
     3: SwiperScreenInfo(
       vibrations: [0.0, 0.167],
@@ -95,13 +94,13 @@ class SwiperScreenInfo {
       animationName: 'blinkingFast',
       trainingAnimationName: 'trainingBlinking',
       fakeImgName: 'assets/firstImageFace4.png',
-      title: LocaleId.blinking_movements,
-      mainText: LocaleId.blink_fast_20_times,
-      durationText: LocaleId.retry_twenty_five_time,
+      title: 'exercises.blinkingMovements',
+      mainText: 'exercises.blinkFast',
+      durationText: 'exercises.retryTwentyFiveTimes',
       firstTextTime: 0.0,
-      trainingFirstText: LocaleId.fast_blink,
+      trainingFirstText: 'training.fastBlink',
       secondTextTime: 0.167,
-      trainingSecondText: LocaleId.fast_blink,
+      trainingSecondText: 'training.fastBlink',
     ),
     4: SwiperScreenInfo(
       vibrations: [0.0, 10.0],
@@ -111,13 +110,13 @@ class SwiperScreenInfo {
       animationName: 'farSeeing',
       trainingAnimationName: 'trainingFarSeeing',
       fakeImgName: 'assets/firstImageFace5.png',
-      title: LocaleId.focus_movements,
-      mainText: LocaleId.focus_for_10_sec,
-      durationText: LocaleId.retry_three_times,
+      title: 'exercises.focusMovements',
+      mainText: 'exercises.focusFor10Sec',
+      durationText: 'exercises.retryThreeTimes',
       firstTextTime: 0.0,
-      trainingFirstText: LocaleId.watch_far,
+      trainingFirstText: 'training.watchFar',
       secondTextTime: 10.0,
-      trainingSecondText: LocaleId.watch_near,
+      trainingSecondText: 'training.watchNear',
     ),
     5: SwiperScreenInfo(
       vibrations: [
@@ -130,13 +129,13 @@ class SwiperScreenInfo {
       animationName: 'palming',
       trainingAnimationName: 'trainingPalming',
       fakeImgName: 'assets/firstImageFace6.png',
-      title: LocaleId.palming_movements,
-      mainText: LocaleId.rub_hands_and_attach_to_eyes,
-      durationText: LocaleId.retry_three_times,
+      title: 'exercises.palmingMovements',
+      mainText: 'exercises.rubHandsAndAttach',
+      durationText: 'exercises.retryThreeTimes',
       firstTextTime: 0.0,
-      trainingFirstText: LocaleId.rub_hands,
+      trainingFirstText: 'training.rubHands',
       secondTextTime: 9.0,
-      trainingSecondText: LocaleId.apply_to_eyes,
+      trainingSecondText: 'training.applyToEyes',
     ),
   };
 }

@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:in_app_review/in_app_review.dart';
+import 'package:eyehelper/app_id.dart';
+import 'package:eyehelper/i18n/tr.dart';
 import 'package:eyehelper/src/helpers/preferences.dart';
-import 'package:eyehelper/src/locale/Localizer.dart';
-import 'package:eyehelper/src/locale/ru.dart';
 import 'package:eyehelper/src/screens/eye_screen/rating_stars.dart';
 import 'package:eyehelper/src/theme.dart';
 import 'package:eyehelper/src/utils.dart';
@@ -74,7 +74,7 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
                           ),
                           child: Center(
                             child: Text(
-                              Localizer.getLocaleById(LocaleId.good_job, context),
+                              context.t.finish.goodJob,
                               style: Theme.of(context)
                                   .textTheme
                                   .titleLarge, // StandardStyleTexts.eyeScreenHeader,
@@ -86,7 +86,7 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
                           padding: EdgeInsets.only(top: 6.0, bottom: 6.0, left: 20.0, right: 20.0),
                           child: Center(
                             child: Text(
-                                Localizer.getLocaleById(LocaleId.you_done_excercises, context),
+                                context.t.finish.youDoneExercises,
                                 style: Theme.of(context).textTheme.titleSmall,
                                 textAlign: TextAlign.center),
                           ),
@@ -139,8 +139,7 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
                                 highlightColor: Colors.transparent,
                                 radius: 25.0,
                                 onTap: () {
-                                  Share.share(
-                                      Localizer.getLocaleById(LocaleId.there_is_app, context));
+                                  Share.share(context.t.finish.shareText(url: getAppUrl()));
                                 },
                                 child: Container(
                                   width: 100.0,
@@ -164,7 +163,7 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
                           ),
                           child: Center(
                             child: Text(
-                              Localizer.getLocaleById(LocaleId.set_mark, context),
+                              context.t.finish.setMark,
                               style: Theme.of(context).textTheme.titleSmall,
                               textAlign: TextAlign.center,
                             ),
@@ -212,7 +211,7 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
                     widget.showProcessCallback?.call();
                   },
                   child: Text(
-                    Localizer.getLocaleById(LocaleId.continue_btn_txt, context),
+                    context.t.common.continueButton,
                     style: Theme.of(context).textTheme.labelLarge,
                   ),
                 ),
@@ -228,9 +227,9 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
     showDialog(
       context: context,
       builder: (context) => EyeHelperAlertDialog(
-        subtitle:
-            'Вы можете оценить наше приложение в ${Platform.isAndroid ? 'Google Play' : 'App Store'}, это поможет нам развиваться и становиться лучше',
-        mainBtnTitle: Localizer.getLocaleById(LocaleId.value, context),
+        subtitle: context.t.finish
+            .rateAppSubtitle(store: Platform.isAndroid ? 'Google Play' : 'App Store'),
+        mainBtnTitle: context.t.finish.value,
         mainBtnCallback: () async {
           fastPrefs.prefs.setInt(
             FastPreferences.userRatedTheAppTime,
@@ -239,11 +238,12 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
           await InAppReview.instance.requestReview();
           Navigator.of(context).pop();
         },
-        secondaryBtnTitle: "Закрыть",
+        secondaryBtnTitle: context.t.common.close,
         secondaryBtnCallback: () {
           Navigator.of(context).pop();
         },
-        title: Localizer.getLocaleById(LocaleId.want_to_set_mark, context),
+        title: context.t.finish
+            .wantToSetMark(store: Platform.isAndroid ? 'Google Play' : 'App Store'),
       ),
     );
   }
