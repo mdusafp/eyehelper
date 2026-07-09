@@ -109,19 +109,9 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomBar: GlassTabBar.bottom(
         selectedIndex: _currentIndex,
         onTabSelected: (index) => setState(() => _currentIndex = index),
-        indicatorColor: Theme.of(context).colorScheme.secondary,
-        selectedIconColor: Colors.white,
-        unselectedIconColor: Theme.of(context).primaryColor,
         tabs: [
-          GlassTab(
-            icon: Image.asset('assets/stat_menu_icon.png', height: 24),
-            activeIcon:
-                Image.asset('assets/stat_menu_icon.png', height: 24, color: Colors.white),
-          ),
-          GlassTab(
-            icon: Icon(Icons.remove_red_eye),
-            glowColor: EyehelperColorScheme.activeColor,
-          ),
+          GlassTab(icon: ImageIcon(AssetImage('assets/stat_menu_icon.png'))),
+          GlassTab(icon: Icon(Icons.remove_red_eye)),
           GlassTab(icon: Icon(Icons.settings)),
         ],
       ),
