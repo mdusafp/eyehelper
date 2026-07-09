@@ -1,9 +1,9 @@
 import 'dart:math';
 import 'package:eyehelper/src/theme.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
 
-/// Custom raised button
+/// Primary pill CTA: green-tinted liquid glass, keeps white text readable.
 class RoundCustomButton extends StatelessWidget {
   final Size parentSize;
   final Widget child;
@@ -28,28 +28,26 @@ class RoundCustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: width ?? min(240.0, parentSize.width),
-      height: this.heightAbs,
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.secondary,
-        borderRadius: BorderRadius.all(Radius.circular(30.0)),
-        boxShadow: [shadow],
-      ),
-      child: Material(
-        type: MaterialType.transparency,
-        child: InkWell(
-          onTap: () => onPressed(),
-          customBorder: new RoundedRectangleBorder(
-            borderRadius: new BorderRadius.circular(30.0),
-          ),
-          child: Center(child: child),
+    return GestureDetector(
+      onTap: () => onPressed(),
+      child: GlassCard(
+        // Own layer so the button also works on plain Material routes
+        // (onboarding, about screen) outside the GlassScaffold layer.
+        useOwnLayer: true,
+        width: width ?? min(240.0, parentSize.width),
+        height: heightAbs,
+        padding: EdgeInsets.zero,
+        shape: LiquidRoundedRectangle(borderRadius: heightAbs / 2),
+        settings: LiquidGlassSettings(
+          glassColor: EyehelperColorScheme.activeColor.withAlpha(0x99),
         ),
+        child: Center(child: child),
       ),
     );
   }
 }
 
+/// Secondary pill button: clear liquid glass with a thin accent border.
 class FlatRoundCustomButton extends StatelessWidget {
   final Size parentSize;
   final Widget child;
@@ -70,26 +68,19 @@ class FlatRoundCustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: width ?? min(240.0, parentSize.width),
-      height: this.heightAbs,
-      decoration: BoxDecoration(
-        color: Colors.transparent,
-        border: Border.all(
-          width: 1.5,
-          color: color ?? Theme.of(context).colorScheme.secondary,
+    final accent = color ?? Theme.of(context).colorScheme.secondary;
+    return GestureDetector(
+      onTap: () => onPressed(),
+      child: GlassCard(
+        useOwnLayer: true,
+        width: width ?? min(240.0, parentSize.width),
+        height: heightAbs,
+        padding: EdgeInsets.zero,
+        shape: LiquidRoundedRectangle(
+          borderRadius: heightAbs / 2,
+          side: BorderSide(color: accent, width: 1.5),
         ),
-        borderRadius: BorderRadius.all(Radius.circular(30.0)),
-      ),
-      child: Material(
-        type: MaterialType.transparency,
-        child: InkWell(
-          onTap: () => onPressed(),
-          customBorder: new RoundedRectangleBorder(
-            borderRadius: new BorderRadius.circular(30.0),
-          ),
-          child: Center(child: child),
-        ),
+        child: Center(child: child),
       ),
     );
   }
