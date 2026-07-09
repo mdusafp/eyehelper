@@ -72,6 +72,18 @@ class _NotificationScreenState extends State<NotificationScreen> {
             ),
             child: Column(
               children: <Widget>[
+                // Screen title lives in the scrollable content (iOS style):
+                // it scrolls away under the glass app bar with the rest.
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 16.0),
+                  child: Text(
+                    Localizer.getLocaleById(LocaleId.notifications, context),
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge
+                        ?.copyWith(color: Theme.of(context).colorScheme.secondary),
+                  ),
+                ),
                 AnimatedCrossFade(
                   duration: Duration(milliseconds: 400),
                   crossFadeState: _notificationSettings.notificationsEnabled

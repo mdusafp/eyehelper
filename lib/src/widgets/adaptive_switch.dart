@@ -1,11 +1,11 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
 
-/// Platform-adaptive switch: iOS-style [CupertinoSwitch] on Apple platforms,
-/// Material 3 [Switch] elsewhere. The app theme itself stays on Material 2,
-/// so M3 is enabled locally just for the switch.
+/// Platform-adaptive switch: liquid-glass switch (iOS 26 style) on Apple
+/// platforms, Material 3 [Switch] elsewhere. The app theme itself stays on
+/// Material 2, so M3 is enabled locally just for the switch.
 class AdaptiveSwitch extends StatelessWidget {
   final bool value;
   final ValueChanged<bool>? onChanged;
@@ -23,10 +23,11 @@ class AdaptiveSwitch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (Platform.isIOS || Platform.isMacOS) {
-      return CupertinoSwitch(
+      return GlassSwitch(
         value: value,
-        onChanged: onChanged,
-        activeTrackColor: activeColor,
+        onChanged: onChanged ?? (_) {},
+        useOwnLayer: true,
+        activeColor: activeColor,
       );
     }
     return Theme(
