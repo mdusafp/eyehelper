@@ -54,7 +54,7 @@ class _EyeHelperAlertDialogState extends State<EyeHelperAlertDialog> {
                       widget.title,
                       textAlign: TextAlign.center,
                       maxLines: 2,
-                      style: Theme.of(context).textTheme.headline5?.copyWith(
+                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                             color: Theme.of(context).primaryColorDark,
                           ),
                     ),
@@ -64,7 +64,7 @@ class _EyeHelperAlertDialogState extends State<EyeHelperAlertDialog> {
                     Text(
                       widget.subtitle,
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                             color: Theme.of(context).primaryColor,
                           ),
                     ),
@@ -79,7 +79,7 @@ class _EyeHelperAlertDialogState extends State<EyeHelperAlertDialog> {
                         child: AutoSizeText(
                           widget.mainBtnTitle,
                           maxLines: 1,
-                          style: Theme.of(context).textTheme.button,
+                          style: Theme.of(context).textTheme.labelLarge,
                         ),
                       ),
                     ),
@@ -92,17 +92,20 @@ class _EyeHelperAlertDialogState extends State<EyeHelperAlertDialog> {
                       Row(
                         children: [
                           Expanded(
-                            child: FlatButton(
-                              splashColor: Colors.transparent,
-                              focusColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
+                            child: SizedBox(
                               height: 48,
-                              onPressed: () => widget.secondaryBtnCallback!(),
-                              child: Text(
-                                widget.secondaryBtnTitle!,
-                                style: Theme.of(context).textTheme.button?.copyWith(
-                                      color: Theme.of(context).primaryColorDark,
-                                    ),
+                              child: TextButton(
+                                style: TextButton.styleFrom(
+                                  splashFactory: NoSplash.splashFactory,
+                                  overlayColor: Colors.transparent,
+                                ),
+                                onPressed: () => widget.secondaryBtnCallback!(),
+                                child: Text(
+                                  widget.secondaryBtnTitle!,
+                                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                                        color: Theme.of(context).primaryColorDark,
+                                      ),
+                                ),
                               ),
                             ),
                           ),

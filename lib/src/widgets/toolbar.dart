@@ -31,7 +31,7 @@ class _ToolbarWavyState extends State<ToolbarWavy> {
       child: SizedBox(
         height: Utils().PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
         child: Container(
-          decoration: BoxDecoration(color: themeData.backgroundColor),
+          decoration: BoxDecoration(color: themeData.colorScheme.surface),
           child: Stack(
             children: <Widget>[
               _buildQuestion(context),
@@ -43,8 +43,8 @@ class _ToolbarWavyState extends State<ToolbarWavy> {
                     widget.title,
                     style: Theme.of(context)
                         .textTheme
-                        .headline6
-                        ?.copyWith(color: Theme.of(context).accentColor),
+                        .titleLarge
+                        ?.copyWith(color: Theme.of(context).colorScheme.secondary),
                   ),
                 ),
               ),
@@ -77,7 +77,7 @@ class _ToolbarWavyState extends State<ToolbarWavy> {
             width: Utils().PREFERED_HEIGHT_FOR_CUSTOM_APPBAR * 1 / 3,
             child: Icon(
               Icons.vibration,
-              color: value ? Theme.of(context).accentColor : EyehelperColorScheme.mainDark,
+              color: value ? Theme.of(context).colorScheme.secondary : EyehelperColorScheme.mainDark,
             ),
           ),
         ),
@@ -100,7 +100,7 @@ class _ToolbarWavyState extends State<ToolbarWavy> {
             width: Utils().PREFERED_HEIGHT_FOR_CUSTOM_APPBAR * 1 / 3,
             child: Icon(
               Icons.help_outline,
-              color: Theme.of(context).accentColor,
+              color: Theme.of(context).colorScheme.secondary,
             ),
           ),
         ),

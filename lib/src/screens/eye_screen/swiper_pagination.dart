@@ -1,7 +1,8 @@
 import 'package:eyehelper/src/screens/eye_screen/today_training.dart';
 import 'package:eyehelper/src/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:card_swiper/card_swiper.dart' hide PageIndicator, PageIndicatorLayout;
+import 'package:card_swiper/card_swiper.dart' as cs show PageIndicatorLayout;
 
 class CustomSwiperBuilder extends SwiperPlugin {
   ///color when current index,if set null , will be Theme.of(context).primaryColor
@@ -25,9 +26,9 @@ class CustomSwiperBuilder extends SwiperPlugin {
     this.activeColor,
     this.color,
     this.key,
-    this.size: 10.0,
-    this.activeSize: 10.0,
-    this.space: 3.0,
+    this.size = 10.0,
+    this.activeSize = 10.0,
+    this.space = 3.0,
   });
 
   @override
@@ -45,11 +46,11 @@ class CustomSwiperBuilder extends SwiperPlugin {
       color = this.color ?? themeData.scaffoldBackgroundColor;
     }
 
-    if (config.indicatorLayout != PageIndicatorLayout.NONE &&
+    if (config.indicatorLayout != cs.PageIndicatorLayout.NONE &&
         config.layout == SwiperLayout.DEFAULT) {
       return new PageIndicator(
         count: config.itemCount,
-        controller: config.pageController,
+        controller: config.pageController!,
         layout: PageIndicatorLayout.SLIDE,
         size: size,
         activeColor: activeColor,
@@ -134,19 +135,17 @@ class PageIndicator extends StatefulWidget {
 
   PageIndicator({
     Key? key,
-    this.size: 20.0,
-    this.space: 5.0,
+    this.size = 20.0,
+    this.space = 5.0,
     required this.count,
-    this.activeSize: 20.0,
+    this.activeSize = 20.0,
     required this.controller,
-    this.color: Colors.white30,
-    this.layout: PageIndicatorLayout.SLIDE,
-    this.activeColor: Colors.white,
-    this.scale: 0.6,
-    this.dropHeight: 20.0,
-  })  : assert(count != null),
-        assert(controller != null),
-        super(key: key);
+    this.color = Colors.white30,
+    this.layout = PageIndicatorLayout.SLIDE,
+    this.activeColor = Colors.white,
+    this.scale = 0.6,
+    this.dropHeight = 20.0,
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -179,7 +178,7 @@ class _PageIndicatorState extends State<PageIndicator> {
                       : TodayTrainingCounters().getPassed(i)
                           ? Icons.check_circle_outline
                           : Icons.radio_button_unchecked,
-                  color: Theme.of(context).accentColor,
+                  color: Theme.of(context).colorScheme.secondary,
                   size: 23,
                 ),
               ),

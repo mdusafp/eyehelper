@@ -21,11 +21,10 @@ class _AboutExercisesScreenState extends State<AboutExercisesScreen> {
           "Об упражнениях",
           style: Theme.of(context)
               .textTheme
-              .headline5
+              .headlineSmall
               ?.copyWith(color: Theme.of(context).primaryColorDark),
         ),
         backgroundColor: Colors.white,
-        brightness: Brightness.dark,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -36,13 +35,13 @@ class _AboutExercisesScreenState extends State<AboutExercisesScreen> {
             ),
             Icon(
               Icons.info_outline_rounded,
-              color: Theme.of(context).accentColor,
+              color: Theme.of(context).colorScheme.secondary,
               size: 120,
             ),
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: RichText(
-                  text: TextSpan(style: Theme.of(context).textTheme.bodyText2, children: [
+                  text: TextSpan(style: Theme.of(context).textTheme.bodyMedium, children: [
                 TextSpan(
                   text: 'В приложении используется информация об упражнениях по системе Аветисова.',
                 ),
@@ -55,8 +54,8 @@ class _AboutExercisesScreenState extends State<AboutExercisesScreen> {
                   text: 'Внимание! ',
                   style: Theme.of(context)
                       .textTheme
-                      .bodyText2
-                      ?.copyWith(color: Theme.of(context).accentColor, fontWeight: FontWeight.bold),
+                      .bodyMedium
+                      ?.copyWith(color: Theme.of(context).colorScheme.secondary, fontWeight: FontWeight.bold),
                 ),
                 TextSpan(
                     text:
@@ -72,7 +71,7 @@ class _AboutExercisesScreenState extends State<AboutExercisesScreen> {
               },
               child: Text(
                 "Подробнее",
-                style: Theme.of(context).textTheme.button,
+                style: Theme.of(context).textTheme.labelLarge,
               ),
             ),
           ],

@@ -17,7 +17,7 @@ class PageReveal extends StatelessWidget {
         shadow: Shadow(
           blurRadius: 10,
           offset: Offset(0, 0),
-          color: Theme.of(context).accentColor, //color: Color(0xFF000000).withOpacity(0.25),
+          color: Theme.of(context).colorScheme.secondary, //color: Color(0xFF000000).withOpacity(0.25),
         ),
         clipper: CircleRevealClipper(revealPercent),
       ),

@@ -96,14 +96,14 @@ class PageBubble extends StatelessWidget {
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: viewModel.isHollow
-                ? Theme.of(context).accentColor.withAlpha((0x88 * viewModel.activePercent).round())
-                : Theme.of(context).accentColor,
+                ? Theme.of(context).colorScheme.secondary.withAlpha((0x88 * viewModel.activePercent).round())
+                : Theme.of(context).colorScheme.secondary,
             border: Border.all(
               color: viewModel.isHollow
                   ? Theme.of(context)
-                      .accentColor
+                      .colorScheme.secondary
                       .withAlpha((0x88 * (1.0 - viewModel.activePercent)).round())
-                  : Theme.of(context).accentColor,
+                  : Theme.of(context).colorScheme.secondary,
               width: 2.0,
             ),
           ),

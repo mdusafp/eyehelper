@@ -16,7 +16,7 @@ class StatisticValue extends StatelessWidget {
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         elevation: 8.0,
-        color: Theme.of(context).accentColor,
+        color: Theme.of(context).colorScheme.secondary,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
           child: Column(
@@ -28,14 +28,14 @@ class StatisticValue extends StatelessWidget {
                   value,
                   style: Theme.of(context)
                       .textTheme
-                      .headline6
-                      ?.copyWith(color: Theme.of(context).backgroundColor),
+                      .titleLarge
+                      ?.copyWith(color: Theme.of(context).colorScheme.surface),
                 ),
               ),
               Text(
                 label,
-                style: Theme.of(context).textTheme.headline4?.copyWith(
-                      color: Theme.of(context).backgroundColor.withOpacity(.65),
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.surface.withOpacity(.65),
                     ),
                 textAlign: TextAlign.center,
               ),

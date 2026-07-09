@@ -61,7 +61,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
     return Scaffold(
       body: SingleChildScrollView(
         child: DefaultTextStyle(
-          style: Theme.of(context).textTheme.bodyText2!,
+          style: Theme.of(context).textTheme.bodyMedium!,
           child: Padding(
             padding: EdgeInsets.only(
               top: Utils().PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
@@ -97,7 +97,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                             textAlign: TextAlign.center,
                             style: Theme.of(context)
                                 .textTheme
-                                .bodyText2
+                                .bodyMedium
                                 ?.copyWith(color: Theme.of(context).primaryColor),
                           ),
                         ),
@@ -117,7 +117,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                 child: AutoSizeText(
                                   "Включить Уведомления",
                                   maxLines: 1,
-                                  style: Theme.of(context).textTheme.button,
+                                  style: Theme.of(context).textTheme.labelLarge,
                                 ),
                               ),
                             ),
@@ -167,7 +167,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                 textAlign: TextAlign.center,
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headline4
+                                    .headlineMedium
                                     ?.copyWith(color: Theme.of(context).primaryColorDark),
                               ),
                             ),
@@ -253,7 +253,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                     padding: const EdgeInsets.only(left: 12.0, right: 12.0),
                                     child: AutoSizeText(
                                       "Добавить время",
-                                      style: Theme.of(context).textTheme.button,
+                                      style: Theme.of(context).textTheme.labelLarge,
                                     ),
                                   ),
                                 ),
@@ -274,7 +274,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                 textAlign: TextAlign.center,
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headline4
+                                    .headlineMedium
                                     ?.copyWith(color: Theme.of(context).primaryColorDark),
                               ),
                             ),
@@ -358,7 +358,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
               maxLines: 1,
               style: Theme.of(context)
                   .textTheme
-                  .headline5
+                  .headlineSmall
                   ?.copyWith(color: Theme.of(context).colorScheme.secondary),
             ),
           ),

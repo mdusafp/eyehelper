@@ -42,14 +42,13 @@ class _StatisticCardState extends State<StatisticCard> {
       x: x,
       barRods: [
         BarChartRodData(
-          y: y,
-          colors: [widget.barActiveColor],
+          toY: y,
+          color: widget.barActiveColor,
           width: widget.barWidth,
-          //isRound: true,
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
-            y: widget.barHeight,
-            colors: [EyehelperColorScheme.mainDark],
+            toY: widget.barHeight,
+            color: EyehelperColorScheme.mainDark,
           ),
         ),
       ],
@@ -104,7 +103,7 @@ class _StatisticCardState extends State<StatisticCard> {
       children: <Widget>[
         Text(
           _getTitle(),
-          style: Theme.of(context).textTheme.headline3?.copyWith(
+          style: Theme.of(context).textTheme.displaySmall?.copyWith(
                 color: Theme.of(context).primaryColorDark,
               ),
         ),
@@ -127,25 +126,25 @@ class _StatisticCardState extends State<StatisticCard> {
                   ),
                   titlesData: FlTitlesData(
                     show: true,
-                    bottomTitles: SideTitles(
-                      showTitles: true,
-                      getTextStyles: (context, _) {
-                        return Theme.of(context).textTheme.headline3?.copyWith(
-                              color: Theme.of(context).primaryColorDark,
-                            );
-                      },
-                      margin: SPACING,
-                      getTitles: getBottomTitles,
+                    topTitles: const AxisTitles(),
+                    rightTitles: const AxisTitles(),
+                    bottomTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        reservedSize: 30,
+                        getTitlesWidget: (value, meta) => Padding(
+                          padding: const EdgeInsets.only(top: SPACING / 2),
+                          child: Text(getBottomTitles(value), style: _titlesStyle(context)),
+                        ),
+                      ),
                     ),
-                    leftTitles: SideTitles(
-                      showTitles: true,
-                      getTextStyles: (context, _) {
-                        return Theme.of(context).textTheme.headline3?.copyWith(
-                              color: Theme.of(context).primaryColorDark,
-                            );
-                      },
-                      margin: SPACING,
-                      getTitles: getLeftTitles,
+                    leftTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        reservedSize: 36,
+                        getTitlesWidget: (value, meta) =>
+                            Text(getLeftTitles(value), style: _titlesStyle(context)),
+                      ),
                     ),
                   ),
                   borderData: FlBorderData(
@@ -158,6 +157,12 @@ class _StatisticCardState extends State<StatisticCard> {
         ),
       ],
     );
+  }
+
+  TextStyle? _titlesStyle(BuildContext context) {
+    return Theme.of(context).textTheme.displaySmall?.copyWith(
+          color: Theme.of(context).primaryColorDark,
+        );
   }
 
   String getLeftTitles(double value) {
@@ -226,7 +231,7 @@ class _StatisticCardState extends State<StatisticCard> {
         children: <Widget>[
           Text(
             _getTitle(),
-            style: Theme.of(context).textTheme.headline3?.copyWith(
+            style: Theme.of(context).textTheme.displaySmall?.copyWith(
                   color: Theme.of(context).primaryColorDark,
                 ),
           ),
@@ -240,7 +245,7 @@ class _StatisticCardState extends State<StatisticCard> {
             padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20.0),
             child: Text(
               Localizer.getLocaleById(LocaleId.not_enough_data, context),
-              style: Theme.of(context).textTheme.headline3?.copyWith(
+              style: Theme.of(context).textTheme.displaySmall?.copyWith(
                     color: Theme.of(context).primaryColorDark,
                   ),
               textAlign: TextAlign.center,

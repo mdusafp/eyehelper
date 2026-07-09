@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:app_review/app_review.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'package:eyehelper/src/helpers/preferences.dart';
 import 'package:eyehelper/src/locale/Localizer.dart';
 import 'package:eyehelper/src/locale/ru.dart';
@@ -77,7 +77,7 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
                               Localizer.getLocaleById(LocaleId.good_job, context),
                               style: Theme.of(context)
                                   .textTheme
-                                  .headline6, // StandardStyleTexts.eyeScreenHeader,
+                                  .titleLarge, // StandardStyleTexts.eyeScreenHeader,
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -87,7 +87,7 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
                           child: Center(
                             child: Text(
                                 Localizer.getLocaleById(LocaleId.you_done_excercises, context),
-                                style: Theme.of(context).textTheme.subtitle2,
+                                style: Theme.of(context).textTheme.titleSmall,
                                 textAlign: TextAlign.center),
                           ),
                         ),
@@ -165,7 +165,7 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
                           child: Center(
                             child: Text(
                               Localizer.getLocaleById(LocaleId.set_mark, context),
-                              style: Theme.of(context).textTheme.subtitle2,
+                              style: Theme.of(context).textTheme.titleSmall,
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -213,7 +213,7 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
                   },
                   child: Text(
                     Localizer.getLocaleById(LocaleId.continue_btn_txt, context),
-                    style: Theme.of(context).textTheme.button,
+                    style: Theme.of(context).textTheme.labelLarge,
                   ),
                 ),
               ),
@@ -236,7 +236,7 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
             FastPreferences.userRatedTheAppTime,
             DateTime.now().millisecondsSinceEpoch,
           );
-          await AppReview.requestReview;
+          await InAppReview.instance.requestReview();
           Navigator.of(context).pop();
         },
         secondaryBtnTitle: "Закрыть",

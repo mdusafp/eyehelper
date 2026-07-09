@@ -31,7 +31,7 @@ class _BottomWavyState extends State<BottomWavy> with SingleTickerProviderStateM
         'assets/stat_menu_icon.png',
         height: 24.0,
         color: widget.currentIndex == INDEX_STATISTICS_SCREEN
-            ? themeData.accentColor
+            ? themeData.colorScheme.secondary
             : themeData.primaryColor,
       ),
       onPressed: () => widget.onTap(INDEX_STATISTICS_SCREEN),
@@ -44,12 +44,12 @@ class _BottomWavyState extends State<BottomWavy> with SingleTickerProviderStateM
         child: FloatingActionButton(
           mini: widget.currentIndex != INDEX_EYE_SCREEN,
           backgroundColor: widget.currentIndex == INDEX_EYE_SCREEN
-              ? themeData.accentColor
+              ? themeData.colorScheme.secondary
               : themeData.primaryColor,
           heroTag: 'mainBtn',
           child: Icon(
             Icons.remove_red_eye,
-            color: themeData.backgroundColor,
+            color: themeData.colorScheme.surface,
             size: widget.currentIndex == INDEX_EYE_SCREEN ? 32.0 : 24,
           ),
           onPressed: () => widget.onTap(INDEX_EYE_SCREEN),
@@ -62,7 +62,7 @@ class _BottomWavyState extends State<BottomWavy> with SingleTickerProviderStateM
         Icons.settings,
         size: 24.0,
         color: widget.currentIndex == INDEX_NOTIFICATIONS_SCREEN
-            ? themeData.accentColor
+            ? themeData.colorScheme.secondary
             : themeData.primaryColor,
       ),
       color: Theme.of(context).primaryColor,
@@ -77,7 +77,7 @@ class _BottomWavyState extends State<BottomWavy> with SingleTickerProviderStateM
             clipper: BottomWaveClipper(),
             shadow: Shadow(blurRadius: 10, color: themeData.primaryColor),
             child: Container(
-              color: themeData.backgroundColor,
+              color: themeData.colorScheme.surface,
               height: Utils().PREFERED_HEIGHT_FOR_CUSTOM_BOTTOM_BAR,
               width: MediaQuery.of(context).size.width,
               child: Material(

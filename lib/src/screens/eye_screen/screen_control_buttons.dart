@@ -97,8 +97,8 @@ class _ScreenControlButtonsState extends State<ScreenControlButtons> {
                               Text(
                                 !trainingStarted ? counterStr : widget.text,
                                 textAlign: TextAlign.center,
-                                style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                                    color: Theme.of(context).accentColor,
+                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    color: Theme.of(context).colorScheme.secondary,
                                     fontWeight: FontWeight.w600),
                               )
                             ],

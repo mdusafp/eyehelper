@@ -11,8 +11,8 @@ import 'package:eyehelper/src/widgets/custom_rounded_button.dart';
 import 'package:flare_flutter/flare.dart';
 import 'package:flare_flutter/flare_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:flutter_vibrate/flutter_vibrate.dart';
+import 'package:card_swiper/card_swiper.dart';
+import 'package:vibration/vibration.dart';
 
 class EyeSinglePage extends StatefulWidget {
   final SwiperScreenInfo info;
@@ -76,7 +76,7 @@ class _EyeSinglePageState extends State<EyeSinglePage> implements FlareControlle
                         child: Center(
                           child: Text(
                             Localizer.getLocaleById(widget.info.title, context),
-                            style: textTheme.headline6
+                            style: textTheme.titleLarge
                                 ?.copyWith(color: Theme.of(context).primaryColorDark),
                             textAlign: TextAlign.center,
                           ),
@@ -88,7 +88,7 @@ class _EyeSinglePageState extends State<EyeSinglePage> implements FlareControlle
                         child: Center(
                           child: Text(
                             Localizer.getLocaleById(widget.info.mainText, context),
-                            style: textTheme.subtitle2
+                            style: textTheme.titleSmall
                                 ?.copyWith(color: Theme.of(context).primaryColorDark),
                             textAlign: TextAlign.center,
                           ),
@@ -99,7 +99,7 @@ class _EyeSinglePageState extends State<EyeSinglePage> implements FlareControlle
                             const EdgeInsets.only(top: 6.0, bottom: 20.0, left: 20.0, right: 20.0),
                         child: Text(
                           Localizer.getLocaleById(widget.info.durationText, context),
-                          style: textTheme.headline6
+                          style: textTheme.titleLarge
                               ?.copyWith(color: Theme.of(context).colorScheme.secondary),
                           textAlign: TextAlign.center,
                         ),
@@ -166,7 +166,7 @@ class _EyeSinglePageState extends State<EyeSinglePage> implements FlareControlle
           },
           child: Text(
             Localizer.getLocaleById(LocaleId.begin_btn_txt, context),
-            style: Theme.of(context).textTheme.button,
+            style: Theme.of(context).textTheme.labelLarge,
           ),
         ),
       ),
@@ -191,7 +191,7 @@ class _EyeSinglePageState extends State<EyeSinglePage> implements FlareControlle
       setState(
           () => trainingText = Localizer.getLocaleById(widget.info.trainingFirstText, context));
       if ((FastPreferences().prefs.getBool(FastPreferences.isVibrationEnabled) ?? true)) {
-        Vibrate.vibrate();
+        Vibration.vibrate();
       }
     }
 
@@ -200,7 +200,7 @@ class _EyeSinglePageState extends State<EyeSinglePage> implements FlareControlle
       setState(
           () => trainingText = Localizer.getLocaleById(widget.info.trainingSecondText, context));
       if ((FastPreferences().prefs.getBool(FastPreferences.isVibrationEnabled) ?? true)) {
-        Vibrate.vibrate();
+        Vibration.vibrate();
       }
     }
 

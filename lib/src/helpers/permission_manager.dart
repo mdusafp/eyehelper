@@ -48,6 +48,7 @@ class PermissionsManager {
         return false;
       case PermissionStatus.granted:
       case PermissionStatus.limited:
+      case PermissionStatus.provisional:
         return true;
       case PermissionStatus.restricted:
         return true;

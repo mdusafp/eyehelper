@@ -30,7 +30,7 @@ class RoundControlButton extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(BTN_DIAMETER),
                 border: Border.all(
-                  color: Theme.of(context).accentColor,
+                  color: Theme.of(context).colorScheme.secondary,
                   width: 5,
                 ),
               ),

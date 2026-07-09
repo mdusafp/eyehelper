@@ -80,7 +80,7 @@ class NotificationFrequencyPickerState extends State<NotificationFrequencyPicker
                   textAlign: TextAlign.center,
                   style: Theme.of(context)
                       .textTheme
-                      .headline3
+                      .displaySmall
                       ?.copyWith(color: Theme.of(context).primaryColorDark),
                 ),
               ),
@@ -95,7 +95,7 @@ class NotificationFrequencyPickerState extends State<NotificationFrequencyPicker
                     children: frequencies.map((frequency) {
                       return Center(
                         child: Text(Localizer.getLocaleById(frequency.title, context),
-                            style: Theme.of(context).textTheme.bodyText2),
+                            style: Theme.of(context).textTheme.bodyMedium),
                       );
                     }).toList(),
                     onSelectedItemChanged: onSelect,
@@ -112,7 +112,7 @@ class NotificationFrequencyPickerState extends State<NotificationFrequencyPicker
   @override
   Widget build(BuildContext context) {
     ThemeData themeData = Theme.of(context);
-    HSLColor activeCardColor = HSLColor.fromColor(themeData.accentColor);
+    HSLColor activeCardColor = HSLColor.fromColor(themeData.colorScheme.secondary);
 
     return InkWell(
       onTap: () async {
@@ -157,8 +157,8 @@ class NotificationFrequencyPickerState extends State<NotificationFrequencyPicker
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
           child: DefaultTextStyle(
-            style: themeData.textTheme.headline4!.copyWith(
-              color: themeData.backgroundColor.withOpacity(.85),
+            style: themeData.textTheme.headlineMedium!.copyWith(
+              color: themeData.colorScheme.surface.withOpacity(.85),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -169,13 +169,13 @@ class NotificationFrequencyPickerState extends State<NotificationFrequencyPicker
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.only(right: 8.0),
-                        child: Icon(Icons.access_time, color: themeData.backgroundColor),
+                        child: Icon(Icons.access_time, color: themeData.colorScheme.surface),
                       ),
                       Text(
                         Localizer.getLocaleById(
                             frequencies[_selectedFrequencyIndex ?? 0].title, context),
-                        style: themeData.textTheme.headline6
-                            ?.copyWith(color: themeData.backgroundColor),
+                        style: themeData.textTheme.titleLarge
+                            ?.copyWith(color: themeData.colorScheme.surface),
                       ),
                     ],
                   ),

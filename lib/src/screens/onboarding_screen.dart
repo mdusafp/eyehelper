@@ -50,14 +50,14 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     heroAssetPath: 'assets/work_onb.png',
                     title: Text(
                       Localizer.getLocaleById(LocaleId.onb_title1, context),
-                      style: Theme.of(context).textTheme.headline6?.copyWith(
-                            color: Theme.of(context).accentColor,
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            color: Theme.of(context).colorScheme.secondary,
                           ),
                     ),
                     body: Text(
                       Localizer.getLocaleById(LocaleId.onb_subtitle1, context),
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                             color: Theme.of(context).primaryColor,
                           ),
                     )),
@@ -65,13 +65,13 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     color: Colors.white,
                     heroAssetPath: 'assets/exercises_onb.png',
                     title: Text(Localizer.getLocaleById(LocaleId.onb_title2, context),
-                        style: Theme.of(context).textTheme.headline6?.copyWith(
-                              color: Theme.of(context).accentColor,
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                              color: Theme.of(context).colorScheme.secondary,
                             )),
                     body: Text(
                       Localizer.getLocaleById(LocaleId.onb_subtitle2, context),
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                             color: Theme.of(context).primaryColor,
                           ),
                     )),
@@ -80,8 +80,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   heroAssetPath: 'assets/notif_onb.png',
                   title: Text(
                     Localizer.getLocaleById(LocaleId.onb_title3, context),
-                    style: Theme.of(context).textTheme.headline6?.copyWith(
-                          color: Theme.of(context).accentColor,
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          color: Theme.of(context).colorScheme.secondary,
                         ),
                   ),
                   button: RoundCustomButton(
@@ -108,7 +108,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       child: AutoSizeText(
                         Localizer.getLocaleById(LocaleId.setup_notifications, context),
                         maxLines: 1,
-                        style: Theme.of(context).textTheme.button,
+                        style: Theme.of(context).textTheme.labelLarge,
                       ),
                     ),
                   ),
@@ -116,7 +116,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     children: [
                       Text(Localizer.getLocaleById(LocaleId.onb_subtitle3, context),
                           textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                 color: Theme.of(context).primaryColor,
                               )),
                     ],

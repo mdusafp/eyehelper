@@ -8,12 +8,10 @@ import 'package:eyehelper/src/helpers/preferences.dart';
 import 'package:eyehelper/src/locale/Localizer.dart';
 import 'package:eyehelper/src/locale/ru.dart';
 import 'package:eyehelper/src/models/notification_settings.dart';
-import 'package:eyehelper/src/screens/home_screen.dart';
 import 'package:eyehelper/src/screens/notification_screen/dtos/week.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:timezone/timezone.dart' as tz;
 
@@ -27,18 +25,20 @@ class NotificationsHelper {
   String _channelDescription = 'Channel for excercise reminders';
 
   NotificationsHelper(BuildContext context) : _context = context {
-    _plugin = new FlutterLocalNotificationsPlugin();
+    _plugin = FlutterLocalNotificationsPlugin();
     // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
-    final initializationSettingsAndroid = new AndroidInitializationSettings('app_icon');
-    final initializationSettingsIOS = new IOSInitializationSettings(
+    const initializationSettingsAndroid = AndroidInitializationSettings('app_icon');
+    const initializationSettingsIOS = DarwinInitializationSettings(
       requestAlertPermission: false,
       requestBadgePermission: false,
       requestSoundPermission: false,
-      onDidReceiveLocalNotification: onDidRecieveLocalNotification,
     );
-    final initializationSettings = new InitializationSettings(
+    const initializationSettings = InitializationSettings(
         android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
-    _plugin.initialize(initializationSettings, onSelectNotification: onSelectNotification);
+    _plugin.initialize(
+      settings: initializationSettings,
+      onDidReceiveNotificationResponse: onDidReceiveNotificationResponse,
+    );
   }
 
   static Future<bool> requestPermissions(BuildContext context) {
@@ -204,22 +204,24 @@ class NotificationsHelper {
       //color: const Color.fromARGB(255, 255, 0, 0),
     );
 
-    final iOSPlatformChannelSpecifics = new IOSNotificationDetails();
-    final platformChannelSpecifics = new NotificationDetails(
+    const iOSPlatformChannelSpecifics = DarwinNotificationDetails();
+    final platformChannelSpecifics = NotificationDetails(
       android: androidPlatformChannelSpecifics,
       iOS: iOSPlatformChannelSpecifics,
     );
 
-    tz.Location loc = tz.getLocation(await FlutterNativeTimezone.getLocalTimezone());
+    final timezoneInfo = await FlutterTimezone.getLocalTimezone();
+    tz.Location loc = tz.getLocation(timezoneInfo.identifier);
     await _plugin
         .zonedSchedule(
-      id,
-      title,
-      body,
-      tz.TZDateTime.from(scheduledNotificationDateTime, loc),
-      platformChannelSpecifics,
-      androidAllowWhileIdle: true,
-      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+      id: id,
+      title: title,
+      body: body,
+      scheduledDate: tz.TZDateTime.from(scheduledNotificationDateTime, loc),
+      notificationDetails: platformChannelSpecifics,
+      // Inexact mode: exact alarms require a separate runtime permission on
+      // Android 12+, and minute-level precision is not needed for reminders.
+      androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
       matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime,
     )
         .catchError((e) {
@@ -228,34 +230,8 @@ class NotificationsHelper {
   }
 
   /// Triggered when user taps on a notification
-  Future onSelectNotification(String? payload) async {
-    debugPrint('notification payload: ' + (payload ?? ''));
-  }
-
-  /// Display a dialog with the notification details, tap ok to go to another page
-  Future onDidRecieveLocalNotification(int id, String? title, String? body, String? payload) async {
-    showDialog(
-      context: _context,
-      builder: (BuildContext context) => new CupertinoAlertDialog(
-        title: Text(title ?? ''),
-        content: Text(body ?? ''),
-        actions: [
-          CupertinoDialogAction(
-            isDefaultAction: true,
-            child: new Text(Localizer.getLocaleById(LocaleId.ok, context)),
-            onPressed: () async {
-              Navigator.of(context, rootNavigator: true).pop();
-              await Navigator.push(
-                context,
-                new MaterialPageRoute(
-                  builder: (context) => HomeScreen(),
-                ),
-              );
-            },
-          )
-        ],
-      ),
-    );
+  Future<void> onDidReceiveNotificationResponse(NotificationResponse response) async {
+    debugPrint('notification payload: ' + (response.payload ?? ''));
   }
 
   static NotificationSettings getUpdatedSettings() {

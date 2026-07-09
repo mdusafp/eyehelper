@@ -32,7 +32,7 @@ class RoundCustomButton extends StatelessWidget {
       width: width ?? min(240.0, parentSize.width),
       height: this.heightAbs,
       decoration: BoxDecoration(
-        color: Theme.of(context).accentColor,
+        color: Theme.of(context).colorScheme.secondary,
         borderRadius: BorderRadius.all(Radius.circular(30.0)),
         boxShadow: [shadow],
       ),
@@ -77,7 +77,7 @@ class FlatRoundCustomButton extends StatelessWidget {
         color: Colors.transparent,
         border: Border.all(
           width: 1.5,
-          color: color ?? Theme.of(context).accentColor,
+          color: color ?? Theme.of(context).colorScheme.secondary,
         ),
         borderRadius: BorderRadius.all(Radius.circular(30.0)),
       ),

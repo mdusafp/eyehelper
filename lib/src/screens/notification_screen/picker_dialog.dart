@@ -142,7 +142,7 @@ class _TimePickerDialogState extends State<TimePickerDialog> {
                                           },
                                           child: Text(
                                             "Добавить",
-                                            style: Theme.of(context).textTheme.button,
+                                            style: Theme.of(context).textTheme.labelLarge,
                                           ),
                                         ),
                                       ),
@@ -164,7 +164,7 @@ class _TimePickerDialogState extends State<TimePickerDialog> {
                                           },
                                           child: Text(
                                             "Удалить",
-                                            style: Theme.of(context).textTheme.button?.copyWith(
+                                            style: Theme.of(context).textTheme.labelLarge?.copyWith(
                                                   color: Colors.redAccent[700],
                                                 ),
                                           ),

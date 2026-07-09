@@ -17,71 +17,74 @@ class EyehelperTheme {
   static const String fontFamily = 'FiraSans';
 
   static ThemeData makeTheme() {
-    return new ThemeData(
+    return ThemeData(
+      useMaterial3: false,
       brightness: Brightness.light,
-      backgroundColor: EyehelperColorScheme.backgroundWhite,
+      colorScheme: const ColorScheme.light(
+        secondary: EyehelperColorScheme.activeColor,
+        surface: EyehelperColorScheme.backgroundWhite,
+        error: EyehelperColorScheme.errorColor,
+      ),
       scaffoldBackgroundColor: EyehelperColorScheme.backgroundWhite,
-      accentColor: EyehelperColorScheme.activeColor,
       primaryColor: EyehelperColorScheme.lightGrey,
       primaryColorDark: EyehelperColorScheme.mainDark,
-      accentColorBrightness: Brightness.light,
       textTheme: TextTheme(
-        headline6: TextStyle(
+        titleLarge: TextStyle(
           fontSize: ScreenUtil().setSp(10.0),
           height: 1.0,
           fontWeight: FontWeight.bold,
           fontFamily: fontFamily,
         ),
-        subtitle2: TextStyle(
+        titleSmall: TextStyle(
           fontSize: ScreenUtil().setSp(9.0),
           height: 1.0,
           fontWeight: FontWeight.w200,
           fontFamily: fontFamily,
         ),
-        headline5: TextStyle(
+        headlineSmall: TextStyle(
           fontSize: ScreenUtil().setSp(8.0),
           height: 1.0,
           fontWeight: FontWeight.w600,
           fontFamily: fontFamily,
         ),
-        bodyText2: TextStyle(
+        bodyMedium: TextStyle(
           fontSize: ScreenUtil().setSp(8.0),
           height: 1.0,
           fontWeight: FontWeight.normal,
           fontFamily: fontFamily,
         ),
-        bodyText1: TextStyle(
+        bodyLarge: TextStyle(
           fontSize: ScreenUtil().setSp(7.0),
           height: 1.0,
           fontWeight: FontWeight.normal,
           fontFamily: fontFamily,
         ),
-        button: TextStyle(
+        labelLarge: TextStyle(
           color: EyehelperColorScheme.backgroundWhite,
           fontSize: ScreenUtil().setSp(8.0),
           height: 1.0,
           fontWeight: FontWeight.normal,
           fontFamily: fontFamily,
         ),
-        headline4: TextStyle(
+        headlineMedium: TextStyle(
           fontSize: ScreenUtil().setSp(7.0),
           height: 1.0,
           fontWeight: FontWeight.normal,
           fontFamily: fontFamily,
         ),
-        headline3: TextStyle(
+        displaySmall: TextStyle(
           fontSize: ScreenUtil().setSp(6.0),
           height: 1.0,
           fontWeight: FontWeight.normal,
           fontFamily: fontFamily,
         ),
-        headline2: TextStyle(
+        displayMedium: TextStyle(
           fontSize: ScreenUtil().setSp(5.0),
           height: 1.0,
           fontWeight: FontWeight.normal,
           fontFamily: fontFamily,
         ),
-        headline1: TextStyle(
+        displayLarge: TextStyle(
           fontSize: ScreenUtil().setSp(4.0),
           height: 1.0,
           fontWeight: FontWeight.normal,

@@ -36,7 +36,7 @@ class AppAnalytics with HttpAnalytics, Analytics {
   @override
   void sendEvent(String eventName, {Map<String, dynamic>? params, int? multiplicate}) {
     if (_analytics != null) {
-      _analytics!.logEvent(name: eventName, parameters: params ?? {});
+      _analytics!.logEvent(name: eventName, parameters: params?.cast<String, Object>());
     }
     if (_triggers!.containsKey(eventName)) {
       for (EventListener listener in _triggers![eventName]!) {

@@ -7,7 +7,7 @@ import 'package:eyehelper/src/repositories/statistics_repository.dart';
 import 'package:eyehelper/src/screens/eye_screen/today_training.dart';
 import 'package:eyehelper/src/screens/statistics_screen/statistics_card.dart';
 import 'package:eyehelper/src/utils.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:card_swiper/card_swiper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tuple/tuple.dart';
 import 'package:flutter/material.dart';
@@ -138,7 +138,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                                 type: cardTypes[index],
                                 barWidth: 8.0,
                                 barHeight: 0.0, // make background transparent
-                                barActiveColor: Theme.of(context).accentColor.withOpacity(.65),
+                                barActiveColor: Theme.of(context).colorScheme.secondary.withOpacity(.65),
                                 coordsList: cardTypes[index] == CardType.week
                                     ? snapshot.data?.weekStats
                                     : snapshot.data?.dayStats,
@@ -154,7 +154,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                         Localizer.getLocaleById(LocaleId.exercise_frequency_per_day, context),
                         style: Theme.of(context)
                             .textTheme
-                            .bodyText2
+                            .bodyMedium
                             ?.copyWith(color: Theme.of(context).primaryColorDark),
                         textAlign: TextAlign.center,
                       ),

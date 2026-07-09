@@ -7,7 +7,7 @@ import 'package:eyehelper/src/screens/eye_screen/swiper_pagination.dart';
 import 'package:eyehelper/src/screens/eye_screen/today_training.dart';
 import 'package:eyehelper/src/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:card_swiper/card_swiper.dart';
 
 class SwiperMain extends StatefulWidget {
   final Function? showResultCallback;

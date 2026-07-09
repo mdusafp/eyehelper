@@ -47,7 +47,7 @@ class TimeScheduleCardState extends State<TimeScheduleCard> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           Switch(
-            activeColor: Theme.of(context).backgroundColor,
+            activeColor: Theme.of(context).colorScheme.surface,
             value: _isActive,
             onChanged: (value) {
               setState(() {
@@ -112,10 +112,10 @@ class TimeScheduleCardState extends State<TimeScheduleCard> {
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
             child: DefaultTextStyle(
-              style: themeData.textTheme.bodyText2!.copyWith(
+              style: themeData.textTheme.bodyMedium!.copyWith(
                 color: _isActive
-                    ? themeData.backgroundColor
-                    : themeData.backgroundColor.withOpacity(.65),
+                    ? themeData.colorScheme.surface
+                    : themeData.colorScheme.surface.withOpacity(.65),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -135,7 +135,7 @@ class TimeScheduleCardState extends State<TimeScheduleCard> {
                             CustomTimeFormatter().format(currentInfo!.time, isEndOfDay: true),
                             style: Theme.of(context)
                                 .textTheme
-                                .headline5
+                                .headlineSmall
                                 ?.copyWith(color: Colors.white, fontSize: 28),
                           ),
                         ),
@@ -158,7 +158,7 @@ class TimeScheduleCardState extends State<TimeScheduleCard> {
                                     child: AutoSizeText(
                                       Localizer.getLocaleById(weekList[index].shortLocale, context),
                                       maxLines: 1,
-                                      style: Theme.of(context).textTheme.headline3?.copyWith(
+                                      style: Theme.of(context).textTheme.displaySmall?.copyWith(
                                           color: currentInfo!.weekDays[weekList[index]] ?? false
                                               ? Theme.of(context).primaryColorDark
                                               : Colors.white),

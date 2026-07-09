@@ -81,7 +81,7 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
         children: <Widget>[
           IgnorePointer(
             child: Switch(
-              activeColor: Theme.of(context).backgroundColor,
+              activeColor: Theme.of(context).colorScheme.surface,
               value: _isActive,
               onChanged: (value) {},
             ),
@@ -102,10 +102,10 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
     return AbsorbPointer(
       absorbing: !_isActive,
       child: DefaultTextStyle(
-        style: themeData.textTheme.headline4!.copyWith(
+        style: themeData.textTheme.headlineMedium!.copyWith(
           color: _isActive
-              ? themeData.backgroundColor.withOpacity(.65)
-              : themeData.backgroundColor.withOpacity(.4),
+              ? themeData.colorScheme.surface.withOpacity(.65)
+              : themeData.colorScheme.surface.withOpacity(.4),
         ),
         child: Row(
           children: <Widget>[
@@ -116,10 +116,10 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
             InkWell(
               child: Text(
                 startText,
-                style: themeData.textTheme.subtitle2?.copyWith(
+                style: themeData.textTheme.titleSmall?.copyWith(
                   color: _isActive
-                      ? themeData.backgroundColor.withOpacity(.65)
-                      : themeData.backgroundColor.withOpacity(.4),
+                      ? themeData.colorScheme.surface.withOpacity(.65)
+                      : themeData.colorScheme.surface.withOpacity(.4),
                   decoration: TextDecoration.underline,
                 ),
               ),
@@ -132,10 +132,10 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
             InkWell(
               child: Text(
                 endText,
-                style: themeData.textTheme.subtitle2?.copyWith(
+                style: themeData.textTheme.titleSmall?.copyWith(
                   color: _isActive
-                      ? themeData.backgroundColor.withOpacity(.65)
-                      : themeData.backgroundColor.withOpacity(.4),
+                      ? themeData.colorScheme.surface.withOpacity(.65)
+                      : themeData.colorScheme.surface.withOpacity(.4),
                   decoration: TextDecoration.underline,
                 ),
               ),
@@ -150,7 +150,7 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
   @override
   Widget build(BuildContext context) {
     ThemeData themeData = Theme.of(context);
-    HSLColor activeCardColor = HSLColor.fromColor(themeData.accentColor);
+    HSLColor activeCardColor = HSLColor.fromColor(themeData.colorScheme.secondary);
     HSLColor inactiveCardColor = HSLColor.fromColor(themeData.primaryColor);
 
     final activeGradient = LinearGradient(
@@ -198,10 +198,10 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
             child: DefaultTextStyle(
-              style: themeData.textTheme.bodyText2!.copyWith(
+              style: themeData.textTheme.bodyMedium!.copyWith(
                 color: _isActive
-                    ? themeData.backgroundColor
-                    : themeData.backgroundColor.withOpacity(.65),
+                    ? themeData.colorScheme.surface
+                    : themeData.colorScheme.surface.withOpacity(.65),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -214,14 +214,14 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
                       child: Center(
                         child: Text(
                           widget.name.toUpperCase(),
-                          style: themeData.textTheme.headline6?.copyWith(
-                            color: _isActive ? themeData.accentColor : themeData.primaryColor,
+                          style: themeData.textTheme.titleLarge?.copyWith(
+                            color: _isActive ? themeData.colorScheme.secondary : themeData.primaryColor,
                           ),
                         ),
                       ),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(12.0)),
-                        color: themeData.backgroundColor,
+                        color: themeData.colorScheme.surface,
                       ),
                     ),
                   ),
@@ -290,7 +290,7 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
             padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
             child: Text(
               Localizer.getLocaleById(LocaleId.wrong_work_time, context),
-              style: textTheme.bodyText2
+              style: textTheme.bodyMedium
                   ?.copyWith(color: EyehelperColorScheme.btnTextWhite.withOpacity(.85)),
             ),
           ),
