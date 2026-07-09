@@ -36,7 +36,15 @@ class TodayTrainingCounters {
     SharedPreferences prefs = FastPreferences().prefs;
 
     String date = prefs.getString(FastPreferences.todayTrainingDateKey) ?? todayFormatted;
-    DateTime time = formatter.parse(date);
+    DateTime time;
+    try {
+      time = formatter.parse(date);
+    } on FormatException {
+      // The stored value may come from an older intl/locale (e.g. a regular
+      // space before AM/PM where current CLDR uses U+202F) — treat it as
+      // expired so today's map gets reset and rewritten in the current format.
+      time = dateTimeNow.subtract(const Duration(days: 1));
+    }
 
     if (time.difference(dateTimeNow).abs() > Duration(hours: 1).abs()) {
       await prefs.remove(FastPreferences.todayTrainingMapKey);
