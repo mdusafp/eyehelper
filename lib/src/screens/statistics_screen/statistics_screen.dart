@@ -123,7 +123,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                   children: <Widget>[
                     Padding(
                       padding: EdgeInsets.only(
-                          top: Utils().PREFERED_HEIGHT_FOR_CUSTOM_APPBAR + 10, bottom: 16.0),
+                          top: 10, bottom: 16.0),
                       child: AspectRatio(
                         aspectRatio: Utils().IS_SMALL_DEVICE ? 1.15 : 1.17,
                         child: Swiper(
@@ -165,7 +165,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                         top: 32.0,
                         left: 16.0,
                         right: 16.0,
-                        bottom: Utils().PREFERED_HEIGHT_FOR_CUSTOM_BOTTOM_BAR,
+                        bottom: 16.0,
                       ),
                       child: IntrinsicHeight(
                         child: Row(

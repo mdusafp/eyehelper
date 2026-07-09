@@ -5,7 +5,6 @@ import 'package:eyehelper/src/locale/Localizer.dart';
 import 'package:eyehelper/src/locale/ru.dart';
 import 'package:eyehelper/src/models/swiper_screen_info.dart';
 import 'package:eyehelper/src/screens/eye_screen/screen_control_buttons.dart';
-import 'package:eyehelper/src/utils.dart';
 import 'package:eyehelper/src/widgets/animated_face.dart';
 import 'package:eyehelper/src/widgets/custom_rounded_button.dart';
 import 'package:flare_flutter/flare.dart';
@@ -68,7 +67,7 @@ class _EyeSinglePageState extends State<EyeSinglePage> implements FlareControlle
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Container(
-                        height: Utils().PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
+                        height: MediaQuery.of(context).padding.top + 52,
                       ),
                       Padding(
                         padding:
@@ -117,7 +116,7 @@ class _EyeSinglePageState extends State<EyeSinglePage> implements FlareControlle
                         padding: const EdgeInsets.only(top: 10.0),
                         child: Container(
                           width: MediaQuery.of(context).size.width,
-                          height: Utils().PREFERED_HEIGHT_FOR_CUSTOM_BOTTOM_BAR + 40.0,
+                          height: MediaQuery.of(context).padding.bottom + 124.0,
                         ),
                       )
                     ],
@@ -128,7 +127,7 @@ class _EyeSinglePageState extends State<EyeSinglePage> implements FlareControlle
           ),
         ),
         Positioned(
-            bottom: Utils().PREFERED_HEIGHT_FOR_CUSTOM_BOTTOM_BAR + 30.0,
+            bottom: MediaQuery.of(context).padding.bottom + 114.0,
             child: getControls(context))
       ],
     );

@@ -9,7 +9,6 @@ import 'package:eyehelper/src/screens/notification_screen/dtos/time_card_info.da
 import 'package:eyehelper/src/screens/notification_screen/notification_frequency_picker.dart';
 import 'package:eyehelper/src/screens/notification_screen/picker_dialog.dart' as Dialog;
 import 'package:eyehelper/src/screens/notification_screen/time_schedule_card.dart';
-import 'package:eyehelper/src/utils.dart';
 import 'package:eyehelper/src/widgets/custom_rounded_button.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
@@ -65,8 +64,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
           style: Theme.of(context).textTheme.bodyMedium!,
           child: Padding(
             padding: EdgeInsets.only(
-              top: Utils().PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
-              bottom: Utils().PREFERED_HEIGHT_FOR_CUSTOM_BOTTOM_BAR + 10.0,
+              top: 0,
+              bottom: 10.0,
               // left: 16.0,
               // right: 16.0,
             ),

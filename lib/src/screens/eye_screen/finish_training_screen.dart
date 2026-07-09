@@ -63,7 +63,7 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                          height: Utils().PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
+                          height: MediaQuery.of(context).padding.top + 52,
                         ),
                         Padding(
                           padding: EdgeInsets.only(
@@ -191,7 +191,7 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
                           padding: EdgeInsets.only(top: 10.0),
                           child: Container(
                             width: MediaQuery.of(context).size.width,
-                            height: Utils().PREFERED_HEIGHT_FOR_CUSTOM_BOTTOM_BAR + 40.0,
+                            height: MediaQuery.of(context).padding.bottom + 124.0,
                           ),
                         )
                       ],
@@ -202,7 +202,7 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
             ),
           ),
           Positioned(
-            bottom: Utils().PREFERED_HEIGHT_FOR_CUSTOM_BOTTOM_BAR + 10.0,
+            bottom: MediaQuery.of(context).padding.bottom + 94.0,
             child: Container(
               width: MediaQuery.of(context).size.width,
               child: Center(

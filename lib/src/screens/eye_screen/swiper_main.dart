@@ -5,7 +5,6 @@ import 'package:eyehelper/src/models/swiper_screen_info.dart';
 import 'package:eyehelper/src/screens/eye_screen/eye_single_page.dart';
 import 'package:eyehelper/src/screens/eye_screen/swiper_pagination.dart';
 import 'package:eyehelper/src/screens/eye_screen/today_training.dart';
-import 'package:eyehelper/src/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:card_swiper/card_swiper.dart';
 
@@ -53,7 +52,7 @@ class _SwiperMainState extends State<SwiperMain> {
       controller: swiperController,
       loop: false,
       pagination: new SwiperPagination(
-        margin: EdgeInsets.only(bottom: Utils().PREFERED_HEIGHT_FOR_CUSTOM_BOTTOM_BAR),
+        margin: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + 88.0),
         builder: CustomSwiperBuilder(
           color: Colors.grey,
           space: 10.0,
