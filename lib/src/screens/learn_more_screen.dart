@@ -22,14 +22,12 @@ class LearnMoreScreen extends StatelessWidget {
       background: const AppBackground(),
       topEdgeFade: false,
       appBar: GlassAppBar(
-        leading: const SizedBox(width: 40),
-        actions: [
-          GlassIconButton(
-            size: 40,
-            icon: const Icon(Icons.close, color: _dark),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-        ],
+        leading: GlassIconButton(
+          size: 40,
+          icon: const Icon(Icons.arrow_back_ios_new, color: _dark),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        actions: const [SizedBox(width: 40)],
       ),
       body: SingleChildScrollView(
         child: Padding(

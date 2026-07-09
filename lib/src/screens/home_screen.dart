@@ -35,8 +35,8 @@ class _HomeScreenState extends State<HomeScreen> {
     _statisticsRepository = StatisticsRepository(FastPreferences());
     initAppConstants().then((_) {
       if (!(FastPreferences().prefs.getBool(FastPreferences.wasOnboardingShown) ?? false)) {
-        Navigator.of(context).push(CupertinoPageRoute(
-            fullscreenDialog: true, builder: (context) => AboutExercisesScreen()));
+        Navigator.of(context).push(
+            CupertinoPageRoute(builder: (context) => AboutExercisesScreen()));
         SchedulerBinding.instance.addPostFrameCallback((_) async {
           await Navigator.of(context).push(
             CupertinoPageRoute(
@@ -99,8 +99,8 @@ class _HomeScreenState extends State<HomeScreen> {
             color: Theme.of(context).colorScheme.secondary,
           ),
           onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                fullscreenDialog: true, builder: (context) => AboutExercisesScreen()));
+            Navigator.of(context).push(
+                CupertinoPageRoute(builder: (context) => AboutExercisesScreen()));
           },
         ),
         actions: [

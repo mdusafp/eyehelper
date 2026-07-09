@@ -26,15 +26,13 @@ class _AboutExercisesScreenState extends State<AboutExercisesScreen> {
               .headlineSmall
               ?.copyWith(color: Theme.of(context).primaryColorDark),
         ),
-        // Balances the trailing close button so the title stays centered.
-        leading: const SizedBox(width: 40),
-        actions: [
-          GlassIconButton(
-            size: 40,
-            icon: Icon(Icons.close, color: Theme.of(context).primaryColorDark),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-        ],
+        leading: GlassIconButton(
+          size: 40,
+          icon: Icon(Icons.arrow_back_ios_new, color: Theme.of(context).primaryColorDark),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        // Balances the leading back button so the title stays centered.
+        actions: const [SizedBox(width: 40)],
       ),
       body: SingleChildScrollView(
         child: Column(
