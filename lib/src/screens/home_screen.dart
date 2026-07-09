@@ -86,17 +86,13 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: EyehelperColorScheme.backgroundWhite,
       background: const AppBackground(),
       appBar: GlassAppBar(
-        // On the notifications tab the title lives inside the scrollable
-        // content, so the bar shows only the buttons.
-        title: _currentIndex == INDEX_NOTIFICATIONS_SCREEN
-            ? null
-            : Text(
-                Localizer.getLocaleById(titles[_currentIndex], context),
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge
-                    ?.copyWith(color: Theme.of(context).colorScheme.secondary),
-              ),
+        title: Text(
+          Localizer.getLocaleById(titles[_currentIndex], context),
+          style: Theme.of(context)
+              .textTheme
+              .titleLarge
+              ?.copyWith(color: Theme.of(context).colorScheme.secondary),
+        ),
         leading: GlassIconButton(
           size: 40,
           icon: Icon(

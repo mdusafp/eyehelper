@@ -15,6 +15,8 @@ import 'package:eyehelper/src/widgets/adaptive_switch.dart';
 import 'package:flutter/material.dart';
 
 class NotificationScreen extends StatefulWidget {
+  const NotificationScreen({super.key});
+
   @override
   _NotificationScreenState createState() => _NotificationScreenState();
 }
@@ -32,7 +34,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   void initState() {
     super.initState();
     // frequency = new Duration();
-    _notificationsHelper = new NotificationsHelper(context);
+    _notificationsHelper = NotificationsHelper(context);
     _notificationSettings = NotificationsHelper.getUpdatedSettings();
 
     try {
@@ -40,7 +42,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
           frequencies.firstWhere((element) => element.timesADay == _notificationSettings.timesADay);
     } catch (e) {/* No such element */}
 
-    _errorIndexes = new Set();
+    _errorIndexes = <int>{};
     _notificationSettings.dailyScheduleList.asMap().forEach((i, schedule) {
       if (schedule.endOfWorkInMilliseconds <= schedule.startOfWorkInMilliseconds) {
         _errorIndexes.add(i);
@@ -72,18 +74,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
             ),
             child: Column(
               children: <Widget>[
-                // Screen title lives in the scrollable content (iOS style):
-                // it scrolls away under the glass app bar with the rest.
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 16.0),
-                  child: Text(
-                    Localizer.getLocaleById(LocaleId.notifications, context),
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleLarge
-                        ?.copyWith(color: Theme.of(context).colorScheme.secondary),
-                  ),
-                ),
                 AnimatedCrossFade(
                   duration: Duration(milliseconds: 400),
                   crossFadeState: _notificationSettings.notificationsEnabled
@@ -117,7 +107,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         Container(
                           height: 24,
                         ),
-                        Container(
+                        SizedBox(
                           width: MediaQuery.of(context).size.width,
                           child: Center(
                             child: RoundCustomButton(
@@ -231,7 +221,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                 },
                               ),
                             ),
-                            Container(
+                            SizedBox(
                               width: MediaQuery.of(context).size.width,
                               child: Center(
                                 child: RoundCustomButton(
@@ -356,7 +346,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
     );
   }
 
-  _getNotificationsEnabledHeader() {
+  Padding _getNotificationsEnabledHeader() {
     return Padding(
       padding: const EdgeInsets.only(left: 24.0, right: 24.0),
       child: Row(
