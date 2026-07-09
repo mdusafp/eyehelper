@@ -13,9 +13,9 @@ import 'package:eyehelper/src/constants.dart';
 import 'package:eyehelper/src/locale/Localizer.dart';
 import 'package:eyehelper/src/screens/eye_screen/eye_screen.dart';
 import 'package:eyehelper/src/screens/notification_screen/notification_screen.dart';
-import 'package:eyehelper/src/widgets/bootom_bar.dart';
-import 'package:eyehelper/src/widgets/toolbar.dart';
+import 'package:eyehelper/src/widgets/vibration_toggle.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
 
 class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
@@ -80,43 +80,52 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        Scaffold(
-          body: dataLoading
-              ? Center(
-                  child: CircularProgressIndicator(),
-                )
-              : screens[_currentIndex],
+    return GlassScaffold(
+      backgroundColor: EyehelperColorScheme.backgroundWhite,
+      appBar: GlassAppBar(
+        title: Text(
+          Localizer.getLocaleById(titles[_currentIndex], context),
+          style: Theme.of(context)
+              .textTheme
+              .titleLarge
+              ?.copyWith(color: Theme.of(context).colorScheme.secondary),
         ),
-        Container(
-          height: Utils().PREFERED_HEIGHT_FOR_CUSTOM_APPBAR,
-          child: AppBar(
-            elevation: 0.0,
-            automaticallyImplyLeading: false,
-            backgroundColor: EyehelperColorScheme.transparent,
-            flexibleSpace: ToolbarWavy(
-              title: Localizer.getLocaleById(
-                titles[_currentIndex],
-                context,
-              ),
-              currentIndex: _currentIndex,
-            ),
+        leading: GlassIconButton(
+          size: 40,
+          icon: Icon(
+            Icons.help_outline,
+            color: Theme.of(context).colorScheme.secondary,
           ),
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                fullscreenDialog: true, builder: (context) => AboutExercisesScreen()));
+          },
         ),
-        Positioned(
-          bottom: 0.0,
-          child: Container(
-            height: Utils().PREFERED_HEIGHT_FOR_CUSTOM_BOTTOM_BAR,
-            child: BottomWavy(
-              currentIndex: _currentIndex,
-              onTap: (index) {
-                setState(() => _currentIndex = index);
-              },
-            ),
+        actions: [
+          if (FastPreferences().isInited && _currentIndex == INDEX_EYE_SCREEN)
+            VibrationToggle(),
+        ],
+      ),
+      bottomBar: GlassTabBar.bottom(
+        selectedIndex: _currentIndex,
+        onTabSelected: (index) => setState(() => _currentIndex = index),
+        indicatorColor: Theme.of(context).colorScheme.secondary,
+        selectedIconColor: Colors.white,
+        unselectedIconColor: Theme.of(context).primaryColor,
+        tabs: [
+          GlassTab(
+            icon: Image.asset('assets/stat_menu_icon.png', height: 24),
+            activeIcon:
+                Image.asset('assets/stat_menu_icon.png', height: 24, color: Colors.white),
           ),
-        )
-      ],
+          GlassTab(
+            icon: Icon(Icons.remove_red_eye),
+            glowColor: EyehelperColorScheme.activeColor,
+          ),
+          GlassTab(icon: Icon(Icons.settings)),
+        ],
+      ),
+      body: dataLoading ? Center(child: CircularProgressIndicator()) : screens[_currentIndex],
     );
   }
 }
