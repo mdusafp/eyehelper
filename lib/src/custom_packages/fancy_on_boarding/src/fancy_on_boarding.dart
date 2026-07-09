@@ -9,6 +9,7 @@ import 'package:eyehelper/src/custom_packages/fancy_on_boarding/src/page_model.d
 import 'package:eyehelper/src/custom_packages/fancy_on_boarding/src/page_reveal.dart';
 import 'package:eyehelper/src/custom_packages/fancy_on_boarding/src/pager_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
 
 class FancyOnBoarding extends StatefulWidget {
   final List<PageModel> pageList;
@@ -45,6 +46,9 @@ class FancyOnBoarding extends StatefulWidget {
   @override
   FancyOnBoardingState createState() => FancyOnBoardingState();
 }
+
+/// All three onboarding controls (done/next, back, close) share this size.
+const double _controlButtonSize = 44.0;
 
 class FancyOnBoardingState extends State<FancyOnBoarding> with TickerProviderStateMixin {
   late StreamController<SlideUpdate> slideUpdateStream;
@@ -109,14 +113,20 @@ class FancyOnBoardingState extends State<FancyOnBoarding> with TickerProviderSta
         Positioned(
           bottom: 24,
           right: 20,
-          child: InkResponse(
-            child: Icon(pageList.length - 1 < activeIndex + 1 ? Icons.done : Icons.navigate_next,
-                size: 32, color: Theme.of(context).colorScheme.secondary),
-            onTap: widget.onDoneButtonPressed != null && widget.onNextButtonPressed != null
-                ? pageList.length - 1 < activeIndex + 1
-                    ? widget.onDoneButtonPressed
-                    : widget.onNextButtonPressed
-                : next,
+          child: GlassIconButton(
+            size: _controlButtonSize,
+            useOwnLayer: true,
+            icon: Icon(pageList.length - 1 < activeIndex + 1 ? Icons.done : Icons.navigate_next,
+                color: Theme.of(context).colorScheme.secondary),
+            onPressed: () {
+              final handler =
+                  widget.onDoneButtonPressed != null && widget.onNextButtonPressed != null
+                      ? (pageList.length - 1 < activeIndex + 1
+                          ? widget.onDoneButtonPressed
+                          : widget.onNextButtonPressed)
+                      : next;
+              handler?.call();
+            },
           ),
         ),
         Positioned(
@@ -126,10 +136,12 @@ class FancyOnBoardingState extends State<FancyOnBoarding> with TickerProviderSta
             ignoring: _getOpacity() < 1.0,
             child: Opacity(
               opacity: _getOpacity(),
-              child: InkResponse(
-                child: Icon(Icons.navigate_before,
-                    size: 32, color: Theme.of(context).colorScheme.secondary),
-                onTap: widget.onBackButtonPressed ?? back,
+              child: GlassIconButton(
+                size: _controlButtonSize,
+                useOwnLayer: true,
+                icon: Icon(Icons.navigate_before,
+                    color: Theme.of(context).colorScheme.secondary),
+                onPressed: () => (widget.onBackButtonPressed ?? back)(),
               ),
             ),
           ),
@@ -138,10 +150,11 @@ class FancyOnBoardingState extends State<FancyOnBoarding> with TickerProviderSta
             ? Positioned(
                 top: 28,
                 right: 16,
-                child: InkResponse(
-                  child:
-                      Icon(Icons.close, size: 32, color: Theme.of(context).colorScheme.secondary),
-                  onTap: widget.onSkipButtonPressed ?? () => Navigator.of(context).pop(),
+                child: GlassIconButton(
+                  size: _controlButtonSize,
+                  useOwnLayer: true,
+                  icon: Icon(Icons.close, color: Theme.of(context).colorScheme.secondary),
+                  onPressed: widget.onSkipButtonPressed ?? () => Navigator.of(context).pop(),
                 ),
               )
             : Offstage(),

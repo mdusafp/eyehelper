@@ -1,5 +1,8 @@
+import 'package:eyehelper/src/theme.dart';
+import 'package:eyehelper/src/widgets/app_background.dart';
 import 'package:eyehelper/src/widgets/custom_rounded_button.dart';
 import 'package:flutter/material.dart';
+import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AboutExercisesScreen extends StatefulWidget {
@@ -10,13 +13,11 @@ class AboutExercisesScreen extends StatefulWidget {
 class _AboutExercisesScreenState extends State<AboutExercisesScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        actions: [CloseButton()],
-        iconTheme: IconThemeData(
-          color: Theme.of(context).primaryColorDark, //change your color here
-        ),
+    return GlassScaffold(
+      backgroundColor: EyehelperColorScheme.backgroundWhite,
+      background: const AppBackground(),
+      topEdgeFade: false,
+      appBar: GlassAppBar(
         title: Text(
           "Об упражнениях",
           style: Theme.of(context)
@@ -24,14 +25,22 @@ class _AboutExercisesScreenState extends State<AboutExercisesScreen> {
               .headlineSmall
               ?.copyWith(color: Theme.of(context).primaryColorDark),
         ),
-        backgroundColor: Colors.white,
+        // Balances the trailing close button so the title stays centered.
+        leading: const SizedBox(width: 40),
+        actions: [
+          GlassIconButton(
+            size: 40,
+            icon: Icon(Icons.close, color: Theme.of(context).primaryColorDark),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              height: 12,
+              height: MediaQuery.of(context).padding.top + 56,
             ),
             Icon(
               Icons.info_outline_rounded,
@@ -74,6 +83,7 @@ class _AboutExercisesScreenState extends State<AboutExercisesScreen> {
                 style: Theme.of(context).textTheme.labelLarge,
               ),
             ),
+            Container(height: 32.0),
           ],
         ),
       ),
