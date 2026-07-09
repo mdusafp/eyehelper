@@ -1,6 +1,5 @@
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:eyehelper/src/widgets/custom_rounded_button.dart';
 import 'package:flutter/material.dart';
+import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
 
 class EyeHelperAlertDialog extends StatefulWidget {
   final String title;
@@ -18,10 +17,9 @@ class EyeHelperAlertDialog extends StatefulWidget {
     this.secondaryBtnTitle,
     required this.mainBtnCallback,
     this.secondaryBtnCallback,
-  })  : assert(title != null && title.isNotEmpty),
-        assert(subtitle != null && subtitle.isNotEmpty),
-        assert(mainBtnTitle != null && mainBtnTitle.isNotEmpty),
-        assert(mainBtnCallback != null),
+  })  : assert(title.isNotEmpty),
+        assert(subtitle.isNotEmpty),
+        assert(mainBtnTitle.isNotEmpty),
         super(key: key);
 
   @override
@@ -31,100 +29,22 @@ class EyeHelperAlertDialog extends StatefulWidget {
 class _EyeHelperAlertDialogState extends State<EyeHelperAlertDialog> {
   @override
   Widget build(BuildContext context) {
-    return Material(
-      type: MaterialType.transparency,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 40.0, right: 40.0),
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                color: Colors.white,
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-                child: Column(
-                  children: [
-                    Container(
-                      height: 20,
-                    ),
-                    AutoSizeText(
-                      widget.title,
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                            color: Theme.of(context).primaryColorDark,
-                          ),
-                    ),
-                    Container(
-                      height: 12,
-                    ),
-                    Text(
-                      widget.subtitle,
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: Theme.of(context).primaryColor,
-                          ),
-                    ),
-                    Container(
-                      height: 20,
-                    ),
-                    RoundCustomButton(
-                      parentSize: MediaQuery.of(context).size,
-                      onPressed: widget.mainBtnCallback,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 12.0, right: 12.0),
-                        child: AutoSizeText(
-                          widget.mainBtnTitle,
-                          maxLines: 1,
-                          style: Theme.of(context).textTheme.labelLarge,
-                        ),
-                      ),
-                    ),
-                    if (widget.secondaryBtnCallback != null &&
-                        widget.secondaryBtnTitle != null &&
-                        widget.secondaryBtnTitle!.isNotEmpty) ...[
-                      Container(
-                        height: 8,
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: SizedBox(
-                              height: 48,
-                              child: TextButton(
-                                style: TextButton.styleFrom(
-                                  splashFactory: NoSplash.splashFactory,
-                                  overlayColor: Colors.transparent,
-                                ),
-                                onPressed: () => widget.secondaryBtnCallback!(),
-                                child: Text(
-                                  widget.secondaryBtnTitle!,
-                                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                                        color: Theme.of(context).primaryColorDark,
-                                      ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Container(
-                        height: 4,
-                      )
-                    ] else
-                      Container(
-                        height: 20,
-                      )
-                  ],
-                ),
-              ),
-            ),
-          )
-        ],
-      ),
+    return GlassDialog(
+      title: widget.title,
+      message: widget.subtitle,
+      actions: [
+        GlassDialogAction(
+          label: widget.mainBtnTitle,
+          isPrimary: true,
+          onPressed: () => widget.mainBtnCallback(),
+        ),
+        if (widget.secondaryBtnCallback != null &&
+            (widget.secondaryBtnTitle ?? '').isNotEmpty)
+          GlassDialogAction(
+            label: widget.secondaryBtnTitle!,
+            onPressed: () => widget.secondaryBtnCallback!(),
+          ),
+      ],
     );
   }
 }

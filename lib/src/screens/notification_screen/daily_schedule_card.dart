@@ -8,6 +8,7 @@ import 'package:eyehelper/src/theme.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
 
 // callback to update parent data (without setState to don't rerender whole widget tree)
 typedef void OnChange(bool isWorkingDay, Duration startOfWork, Duration endOfWork);
@@ -150,27 +151,6 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
   @override
   Widget build(BuildContext context) {
     ThemeData themeData = Theme.of(context);
-    HSLColor activeCardColor = HSLColor.fromColor(themeData.colorScheme.secondary);
-    HSLColor inactiveCardColor = HSLColor.fromColor(themeData.primaryColor);
-
-    final activeGradient = LinearGradient(
-      begin: Alignment.bottomLeft,
-      end: Alignment.topRight,
-      colors: [
-        activeCardColor.withLightness(.5).toColor(),
-        activeCardColor.withLightness(.4).toColor()
-      ],
-    );
-
-    final inactiveGradient = LinearGradient(
-      begin: Alignment.bottomLeft,
-      end: Alignment.topRight,
-      colors: [
-        inactiveCardColor.withLightness(.5).toColor(),
-        inactiveCardColor.withLightness(.4).toColor()
-      ],
-    );
-
     return InkWell(
       onLongPress: _showIntervalTimePicker,
       onTap: () {
@@ -180,20 +160,14 @@ class DailyScheduleCardState extends State<DailyScheduleCard> {
         widget.onChange(_isActive, _startOfWork, _endOfWork);
       },
       child: Column(children: [
-        AnimatedContainer(
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeIn,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(20.0)),
-            gradient: _isActive ? activeGradient : inactiveGradient,
-            boxShadow: [
-              const BoxShadow(
-                color: Color(0x3A000000),
-                offset: Offset(0.0, 6.0),
-                blurRadius: 8.0,
-                spreadRadius: 0.0,
-              ),
-            ],
+        GlassCard(
+          useOwnLayer: true,
+          padding: EdgeInsets.zero,
+          shape: const LiquidRoundedRectangle(borderRadius: 20.0),
+          settings: LiquidGlassSettings(
+            glassColor: _isActive
+                ? themeData.colorScheme.secondary.withAlpha(0x99)
+                : themeData.primaryColor.withAlpha(0x59),
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
