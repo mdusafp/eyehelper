@@ -105,9 +105,14 @@ class _HomeScreenState extends State<HomeScreen> {
           },
         ),
         actions: [
-          if (FastPreferences().isInited && _currentIndex == INDEX_EYE_SCREEN) VibrationToggle(),
+          if (FastPreferences().isInited && _currentIndex == INDEX_EYE_SCREEN)
+            VibrationToggle()
+          else
+            // Balances the 40px leading button so the title stays centered.
+            const SizedBox(width: 40),
         ],
       ),
+      topEdgeFade: false,
       bottomBar: GlassTabBar.bottom(
         selectedIndex: _currentIndex,
         onTabSelected: (index) => setState(() => _currentIndex = index),

@@ -21,6 +21,7 @@ class EyehelperTheme {
       useMaterial3: false,
       brightness: Brightness.light,
       colorScheme: const ColorScheme.light(
+        primary: EyehelperColorScheme.activeColor,
         secondary: EyehelperColorScheme.activeColor,
         surface: EyehelperColorScheme.backgroundWhite,
         error: EyehelperColorScheme.errorColor,

@@ -59,13 +59,14 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
     SharedPreferences preferences = FastPreferences().prefs;
 
     String? temp = preferences.getString(FastPreferences.allDayTrainingMapKey);
-    Map<String, dynamic> todayStat = temp == null ? null : json.decode(temp);
+    Map<String, dynamic>? todayStat =
+        temp == null ? null : json.decode(temp) as Map<String, dynamic>;
 
     List<Tuple2<int, double>> todayCastedStat = [];
     if (todayStat != null) {
       for (int i = 0; i < SwiperScreenInfo.flareActorByIndex.length; i++) {
-        int value = todayStat[i.toString()];
-        todayCastedStat.add(Tuple2<int, double>(i, (value).toDouble()));
+        num value = (todayStat[i.toString()] ?? 0) as num;
+        todayCastedStat.add(Tuple2<int, double>(i, value.toDouble()));
       }
     }
 
@@ -74,7 +75,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
 
     String? dayCountersJson = preferences.getString(FastPreferences.dayCountersKey);
     if (dayCountersJson != null) {
-      Map<String, double> dayCountersMap = json.decode(dayCountersJson);
+      Map<String, dynamic> dayCountersMap = json.decode(dayCountersJson) as Map<String, dynamic>;
 
       DateTime time = DateTime.now();
       DateTime mondayTemp = time.add(Duration(days: -(time.weekday - 1)));
@@ -83,7 +84,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
       for (int i = 0; i < 7; i++) {
         DateTime currDay = monday.add(Duration(days: i));
         String currDayStr = TodayTrainingCounters().formatterNoHours.format(currDay);
-        weekStat.add(Tuple2<int, double>(i, ((dayCountersMap[currDayStr] ?? 0) as int).toDouble()));
+        weekStat.add(
+            Tuple2<int, double>(i, ((dayCountersMap[currDayStr] ?? 0) as num).toDouble()));
       }
 
       dayCountersMap.forEach((key, value) {
@@ -91,7 +93,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
           if (value != 0 &&
               TodayTrainingCounters().formatterNoHours.parse(key).month == time.month &&
               TodayTrainingCounters().formatterNoHours.parse(key).year == time.year) {
-            monthCount += value.toInt();
+            monthCount += (value as num).toInt();
           }
         } catch (e) {
           print(e);
