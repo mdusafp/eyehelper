@@ -1,194 +1,77 @@
-import 'dart:async';
-import 'dart:convert';
 import 'package:eyehelper/src/helpers/preferences.dart';
-import 'package:eyehelper/src/models/swiper_screen_info.dart';
+import 'package:eyehelper/src/models/habit_statistics.dart';
 import 'package:eyehelper/src/repositories/statistics_repository.dart';
-import 'package:eyehelper/src/screens/eye_screen/today_training.dart';
-import 'package:eyehelper/src/screens/statistics_screen/statistics_card.dart';
-import 'package:eyehelper/src/utils.dart';
-import 'package:card_swiper/card_swiper.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tuple/tuple.dart';
-import 'package:eyehelper/i18n/tr.dart';
+import 'package:eyehelper/src/screens/statistics_screen/month_heatmap_card.dart';
+import 'package:eyehelper/src/screens/statistics_screen/stats_card.dart';
+import 'package:eyehelper/src/screens/statistics_screen/streak_card.dart';
+import 'package:eyehelper/src/screens/statistics_screen/today_card.dart';
+import 'package:eyehelper/src/screens/statistics_screen/week_minutes_card.dart';
+import 'package:eyehelper/src/widgets/ad_banner.dart';
+import 'package:eyehelper/src/widgets/app_bar_blur.dart';
 import 'package:flutter/material.dart';
-import 'package:eyehelper/src/screens/statistics_screen/statistics_value.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
-const SPACING = 16.0;
-
-enum CardType { week, day }
-
-const Map<int, CardType> cardTypes = {
-  0: CardType.week,
-  1: CardType.day,
-};
-
-class Statistics {
-  final String exercisePerMonth;
-  final String skippedDays;
-  final List<Tuple2<int, double>> weekStats;
-  final List<Tuple2<int, double>> dayStats;
-
-  Statistics({
-    required int exercisePerMonth,
-    required int skippedDays,
-    required List<Tuple2<int, double>> weekStats,
-    required List<Tuple2<int, double>> dayStats,
-  })  : this.exercisePerMonth = exercisePerMonth.toString(),
-        this.skippedDays = skippedDays.toString(),
-        this.weekStats = weekStats,
-        this.dayStats = dayStats;
-}
-
+/// Streak, today's set, the month calendar, and minutes week over week.
 class StatisticsScreen extends StatefulWidget {
+  const StatisticsScreen({super.key});
+
   @override
-  _StatisticsScreenState createState() => _StatisticsScreenState();
+  State<StatisticsScreen> createState() => _StatisticsScreenState();
 }
 
 class _StatisticsScreenState extends State<StatisticsScreen> {
-  late StatisticsRepository _statisticsRepository;
-
-  @override
-  initState() {
-    super.initState();
-    _statisticsRepository = new StatisticsRepository(FastPreferences());
-  }
-
-  Future<Statistics> fetchStatistics() async {
-    SharedPreferences preferences = FastPreferences().prefs;
-
-    String? temp = preferences.getString(FastPreferences.allDayTrainingMapKey);
-    Map<String, dynamic>? todayStat =
-        temp == null ? null : json.decode(temp) as Map<String, dynamic>;
-
-    List<Tuple2<int, double>> todayCastedStat = [];
-    if (todayStat != null) {
-      for (int i = 0; i < SwiperScreenInfo.flareActorByIndex.length; i++) {
-        num value = (todayStat[i.toString()] ?? 0) as num;
-        todayCastedStat.add(Tuple2<int, double>(i, value.toDouble()));
-      }
-    }
-
-    List<Tuple2<int, double>> weekStat = [];
-    int monthCount = 0;
-
-    String? dayCountersJson = preferences.getString(FastPreferences.dayCountersKey);
-    if (dayCountersJson != null) {
-      Map<String, dynamic> dayCountersMap = json.decode(dayCountersJson) as Map<String, dynamic>;
-
-      DateTime time = DateTime.now();
-      DateTime mondayTemp = time.add(Duration(days: -(time.weekday - 1)));
-      DateTime monday = DateTime(mondayTemp.year, mondayTemp.month, mondayTemp.day);
-
-      for (int i = 0; i < 7; i++) {
-        DateTime currDay = monday.add(Duration(days: i));
-        String currDayStr = TodayTrainingCounters().formatterNoHours.format(currDay);
-        weekStat.add(
-            Tuple2<int, double>(i, ((dayCountersMap[currDayStr] ?? 0) as num).toDouble()));
-      }
-
-      dayCountersMap.forEach((key, value) {
-        try {
-          if (value != 0 &&
-              TodayTrainingCounters().formatterNoHours.parse(key).month == time.month &&
-              TodayTrainingCounters().formatterNoHours.parse(key).year == time.year) {
-            monthCount += (value as num).toInt();
-          }
-        } catch (e) {
-          print(e);
-        }
-      });
-    }
-
-    return Statistics(
-      exercisePerMonth: monthCount,
-      skippedDays: _statisticsRepository.skippedDays,
-      weekStats: weekStat,
-      dayStats: todayCastedStat,
-    );
-  }
+  // The tab host rebuilds this screen on every visit, so loading once per
+  // State is enough to pick up whatever was trained in between.
+  late final Future<HabitStatistics> _stats =
+      StatisticsRepository(FastPreferences()).loadHabitStatistics();
 
   @override
   Widget build(BuildContext context) {
+    // The glass scaffold lets the body run under both bars; leave room for
+    // the app bar above and the tab bar below.
+    final viewPadding = MediaQuery.viewPaddingOf(context);
+    final padding = EdgeInsets.fromLTRB(
+      16,
+      viewPadding.top + kGlassAppBarHeight + 12,
+      16,
+      viewPadding.bottom + 60 + 16,
+    );
+
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: Center(
-        child: SingleChildScrollView(
-          child: FutureBuilder<Statistics>(
-            future: fetchStatistics(),
-            builder: (context, snapshot) {
-              if (snapshot.data == null) {
-                return CircularProgressIndicator();
-              } else {
-                return Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(
-                          top: 10, bottom: 16.0),
-                      child: AspectRatio(
-                        aspectRatio: Utils().IS_SMALL_DEVICE ? 1.15 : 1.17,
-                        child: Swiper(
-                          scale: 0.9,
-                          index: 0,
-                          loop: false,
-                          viewportFraction: 0.8,
-                          itemCount: 2,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 16.0),
-                              child: StatisticCard(
-                                type: cardTypes[index],
-                                barWidth: 8.0,
-                                barHeight: 0.0, // make background transparent
-                                barActiveColor: Theme.of(context).colorScheme.secondary.withOpacity(.65),
-                                coordsList: cardTypes[index] == CardType.week
-                                    ? snapshot.data?.weekStats
-                                    : snapshot.data?.dayStats,
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-                      child: Text(
-                        context.t.statistics.exerciseFrequencyPerDay,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium
-                            ?.copyWith(color: Theme.of(context).primaryColorDark),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        top: 32.0,
-                        left: 16.0,
-                        right: 16.0,
-                        bottom: 16.0,
-                      ),
-                      child: IntrinsicHeight(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: <Widget>[
-                            StatisticValue(
-                              label: context.t.statistics.exercisePerMonth,
-                              value: snapshot.data?.exercisePerMonth.toString() ?? '',
-                            ),
-                            StatisticValue(
-                              label: context.t.statistics.skippedDays,
-                              value: snapshot.data?.skippedDays.toString() ?? '',
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                );
-              }
-            },
-          ),
+      body: AppBarBlur(
+        child: FutureBuilder<HabitStatistics>(
+          future: _stats,
+          builder: (context, snapshot) {
+            final stats = snapshot.data;
+            if (stats == null) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            return SingleChildScrollView(
+              padding: padding,
+              child: Column(
+                children: [
+                  StreakCard(stats: stats),
+                  const SizedBox(height: 12),
+                  TodayCard(stats: stats),
+                  const SizedBox(height: 12),
+                  // After the two cards people read on every visit, before
+                  // the two they scroll down to browse. Framed like a card
+                  // and padded inside it so the creative stays uncropped.
+                  // Takes no space at all until an ad is actually there.
+                  AdBanner(
+                    placement: 'statistics',
+                    margin: const EdgeInsets.only(bottom: 12),
+                    padding: const EdgeInsets.all(12),
+                    decoration: statsCardDecoration,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  MonthHeatmapCard(stats: stats),
+                  const SizedBox(height: 12),
+                  WeekMinutesCard(stats: stats),
+                ],
+              ),
+            );
+          },
         ),
       ),
     );

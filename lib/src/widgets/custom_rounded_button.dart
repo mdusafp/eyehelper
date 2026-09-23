@@ -76,7 +76,7 @@ class FlatRoundCustomButton extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.transparent,
         border: Border.all(
-          width: 1.5,
+          width: 1.0,
           color: color ?? Theme.of(context).colorScheme.secondary,
         ),
         borderRadius: BorderRadius.all(Radius.circular(30.0)),

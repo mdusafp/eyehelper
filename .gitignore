@@ -73,3 +73,5 @@ build/
 
 # FVM Version Cache
 .fvm/
+# Local screenshots for design review
+/tmp/

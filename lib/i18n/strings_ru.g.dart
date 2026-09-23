@@ -51,6 +51,7 @@ class TranslationsRu extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _Translations$about$ru about = _Translations$about$ru._(_root);
 	@override late final _Translations$learnMore$ru learnMore = _Translations$learnMore$ru._(_root);
 	@override late final _Translations$permissions$ru permissions = _Translations$permissions$ru._(_root);
+	@override late final _Translations$ads$ru ads = _Translations$ads$ru._(_root);
 	@override late final _Translations$errors$ru errors = _Translations$errors$ru._(_root);
 }
 
@@ -66,6 +67,7 @@ class _Translations$common$ru extends Translations$common$en {
 	@override String get notifications => 'Уведомления';
 	@override String get ok => 'Ок';
 	@override String get close => 'Закрыть';
+	@override String get cancel => 'Отмена';
 	@override String get add => 'Добавить';
 	@override String get delete => 'Удалить';
 	@override String get save => 'Сохранить';
@@ -92,9 +94,13 @@ class _Translations$exercises$ru extends Translations$exercises$en {
 	@override String get focusFor10Sec => 'Сфокусируйтесь сначала на ближнем предмете (10 сек), потом на дальнем (10 сек).';
 	@override String get blinkFast => 'Быстро поморгайте';
 	@override String get rubHandsAndAttach => 'Потрите руки друг о друга до появления тепла. Приложите руки к глазам на 15 секунд (не давить). Подумайте о своей мечте.';
-	@override String get retryThreeTimes => 'Повторить: 3 раза.';
-	@override String get retryOneTime => 'Повторить: 1 раз.';
-	@override String get retryTwentyFiveTimes => 'Повторить: 25 раз.';
+	@override String reps({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(n,
+		one: '${n} повтор',
+		few: '${n} повтора',
+		many: '${n} повторов',
+		other: '${n} повторов',
+	);
+	@override String repsOf({required Object done, required Object total}) => '${done} из ${total}';
 	@override String get beginButton => 'Начать';
 }
 
@@ -116,6 +122,7 @@ class _Translations$training$ru extends Translations$training$en {
 	@override String get watchNear => 'Смотрите на телефон';
 	@override String get rubHands => 'Разогрейте руки';
 	@override String get applyToEyes => 'Приложите руки к глазам';
+	@override String get getReady => 'Приготовьтесь';
 }
 
 // Path: notifications
@@ -125,26 +132,62 @@ class _Translations$notifications$ru extends Translations$notifications$en {
 	final TranslationsRu _root; // ignore: unused_field
 
 	// Translations
-	@override String get reminderEnabled => 'Напоминания включены';
-	@override String get chooseTime => 'Выберите время, в которое вы находитесь за компьютером, приложение будет напоминать вам делать упражнения в рабочее время.';
 	@override String get chooseWorkInterval => 'Выберите интервал, в который вы находитесь на работе';
-	@override String get applyToAll => 'Применить ко всем';
-	@override String get frequencyQuestion => 'Как часто вы хотите, чтобы приложение напоминало вам сделать упражнения?';
-	@override String get timesPer => 'Раз в';
-	@override String get hour => 'ч';
-	@override String get minute => 'мин';
-	@override String get weWillNotify => 'Мы будем напоминать вам делать упражнения';
-	@override String get enablePrompt => 'Включите их\nчтобы приложение подсказало вам,\nчто пора позаниматься, когда вы будете на работе.';
 	@override String get enableButton => 'Включить Уведомления';
-	@override String get setTimePrompt => 'Установите время, в которое вы хотите получать уведомления и приложение напомнит вам об упражнениях';
-	@override String get specifyParams => 'Укажите параметры';
-	@override String get paramsDefault => 'Параметры';
 	@override String get addTime => 'Добавить время';
-	@override String get enabledStatus => 'Уведомления включены';
-	@override String get disabledStatus => 'Уведомления отключены';
 	@override String get setupButton => 'Настроить уведомления';
 	@override String get reminderTitle => 'Напоминание';
 	@override String get reminderBody => 'Пора делать зарядку!';
+	@override String get modeAuto => 'По расписанию';
+	@override String get modeManual => 'Своё время';
+	@override String get remindersPerDay => 'Напоминаний в день';
+	@override String todayIs({required Object day}) => 'Сегодня, ${day}';
+	@override String get todayDayOff => 'Сегодня выходной — напоминаний не будет';
+	@override String get workingDays => 'Рабочие дни';
+	@override String get workingHours => 'Рабочие часы';
+	@override String workingHoursFor({required Object day}) => 'Рабочие часы · ${day}';
+	@override String get hoursDiffer => 'Есть отличия';
+	@override String get hoursVary => 'часы разные';
+	@override String get perDaySetup => 'Настроить по дням';
+	@override String get collapse => 'Свернуть';
+	@override String get noWorkingDays => 'Выберите хотя бы один рабочий день';
+	@override String willRemindAt({required Object times}) => 'Напомним в ${times}';
+	@override String get applyToAllWorking => 'Применить ко всем рабочим дням';
+	@override String get reminder => 'Напоминание';
+	@override String get newReminder => 'Новое напоминание';
+	@override String get weekdays => 'Будни';
+	@override String get everyDay => 'Каждый день';
+	@override String get weekendDays => 'Выходные';
+	@override String get weekdaysShort => 'будни';
+	@override String get everyDayShort => 'каждый день';
+	@override String get weekendShort => 'выходные';
+	@override String get dayOffShort => 'выходной';
+	@override String get enableDay => 'Включить';
+	@override String get deleteReminder => 'Удалить напоминание';
+	@override String get pickAtLeastOneDay => 'Выберите хотя бы один день';
+	@override String get manualHint => 'Нажмите на строку, чтобы изменить время или дни. Смахните влево, чтобы удалить.';
+	@override String get offShort => 'Выключены';
+	@override String get offTitle => 'Глаза устают незаметно';
+	@override String get offText => 'Включите напоминания — приложение подскажет, когда сделать паузу, пока вы за компьютером.';
+	@override String summaryPerDay({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(n,
+		one: '${n} напоминание в день',
+		few: '${n} напоминания в день',
+		many: '${n} напоминаний в день',
+		other: '${n} напоминаний в день',
+	);
+	@override String everyDayExcept({required Object days}) => 'Каждый день, кроме ${days}';
+	@override String get daysAnd => 'и';
+	@override String get deleteConfirmTitle => 'Удалить напоминание?';
+	@override String deleteConfirmText({required Object time, required Object days}) => '${time} · ${days}';
+	@override String summaryCustom({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(n,
+		one: '${n} своё время',
+		few: '${n} своих времени',
+		many: '${n} своих времён',
+		other: '${n} своих времён',
+	);
+	@override String nextToday({required Object time}) => 'следующее сегодня в ${time}';
+	@override String nextOn({required Object day, required Object time}) => 'следующее — ${day}, ${time}';
+	@override String get noneScheduled => 'напоминаний нет';
 }
 
 // Path: frequency
@@ -154,19 +197,7 @@ class _Translations$frequency$ru extends Translations$frequency$en {
 	final TranslationsRu _root; // ignore: unused_field
 
 	// Translations
-	@override String get onceADay => '1 раз в день';
-	@override String get twiceADay => '2 раза в день';
-	@override String get threeADay => '3 раза в день';
-	@override String get onceInTwoDays => '1 раз в два дня';
-	@override String get manualSettings => 'Ручная настройка';
-	@override String get hoursZero => 'часов';
-	@override String get hourOne => 'час';
-	@override String get hoursTwo => 'часа';
-	@override String get hoursFew => 'часов';
-	@override String get hoursMany => 'часов';
 	@override String get dayOne => 'день';
-	@override String get daysTwo => 'дня';
-	@override String get daysFew => 'дней';
 }
 
 // Path: schedule
@@ -206,14 +237,43 @@ class _Translations$statistics$ru extends Translations$statistics$en {
 	final TranslationsRu _root; // ignore: unused_field
 
 	// Translations
-	@override String get exerciseFrequencyPerDay => 'Частота выполнения упражнений';
-	@override String get exercisePerMonth => 'Упражнений за этот месяц';
-	@override String get responsesOnPush => 'Откликов на уведомления';
-	@override String get skippedDays => 'Пропущено дней';
-	@override String get currentWeek => 'Текущая неделя';
-	@override String get currentDay => 'Текущий день';
-	@override String get currentMonth => 'Текущий месяц';
-	@override String get notEnoughData => 'Выполняйте еще упражнения, чтобы мы могли составить статистику';
+	@override String get streak => 'Серия';
+	@override String daysInARow({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(n,
+		one: 'день подряд',
+		few: 'дня подряд',
+		many: 'дней подряд',
+		other: 'дней подряд',
+	);
+	@override String days({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(n,
+		one: '${n} день',
+		few: '${n} дня',
+		many: '${n} дней',
+		other: '${n} дней',
+	);
+	@override String bestStreak({required Object days}) => 'Лучшая — ${days}';
+	@override String get noStreakYet => 'Сделайте полный подход, чтобы начать серию';
+	@override String get today => 'Сегодня';
+	@override String setsOfPlan({required num n, required Object done}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(n,
+		one: '${done} из ${n} подхода по плану',
+		few: '${done} из ${n} подходов по плану',
+		many: '${done} из ${n} подходов по плану',
+		other: '${done} из ${n} подходов по плану',
+	);
+	@override String remaining({required Object names, required Object time}) => 'Осталось: ${names} · ${time}';
+	@override String get allDone => 'Все шесть сделаны — глаза отдохнули';
+	@override String setsAndTime({required num n, required Object time}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(n,
+		one: '${n} подход · ${time}',
+		few: '${n} подхода · ${time}',
+		many: '${n} подходов · ${time}',
+		other: '${n} подходов · ${time}',
+	);
+	@override String get legendMax => '3+ подхода';
+	@override String get thisWeek => 'Эта неделя';
+	@override String get minutesForEyes => 'мин для глаз';
+	@override String lastWeek({required Object time}) => 'Прошлая — ${time}';
+	@override String get hoursShort => 'ч';
+	@override String get minutesShort => 'мин';
+	@override String get secondsShort => 'с';
 }
 
 // Path: finish
@@ -225,12 +285,15 @@ class _Translations$finish$ru extends Translations$finish$en {
 	// Translations
 	@override String get goodJob => 'Отлично!';
 	@override String get youDoneExercises => 'Вы выполнили упражнения. Повторяйте чаще и ваши глаза скажут вам спасибо!';
-	@override String get setMark => 'Оценить приложение';
-	@override String wantToSetMark({required Object store}) => 'Хотите оценить нас в ${store}?';
-	@override String rateAppSubtitle({required Object store}) => 'Вы можете оценить наше приложение в ${store}, это поможет нам развиваться и становиться лучше';
 	@override String shareText({required Object url}) => 'Есть крутое приложение для тренировки глаз. Советую скачать! ${url}';
-	@override String get value => 'Оценить';
-	@override String get notNow => 'Не сейчас';
+	@override String get likeQuestion => 'Нравится приложение?  ❤️';
+	@override String get likeYes => 'Да!';
+	@override String get likeNo => 'Не очень';
+	@override String get feedbackTitle => 'Что можно улучшить?';
+	@override String get feedbackHint => 'Расскажите, что не нравится — это поможет сделать приложение лучше.';
+	@override String get feedbackSend => 'Отправить';
+	@override String get feedbackSkip => 'Пропустить';
+	@override String get share => 'Поделиться приложением';
 }
 
 // Path: onboarding
@@ -261,6 +324,7 @@ class _Translations$about$ru extends Translations$about$en {
 	@override String get warningLabel => 'Внимание! ';
 	@override String get disclaimer => 'Перед выполнением упражнений настоятельно рекомендуем вам обратиться к вашему лечащему врачу за консультацией. Разработчики не несут ответственность за любой косвенный, случайный или неумышленный вред, вызванный в связи с использованием приложения.';
 	@override String get moreButton => 'Подробнее';
+	@override String get gotItButton => 'Понятно';
 }
 
 // Path: learnMore
@@ -293,6 +357,18 @@ class _Translations$permissions$ru extends Translations$permissions$en {
 	@override String get noPermissionTitle => 'Нет разрешения';
 	@override String get noPermissionSubtitle => 'Мы не получили разрешение на отправку уведомлений, поэтому не можем настроить их сейчас. Вы можете настроить разрешения в настройках вашего устройства.';
 	@override String get openSettings => 'Открыть настройки';
+}
+
+// Path: ads
+class _Translations$ads$ru extends Translations$ads$en {
+	_Translations$ads$ru._(TranslationsRu root) : this._root = root, super.internal(root);
+
+	final TranslationsRu _root; // ignore: unused_field
+
+	// Translations
+	@override String get introTitle => 'Eye Helper остаётся бесплатным';
+	@override String get introSubtitle => 'Чтобы приложение оставалось бесплатным для всех, на некоторых экранах появится небольшой баннер. Упражнения и статистика останутся прежними.';
+	@override String get introButton => 'Понятно';
 }
 
 // Path: errors
@@ -513,6 +589,7 @@ extension on TranslationsRu {
 			'common.notifications' => 'Уведомления',
 			'common.ok' => 'Ок',
 			'common.close' => 'Закрыть',
+			'common.cancel' => 'Отмена',
 			'common.add' => 'Добавить',
 			'common.delete' => 'Удалить',
 			'common.save' => 'Сохранить',
@@ -530,9 +607,8 @@ extension on TranslationsRu {
 			'exercises.focusFor10Sec' => 'Сфокусируйтесь сначала на ближнем предмете (10 сек), потом на дальнем (10 сек).',
 			'exercises.blinkFast' => 'Быстро поморгайте',
 			'exercises.rubHandsAndAttach' => 'Потрите руки друг о друга до появления тепла. Приложите руки к глазам на 15 секунд (не давить). Подумайте о своей мечте.',
-			'exercises.retryThreeTimes' => 'Повторить: 3 раза.',
-			'exercises.retryOneTime' => 'Повторить: 1 раз.',
-			'exercises.retryTwentyFiveTimes' => 'Повторить: 25 раз.',
+			'exercises.reps' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(n, one: '${n} повтор', few: '${n} повтора', many: '${n} повторов', other: '${n} повторов', ), 
+			'exercises.repsOf' => ({required Object done, required Object total}) => '${done} из ${total}',
 			'exercises.beginButton' => 'Начать',
 			'training.watchUp' => 'Смотрите\n вверх',
 			'training.watchDown' => 'Смотрите\n вниз',
@@ -545,39 +621,54 @@ extension on TranslationsRu {
 			'training.watchNear' => 'Смотрите на телефон',
 			'training.rubHands' => 'Разогрейте руки',
 			'training.applyToEyes' => 'Приложите руки к глазам',
-			'notifications.reminderEnabled' => 'Напоминания включены',
-			'notifications.chooseTime' => 'Выберите время, в которое вы находитесь за компьютером, приложение будет напоминать вам делать упражнения в рабочее время.',
+			'training.getReady' => 'Приготовьтесь',
 			'notifications.chooseWorkInterval' => 'Выберите интервал, в который вы находитесь на работе',
-			'notifications.applyToAll' => 'Применить ко всем',
-			'notifications.frequencyQuestion' => 'Как часто вы хотите, чтобы приложение напоминало вам сделать упражнения?',
-			'notifications.timesPer' => 'Раз в',
-			'notifications.hour' => 'ч',
-			'notifications.minute' => 'мин',
-			'notifications.weWillNotify' => 'Мы будем напоминать вам делать упражнения',
-			'notifications.enablePrompt' => 'Включите их\nчтобы приложение подсказало вам,\nчто пора позаниматься, когда вы будете на работе.',
 			'notifications.enableButton' => 'Включить Уведомления',
-			'notifications.setTimePrompt' => 'Установите время, в которое вы хотите получать уведомления и приложение напомнит вам об упражнениях',
-			'notifications.specifyParams' => 'Укажите параметры',
-			'notifications.paramsDefault' => 'Параметры',
 			'notifications.addTime' => 'Добавить время',
-			'notifications.enabledStatus' => 'Уведомления включены',
-			'notifications.disabledStatus' => 'Уведомления отключены',
 			'notifications.setupButton' => 'Настроить уведомления',
 			'notifications.reminderTitle' => 'Напоминание',
 			'notifications.reminderBody' => 'Пора делать зарядку!',
-			'frequency.onceADay' => '1 раз в день',
-			'frequency.twiceADay' => '2 раза в день',
-			'frequency.threeADay' => '3 раза в день',
-			'frequency.onceInTwoDays' => '1 раз в два дня',
-			'frequency.manualSettings' => 'Ручная настройка',
-			'frequency.hoursZero' => 'часов',
-			'frequency.hourOne' => 'час',
-			'frequency.hoursTwo' => 'часа',
-			'frequency.hoursFew' => 'часов',
-			'frequency.hoursMany' => 'часов',
+			'notifications.modeAuto' => 'По расписанию',
+			'notifications.modeManual' => 'Своё время',
+			'notifications.remindersPerDay' => 'Напоминаний в день',
+			'notifications.todayIs' => ({required Object day}) => 'Сегодня, ${day}',
+			'notifications.todayDayOff' => 'Сегодня выходной — напоминаний не будет',
+			'notifications.workingDays' => 'Рабочие дни',
+			'notifications.workingHours' => 'Рабочие часы',
+			'notifications.workingHoursFor' => ({required Object day}) => 'Рабочие часы · ${day}',
+			'notifications.hoursDiffer' => 'Есть отличия',
+			'notifications.hoursVary' => 'часы разные',
+			'notifications.perDaySetup' => 'Настроить по дням',
+			'notifications.collapse' => 'Свернуть',
+			'notifications.noWorkingDays' => 'Выберите хотя бы один рабочий день',
+			'notifications.willRemindAt' => ({required Object times}) => 'Напомним в ${times}',
+			'notifications.applyToAllWorking' => 'Применить ко всем рабочим дням',
+			'notifications.reminder' => 'Напоминание',
+			'notifications.newReminder' => 'Новое напоминание',
+			'notifications.weekdays' => 'Будни',
+			'notifications.everyDay' => 'Каждый день',
+			'notifications.weekendDays' => 'Выходные',
+			'notifications.weekdaysShort' => 'будни',
+			'notifications.everyDayShort' => 'каждый день',
+			'notifications.weekendShort' => 'выходные',
+			'notifications.dayOffShort' => 'выходной',
+			'notifications.enableDay' => 'Включить',
+			'notifications.deleteReminder' => 'Удалить напоминание',
+			'notifications.pickAtLeastOneDay' => 'Выберите хотя бы один день',
+			'notifications.manualHint' => 'Нажмите на строку, чтобы изменить время или дни. Смахните влево, чтобы удалить.',
+			'notifications.offShort' => 'Выключены',
+			'notifications.offTitle' => 'Глаза устают незаметно',
+			'notifications.offText' => 'Включите напоминания — приложение подскажет, когда сделать паузу, пока вы за компьютером.',
+			'notifications.summaryPerDay' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(n, one: '${n} напоминание в день', few: '${n} напоминания в день', many: '${n} напоминаний в день', other: '${n} напоминаний в день', ), 
+			'notifications.everyDayExcept' => ({required Object days}) => 'Каждый день, кроме ${days}',
+			'notifications.daysAnd' => 'и',
+			'notifications.deleteConfirmTitle' => 'Удалить напоминание?',
+			'notifications.deleteConfirmText' => ({required Object time, required Object days}) => '${time} · ${days}',
+			'notifications.summaryCustom' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(n, one: '${n} своё время', few: '${n} своих времени', many: '${n} своих времён', other: '${n} своих времён', ), 
+			'notifications.nextToday' => ({required Object time}) => 'следующее сегодня в ${time}',
+			'notifications.nextOn' => ({required Object day, required Object time}) => 'следующее — ${day}, ${time}',
+			'notifications.noneScheduled' => 'напоминаний нет',
 			'frequency.dayOne' => 'день',
-			'frequency.daysTwo' => 'дня',
-			'frequency.daysFew' => 'дней',
 			'schedule.mondayShort' => 'Пн',
 			'schedule.tuesdayShort' => 'Вт',
 			'schedule.wednesdayShort' => 'Ср',
@@ -599,22 +690,34 @@ extension on TranslationsRu {
 			'schedule.weekend' => 'Выходной день',
 			'schedule.from' => 'с',
 			'schedule.to' => 'по',
-			'statistics.exerciseFrequencyPerDay' => 'Частота выполнения упражнений',
-			'statistics.exercisePerMonth' => 'Упражнений за этот месяц',
-			'statistics.responsesOnPush' => 'Откликов на уведомления',
-			'statistics.skippedDays' => 'Пропущено дней',
-			'statistics.currentWeek' => 'Текущая неделя',
-			'statistics.currentDay' => 'Текущий день',
-			'statistics.currentMonth' => 'Текущий месяц',
-			'statistics.notEnoughData' => 'Выполняйте еще упражнения, чтобы мы могли составить статистику',
+			'statistics.streak' => 'Серия',
+			'statistics.daysInARow' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(n, one: 'день подряд', few: 'дня подряд', many: 'дней подряд', other: 'дней подряд', ), 
+			'statistics.days' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(n, one: '${n} день', few: '${n} дня', many: '${n} дней', other: '${n} дней', ), 
+			'statistics.bestStreak' => ({required Object days}) => 'Лучшая — ${days}',
+			'statistics.noStreakYet' => 'Сделайте полный подход, чтобы начать серию',
+			'statistics.today' => 'Сегодня',
+			'statistics.setsOfPlan' => ({required num n, required Object done}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(n, one: '${done} из ${n} подхода по плану', few: '${done} из ${n} подходов по плану', many: '${done} из ${n} подходов по плану', other: '${done} из ${n} подходов по плану', ), 
+			'statistics.remaining' => ({required Object names, required Object time}) => 'Осталось: ${names} · ${time}',
+			'statistics.allDone' => 'Все шесть сделаны — глаза отдохнули',
+			'statistics.setsAndTime' => ({required num n, required Object time}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(n, one: '${n} подход · ${time}', few: '${n} подхода · ${time}', many: '${n} подходов · ${time}', other: '${n} подходов · ${time}', ), 
+			'statistics.legendMax' => '3+ подхода',
+			'statistics.thisWeek' => 'Эта неделя',
+			'statistics.minutesForEyes' => 'мин для глаз',
+			'statistics.lastWeek' => ({required Object time}) => 'Прошлая — ${time}',
+			'statistics.hoursShort' => 'ч',
+			'statistics.minutesShort' => 'мин',
+			'statistics.secondsShort' => 'с',
 			'finish.goodJob' => 'Отлично!',
 			'finish.youDoneExercises' => 'Вы выполнили упражнения. Повторяйте чаще и ваши глаза скажут вам спасибо!',
-			'finish.setMark' => 'Оценить приложение',
-			'finish.wantToSetMark' => ({required Object store}) => 'Хотите оценить нас в ${store}?',
-			'finish.rateAppSubtitle' => ({required Object store}) => 'Вы можете оценить наше приложение в ${store}, это поможет нам развиваться и становиться лучше',
 			'finish.shareText' => ({required Object url}) => 'Есть крутое приложение для тренировки глаз. Советую скачать! ${url}',
-			'finish.value' => 'Оценить',
-			'finish.notNow' => 'Не сейчас',
+			'finish.likeQuestion' => 'Нравится приложение?  ❤️',
+			'finish.likeYes' => 'Да!',
+			'finish.likeNo' => 'Не очень',
+			'finish.feedbackTitle' => 'Что можно улучшить?',
+			'finish.feedbackHint' => 'Расскажите, что не нравится — это поможет сделать приложение лучше.',
+			'finish.feedbackSend' => 'Отправить',
+			'finish.feedbackSkip' => 'Пропустить',
+			'finish.share' => 'Поделиться приложением',
 			'onboarding.title1' => 'Твоим глазам нужен отдых!',
 			'onboarding.title2' => 'Что за упражнения?',
 			'onboarding.title3' => 'Мы тебе напомним!',
@@ -627,6 +730,7 @@ extension on TranslationsRu {
 			'about.warningLabel' => 'Внимание! ',
 			'about.disclaimer' => 'Перед выполнением упражнений настоятельно рекомендуем вам обратиться к вашему лечащему врачу за консультацией. Разработчики не несут ответственность за любой косвенный, случайный или неумышленный вред, вызванный в связи с использованием приложения.',
 			'about.moreButton' => 'Подробнее',
+			'about.gotItButton' => 'Понятно',
 			'learnMore.title' => 'Как работают эти упражнения',
 			'learnMore.intro1' => 'У глаз тоже есть мышцы — те, что двигают взгляд, и крошечные, что переключают фокус с близкого на далёкое. Как любые мышцы, они устают и «затекают», когда часами держат одно положение, — именно это происходит при работе за экраном. Этот комплекс — простая мягкая «зарядка», которая помогает этим мышцам расслабиться, размяться и легче переключать фокус.',
 			'learnMore.intro2' => 'Делайте раз в день около 15 минут, сидя с прямой спиной. Двигайтесь медленно и мягко, начинайте с меньшего числа повторов — лёгкая усталость поначалу нормальна и проходит.',
@@ -668,6 +772,9 @@ extension on TranslationsRu {
 			'permissions.noPermissionTitle' => 'Нет разрешения',
 			'permissions.noPermissionSubtitle' => 'Мы не получили разрешение на отправку уведомлений, поэтому не можем настроить их сейчас. Вы можете настроить разрешения в настройках вашего устройства.',
 			'permissions.openSettings' => 'Открыть настройки',
+			'ads.introTitle' => 'Eye Helper остаётся бесплатным',
+			'ads.introSubtitle' => 'Чтобы приложение оставалось бесплатным для всех, на некоторых экранах появится небольшой баннер. Упражнения и статистика останутся прежними.',
+			'ads.introButton' => 'Понятно',
 			'errors.wrongWorkTime' => 'Выбран неверный промежуток времени',
 			_ => null,
 		};

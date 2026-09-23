@@ -2,9 +2,12 @@ import 'dart:convert';
 
 import 'package:eyehelper/src/helpers/preferences.dart';
 import 'package:eyehelper/src/models/swiper_screen_info.dart';
+import 'package:eyehelper/src/repositories/training_log.dart';
 import 'package:eyehelper/src/screens/eye_screen/eye_single_page.dart';
 import 'package:eyehelper/src/screens/eye_screen/swiper_pagination.dart';
 import 'package:eyehelper/src/screens/eye_screen/today_training.dart';
+import 'package:eyehelper/src/widgets/app_card.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:card_swiper/card_swiper.dart';
 
@@ -52,12 +55,10 @@ class _SwiperMainState extends State<SwiperMain> {
       controller: swiperController,
       loop: false,
       pagination: new SwiperPagination(
-        margin: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + 88.0),
+        margin: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + 72.0),
         builder: CustomSwiperBuilder(
-          color: Colors.grey,
-          space: 10.0,
-          size: 6.0,
-          activeSize: 8.0,
+          color: const Color(0xFFC9D3CD),
+          doneColor: appAccentDeep,
           activeColor: Theme.of(context).colorScheme.secondary,
         ),
       ),
@@ -72,6 +73,10 @@ class _SwiperMainState extends State<SwiperMain> {
           controller: swiperController,
           startBtnCallback: () => _processStart(index),
           finishBtnCallback: _processFinish,
+          // Debug-only shortcut to the once-a-day finish screen.
+          debugShowFinish: kDebugMode && index == SwiperScreenInfo.flareActorByIndex.length - 1
+              ? () => widget.showResultCallback?.call()
+              : null,
         );
       },
       itemCount: SwiperScreenInfo.flareActorByIndex.length,
@@ -106,6 +111,7 @@ class _SwiperMainState extends State<SwiperMain> {
     await preferences.setString(FastPreferences.dayCountersKey, json.encode(dayCountersMap));
 
     await countersHelper.setPassed(index);
+    await TrainingLog().append(index);
 
     print('counters = $dayCountersMap');
   }

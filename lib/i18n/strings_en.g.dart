@@ -52,6 +52,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final Translations$about$en about = Translations$about$en.internal(_root);
 	late final Translations$learnMore$en learnMore = Translations$learnMore$en.internal(_root);
 	late final Translations$permissions$en permissions = Translations$permissions$en.internal(_root);
+	late final Translations$ads$en ads = Translations$ads$en.internal(_root);
 	late final Translations$errors$en errors = Translations$errors$en.internal(_root);
 }
 
@@ -77,6 +78,9 @@ class Translations$common$en {
 
 	/// en: 'Close'
 	String get close => 'Close';
+
+	/// en: 'Cancel'
+	String get cancel => 'Cancel';
 
 	/// en: 'Add'
 	String get add => 'Add';
@@ -138,14 +142,14 @@ class Translations$exercises$en {
 	/// en: 'Rub your hands together until they feel warm. Place them over your eyes for 15 seconds (without pressing). Think about your dream.'
 	String get rubHandsAndAttach => 'Rub your hands together until they feel warm. Place them over your eyes for 15 seconds (without pressing). Think about your dream.';
 
-	/// en: 'Repeat: 3 times.'
-	String get retryThreeTimes => 'Repeat: 3 times.';
+	/// en: '(one) {{n} rep} (other) {{n} reps}'
+	String reps({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
+		one: '${n} rep',
+		other: '${n} reps',
+	);
 
-	/// en: 'Repeat: 1 time.'
-	String get retryOneTime => 'Repeat: 1 time.';
-
-	/// en: 'Repeat: 25 times.'
-	String get retryTwentyFiveTimes => 'Repeat: 25 times.';
+	/// en: '{done} of {total}'
+	String repsOf({required Object done, required Object total}) => '${done} of ${total}';
 
 	/// en: 'Start'
 	String get beginButton => 'Start';
@@ -191,6 +195,9 @@ class Translations$training$en {
 
 	/// en: 'Place your hands over your eyes'
 	String get applyToEyes => 'Place your hands over your eyes';
+
+	/// en: 'Get ready'
+	String get getReady => 'Get ready';
 }
 
 // Path: notifications
@@ -201,56 +208,14 @@ class Translations$notifications$en {
 
 	// Translations
 
-	/// en: 'Reminders enabled'
-	String get reminderEnabled => 'Reminders enabled';
-
-	/// en: 'Choose the times when you're at the computer, and the app will remind you to do exercises during work hours.'
-	String get chooseTime => 'Choose the times when you\'re at the computer, and the app will remind you to do exercises during work hours.';
-
 	/// en: 'Choose the interval when you're at work'
 	String get chooseWorkInterval => 'Choose the interval when you\'re at work';
-
-	/// en: 'Apply to all'
-	String get applyToAll => 'Apply to all';
-
-	/// en: 'How often do you want the app to remind you to do the exercises?'
-	String get frequencyQuestion => 'How often do you want the app to remind you to do the exercises?';
-
-	/// en: 'Once every'
-	String get timesPer => 'Once every';
-
-	/// en: 'h'
-	String get hour => 'h';
-
-	/// en: 'min'
-	String get minute => 'min';
-
-	/// en: 'We'll remind you to do the exercises'
-	String get weWillNotify => 'We\'ll remind you to do the exercises';
-
-	/// en: 'Turn them on so the app can let you know it's time to exercise while you're at work.'
-	String get enablePrompt => 'Turn them on\nso the app can let you know\nit\'s time to exercise while you\'re at work.';
 
 	/// en: 'Enable notifications'
 	String get enableButton => 'Enable notifications';
 
-	/// en: 'Set the times you'd like to receive notifications, and the app will remind you about the exercises'
-	String get setTimePrompt => 'Set the times you\'d like to receive notifications, and the app will remind you about the exercises';
-
-	/// en: 'Specify parameters'
-	String get specifyParams => 'Specify parameters';
-
-	/// en: 'Parameters'
-	String get paramsDefault => 'Parameters';
-
 	/// en: 'Add time'
 	String get addTime => 'Add time';
-
-	/// en: 'Notifications enabled'
-	String get enabledStatus => 'Notifications enabled';
-
-	/// en: 'Notifications disabled'
-	String get disabledStatus => 'Notifications disabled';
 
 	/// en: 'Set up notifications'
 	String get setupButton => 'Set up notifications';
@@ -260,6 +225,132 @@ class Translations$notifications$en {
 
 	/// en: 'Time to do your eye exercises!'
 	String get reminderBody => 'Time to do your eye exercises!';
+
+	/// en: 'By schedule'
+	String get modeAuto => 'By schedule';
+
+	/// en: 'Custom times'
+	String get modeManual => 'Custom times';
+
+	/// en: 'Reminders per day'
+	String get remindersPerDay => 'Reminders per day';
+
+	/// en: 'Today, {day}'
+	String todayIs({required Object day}) => 'Today, ${day}';
+
+	/// en: 'Today is a day off — no reminders'
+	String get todayDayOff => 'Today is a day off — no reminders';
+
+	/// en: 'Working days'
+	String get workingDays => 'Working days';
+
+	/// en: 'Working hours'
+	String get workingHours => 'Working hours';
+
+	/// en: 'Working hours · {day}'
+	String workingHoursFor({required Object day}) => 'Working hours · ${day}';
+
+	/// en: 'Some differ'
+	String get hoursDiffer => 'Some differ';
+
+	/// en: 'hours vary'
+	String get hoursVary => 'hours vary';
+
+	/// en: 'Set per day'
+	String get perDaySetup => 'Set per day';
+
+	/// en: 'Collapse'
+	String get collapse => 'Collapse';
+
+	/// en: 'Pick at least one working day'
+	String get noWorkingDays => 'Pick at least one working day';
+
+	/// en: 'We'll remind you at {times}'
+	String willRemindAt({required Object times}) => 'We\'ll remind you at ${times}';
+
+	/// en: 'Apply to all working days'
+	String get applyToAllWorking => 'Apply to all working days';
+
+	/// en: 'Reminder'
+	String get reminder => 'Reminder';
+
+	/// en: 'New reminder'
+	String get newReminder => 'New reminder';
+
+	/// en: 'Weekdays'
+	String get weekdays => 'Weekdays';
+
+	/// en: 'Every day'
+	String get everyDay => 'Every day';
+
+	/// en: 'Weekend'
+	String get weekendDays => 'Weekend';
+
+	/// en: 'weekdays'
+	String get weekdaysShort => 'weekdays';
+
+	/// en: 'every day'
+	String get everyDayShort => 'every day';
+
+	/// en: 'weekend'
+	String get weekendShort => 'weekend';
+
+	/// en: 'day off'
+	String get dayOffShort => 'day off';
+
+	/// en: 'Enable'
+	String get enableDay => 'Enable';
+
+	/// en: 'Delete reminder'
+	String get deleteReminder => 'Delete reminder';
+
+	/// en: 'Pick at least one day'
+	String get pickAtLeastOneDay => 'Pick at least one day';
+
+	/// en: 'Tap a row to change its time or days. Swipe left to delete.'
+	String get manualHint => 'Tap a row to change its time or days. Swipe left to delete.';
+
+	/// en: 'Off'
+	String get offShort => 'Off';
+
+	/// en: 'Eyes tire without you noticing'
+	String get offTitle => 'Eyes tire without you noticing';
+
+	/// en: 'Turn reminders on and the app will tell you when to take a break while you're at the computer.'
+	String get offText => 'Turn reminders on and the app will tell you when to take a break while you\'re at the computer.';
+
+	/// en: '(one) {{n} reminder a day} (other) {{n} reminders a day}'
+	String summaryPerDay({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
+		one: '${n} reminder a day',
+		other: '${n} reminders a day',
+	);
+
+	/// en: 'Every day except {days}'
+	String everyDayExcept({required Object days}) => 'Every day except ${days}';
+
+	/// en: 'and'
+	String get daysAnd => 'and';
+
+	/// en: 'Delete this reminder?'
+	String get deleteConfirmTitle => 'Delete this reminder?';
+
+	/// en: '{time} · {days}'
+	String deleteConfirmText({required Object time, required Object days}) => '${time} · ${days}';
+
+	/// en: '(one) {{n} custom time} (other) {{n} custom times}'
+	String summaryCustom({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
+		one: '${n} custom time',
+		other: '${n} custom times',
+	);
+
+	/// en: 'next today at {time}'
+	String nextToday({required Object time}) => 'next today at ${time}';
+
+	/// en: 'next — {day}, {time}'
+	String nextOn({required Object day, required Object time}) => 'next — ${day}, ${time}';
+
+	/// en: 'no reminders scheduled'
+	String get noneScheduled => 'no reminders scheduled';
 }
 
 // Path: frequency
@@ -270,44 +361,8 @@ class Translations$frequency$en {
 
 	// Translations
 
-	/// en: 'Once a day'
-	String get onceADay => 'Once a day';
-
-	/// en: 'Twice a day'
-	String get twiceADay => 'Twice a day';
-
-	/// en: 'Three times a day'
-	String get threeADay => 'Three times a day';
-
-	/// en: 'Once every two days'
-	String get onceInTwoDays => 'Once every two days';
-
-	/// en: 'Manual setup'
-	String get manualSettings => 'Manual setup';
-
-	/// en: 'hours'
-	String get hoursZero => 'hours';
-
-	/// en: 'hour'
-	String get hourOne => 'hour';
-
-	/// en: 'hours'
-	String get hoursTwo => 'hours';
-
-	/// en: 'hours'
-	String get hoursFew => 'hours';
-
-	/// en: 'hours'
-	String get hoursMany => 'hours';
-
 	/// en: 'day'
 	String get dayOne => 'day';
-
-	/// en: 'days'
-	String get daysTwo => 'days';
-
-	/// en: 'days'
-	String get daysFew => 'days';
 }
 
 // Path: schedule
@@ -390,29 +445,68 @@ class Translations$statistics$en {
 
 	// Translations
 
-	/// en: 'Exercise frequency'
-	String get exerciseFrequencyPerDay => 'Exercise frequency';
+	/// en: 'Streak'
+	String get streak => 'Streak';
 
-	/// en: 'Exercises this month'
-	String get exercisePerMonth => 'Exercises this month';
+	/// en: '(one) {day in a row} (other) {days in a row}'
+	String daysInARow({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
+		one: 'day in a row',
+		other: 'days in a row',
+	);
 
-	/// en: 'Responses to notifications'
-	String get responsesOnPush => 'Responses to notifications';
+	/// en: '(one) {{n} day} (other) {{n} days}'
+	String days({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
+		one: '${n} day',
+		other: '${n} days',
+	);
 
-	/// en: 'Days skipped'
-	String get skippedDays => 'Days skipped';
+	/// en: 'Best — {days}'
+	String bestStreak({required Object days}) => 'Best — ${days}';
 
-	/// en: 'Current week'
-	String get currentWeek => 'Current week';
+	/// en: 'Finish a full set to start a streak'
+	String get noStreakYet => 'Finish a full set to start a streak';
 
-	/// en: 'Current day'
-	String get currentDay => 'Current day';
+	/// en: 'Today'
+	String get today => 'Today';
 
-	/// en: 'Current month'
-	String get currentMonth => 'Current month';
+	/// en: '(one) {{done} of {n} set planned} (other) {{done} of {n} sets planned}'
+	String setsOfPlan({required num n, required Object done}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
+		one: '${done} of ${n} set planned',
+		other: '${done} of ${n} sets planned',
+	);
 
-	/// en: 'Do more exercises so we can build your statistics'
-	String get notEnoughData => 'Do more exercises so we can build your statistics';
+	/// en: 'Left: {names} · {time}'
+	String remaining({required Object names, required Object time}) => 'Left: ${names} · ${time}';
+
+	/// en: 'All six done — your eyes had their rest'
+	String get allDone => 'All six done — your eyes had their rest';
+
+	/// en: '(one) {{n} set · {time}} (other) {{n} sets · {time}}'
+	String setsAndTime({required num n, required Object time}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
+		one: '${n} set · ${time}',
+		other: '${n} sets · ${time}',
+	);
+
+	/// en: '3+ sets'
+	String get legendMax => '3+ sets';
+
+	/// en: 'This week'
+	String get thisWeek => 'This week';
+
+	/// en: 'min for your eyes'
+	String get minutesForEyes => 'min for your eyes';
+
+	/// en: 'Last week — {time}'
+	String lastWeek({required Object time}) => 'Last week — ${time}';
+
+	/// en: 'h'
+	String get hoursShort => 'h';
+
+	/// en: 'min'
+	String get minutesShort => 'min';
+
+	/// en: 's'
+	String get secondsShort => 's';
 }
 
 // Path: finish
@@ -429,23 +523,32 @@ class Translations$finish$en {
 	/// en: 'You've completed the exercises. Do them more often and your eyes will thank you!'
 	String get youDoneExercises => 'You\'ve completed the exercises. Do them more often and your eyes will thank you!';
 
-	/// en: 'Rate the app'
-	String get setMark => 'Rate the app';
-
-	/// en: 'Would you like to rate us on {store}?'
-	String wantToSetMark({required Object store}) => 'Would you like to rate us on ${store}?';
-
-	/// en: 'You can rate our app on {store}, it will help us grow and get better'
-	String rateAppSubtitle({required Object store}) => 'You can rate our app on ${store}, it will help us grow and get better';
-
 	/// en: 'There's a cool app for eye training. I recommend downloading it! {url}'
 	String shareText({required Object url}) => 'There\'s a cool app for eye training. I recommend downloading it! ${url}';
 
-	/// en: 'Rate'
-	String get value => 'Rate';
+	/// en: 'Do you like the app? ❤️'
+	String get likeQuestion => 'Do you like the app?  ❤️';
 
-	/// en: 'Not now'
-	String get notNow => 'Not now';
+	/// en: 'Yes!'
+	String get likeYes => 'Yes!';
+
+	/// en: 'Not really'
+	String get likeNo => 'Not really';
+
+	/// en: 'What could be better?'
+	String get feedbackTitle => 'What could be better?';
+
+	/// en: 'Tell us what you don't like — it helps us make the app better.'
+	String get feedbackHint => 'Tell us what you don\'t like — it helps us make the app better.';
+
+	/// en: 'Send'
+	String get feedbackSend => 'Send';
+
+	/// en: 'Skip'
+	String get feedbackSkip => 'Skip';
+
+	/// en: 'Share the app'
+	String get share => 'Share the app';
 }
 
 // Path: onboarding
@@ -500,6 +603,9 @@ class Translations$about$en {
 
 	/// en: 'Learn more'
 	String get moreButton => 'Learn more';
+
+	/// en: 'Got it'
+	String get gotItButton => 'Got it';
 }
 
 // Path: learnMore
@@ -551,6 +657,24 @@ class Translations$permissions$en {
 
 	/// en: 'Open settings'
 	String get openSettings => 'Open settings';
+}
+
+// Path: ads
+class Translations$ads$en {
+	Translations$ads$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Eye Helper stays free'
+	String get introTitle => 'Eye Helper stays free';
+
+	/// en: 'To keep the app free for everyone, a small banner will start appearing on some screens. Your exercises and statistics are not affected.'
+	String get introSubtitle => 'To keep the app free for everyone, a small banner will start appearing on some screens. Your exercises and statistics are not affected.';
+
+	/// en: 'Got it'
+	String get introButton => 'Got it';
 }
 
 // Path: errors
@@ -840,6 +964,7 @@ extension on Translations {
 			'common.notifications' => 'Notifications',
 			'common.ok' => 'OK',
 			'common.close' => 'Close',
+			'common.cancel' => 'Cancel',
 			'common.add' => 'Add',
 			'common.delete' => 'Delete',
 			'common.save' => 'Save',
@@ -857,9 +982,8 @@ extension on Translations {
 			'exercises.focusFor10Sec' => 'Focus on a near object first (10 sec), then on a far one (10 sec).',
 			'exercises.blinkFast' => 'Blink quickly.',
 			'exercises.rubHandsAndAttach' => 'Rub your hands together until they feel warm. Place them over your eyes for 15 seconds (without pressing). Think about your dream.',
-			'exercises.retryThreeTimes' => 'Repeat: 3 times.',
-			'exercises.retryOneTime' => 'Repeat: 1 time.',
-			'exercises.retryTwentyFiveTimes' => 'Repeat: 25 times.',
+			'exercises.reps' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: '${n} rep', other: '${n} reps', ), 
+			'exercises.repsOf' => ({required Object done, required Object total}) => '${done} of ${total}',
 			'exercises.beginButton' => 'Start',
 			'training.watchUp' => 'Look\n up',
 			'training.watchDown' => 'Look\n down',
@@ -872,39 +996,54 @@ extension on Translations {
 			'training.watchNear' => 'Look at your phone',
 			'training.rubHands' => 'Warm up your hands',
 			'training.applyToEyes' => 'Place your hands over your eyes',
-			'notifications.reminderEnabled' => 'Reminders enabled',
-			'notifications.chooseTime' => 'Choose the times when you\'re at the computer, and the app will remind you to do exercises during work hours.',
+			'training.getReady' => 'Get ready',
 			'notifications.chooseWorkInterval' => 'Choose the interval when you\'re at work',
-			'notifications.applyToAll' => 'Apply to all',
-			'notifications.frequencyQuestion' => 'How often do you want the app to remind you to do the exercises?',
-			'notifications.timesPer' => 'Once every',
-			'notifications.hour' => 'h',
-			'notifications.minute' => 'min',
-			'notifications.weWillNotify' => 'We\'ll remind you to do the exercises',
-			'notifications.enablePrompt' => 'Turn them on\nso the app can let you know\nit\'s time to exercise while you\'re at work.',
 			'notifications.enableButton' => 'Enable notifications',
-			'notifications.setTimePrompt' => 'Set the times you\'d like to receive notifications, and the app will remind you about the exercises',
-			'notifications.specifyParams' => 'Specify parameters',
-			'notifications.paramsDefault' => 'Parameters',
 			'notifications.addTime' => 'Add time',
-			'notifications.enabledStatus' => 'Notifications enabled',
-			'notifications.disabledStatus' => 'Notifications disabled',
 			'notifications.setupButton' => 'Set up notifications',
 			'notifications.reminderTitle' => 'Reminder',
 			'notifications.reminderBody' => 'Time to do your eye exercises!',
-			'frequency.onceADay' => 'Once a day',
-			'frequency.twiceADay' => 'Twice a day',
-			'frequency.threeADay' => 'Three times a day',
-			'frequency.onceInTwoDays' => 'Once every two days',
-			'frequency.manualSettings' => 'Manual setup',
-			'frequency.hoursZero' => 'hours',
-			'frequency.hourOne' => 'hour',
-			'frequency.hoursTwo' => 'hours',
-			'frequency.hoursFew' => 'hours',
-			'frequency.hoursMany' => 'hours',
+			'notifications.modeAuto' => 'By schedule',
+			'notifications.modeManual' => 'Custom times',
+			'notifications.remindersPerDay' => 'Reminders per day',
+			'notifications.todayIs' => ({required Object day}) => 'Today, ${day}',
+			'notifications.todayDayOff' => 'Today is a day off — no reminders',
+			'notifications.workingDays' => 'Working days',
+			'notifications.workingHours' => 'Working hours',
+			'notifications.workingHoursFor' => ({required Object day}) => 'Working hours · ${day}',
+			'notifications.hoursDiffer' => 'Some differ',
+			'notifications.hoursVary' => 'hours vary',
+			'notifications.perDaySetup' => 'Set per day',
+			'notifications.collapse' => 'Collapse',
+			'notifications.noWorkingDays' => 'Pick at least one working day',
+			'notifications.willRemindAt' => ({required Object times}) => 'We\'ll remind you at ${times}',
+			'notifications.applyToAllWorking' => 'Apply to all working days',
+			'notifications.reminder' => 'Reminder',
+			'notifications.newReminder' => 'New reminder',
+			'notifications.weekdays' => 'Weekdays',
+			'notifications.everyDay' => 'Every day',
+			'notifications.weekendDays' => 'Weekend',
+			'notifications.weekdaysShort' => 'weekdays',
+			'notifications.everyDayShort' => 'every day',
+			'notifications.weekendShort' => 'weekend',
+			'notifications.dayOffShort' => 'day off',
+			'notifications.enableDay' => 'Enable',
+			'notifications.deleteReminder' => 'Delete reminder',
+			'notifications.pickAtLeastOneDay' => 'Pick at least one day',
+			'notifications.manualHint' => 'Tap a row to change its time or days. Swipe left to delete.',
+			'notifications.offShort' => 'Off',
+			'notifications.offTitle' => 'Eyes tire without you noticing',
+			'notifications.offText' => 'Turn reminders on and the app will tell you when to take a break while you\'re at the computer.',
+			'notifications.summaryPerDay' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: '${n} reminder a day', other: '${n} reminders a day', ), 
+			'notifications.everyDayExcept' => ({required Object days}) => 'Every day except ${days}',
+			'notifications.daysAnd' => 'and',
+			'notifications.deleteConfirmTitle' => 'Delete this reminder?',
+			'notifications.deleteConfirmText' => ({required Object time, required Object days}) => '${time} · ${days}',
+			'notifications.summaryCustom' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: '${n} custom time', other: '${n} custom times', ), 
+			'notifications.nextToday' => ({required Object time}) => 'next today at ${time}',
+			'notifications.nextOn' => ({required Object day, required Object time}) => 'next — ${day}, ${time}',
+			'notifications.noneScheduled' => 'no reminders scheduled',
 			'frequency.dayOne' => 'day',
-			'frequency.daysTwo' => 'days',
-			'frequency.daysFew' => 'days',
 			'schedule.mondayShort' => 'Mon',
 			'schedule.tuesdayShort' => 'Tue',
 			'schedule.wednesdayShort' => 'Wed',
@@ -926,22 +1065,34 @@ extension on Translations {
 			'schedule.weekend' => 'Day off',
 			'schedule.from' => 'from',
 			'schedule.to' => 'to',
-			'statistics.exerciseFrequencyPerDay' => 'Exercise frequency',
-			'statistics.exercisePerMonth' => 'Exercises this month',
-			'statistics.responsesOnPush' => 'Responses to notifications',
-			'statistics.skippedDays' => 'Days skipped',
-			'statistics.currentWeek' => 'Current week',
-			'statistics.currentDay' => 'Current day',
-			'statistics.currentMonth' => 'Current month',
-			'statistics.notEnoughData' => 'Do more exercises so we can build your statistics',
+			'statistics.streak' => 'Streak',
+			'statistics.daysInARow' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: 'day in a row', other: 'days in a row', ), 
+			'statistics.days' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: '${n} day', other: '${n} days', ), 
+			'statistics.bestStreak' => ({required Object days}) => 'Best — ${days}',
+			'statistics.noStreakYet' => 'Finish a full set to start a streak',
+			'statistics.today' => 'Today',
+			'statistics.setsOfPlan' => ({required num n, required Object done}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: '${done} of ${n} set planned', other: '${done} of ${n} sets planned', ), 
+			'statistics.remaining' => ({required Object names, required Object time}) => 'Left: ${names} · ${time}',
+			'statistics.allDone' => 'All six done — your eyes had their rest',
+			'statistics.setsAndTime' => ({required num n, required Object time}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: '${n} set · ${time}', other: '${n} sets · ${time}', ), 
+			'statistics.legendMax' => '3+ sets',
+			'statistics.thisWeek' => 'This week',
+			'statistics.minutesForEyes' => 'min for your eyes',
+			'statistics.lastWeek' => ({required Object time}) => 'Last week — ${time}',
+			'statistics.hoursShort' => 'h',
+			'statistics.minutesShort' => 'min',
+			'statistics.secondsShort' => 's',
 			'finish.goodJob' => 'Great job!',
 			'finish.youDoneExercises' => 'You\'ve completed the exercises. Do them more often and your eyes will thank you!',
-			'finish.setMark' => 'Rate the app',
-			'finish.wantToSetMark' => ({required Object store}) => 'Would you like to rate us on ${store}?',
-			'finish.rateAppSubtitle' => ({required Object store}) => 'You can rate our app on ${store}, it will help us grow and get better',
 			'finish.shareText' => ({required Object url}) => 'There\'s a cool app for eye training. I recommend downloading it! ${url}',
-			'finish.value' => 'Rate',
-			'finish.notNow' => 'Not now',
+			'finish.likeQuestion' => 'Do you like the app?  ❤️',
+			'finish.likeYes' => 'Yes!',
+			'finish.likeNo' => 'Not really',
+			'finish.feedbackTitle' => 'What could be better?',
+			'finish.feedbackHint' => 'Tell us what you don\'t like — it helps us make the app better.',
+			'finish.feedbackSend' => 'Send',
+			'finish.feedbackSkip' => 'Skip',
+			'finish.share' => 'Share the app',
 			'onboarding.title1' => 'Your eyes need a rest!',
 			'onboarding.title2' => 'What exercises?',
 			'onboarding.title3' => 'We\'ll remind you!',
@@ -954,6 +1105,7 @@ extension on Translations {
 			'about.warningLabel' => 'Important: ',
 			'about.disclaimer' => 'These exercises are for general wellness and are not intended to diagnose, treat, cure, or prevent any medical condition. Please consult a doctor or eye-care professional before starting, especially if you have an existing eye condition. Use of this app is at your own risk, and the developers are not liable for any injury, loss, or damage arising from its use.',
 			'about.moreButton' => 'Learn more',
+			'about.gotItButton' => 'Got it',
 			'learnMore.title' => 'How these exercises work',
 			'learnMore.intro1' => 'Your eyes have muscles too — the ones that move your gaze and the tiny ones that shift your focus between near and far. Like any muscle, they get tired and stiff when they hold one position for hours, which is exactly what happens when you stare at a screen. This routine is a simple, guided workout to help those muscles relax, loosen up, and switch focus more comfortably.',
 			'learnMore.intro2' => 'Do it once a day, about 15 minutes, sitting up straight. Move slowly and gently, and start with fewer repetitions — a little fatigue at first is normal and eases as you go.',
@@ -995,6 +1147,9 @@ extension on Translations {
 			'permissions.noPermissionTitle' => 'No permission',
 			'permissions.noPermissionSubtitle' => 'We didn\'t get permission to send notifications, so we can\'t set them up right now. You can configure permissions in your device settings.',
 			'permissions.openSettings' => 'Open settings',
+			'ads.introTitle' => 'Eye Helper stays free',
+			'ads.introSubtitle' => 'To keep the app free for everyone, a small banner will start appearing on some screens. Your exercises and statistics are not affected.',
+			'ads.introButton' => 'Got it',
 			'errors.wrongWorkTime' => 'Invalid time range selected',
 			_ => null,
 		};

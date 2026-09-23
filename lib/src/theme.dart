@@ -1,4 +1,3 @@
-import 'package:eyehelper/src/utils.dart';
 import 'package:flutter/material.dart';
 
 class EyehelperColorScheme {
@@ -16,6 +15,9 @@ class EyehelperColorScheme {
 class EyehelperTheme {
   static const String fontFamily = 'FiraSans';
 
+  /// Sizes are logical points, the same on every device. Flutter already
+  /// scales them with the system text size; nothing here should scale with
+  /// the screen.
   static ThemeData makeTheme() {
     return ThemeData(
       useMaterial3: false,
@@ -29,64 +31,67 @@ class EyehelperTheme {
       scaffoldBackgroundColor: EyehelperColorScheme.backgroundWhite,
       primaryColor: EyehelperColorScheme.lightGrey,
       primaryColorDark: EyehelperColorScheme.mainDark,
-      textTheme: TextTheme(
+      textTheme: const TextTheme(
+        // Screen titles.
         titleLarge: TextStyle(
-          fontSize: ScreenUtil().setSp(10.0),
+          fontSize: 24,
           height: 1.0,
           fontWeight: FontWeight.bold,
           fontFamily: fontFamily,
         ),
+        // Light-weight subtitles and, via copyWith, the big figures.
         titleSmall: TextStyle(
-          fontSize: ScreenUtil().setSp(9.0),
+          fontSize: 20,
           height: 1.0,
           fontWeight: FontWeight.w200,
           fontFamily: fontFamily,
         ),
         headlineSmall: TextStyle(
-          fontSize: ScreenUtil().setSp(8.0),
+          fontSize: 18,
           height: 1.0,
           fontWeight: FontWeight.w600,
           fontFamily: fontFamily,
         ),
         bodyMedium: TextStyle(
-          fontSize: ScreenUtil().setSp(8.0),
+          fontSize: 16,
           height: 1.0,
           fontWeight: FontWeight.normal,
           fontFamily: fontFamily,
         ),
         bodyLarge: TextStyle(
-          fontSize: ScreenUtil().setSp(7.0),
+          fontSize: 15,
           height: 1.0,
           fontWeight: FontWeight.normal,
           fontFamily: fontFamily,
         ),
+        // Buttons.
         labelLarge: TextStyle(
           color: EyehelperColorScheme.backgroundWhite,
-          fontSize: ScreenUtil().setSp(8.0),
+          fontSize: 16,
           height: 1.0,
           fontWeight: FontWeight.normal,
           fontFamily: fontFamily,
         ),
         headlineMedium: TextStyle(
-          fontSize: ScreenUtil().setSp(7.0),
+          fontSize: 14,
           height: 1.0,
           fontWeight: FontWeight.normal,
           fontFamily: fontFamily,
         ),
         displaySmall: TextStyle(
-          fontSize: ScreenUtil().setSp(6.0),
+          fontSize: 12,
           height: 1.0,
           fontWeight: FontWeight.normal,
           fontFamily: fontFamily,
         ),
         displayMedium: TextStyle(
-          fontSize: ScreenUtil().setSp(5.0),
+          fontSize: 11,
           height: 1.0,
           fontWeight: FontWeight.normal,
           fontFamily: fontFamily,
         ),
         displayLarge: TextStyle(
-          fontSize: ScreenUtil().setSp(4.0),
+          fontSize: 10,
           height: 1.0,
           fontWeight: FontWeight.normal,
           fontFamily: fontFamily,

@@ -1,5 +1,6 @@
 import 'package:eyehelper/src/theme.dart';
 import 'package:eyehelper/src/widgets/app_background.dart';
+import 'package:eyehelper/src/widgets/app_card.dart';
 import 'package:eyehelper/src/screens/learn_more_screen.dart';
 import 'package:eyehelper/src/widgets/custom_rounded_button.dart';
 import 'package:eyehelper/i18n/tr.dart';
@@ -73,6 +74,15 @@ class _AboutExercisesScreenState extends State<AboutExercisesScreen> {
             Container(height: 12.0),
             RoundCustomButton(
               parentSize: MediaQuery.of(context).size,
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(
+                context.t.about.gotItButton,
+                style: Theme.of(context).textTheme.labelLarge,
+              ),
+            ),
+            // The article is optional reading — a text link, not a second
+            // button competing with "Got it".
+            TextButton(
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => const LearnMoreScreen()),
@@ -80,10 +90,10 @@ class _AboutExercisesScreenState extends State<AboutExercisesScreen> {
               },
               child: Text(
                 context.t.about.moreButton,
-                style: Theme.of(context).textTheme.labelLarge,
+                style: appText(14, weight: FontWeight.w600, color: appAccentDeep),
               ),
             ),
-            Container(height: 32.0),
+            Container(height: 24.0),
           ],
         ),
       ),

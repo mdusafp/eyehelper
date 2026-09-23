@@ -1,5 +1,4 @@
 import 'package:eyehelper/src/helpers/hashcode_utils.dart';
-import 'package:eyehelper/src/screens/notification_screen/dtos/time_formatter.dart';
 
 enum WeekDaysEnum {
   monday,

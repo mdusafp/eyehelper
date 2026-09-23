@@ -12,6 +12,15 @@ class CustomTimeFormatter {
           ));
   }
 
+  /// "9:00" rather than "09:00" — for labels, never for storage.
+  String formatShort(Duration duration) {
+    if (duration >= const Duration(days: 1)) {
+      return '24:00';
+    }
+    final minutes = duration.inMinutes % 60;
+    return '${duration.inHours}:${minutes.toString().padLeft(2, '0')}';
+  }
+
   Duration parse(String str, {bool withMinutes = false}) {
     if (str == "24:00") {
       return Duration(days: 1);

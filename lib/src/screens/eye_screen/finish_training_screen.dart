@@ -1,16 +1,10 @@
-import 'dart:io';
-
-import 'package:in_app_review/in_app_review.dart';
-import 'package:eyehelper/app_id.dart';
 import 'package:eyehelper/i18n/tr.dart';
-import 'package:eyehelper/src/helpers/preferences.dart';
-import 'package:eyehelper/src/screens/eye_screen/rating_stars.dart';
-import 'package:eyehelper/src/theme.dart';
+import 'package:eyehelper/src/helpers/ads/ads_service.dart';
+import 'package:eyehelper/src/screens/eye_screen/feedback_card.dart';
 import 'package:eyehelper/src/utils.dart';
-import 'package:eyehelper/src/widgets/alert_dialog.dart';
+import 'package:eyehelper/src/widgets/app_card.dart';
 import 'package:eyehelper/src/widgets/custom_rounded_button.dart';
 import 'package:flutter/material.dart';
-import 'package:share_plus/share_plus.dart';
 
 class FinishTrainingScreen extends StatefulWidget {
   final Function? showProcessCallback;
@@ -22,28 +16,9 @@ class FinishTrainingScreen extends StatefulWidget {
 }
 
 class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
-  bool ratingChanged = false;
-  bool liked = false;
-  int initRating = 0;
-  late FastPreferences fastPrefs;
-  @override
-  void initState() {
-    fastPrefs = FastPreferences();
-    liked = fastPrefs.prefs.getBool(FastPreferences.userLikedApp) ?? false;
-    initRating = fastPrefs.prefs.getInt(FastPreferences.userAppRating) ?? 0;
-    super.initState();
-  }
-
-  bool get shouldShowDialog {
-    final lastRated = fastPrefs.prefs.getInt(FastPreferences.userRatedTheAppTime);
-    if (lastRated == null || lastRated is! int) {
-      return true;
-    }
-    if (DateTime.fromMillisecondsSinceEpoch(lastRated).difference(DateTime.now()).inDays > 7) {
-      return true;
-    }
-    return false;
-  }
+  /// While the "do you like the app" card is up it carries the accent; the
+  /// Continue button steps back to an outline until it is answered.
+  late bool _feedbackDue = FeedbackCard.isDue;
 
   @override
   Widget build(BuildContext context) {
@@ -102,90 +77,13 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
                             child: Image.asset('assets/finish_face.png'),
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                            top: 10.0 * (Utils().IS_SMALL_DEVICE ? 1 / 3 : 1),
-                            bottom: 15.0 * (Utils().IS_SMALL_DEVICE ? 1 / 3 : 1),
-                            left: 50.0,
-                            right: 50.0,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              InkResponse(
-                                radius: 25.0,
-                                highlightColor: Colors.transparent,
-                                onTap: () {
-                                  setState(() {
-                                    liked = !liked;
-                                  });
-                                  fastPrefs.prefs.setBool(FastPreferences.userLikedApp, liked);
-                                  if (liked && shouldShowDialog) {
-                                    _showWantToValueDialog();
-                                  }
-                                },
-                                child: Container(
-                                  width: 100.0,
-                                  child: Center(
-                                    child: Icon(
-                                      liked ? Icons.favorite : Icons.favorite_border,
-                                      size: 30.0,
-                                      color: liked ? Colors.red : EyehelperColorScheme.mainDark,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              InkResponse(
-                                highlightColor: Colors.transparent,
-                                radius: 25.0,
-                                onTap: () {
-                                  Share.share(context.t.finish.shareText(url: getAppUrl()));
-                                },
-                                child: Container(
-                                  width: 100.0,
-                                  child: Center(
-                                    child: Icon(
-                                      Icons.share,
-                                      color: EyehelperColorScheme.mainDark,
-                                      size: 30.0,
-                                    ),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                            top: 10.0 * (Utils().IS_SMALL_DEVICE ? 1 / 3 : 1),
-                            left: 20.0,
-                            right: 20.0,
-                          ),
-                          child: Center(
-                            child: Text(
-                              context.t.finish.setMark,
-                              style: Theme.of(context).textTheme.titleSmall,
-                              textAlign: TextAlign.center,
+                        if (_feedbackDue)
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+                            child: FeedbackCard(
+                              onAnswered: () => setState(() => _feedbackDue = false),
                             ),
                           ),
-                        ),
-                        Container(
-                            child: StarRating(
-                          onRatingChanged: (rating) async {
-                            fastPrefs.prefs.setInt(FastPreferences.userAppRating, rating.toInt());
-                            if (rating > 3 && shouldShowDialog) {
-                              if (rating == 5) {
-                                liked = true;
-                                fastPrefs.prefs.setBool(FastPreferences.userLikedApp, liked);
-                                setState(() {});
-                              }
-                              _showWantToValueDialog();
-                            }
-                          },
-                          initRating: initRating,
-                          width: MediaQuery.of(context).size.width -
-                              MediaQuery.of(context).size.width * 0.4,
-                        )),
                         Padding(
                           padding: EdgeInsets.only(top: 10.0),
                           child: Container(
@@ -205,16 +103,23 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
             child: Container(
               width: MediaQuery.of(context).size.width,
               child: Center(
-                child: RoundCustomButton(
-                  parentSize: MediaQuery.of(context).size,
-                  onPressed: () async {
-                    widget.showProcessCallback?.call();
-                  },
-                  child: Text(
-                    context.t.common.continueButton,
-                    style: Theme.of(context).textTheme.labelLarge,
-                  ),
-                ),
+                child: _feedbackDue
+                    ? FlatRoundCustomButton(
+                        parentSize: MediaQuery.of(context).size,
+                        onPressed: _continue,
+                        child: Text(
+                          context.t.common.continueButton,
+                          style: Theme.of(context).textTheme.labelLarge?.copyWith(color: appAccentDeep),
+                        ),
+                      )
+                    : RoundCustomButton(
+                        parentSize: MediaQuery.of(context).size,
+                        onPressed: _continue,
+                        child: Text(
+                          context.t.common.continueButton,
+                          style: Theme.of(context).textTheme.labelLarge,
+                        ),
+                      ),
               ),
             ),
           ),
@@ -223,28 +128,11 @@ class _FinishTrainingScreenState extends State<FinishTrainingScreen> {
     );
   }
 
-  void _showWantToValueDialog() {
-    showDialog(
-      context: context,
-      builder: (context) => EyeHelperAlertDialog(
-        subtitle: context.t.finish
-            .rateAppSubtitle(store: Platform.isAndroid ? 'Google Play' : 'App Store'),
-        mainBtnTitle: context.t.finish.value,
-        mainBtnCallback: () async {
-          fastPrefs.prefs.setInt(
-            FastPreferences.userRatedTheAppTime,
-            DateTime.now().millisecondsSinceEpoch,
-          );
-          await InAppReview.instance.requestReview();
-          Navigator.of(context).pop();
-        },
-        secondaryBtnTitle: context.t.common.close,
-        secondaryBtnCallback: () {
-          Navigator.of(context).pop();
-        },
-        title: context.t.finish
-            .wantToSetMark(store: Platform.isAndroid ? 'Google Play' : 'App Store'),
-      ),
-    );
+  Future<void> _continue() async {
+    // Leaving the finish screen is the one safe spot for a full-screen ad:
+    // the training is over and nothing is interrupted. Rate-limited inside
+    // the service.
+    await AdsService().maybeShowInterstitial();
+    widget.showProcessCallback?.call();
   }
 }

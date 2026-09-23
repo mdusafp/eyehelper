@@ -5,6 +5,7 @@
     "notifications": "Notifications",
     "ok": "OK",
     "close": "Close",
+    "cancel": "Cancel",
     "add": "Add",
     "delete": "Delete",
     "save": "Save",
@@ -23,10 +24,11 @@
     "screwUpYourEyes": "Squeeze your eyes shut tightly for 10 seconds, then relax the muscles for 10 seconds without opening your eyes.",
     "focusFor10Sec": "Focus on a near object first (10 sec), then on a far one (10 sec).",
     "blinkFast": "Blink quickly.",
-    "rubHandsAndAttach": "Rub your hands together until they feel warm. Place them over your eyes for 15 seconds (without pressing). Think about your dream.",
-    "retryThreeTimes": "Repeat: 3 times.",
-    "retryOneTime": "Repeat: 1 time.",
-    "retryTwentyFiveTimes": "Repeat: 25 times.",
+    "rubHandsAndAttach": "Rub your hands together until they feel warm. Place them over your eyes for 15 seconds (without pressing). Think about your dream.",    "reps": {
+      "one": "{n} rep",
+      "other": "{n} reps"
+    },
+    "repsOf": "{done} of {total}",
     "beginButton": "Start"
   },
   "training": {
@@ -40,44 +42,65 @@
     "watchFar": "Look into the distance",
     "watchNear": "Look at your phone",
     "rubHands": "Warm up your hands",
-    "applyToEyes": "Place your hands over your eyes"
+    "applyToEyes": "Place your hands over your eyes",
+    "getReady": "Get ready"
   },
   "notifications": {
-    "reminderEnabled": "Reminders enabled",
-    "chooseTime": "Choose the times when you're at the computer, and the app will remind you to do exercises during work hours.",
     "chooseWorkInterval": "Choose the interval when you're at work",
-    "applyToAll": "Apply to all",
-    "frequencyQuestion": "How often do you want the app to remind you to do the exercises?",
-    "timesPer": "Once every",
-    "hour": "h",
-    "minute": "min",
-    "weWillNotify": "We'll remind you to do the exercises",
-    "enablePrompt": "Turn them on\nso the app can let you know\nit's time to exercise while you're at work.",
     "enableButton": "Enable notifications",
-    "setTimePrompt": "Set the times you'd like to receive notifications, and the app will remind you about the exercises",
-    "specifyParams": "Specify parameters",
-    "paramsDefault": "Parameters",
     "addTime": "Add time",
-    "enabledStatus": "Notifications enabled",
-    "disabledStatus": "Notifications disabled",
     "setupButton": "Set up notifications",
     "reminderTitle": "Reminder",
-    "reminderBody": "Time to do your eye exercises!"
+    "reminderBody": "Time to do your eye exercises!",
+    "modeAuto": "By schedule",
+    "modeManual": "Custom times",
+    "remindersPerDay": "Reminders per day",
+    "todayIs": "Today, {day}",
+    "todayDayOff": "Today is a day off — no reminders",
+    "workingDays": "Working days",
+    "workingHours": "Working hours",
+    "workingHoursFor": "Working hours · {day}",
+    "hoursDiffer": "Some differ",
+    "hoursVary": "hours vary",
+    "perDaySetup": "Set per day",
+    "collapse": "Collapse",
+    "noWorkingDays": "Pick at least one working day",
+    "willRemindAt": "We'll remind you at {times}",
+    "applyToAllWorking": "Apply to all working days",
+    "reminder": "Reminder",
+    "newReminder": "New reminder",
+    "weekdays": "Weekdays",
+    "everyDay": "Every day",
+    "weekendDays": "Weekend",
+    "weekdaysShort": "weekdays",
+    "everyDayShort": "every day",
+    "weekendShort": "weekend",
+    "dayOffShort": "day off",
+    "enableDay": "Enable",
+    "deleteReminder": "Delete reminder",
+    "pickAtLeastOneDay": "Pick at least one day",
+    "manualHint": "Tap a row to change its time or days. Swipe left to delete.",
+    "offShort": "Off",
+    "offTitle": "Eyes tire without you noticing",
+    "offText": "Turn reminders on and the app will tell you when to take a break while you're at the computer.",
+    "summaryPerDay": {
+      "one": "{n} reminder a day",
+      "other": "{n} reminders a day"
+    },
+    "everyDayExcept": "Every day except {days}",
+    "daysAnd": "and",
+    "deleteConfirmTitle": "Delete this reminder?",
+    "deleteConfirmText": "{time} · {days}",
+    "summaryCustom": {
+      "one": "{n} custom time",
+      "other": "{n} custom times"
+    },
+    "nextToday": "next today at {time}",
+    "nextOn": "next — {day}, {time}",
+    "noneScheduled": "no reminders scheduled"
   },
   "frequency": {
-    "onceADay": "Once a day",
-    "twiceADay": "Twice a day",
-    "threeADay": "Three times a day",
-    "onceInTwoDays": "Once every two days",
-    "manualSettings": "Manual setup",
-    "hoursZero": "hours",
-    "hourOne": "hour",
-    "hoursTwo": "hours",
-    "hoursFew": "hours",
-    "hoursMany": "hours",
-    "dayOne": "day",
-    "daysTwo": "days",
-    "daysFew": "days"
+    "dayOne": "day"
   },
   "schedule": {
     "mondayShort": "Mon",
@@ -103,24 +126,48 @@
     "to": "to"
   },
   "statistics": {
-    "exerciseFrequencyPerDay": "Exercise frequency",
-    "exercisePerMonth": "Exercises this month",
-    "responsesOnPush": "Responses to notifications",
-    "skippedDays": "Days skipped",
-    "currentWeek": "Current week",
-    "currentDay": "Current day",
-    "currentMonth": "Current month",
-    "notEnoughData": "Do more exercises so we can build your statistics"
+    "streak": "Streak",
+    "daysInARow": {
+      "one": "day in a row",
+      "other": "days in a row"
+    },
+    "days": {
+      "one": "{n} day",
+      "other": "{n} days"
+    },
+    "bestStreak": "Best — {days}",
+    "noStreakYet": "Finish a full set to start a streak",
+    "today": "Today",
+    "setsOfPlan": {
+      "one": "{done} of {n} set planned",
+      "other": "{done} of {n} sets planned"
+    },
+    "remaining": "Left: {names} · {time}",
+    "allDone": "All six done — your eyes had their rest",
+    "setsAndTime": {
+      "one": "{n} set · {time}",
+      "other": "{n} sets · {time}"
+    },
+    "legendMax": "3+ sets",
+    "thisWeek": "This week",
+    "minutesForEyes": "min for your eyes",
+    "lastWeek": "Last week — {time}",
+    "hoursShort": "h",
+    "minutesShort": "min",
+    "secondsShort": "s"
   },
   "finish": {
     "goodJob": "Great job!",
     "youDoneExercises": "You've completed the exercises. Do them more often and your eyes will thank you!",
-    "setMark": "Rate the app",
-    "wantToSetMark": "Would you like to rate us on {store}?",
-    "rateAppSubtitle": "You can rate our app on {store}, it will help us grow and get better",
     "shareText": "There's a cool app for eye training. I recommend downloading it! {url}",
-    "value": "Rate",
-    "notNow": "Not now"
+    "likeQuestion": "Do you like the app?  ❤️",
+    "likeYes": "Yes!",
+    "likeNo": "Not really",
+    "feedbackTitle": "What could be better?",
+    "feedbackHint": "Tell us what you don't like — it helps us make the app better.",
+    "feedbackSend": "Send",
+    "feedbackSkip": "Skip",
+    "share": "Share the app"
   },
   "onboarding": {
     "title1": "Your eyes need a rest!",
@@ -136,7 +183,8 @@
     "body2": "Tap the button below to learn more about how they work.",
     "warningLabel": "Important: ",
     "disclaimer": "These exercises are for general wellness and are not intended to diagnose, treat, cure, or prevent any medical condition. Please consult a doctor or eye-care professional before starting, especially if you have an existing eye condition. Use of this app is at your own risk, and the developers are not liable for any injury, loss, or damage arising from its use.",
-    "moreButton": "Learn more"
+    "moreButton": "Learn more",
+    "gotItButton": "Got it"
   },
   "learnMore": {
     "title": "How these exercises work",
@@ -183,6 +231,11 @@
     "noPermissionTitle": "No permission",
     "noPermissionSubtitle": "We didn't get permission to send notifications, so we can't set them up right now. You can configure permissions in your device settings.",
     "openSettings": "Open settings"
+  },
+  "ads": {
+    "introTitle": "Eye Helper stays free",
+    "introSubtitle": "To keep the app free for everyone, a small banner will start appearing on some screens. Your exercises and statistics are not affected.",
+    "introButton": "Got it"
   },
   "errors": {
     "wrongWorkTime": "Invalid time range selected"

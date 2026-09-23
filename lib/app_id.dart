@@ -1,11 +1,13 @@
-import 'dart:io';
+/// App Store identifier for `com.fluttergods.eyehelperapp`.
+const String iosAppId = '1559208484';
 
-const String iosAppId = '000000000';
-const String androidAppId = 'com.fluttergods.eyehelper';
+/// Public store link shared with other people.
+///
+/// Android is intentionally absent: the old Play listing is gone and the
+/// rewrite will ship under a new application id.
+String getAppUrl() => 'https://apps.apple.com/app/id$iosAppId';
 
-getAppUrl() {
-  if (Platform.isAndroid)
-    return 'https://play.google.com/store/apps/details?id=$androidAppId';
-  else
-    return 'itms-apps://itunes.apple.com/app/id$iosAppId';
-}
+/// Where "what don't you like" feedback is mailed. Empty disables the mail
+/// step; the analytics event still records that it happened.
+// TODO: set the support address.
+const String kFeedbackEmail = '';

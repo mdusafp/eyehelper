@@ -19,8 +19,6 @@ class Utils {
   Utils._internal();
 
   void init(SingletonFlutterWindow window) {
-    ScreenUtil.instance = ScreenUtil(width: 360, height: 640)..init(window);
-
     IS_SMALL_DEVICE =
         Utils.calculateDiagonal(window.physicalSize.width, window.physicalSize.height) <
             SMALL_DEVICE_LIMIT;
@@ -37,27 +35,4 @@ class Utils {
   static calculateDiagonal(double width, double height) {
     return sqrt(width * width + height * height);
   }
-}
-
-class ScreenUtil {
-  static ScreenUtil instance = new ScreenUtil();
-
-  double width;
-  double height;
-
-  static late double _screenWidth;
-
-  ScreenUtil({this.width = 1080, this.height = 1920});
-
-  static ScreenUtil getInstance() {
-    return instance;
-  }
-
-  void init(SingletonFlutterWindow window) {
-    _screenWidth = window.physicalSize.width;
-  }
-
-  get scaleWidth => _screenWidth / instance.width;
-
-  setSp(num fontSize) => fontSize * scaleWidth * (Utils().IS_SMALL_DEVICE ? 1.1 : 0.8);
 }

@@ -7,15 +7,12 @@ environment:
   sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
+  app_tracking_transparency: ^2.0.7
   auto_size_text: ^3.0.0
   card_swiper: ^3.0.1
   firebase_analytics: ^12.4.3
   firebase_core: ^4.11.0
   firebase_crashlytics: ^5.2.4
-  fl_chart: ^1.2.0
-  # Vendored copy: upstream is abandoned and uses APIs removed from Flutter 3.x.
-  flare_flutter:
-    path: packages/flare_flutter
   flutter:
     sdk: flutter
 
@@ -24,7 +21,10 @@ dependencies:
     sdk: flutter
   flutter_time_picker_spinner: ^2.0.0
   flutter_timezone: ^5.1.0
+  google_mobile_ads: ^9.1.0
+  gradient_blur: ^1.0.2+1
   in_app_review: ^2.0.12
+  intl: ^0.20.2
   liquid_glass_widgets: ^0.21.3
   path_provider: ^2.1.5
   permission_handler: ^12.0.3
@@ -33,7 +33,6 @@ dependencies:
   slang: ^4.18.0
   slang_flutter: ^4.18.0
   timezone: ^0.10.1
-  tuple: ^2.0.2
   url_launcher: ^6.3.2
   vibration: ^3.1.8
 
@@ -55,6 +54,7 @@ flutter_launcher_icons:
 flutter:
   assets:
     - assets/
+    - assets/anim/
 
   fonts:
     - family: FiraSans

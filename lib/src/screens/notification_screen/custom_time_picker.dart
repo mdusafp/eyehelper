@@ -9,11 +9,15 @@ class IntervalPicker extends StatefulWidget {
   final Duration? endDuration;
   final Function(Duration, Duration)? onChanged;
 
+  /// The sheet that hosts the picker may carry its own title.
+  final bool showTitle;
+
   const IntervalPicker({
     Key? key,
     this.startDuration,
     this.endDuration,
     this.onChanged,
+    this.showTitle = true,
   }) : super(key: key);
 
   @override
@@ -46,27 +50,20 @@ class _IntervalPickerState extends State<IntervalPicker> {
       color: Colors.white,
       child: Column(
         children: <Widget>[
-          Container(height: 16),
-          Text(
-            context.t.notifications.chooseWorkInterval,
-            textAlign: TextAlign.center,
-          ),
+          if (widget.showTitle) ...[
+            Container(height: 16),
+            Text(
+              context.t.notifications.chooseWorkInterval,
+              textAlign: TextAlign.center,
+            ),
+          ],
           Expanded(
-            child: Container(
-              color: Colors.white,
-              width: MediaQuery.of(context).size.width,
+            // Two wheels and a dash. The old layout padded them with empty
+            // pickers, each of which painted its own grey selection box.
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 48),
               child: Row(
                 children: <Widget>[
-                  Expanded(
-                    child: IgnorePointer(
-                      child: CupertinoPicker(
-                        backgroundColor: Colors.white,
-                        itemExtent: 40,
-                        onSelectedItemChanged: (value) {},
-                        children: List.generate(1, (index) => Center(child: Text(""))),
-                      ),
-                    ),
-                  ),
                   Expanded(
                     child: CupertinoPicker(
                       backgroundColor: Colors.white,
@@ -84,18 +81,12 @@ class _IntervalPickerState extends State<IntervalPicker> {
                         widget.onChanged?.call(Duration(hours: currentStartTimeIndex),
                             Duration(hours: currentStartTimeIndex + 1 + currentEndTimeIndex));
                       },
-                      children: List.generate(24, (index) => Center(child: Text("${index}:00"))),
+                      children: List.generate(24, (index) => Center(child: Text("$index:00"))),
                     ),
                   ),
-                  Expanded(
-                    child: IgnorePointer(
-                      child: CupertinoPicker(
-                        backgroundColor: Colors.white,
-                        itemExtent: 40,
-                        onSelectedItemChanged: (value) {},
-                        children: List.generate(1, (index) => Center(child: Text(":"))),
-                      ),
-                    ),
+                  const SizedBox(
+                    width: 32,
+                    child: Center(child: Text("–")),
                   ),
                   Expanded(
                     child: CupertinoPicker(
@@ -113,16 +104,6 @@ class _IntervalPickerState extends State<IntervalPicker> {
                           24 - currentStartTimeIndex,
                           (index) =>
                               Center(child: Text("${currentStartTimeIndex + 1 + index}:00"))),
-                    ),
-                  ),
-                  Expanded(
-                    child: IgnorePointer(
-                      child: CupertinoPicker(
-                        backgroundColor: Colors.white,
-                        itemExtent: 40,
-                        onSelectedItemChanged: (value) {},
-                        children: List.generate(1, (index) => Center(child: Text(""))),
-                      ),
                     ),
                   ),
                 ],

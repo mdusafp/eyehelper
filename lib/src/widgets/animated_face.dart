@@ -1,46 +1,32 @@
+import 'package:eyehelper/src/anim/sprite_actor.dart';
 import 'package:eyehelper/src/models/swiper_screen_info.dart';
-import 'package:eyehelper/src/utils.dart';
-import 'package:flare_flutter/flare_actor.dart';
-import 'package:flare_flutter/flare_controller.dart';
 import 'package:flutter/material.dart';
 
+/// The exercise face — the sprite animation, square, [size] on a side.
 class AnimatedFace extends StatelessWidget {
   final SwiperScreenInfo info;
-  final FlareController? controller;
+  final SpriteController? controller;
   final bool isPaused;
-  final bool visible;
+  final double size;
 
-  AnimatedFace({
-    Key? key,
+  const AnimatedFace({
+    super.key,
     required this.info,
-    this.isPaused = false,
-    this.visible = true,
     required this.controller,
-  }) : super(key: key);
+    this.isPaused = false,
+    this.size = 176,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(32.0),
-      child: SizedBox(
-        height: 160.0 * (Utils().IS_SMALL_DEVICE ? 3 / 4 : 1),
-        width: 160.0 * (Utils().IS_SMALL_DEVICE ? 3 / 4 : 1),
-        child: Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            Image.asset(info.fakeImgName, alignment: Alignment.center),
-            visible
-                ? FlareActor(
-                    info.flareName,
-                    controller: controller,
-                    isPaused: isPaused,
-                    alignment: Alignment.center,
-                    fit: BoxFit.contain,
-                    animation: info.animationName,
-                  )
-                : Container()
-          ],
-        ),
+    return SizedBox(
+      height: size,
+      width: size,
+      child: SpriteActor(
+        sheet: info.sprites,
+        controller: controller,
+        isPaused: isPaused,
+        animation: info.animationName,
       ),
     );
   }

@@ -1,3 +1,4 @@
+import 'package:eyehelper/src/helpers/ads/ads_service.dart';
 import 'package:eyehelper/src/helpers/preferences.dart';
 import 'package:eyehelper/src/repositories/statistics_repository.dart';
 import 'package:eyehelper/src/screens/about_exercises_screen.dart';
@@ -10,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:eyehelper/src/constants.dart';
 import 'package:eyehelper/src/screens/eye_screen/eye_screen.dart';
 import 'package:eyehelper/src/screens/notification_screen/notification_screen.dart';
+import 'package:eyehelper/src/widgets/ad_banner.dart';
+import 'package:eyehelper/src/widgets/alert_dialog.dart';
 import 'package:eyehelper/src/widgets/app_background.dart';
 import 'package:eyehelper/src/widgets/vibration_toggle.dart';
 import 'package:flutter/scheduler.dart';
@@ -23,10 +26,19 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  static const double _bottomBarHeight = 60.0;
+
   int _currentIndex = 1;
   late StatisticsRepository _statisticsRepository;
 
   bool dataLoading = true;
+  bool adsReady = false;
+  final double _bannerHeight = 0.0;
+
+  /// Notifications only for now. The training tab must stay free of anything
+  /// moving next to the exercises, and statistics is waiting on a redesign.
+  bool get _showBanner =>
+      (adsReady || kAdPlaceholderMode) && _currentIndex == INDEX_NOTIFICATIONS_SCREEN;
 
   @override
   initState() {
@@ -35,8 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _statisticsRepository = StatisticsRepository(FastPreferences());
     initAppConstants().then((_) {
       if (!(FastPreferences().prefs.getBool(FastPreferences.wasOnboardingShown) ?? false)) {
-        Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => AboutExercisesScreen()));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => AboutExercisesScreen()));
         SchedulerBinding.instance.addPostFrameCallback((_) async {
           await Navigator.of(context).push(
             CupertinoPageRoute(
@@ -49,9 +60,62 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           );
+          // The consent form and the ATT prompt must not collide with
+          // onboarding, so they wait until it is dismissed.
+          initAds();
         });
+      } else {
+        initAds();
       }
     });
+  }
+
+  Future<void> initAds() async {
+    if (kAdPlaceholderMode) {
+      // Nothing to consent to while the banner is only a red block.
+      return;
+    }
+
+    final ads = AdsService();
+    if (!ads.isEnabled) {
+      return;
+    }
+
+    if (!ads.introAcknowledged) {
+      // Still inside the ad-free grace period — ask again next launch.
+      if (!ads.shouldIntroduceAds) {
+        return;
+      }
+      // Where Google's consent form is due it already says ads are coming;
+      // a second dialog on top of it would just be noise.
+      final googleAsks = await ads.googleConsentFormPending();
+      if (!googleAsks && (!mounted || !await _showAdsIntro())) {
+        // Closed without acknowledging — ask again next launch.
+        return;
+      }
+      await ads.markIntroAcknowledged();
+    }
+
+    await ads.init();
+    if (mounted && ads.canShowAds) {
+      setState(() => adsReady = true);
+    }
+  }
+
+  /// Explains why ads are about to appear. Returns whether the user
+  /// acknowledged it.
+  Future<bool> _showAdsIntro() async {
+    final acknowledged = await showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (dialogContext) => EyeHelperAlertDialog(
+        title: context.t.ads.introTitle,
+        subtitle: context.t.ads.introSubtitle,
+        mainBtnTitle: context.t.ads.introButton,
+        mainBtnCallback: () => Navigator.of(dialogContext).pop(true),
+      ),
+    );
+    return acknowledged ?? false;
   }
 
   Future<void> initAppConstants() async {
@@ -92,17 +156,25 @@ class _HomeScreenState extends State<HomeScreen> {
               .titleLarge
               ?.copyWith(color: Theme.of(context).colorScheme.secondary),
         ),
-        leading: GlassIconButton(
-          size: 40,
-          icon: Icon(
-            Icons.help_outline,
-            color: Theme.of(context).colorScheme.secondary,
-          ),
-          onPressed: () {
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => AboutExercisesScreen()));
-          },
-        ),
+        // The help button explains the exercises — no place for it on the
+        // reminders tab. A same-width spacer keeps the title centred.
+        leading: _currentIndex == INDEX_NOTIFICATIONS_SCREEN
+            ? const SizedBox(width: 40)
+            : Transform.translate(
+                // Optically the button sits a touch too far in on statistics.
+                offset: Offset(4, 0),
+                child: GlassIconButton(
+                  size: 40,
+                  icon: Icon(
+                    Icons.help_outline,
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
+                  onPressed: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) => AboutExercisesScreen()));
+                  },
+                ),
+              ),
         actions: [
           if (FastPreferences().isInited && _currentIndex == INDEX_EYE_SCREEN)
             VibrationToggle()
@@ -111,19 +183,33 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(width: 40),
         ],
       ),
-      bottomBar: GlassTabBar.bottom(
-        glowOpacity: 0.03,
-        interactionGlowRadius: 1,
-        interactionBehavior: GlassInteractionBehavior.none,
-        selectedIndex: _currentIndex,
-        interactionGlowColor: Theme.of(context).colorScheme.secondary,
-        indicatorColor: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.14),
-        onTabSelected: (index) => setState(() => _currentIndex = index),
-        selectedIconColor: Theme.of(context).colorScheme.secondary,
-        tabs: [
-          GlassTab(icon: Icon(Icons.bar_chart)),
-          GlassTab(icon: Icon(Icons.remove_red_eye)),
-          GlassTab(icon: Icon(Icons.settings)),
+      bottomBarHeight: _bottomBarHeight + (_showBanner ? _bannerHeight : 0.0),
+      bottomBar: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // if (_showBanner)
+          //   AdBanner(
+          //     onHeightChanged: (height) {
+          //       if (mounted && _bannerHeight != height) {
+          //         setState(() => _bannerHeight = height);
+          //       }
+          //     },
+          //   ),
+          GlassTabBar.bottom(
+            glowOpacity: 0.03,
+            interactionGlowRadius: 1,
+            interactionBehavior: GlassInteractionBehavior.none,
+            selectedIndex: _currentIndex,
+            interactionGlowColor: Theme.of(context).colorScheme.secondary,
+            indicatorColor: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.14),
+            onTabSelected: (index) => setState(() => _currentIndex = index),
+            selectedIconColor: Theme.of(context).colorScheme.secondary,
+            tabs: [
+              GlassTab(icon: Icon(Icons.bar_chart)),
+              GlassTab(icon: Icon(Icons.remove_red_eye)),
+              GlassTab(icon: Icon(Icons.settings)),
+            ],
+          ),
         ],
       ),
       body: dataLoading ? Center(child: CircularProgressIndicator()) : screens[_currentIndex],

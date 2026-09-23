@@ -5,6 +5,7 @@ import 'dart:typed_data';
 
 import 'package:eyehelper/src/helpers/permission_manager.dart';
 import 'package:eyehelper/src/helpers/preferences.dart';
+import 'package:eyehelper/src/helpers/reminder_times.dart';
 import 'package:eyehelper/src/models/notification_settings.dart';
 import 'package:eyehelper/src/screens/notification_screen/dtos/week.dart';
 import 'package:eyehelper/i18n/tr.dart';
@@ -148,27 +149,18 @@ class NotificationsHelper {
           continue;
         }
 
-        // compute notifications time
-        int workingTimeInMilliseconds =
-            schedule.endOfWorkInMilliseconds - schedule.startOfWorkInMilliseconds;
-        int frequencyInMilliseconds = (workingTimeInMilliseconds / (timesADay + 1)).floor();
-
-        int scheduleDatesLength = timesADay;
-        //(workingTimeInMilliseconds / settings.notificationFrequencyInMilliseconds).floor();
-
         // get start of notifiable day to increment
         DateTime currentDay = now.add(Duration(days: scheduleIndex));
         DateTime startOfDay = new DateTime(currentDay.year, currentDay.month, currentDay.day);
 
-        // create list of expected notifications
-        List<DateTime> scheduleDates = List.generate(scheduleDatesLength, (index) {
-          // user shouldn't be notified when he came to work but at the end should be
-          // that's why +1
-          int incrementInMilliseconds = frequencyInMilliseconds * (index + 1);
-          int scheduleDateInMilliseconds =
-              schedule.startOfWorkInMilliseconds + incrementInMilliseconds;
-          return startOfDay.add(Duration(milliseconds: scheduleDateInMilliseconds));
-        })
+        // Evenly spaced inside the working window, none at the very start —
+        // the same function the settings screen previews with.
+        List<DateTime> scheduleDates = autoReminderTimes(
+          start: Duration(milliseconds: schedule.startOfWorkInMilliseconds),
+          end: Duration(milliseconds: schedule.endOfWorkInMilliseconds),
+          timesADay: timesADay,
+        )
+            .map((offset) => startOfDay.add(offset))
             // we shouldn't setup notifications before
             .where((time) => time.isAfter(now))
             .toList();

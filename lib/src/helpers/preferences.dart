@@ -18,10 +18,9 @@ class FastPreferences {
   static String dailyScheduleListKey = 'daily_schedule_list';
   static String customScheduleListKey = 'custom_schedule_list';
   static String timesADay = 'times_a_day';
-  static String userLikedApp = 'user_liked_app';
-  static String userAppRating = 'user_app_rating';
-  static String userRatedTheAppTime = 'user_rated_app_last_time';
+  static String feedbackHiddenUntil = 'feedback_hidden_until';
   static String wasOpened = 'first_time_opened';
+  static String appOpenCount = 'app_open_count';
 
   late SharedPreferences prefs;
   bool _isInited = false;
@@ -32,6 +31,8 @@ class FastPreferences {
     }
     prefs = await SharedPreferences.getInstance();
     _isInited = true;
+    // Guarded by [_isInited], so this counts cold starts, not init() calls.
+    await prefs.setInt(appOpenCount, (prefs.getInt(appOpenCount) ?? 0) + 1);
     final wasOpened = prefs.getBool(FastPreferences.wasOpened) ?? false;
     if (!wasOpened) {
       AppAnalytics().sendEvent(
