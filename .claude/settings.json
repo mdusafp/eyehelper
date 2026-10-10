@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(./secrets/**)",
+      "Edit(./secrets/**)",
+      "Read(**/asc.env)",
+      "Read(**/*.p8)",
+      "Edit(**/asc.env)",
+      "Edit(**/*.p8)",
+      "Bash(*secrets/*)",
+      "Bash(*secrets *)",
+      "Bash(*asc.env*)",
+      "Bash(*AuthKey_*)",
+      "Bash(*.p8*)",
+      "Bash(printenv*)",
+      "Bash(env)",
+      "Bash(* env)",
+      "Bash(*ASC_KEY*)",
+      "Bash(*ASC_ISSUER*)"
+    ]
+  }
+}

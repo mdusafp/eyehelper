@@ -75,3 +75,12 @@ build/
 .fvm/
 # Local screenshots for design review
 /tmp/
+/secrets/
+/ios.old/
+/android.old/
+
+# Rendered promo media; the sources that produce them are tracked
+promo/**/*.mp4
+promo/appstore/backup/
+# Per-machine Claude Code permissions
+.claude/settings.local.json
