@@ -293,6 +293,7 @@ class _Translations$finish$ru extends Translations$finish$en {
 	@override String get feedbackHint => 'Расскажите, что не нравится — это поможет сделать приложение лучше.';
 	@override String get feedbackSend => 'Отправить';
 	@override String get feedbackSkip => 'Пропустить';
+	@override String get feedbackThanks => 'Спасибо — получили!';
 	@override String get share => 'Поделиться приложением';
 }
 
@@ -717,6 +718,7 @@ extension on TranslationsRu {
 			'finish.feedbackHint' => 'Расскажите, что не нравится — это поможет сделать приложение лучше.',
 			'finish.feedbackSend' => 'Отправить',
 			'finish.feedbackSkip' => 'Пропустить',
+			'finish.feedbackThanks' => 'Спасибо — получили!',
 			'finish.share' => 'Поделиться приложением',
 			'onboarding.title1' => 'Твоим глазам нужен отдых!',
 			'onboarding.title2' => 'Что за упражнения?',

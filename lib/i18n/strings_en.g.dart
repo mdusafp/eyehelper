@@ -547,6 +547,9 @@ class Translations$finish$en {
 	/// en: 'Skip'
 	String get feedbackSkip => 'Skip';
 
+	/// en: 'Thank you — got it!'
+	String get feedbackThanks => 'Thank you — got it!';
+
 	/// en: 'Share the app'
 	String get share => 'Share the app';
 }
@@ -1092,6 +1095,7 @@ extension on Translations {
 			'finish.feedbackHint' => 'Tell us what you don\'t like — it helps us make the app better.',
 			'finish.feedbackSend' => 'Send',
 			'finish.feedbackSkip' => 'Skip',
+			'finish.feedbackThanks' => 'Thank you — got it!',
 			'finish.share' => 'Share the app',
 			'onboarding.title1' => 'Your eyes need a rest!',
 			'onboarding.title2' => 'What exercises?',

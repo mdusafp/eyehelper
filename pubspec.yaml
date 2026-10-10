@@ -23,9 +23,11 @@ dependencies:
   flutter_timezone: ^5.1.0
   google_mobile_ads: ^9.1.0
   gradient_blur: ^1.0.2+1
+  http: ^1.6.0
   in_app_review: ^2.0.12
   intl: ^0.20.2
   liquid_glass_widgets: ^0.21.3
+  package_info_plus: ^9.0.1
   path_provider: ^2.1.5
   permission_handler: ^12.0.3
   share_plus: ^12.0.2
@@ -33,7 +35,6 @@ dependencies:
   slang: ^4.18.0
   slang_flutter: ^4.18.0
   timezone: ^0.10.1
-  url_launcher: ^6.3.2
   vibration: ^3.1.8
 
 dev_dependencies:

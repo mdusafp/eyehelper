@@ -1,5 +1,6 @@
 import 'package:eyehelper/app_id.dart';
 import 'package:eyehelper/i18n/tr.dart';
+import 'package:eyehelper/src/helpers/feedback_sender.dart';
 import 'package:eyehelper/src/helpers/firebase_analytics.dart';
 import 'package:eyehelper/src/helpers/preferences.dart';
 import 'package:eyehelper/src/screens/notification_screen/sheet_scaffold.dart';
@@ -8,8 +9,8 @@ import 'package:eyehelper/src/widgets/app_card.dart';
 import 'package:eyehelper/src/widgets/custom_rounded_button.dart';
 import 'package:flutter/material.dart';
 import 'package:in_app_review/in_app_review.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 /// "Do you like the app?" — yes asks for a store review, no asks what is
 /// wrong. Either answer hides the card for a good while; it comes back only
@@ -41,14 +42,7 @@ class FeedbackCard extends StatefulWidget {
 class _FeedbackCardState extends State<FeedbackCard> {
   bool _answered = false;
 
-  /// TEMP: answers are not persisted while the card is being tested, so it
-  /// comes back on every visit. Flip to false before release.
-  static const bool _debugNeverHide = true;
-
   Future<void> _hideFor(Duration duration) async {
-    if (_debugNeverHide) {
-      return;
-    }
     await FastPreferences().prefs.setInt(
           FastPreferences.feedbackHiddenUntil,
           DateTime.now().add(duration).millisecondsSinceEpoch,
@@ -85,28 +79,32 @@ class _FeedbackCardState extends State<FeedbackCard> {
     );
     AppAnalytics().sendEvent('app_feedback', params: {
       'liked': 'no',
-      // Analytics caps a parameter at 100 characters; the full text goes by mail.
+      // Analytics caps a parameter at 100 characters; the full text goes to the proxy.
       'text':
           (text ?? '').length > 100 ? text!.substring(0, 100) : (text ?? ''),
     });
     if (text != null && text.trim().isNotEmpty) {
-      await _sendByMail(text.trim());
+      await _deliver(text.trim());
     }
   }
 
-  Future<void> _sendByMail(String text) async {
-    if (kFeedbackEmail.isEmpty) {
+  /// Queued for the feedback proxy: sent now when the network allows, on a
+  /// later launch otherwise, so either way it is on its way.
+  Future<void> _deliver(String text) async {
+    final locale = Localizations.localeOf(context).toString();
+    final info = await PackageInfo.fromPlatform();
+    final sent = await FeedbackSender.submit(
+      text,
+      appVersion: '${info.version} (${info.buildNumber})',
+      locale: locale,
+    );
+    AppAnalytics().sendEvent('app_feedback_delivery', params: {'sent': sent ? 'yes' : 'queued'});
+    if (!mounted) {
       return;
     }
-    final subject = Uri.encodeComponent('Eye Helper feedback');
-    final body = Uri.encodeComponent(text);
-    final uri = Uri.parse('mailto:$kFeedbackEmail?subject=$subject&body=$body');
-    try {
-      await launchUrl(uri);
-    } catch (e) {
-      // No mail client — the analytics event above already carries the gist.
-      debugPrint('Could not open mail client: $e');
-    }
+    ScaffoldMessenger.maybeOf(context)?.showSnackBar(
+      SnackBar(content: Text(context.t.finish.feedbackThanks)),
+    );
   }
 
   @override

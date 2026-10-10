@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:eyehelper/firebase_options.dart';
 import 'package:eyehelper/src/app.dart';
+import 'package:eyehelper/src/helpers/feedback_sender.dart';
 import 'package:eyehelper/src/helpers/preferences.dart';
 import 'package:eyehelper/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,8 @@ void main() async {
     // Preferences are read synchronously all over the UI, so they must be
     // ready before the first frame.
     await FastPreferences().init();
+    // Feedback written offline on an earlier launch goes out now.
+    unawaited(FeedbackSender.flush());
     await LiquidGlassWidgets.initialize();
     // English is the base locale; Russian devices get Russian, everyone
     // else falls back to English.
