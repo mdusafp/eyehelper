@@ -1,7 +1,7 @@
 name: eyehelper
 description: Eye exercise reminder and training app.
 publish_to: none
-version: 1.0.5+9
+version: 2.0.0+11
 
 environment:
   sdk: ">=3.0.0 <4.0.0"

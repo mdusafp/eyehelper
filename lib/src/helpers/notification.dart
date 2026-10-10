@@ -19,6 +19,8 @@ class NotificationsHelper {
   final BuildContext _context;
   Int64List _vibrationPattern = Int64List.fromList([0, 1000, 5000, 2000]);
   late FlutterLocalNotificationsPlugin _plugin;
+  // Everything that talks to the plugin waits for this first.
+  late final Future<bool?> _ready;
   // Meta required for Android 8.0+
   String _channelId = 'eyehelper-notifications-channel-id';
   String _channelName = 'eyehelper-notifications';
@@ -35,7 +37,7 @@ class NotificationsHelper {
     );
     const initializationSettings = InitializationSettings(
         android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
-    _plugin.initialize(
+    _ready = _plugin.initialize(
       settings: initializationSettings,
       onDidReceiveNotificationResponse: onDidReceiveNotificationResponse,
     );
@@ -48,11 +50,27 @@ class NotificationsHelper {
 
   /// Cancel all notifications
   Future<void> cancelAll() async {
+    await _ready;
     await _plugin.cancelAll();
+  }
+
+  /// Rebuilds the schedule from the saved settings, as long as reminders are
+  /// on and allowed. Run on every launch, so reminders recover after an app
+  /// update, a move to another time zone or a permission granted in Settings.
+  Future<void> refreshReminders() async {
+    if (!getUpdatedSettings().notificationsEnabled ||
+        !await PermissionsManager.checkPermissionsSilent(Permission.notification)) {
+      return;
+    }
+    await scheduleExerciseReminders();
   }
 
   Future<void> scheduleExerciseReminders() async {
     NotificationSettings settings = getUpdatedSettings();
+    // Read before the first await: the screen that owns the context may be
+    // gone by the time the loop below runs.
+    final title = _context.t.notifications.reminderTitle;
+    final body = _context.t.notifications.reminderBody;
     await cancelAll();
 
     if (!settings.notificationsEnabled) {
@@ -105,8 +123,8 @@ class NotificationsHelper {
           // Schedule notifications
           await scheduleNotification(
             (notificationTime.millisecondsSinceEpoch / 1000).floor(),
-            _context.t.notifications.reminderTitle,
-            _context.t.notifications.reminderBody,
+            title,
+            body,
             notificationTime,
           ).catchError((e) {
             print(e);
@@ -144,8 +162,7 @@ class NotificationsHelper {
         }
 
         if (schedule.endOfWorkInMilliseconds <= schedule.startOfWorkInMilliseconds) {
-          logger.log(
-              'Wrong working range for ${trKey(_context, schedule.localeId)} day');
+          logger.log('Wrong working range for ${schedule.localeId} day');
           continue;
         }
 
@@ -154,16 +171,15 @@ class NotificationsHelper {
         DateTime startOfDay = new DateTime(currentDay.year, currentDay.month, currentDay.day);
 
         // Evenly spaced inside the working window, none at the very start —
-        // the same function the settings screen previews with.
+        // the same function the settings screen previews with. Times already
+        // gone today are kept: each reminder repeats weekly, and the plugin
+        // moves a past one to next week. Dropping them would leave today's
+        // weekday without those reminders for good.
         List<DateTime> scheduleDates = autoReminderTimes(
           start: Duration(milliseconds: schedule.startOfWorkInMilliseconds),
           end: Duration(milliseconds: schedule.endOfWorkInMilliseconds),
           timesADay: timesADay,
-        )
-            .map((offset) => startOfDay.add(offset))
-            // we shouldn't setup notifications before
-            .where((time) => time.isAfter(now))
-            .toList();
+        ).map((offset) => startOfDay.add(offset)).toList();
 
         logger.log('======= START $scheduleIndex START ======='.padLeft(20).padRight(20));
         scheduleDates.forEach((date) {
@@ -175,8 +191,8 @@ class NotificationsHelper {
         for (final time in scheduleDates) {
           await scheduleNotification(
             (time.millisecondsSinceEpoch / 1000).floor(),
-            _context.t.notifications.reminderTitle,
-            _context.t.notifications.reminderBody,
+            title,
+            body,
             time,
           );
         }

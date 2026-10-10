@@ -1,4 +1,5 @@
 import 'package:eyehelper/src/helpers/ads/ads_service.dart';
+import 'package:eyehelper/src/helpers/notification.dart';
 import 'package:eyehelper/src/helpers/preferences.dart';
 import 'package:eyehelper/src/repositories/statistics_repository.dart';
 import 'package:eyehelper/src/screens/about_exercises_screen.dart';
@@ -15,6 +16,7 @@ import 'package:eyehelper/src/widgets/ad_banner.dart';
 import 'package:eyehelper/src/widgets/alert_dialog.dart';
 import 'package:eyehelper/src/widgets/app_background.dart';
 import 'package:eyehelper/src/widgets/vibration_toggle.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
 
@@ -46,6 +48,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
     _statisticsRepository = StatisticsRepository(FastPreferences());
     initAppConstants().then((_) {
+      if (!mounted) {
+        return;
+      }
+      NotificationsHelper(context).refreshReminders().catchError((Object e, StackTrace stack) {
+        debugPrint('$e');
+        FirebaseCrashlytics.instance.recordError(e, stack);
+      });
       if (!(FastPreferences().prefs.getBool(FastPreferences.wasOnboardingShown) ?? false)) {
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => AboutExercisesScreen()));
         SchedulerBinding.instance.addPostFrameCallback((_) async {

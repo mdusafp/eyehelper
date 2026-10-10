@@ -47,6 +47,12 @@ class AdsService {
   final Map<String, BannerAd> _banners = {};
   final Map<String, Future<BannerAd?>> _bannerLoads = {};
   final Map<String, DateTime> _bannerFailedAt = {};
+
+  // Native ads are cached the same way; Google renders them with its small
+  // template, styled below to sit among the app's cards.
+  final Map<String, NativeAd> _natives = {};
+  final Map<String, Future<NativeAd?>> _nativeLoads = {};
+  final Map<String, DateTime> _nativeFailedAt = {};
   InterstitialAd? _interstitial;
   bool _interstitialLoading = false;
 
@@ -63,6 +69,10 @@ class AdsService {
       ad.dispose();
     }
     _banners.clear();
+    for (final ad in _natives.values) {
+      ad.dispose();
+    }
+    _natives.clear();
   }
 
   /// Whether the user has already been told that ads are coming.
@@ -194,6 +204,63 @@ class AdsService {
     final result = await loaded.future;
     debugPrint('Banner "$placement": handing ad to widget');
     return result;
+  }
+
+  /// The loaded native ad for [placement], loading it on first use and
+  /// keeping it for the session — same contract as [banner].
+  Future<NativeAd?> native(String placement) {
+    if (!canShowAds) {
+      debugPrint('Native "$placement": ads not ready');
+      return Future.value(null);
+    }
+    final cached = _natives[placement];
+    if (cached != null) {
+      return Future.value(cached);
+    }
+    final inFlight = _nativeLoads[placement];
+    if (inFlight != null) {
+      return inFlight;
+    }
+    final failedAt = _nativeFailedAt[placement];
+    if (failedAt != null && DateTime.now().difference(failedAt) < _bannerRetryDelay) {
+      return Future.value(null);
+    }
+    debugPrint('Native "$placement": loading');
+    final load = _loadNative(placement).whenComplete(() {
+      _nativeLoads.remove(placement);
+    });
+    _nativeLoads[placement] = load;
+    return load;
+  }
+
+  Future<NativeAd?> _loadNative(String placement) async {
+    final loaded = Completer<NativeAd?>();
+    final ad = NativeAd(
+      adUnitId: AdIds.native,
+      request: const AdRequest(),
+      // Drawn natively as one compact row by RowNativeAdFactory (iOS).
+      factoryId: 'row',
+      listener: NativeAdListener(
+        onAdLoaded: (ad) {
+          debugPrint('Native "$placement": loaded');
+          _natives[placement] = ad as NativeAd;
+          _nativeFailedAt.remove(placement);
+          if (!loaded.isCompleted) {
+            loaded.complete(ad);
+          }
+        },
+        onAdFailedToLoad: (ad, error) {
+          debugPrint('Native "$placement" failed to load: $error');
+          ad.dispose();
+          _nativeFailedAt[placement] = DateTime.now();
+          if (!loaded.isCompleted) {
+            loaded.complete(null);
+          }
+        },
+      ),
+    );
+    await ad.load();
+    return loaded.future;
   }
 
   /// Shows the interstitial when one is ready and the cooldown has passed.

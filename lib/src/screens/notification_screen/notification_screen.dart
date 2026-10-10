@@ -6,7 +6,7 @@ import 'package:eyehelper/src/screens/notification_screen/mode_card.dart';
 import 'package:eyehelper/src/screens/notification_screen/notification_summary.dart';
 import 'package:eyehelper/src/screens/notification_screen/working_days_card.dart';
 import 'package:eyehelper/src/theme.dart';
-import 'package:eyehelper/src/widgets/ad_banner.dart';
+import 'package:eyehelper/src/widgets/ad_native.dart';
 import 'package:eyehelper/src/widgets/adaptive_switch.dart';
 import 'package:eyehelper/src/widgets/app_bar_blur.dart';
 import 'package:eyehelper/src/widgets/app_card.dart';
@@ -95,13 +95,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 enabled: enabled,
                 onChanged: _switchNotifications,
               ),
-              // Same frame as on statistics; takes no space until an ad loads.
-              AdBanner(
+              // Native ad as a row, to compare with the banner on statistics.
+              // Takes no space until an ad loads.
+              const AdNative(
                 placement: 'notifications',
-                margin: const EdgeInsets.only(top: 12),
-                padding: const EdgeInsets.all(12),
-                decoration: appCardDecoration,
-                borderRadius: BorderRadius.circular(12),
+                margin: EdgeInsets.only(top: 12),
               ),
               if (!enabled) ...[
                 const SizedBox(height: 12),
