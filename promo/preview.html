@@ -1,0 +1,897 @@
+<meta charset="utf-8">
+<title>Eye Helper App Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Round">
+<style>
+  :root {
+    color-scheme: dark;
+    --ground: #07110c;
+    --ink: #e7f2ec;
+    --muted: #8aa596;
+    --green: #509f75;
+    --line: rgba(207, 233, 219, 0.14);
+    --chip: rgba(207, 233, 219, 0.08);
+  }
+  html, body { height: 100%; }
+  body {
+    background: var(--ground); color: var(--ink);
+    font-family: "Fira Sans", system-ui, -apple-system, sans-serif;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+    padding-inline: 16px; padding-block: 16px; box-sizing: border-box; overflow: hidden;
+  }
+  .stage {
+    position: relative;
+    height: min(calc(100% - 110px), calc((100vw - 32px) * var(--ar)));
+    aspect-ratio: var(--arw);
+    max-width: 100%;
+    border-radius: 16px; overflow: hidden; background: #fff;
+    box-shadow: 0 30px 90px rgba(0,0,0,0.55), 0 0 0 1px var(--line);
+  }
+  canvas { width: 100%; height: 100%; display: block; }
+  .big-play { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(7,17,12,0.12); border: 0; cursor: pointer; padding: 0; }
+  .big-play span { width: 84px; height: 84px; border-radius: 50%; background: var(--green); display: grid; place-items: center; box-shadow: 0 12px 44px rgba(80,159,117,0.55); }
+  .big-play:focus-visible { outline: 3px solid var(--ink); outline-offset: -3px; }
+  .bar { display: flex; align-items: center; gap: 10px; width: min(100%, 560px); font-variant-numeric: tabular-nums; }
+  .ctl {
+    height: 34px; min-width: 34px; padding: 0 12px; border-radius: 17px;
+    border: 1px solid var(--line); background: var(--chip); color: var(--ink);
+    font: 600 12.5px/1 "Fira Sans", system-ui, sans-serif; letter-spacing: 0.04em; cursor: pointer;
+  }
+  .ctl[aria-pressed="true"] { background: var(--green); border-color: var(--green); }
+  .ctl:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+  #seek { flex: 1; min-width: 0; accent-color: var(--green); }
+  #time { color: var(--muted); font-size: 12.5px; width: 70px; text-align: right; }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+</style>
+
+<div class="stage" id="stage" style="--ar: 1920 / 886; --arw: 886 / 1920">
+  <canvas id="cv" width="886" height="1920" aria-label="Eye Helper app preview"></canvas>
+  <button class="big-play" id="bigPlay" aria-label="Play with sound">
+    <span><svg width="30" height="34" viewBox="0 0 34 38" aria-hidden="true"><path d="M4 3 L31 19 L4 35 Z" fill="#fff" stroke="#fff" stroke-width="5" stroke-linejoin="round"/></svg></span>
+  </button>
+</div>
+<div class="bar">
+  <button class="ctl" id="playBtn" aria-label="Play">▶</button>
+  <input id="seek" type="range" min="0" max="29" step="0.01" value="0" aria-label="Seek">
+  <span id="time">0:00 / 0:29</span>
+</div>
+<div class="row">
+  <button class="ctl" id="dIphone" aria-pressed="true">iPhone</button>
+  <button class="ctl" id="dIpad" aria-pressed="false">iPad</button>
+  <button class="ctl" id="lRu" aria-pressed="true">RU</button>
+  <button class="ctl" id="lEn" aria-pressed="false">EN</button>
+</div>
+
+<script>
+(() => {
+const DUR = 29;
+const FONT = '"Fira Sans", system-ui, -apple-system, sans-serif';
+const C = {
+  green: '#509f75', deep: '#3B7D5A', mint: '#CFE9DB', md: '#626262', lg: '#88949C',
+  hair: '#E6ECE8', pale: '#E3F1E9', dark: '#1b2520',
+};
+const LV = ['#F1F5F2', '#B9DCC8', '#8CC5A5', '#63AB83', '#3B7D5A'];
+const DEV = {
+  iphone: { W: 886, H: 1920, sw: 440, st: 62, sb: 34, cap: 30 },
+  ipad: { W: 1200, H: 1600, sw: 768, st: 24, sb: 20, cap: 36 },
+};
+for (const d of Object.values(DEV)) { d.S = d.W / d.sw; d.sh = d.H / d.S; }
+
+// Exercise configuration mirrors SwiperScreenInfo.flareActorByIndex.
+const EX = [
+  { sheet: 'lrtbFaceSprites', idle: 'fastTopBot', train: 'trainingTopBot', dur: 9, cues: [0, 4.5] },
+  { sheet: 'lrtbFaceSprites', idle: 'fastLeftRight', train: 'trainingLeftRight', dur: 9, cues: [0, 4.5] },
+  { sheet: 'screwUpSprites', idle: 'screwUp', train: 'trainingScrewUp', dur: 18 },
+  { sheet: 'blinkingSprites', idle: 'blinkingFast', train: 'trainingBlinking', dur: 12 },
+  { sheet: 'farSeeingSprites', idle: 'farSeeing', train: 'trainingFarSeeing', dur: 20 },
+  { sheet: 'palmingSprites', idle: 'palming', train: 'trainingPalming', dur: 25 },
+];
+
+const LANG = {
+  ru: {
+    tabs: ['Статистика', 'Упражнения', 'Уведомления'],
+    ex: [
+      ['Вертикальные движения', 'Поводите глазами снизу вверх и наоборот.', '3 повтора · 27 с'],
+      ['Горизонтальные движения', 'Поводите глазами слева направо и наоборот.', '3 повтора · 27 с'],
+      ['Зажмуривания', 'Крепко зажмурьте глаза на 10 секунд, не открывая глаза расслабьте мышцы на 10 секунд', '3 повтора · 54 с'],
+      ['Моргание', 'Быстро поморгайте', '3 повтора · 36 с'],
+      ['Фокусировка', 'Сфокусируйтесь сначала на ближнем предмете (10 сек), потом на дальнем (10 сек).', '3 повтора · 1 мин'],
+      ['Пальминг', 'Потрите руки друг о друга до появления тепла. Приложите руки к глазам на 15 секунд (не давить). Подумайте о своей мечте.', '3 повтора · 1 мин 15 с'],
+    ],
+    start: 'Начать', cueUp: 'Смотрите вверх', cueDown: 'Смотрите вниз', repsOf: (a, b) => `${a} из ${b}`,
+    n: {
+      title: 'Уведомления', sum2: '2 напоминания в день, 9:00–18:00', sum3: '3 напоминания в день, 9:00–18:00', days: 'Будни',
+      auto: 'По расписанию', manual: 'Своё время', perDay: 'Напоминаний в день', today: 'Сегодня, среда',
+      workDays: 'Рабочие дни', workHours: 'Рабочие часы', perDaySetup: 'Настроить по дням',
+    },
+    days: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
+    s: {
+      streak: 'Серия', inRow: 'дней подряд', best: 'Лучшая — 21 день', today: 'Сегодня', plan: '1 из 3 подходов по плану',
+      left: 'Осталось: Фокусировка, Пальминг · 2 мин 15 с', month: 'Сентябрь', monthSum: '18 подходов · 1 ч 24 мин', legend: '3+ подхода',
+    },
+    fin: { good: 'Отлично!', text: 'Вы выполнили упражнения. Повторяйте чаще и ваши глаза скажут вам спасибо!', cont: 'Продолжить' },
+    caps: [
+      ['Зарядка для глаз', '*5 минут* в день'],
+      ['Повторяй', 'за *персонажем*'],
+      ['*6 упражнений*', 'с анимацией'],
+      ['Напомним', '*в рабочие часы*'],
+      ['Следи за *прогрессом*'],
+      ['Каждый день —', '*маленькая победа*'],
+    ],
+    tag: 'Зарядка для глаз',
+  },
+  en: {
+    tabs: ['Statistics', 'Exercises', 'Notifications'],
+    ex: [
+      ['Vertical movements', 'Move your eyes up and down and back.', '3 reps · 27 s'],
+      ['Horizontal movements', 'Move your eyes left and right and back.', '3 reps · 27 s'],
+      ['Eye squeezing', 'Squeeze your eyes shut tightly for 10 seconds, then relax the muscles for 10 seconds without opening your eyes.', '3 reps · 54 s'],
+      ['Blinking', 'Blink quickly.', '3 reps · 36 s'],
+      ['Focusing', 'Focus on a near object first (10 sec), then on a far one (10 sec).', '3 reps · 1 min'],
+      ['Palming', 'Rub your hands together until they feel warm. Place them over your eyes for 15 seconds (without pressing). Think about your dream.', '3 reps · 1 min 15 s'],
+    ],
+    start: 'Start', cueUp: 'Look up', cueDown: 'Look down', repsOf: (a, b) => `${a} of ${b}`,
+    n: {
+      title: 'Notifications', sum2: '2 reminders a day, 9:00–18:00', sum3: '3 reminders a day, 9:00–18:00', days: 'Weekdays',
+      auto: 'By schedule', manual: 'Custom times', perDay: 'Reminders per day', today: 'Today, Wednesday',
+      workDays: 'Working days', workHours: 'Working hours', perDaySetup: 'Set per day',
+    },
+    days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    s: {
+      streak: 'Streak', inRow: 'days in a row', best: 'Best — 21 days', today: 'Today', plan: '1 of 3 sets planned',
+      left: 'Left: Focusing, Palming · 2 min 15 s', month: 'September', monthSum: '18 sets · 1 h 24 min', legend: '3+ sets',
+    },
+    fin: { good: 'Great job!', text: "You've completed the exercises. Do them more often and your eyes will thank you!", cont: 'Continue' },
+    caps: [
+      ['Eye workouts', '*5 minutes* a day'],
+      ['Just follow', 'the *character*'],
+      ['*6 exercises*', 'fully animated'],
+      ['Reminders', '*during work hours*'],
+      ['Track your *progress*'],
+      ['A small win', '*every day*'],
+    ],
+    tag: 'Workouts for your eyes',
+  },
+};
+
+// ---------- timeline ----------
+const T = {
+  tapStart: 1.2, veil: 1.35, trainIn: 2.6, trainT0: 2.75, tapStop: 7.5, idleBack: 7.65,
+  swipes: [8.1, 9.25, 10.4, 11.55, 12.7], swipeLen: 0.38,
+  tabNotif: 13.7, tapChip: 15.7, tabStats: 19.7, toFinish: 24.9, endCard: 27.0,
+};
+const CAPS = [[0.15, 2.45], [2.9, 7.4], [8.0, 13.45], [14.05, 19.45], [20.05, 24.75], [25.3, 26.95]];
+
+// ---------- math ----------
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const lerp = (a, b, t) => a + (b - a) * t;
+const seg = (t, a, b) => clamp((t - a) / (b - a));
+const TAU = Math.PI * 2;
+const E = {
+  out: t => 1 - Math.pow(1 - t, 3),
+  in: t => t * t * t,
+  inOut: t => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2),
+  back: t => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); },
+};
+function rng(seed) { return () => { seed |= 0; seed = (seed + 0x6D2B79F5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+
+// ---------- assets ----------
+let SPR = null;
+const ATLAS = {}, IMG = {};
+const loadImg = src => new Promise(res => { const im = new Image(); im.onload = () => res(im); im.onerror = () => res(null); im.src = src; });
+const assetsReady = (async () => {
+  SPR = await (await fetch('assets/sprites.json')).json();
+  await Promise.all(Object.entries(SPR).map(async ([k, s]) => { ATLAS[k] = await loadImg(s.atlas); }));
+  for (const n of ['finish_face', 'icon']) IMG[n] = await loadImg(`assets/${n}.png`);
+})();
+const fontsReady = (async () => {
+  const l = [];
+  for (const w of [300, 400, 500, 600, 700, 800]) l.push(document.fonts.load(`${w} 40px "Fira Sans"`, 'AaЖж09'));
+  for (const f of ['Material Icons', 'Material Icons Outlined', 'Material Icons Round']) l.push(document.fonts.load(`24px "${f}"`, 'bar_chart'));
+  try { await Promise.all(l); await document.fonts.ready; } catch (e) { /* fall back */ }
+})();
+
+// ---------- drawing primitives (logical points) ----------
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+let D = DEV.iphone, L = LANG.ru;
+function rr(x, y, w, h, r) { ctx.beginPath(); ctx.roundRect(x, y, w, h, r); }
+function circ(x, y, r) { ctx.beginPath(); ctx.arc(x, y, Math.max(0, r), 0, TAU); }
+function setFont(size, weight = 400) { ctx.font = `${weight} ${size}px ${FONT}`; }
+function txt(s, x, y, o = {}) {
+  setFont(o.size || 14, o.weight || 400);
+  ctx.letterSpacing = (o.ls || 0) + 'px';
+  ctx.textAlign = o.align || 'left'; ctx.textBaseline = 'alphabetic';
+  ctx.fillStyle = o.color || C.md; ctx.fillText(s, x, y);
+  ctx.letterSpacing = '0px';
+}
+function tw(s, size, weight = 400) { setFont(size, weight); return ctx.measureText(s).width; }
+function wrap(s, size, weight, maxW) {
+  setFont(size, weight);
+  const out = []; let line = '';
+  for (const w of s.split(' ')) { const t = line ? line + ' ' + w : w; if (ctx.measureText(t).width > maxW && line) { out.push(line); line = w; } else line = t; }
+  if (line) out.push(line);
+  return out;
+}
+function para(lines, x, top, size, lh, o = {}) {
+  lines.forEach((l, i) => txt(l, x, top + i * lh + (lh - size) / 2 + size * 0.8, { ...o, size }));
+  return top + lines.length * lh;
+}
+function icon(name, x, y, size, color, fam = 'Material Icons') {
+  ctx.font = `${size}px "${fam}"`; ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic'; ctx.fillStyle = color;
+  const m = ctx.measureText(name);
+  ctx.fillText(name, x, y + (m.actualBoundingBoxAscent - m.actualBoundingBoxDescent) / 2);
+}
+function shadow(color, blur, oy = 0) { ctx.shadowColor = color; ctx.shadowBlur = blur * D.S; ctx.shadowOffsetX = 0; ctx.shadowOffsetY = oy * D.S; }
+function noShadow() { ctx.shadowColor = 'transparent'; ctx.shadowBlur = 0; ctx.shadowOffsetY = 0; }
+
+// ---------- sprite renderer: a port of _SpritePainter ----------
+function valueAt(keys, time) {
+  if (!keys.length) return 0;
+  if (time <= keys[0][0]) return keys[0][1];
+  for (let i = 0; i < keys.length - 1; i++) {
+    const a = keys[i], b = keys[i + 1];
+    if (time < b[0]) {
+      if (a[2] || b[0] === a[0]) return a[1];
+      return a[1] + (b[1] - a[1]) * (time - a[0]) / (b[0] - a[0]);
+    }
+  }
+  return keys[keys.length - 1][1];
+}
+function contains(o, i) { const e = 1; return o[0] <= i[0] + e && o[1] <= i[1] + e && o[2] >= i[2] - e && o[3] >= i[3] - e; }
+function drawSprite(sheetName, animName, time, cx, cy, size) {
+  const sh = SPR[sheetName], atlas = ATLAS[sheetName];
+  if (!sh || !atlas) return;
+  const [bw, bh] = sh.board, fit = Math.min(size / bw, size / bh);
+  ctx.save();
+  ctx.translate(cx - size / 2 + (size - bw * fit) / 2, cy - size / 2 + (size - bh * fit) / 2);
+  ctx.scale(fit, fit);
+  const Ls = sh.layers;
+  const tr = Ls.map(l => [...l.tr]), op = Ls.map(l => l.opacity);
+  const an = sh.anims[animName];
+  if (an) for (const tk of an.tracks) {
+    const v = valueAt(tk.keys, time);
+    if (tk.prop === 'posX') tr[tk.layer][0] = v; else if (tk.prop === 'posY') tr[tk.layer][1] = v; else op[tk.layer] = v;
+  }
+  const wt = [], ws = [], wo = [];
+  for (let i = 0; i < Ls.length; i++) {
+    const p = Ls[i].parent;
+    if (p == null) { wt[i] = tr[i]; ws[i] = Ls[i].scale; wo[i] = op[i]; }
+    else { wt[i] = [wt[p][0] + tr[i][0] * ws[p], wt[p][1] + tr[i][1] * ws[p]]; ws[i] = ws[p] * Ls[i].scale; wo[i] = wo[p] * op[i]; }
+  }
+  const order = Ls.map((_, i) => i).sort((a, b) => Ls[a].order - Ls[b].order);
+  const dst = i => { const l = Ls[i].local, t = wt[i], s = ws[i]; return [t[0] + l[0] * s, t[1] + l[1] * s, t[0] + l[2] * s, t[1] + l[3] * s]; };
+  const dsts = {};
+  for (const i of order) if (Ls[i].kind === 'image' && wo[i] > 0) dsts[i] = dst(i);
+  const through = (i, rect) => {
+    let f = 1;
+    for (let k = order.indexOf(i) + 1; k < order.length; k++) { const j = order[k]; const a = dsts[j]; if (a && contains(a, rect)) f *= 1 - clamp(wo[j]); }
+    return f;
+  };
+  for (const i of order) {
+    const l = Ls[i]; let o = clamp(wo[i]);
+    if (o <= 0) continue;
+    if (l.kind === 'image') {
+      const d = dsts[i]; o *= through(i, d); if (o <= 0.002) continue;
+      ctx.globalAlpha = o;
+      ctx.drawImage(atlas, l.src[0], l.src[1], l.src[2] - l.src[0], l.src[3] - l.src[1], d[0], d[1], d[2] - d[0], d[3] - d[1]);
+    } else {
+      const t = wt[i], s = ws[i], w = l.size[0] * s, h = l.size[1] * s;
+      const rect = [t[0] - w / 2, t[1] - h / 2, t[0] + w / 2, t[1] + h / 2];
+      o *= through(i, rect); if (o <= 0.002) continue;
+      ctx.globalAlpha = o * l.alpha; ctx.fillStyle = l.color; ctx.fillRect(rect[0], rect[1], w, h);
+    }
+  }
+  ctx.globalAlpha = 1;
+  ctx.restore();
+}
+
+// ---------- app chrome ----------
+function appBg(w, h) {
+  ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, w, h);
+  const g = ctx.createLinearGradient(0, h, 0, h - 340);
+  g.addColorStop(0, C.mint); g.addColorStop(1, 'rgba(255,255,255,0)');
+  ctx.fillStyle = g; ctx.fillRect(0, h - 340, w, 340);
+}
+function statusBar(w) {
+  const ipad = D === DEV.ipad, y = ipad ? 17 : 36;
+  txt('9:41', ipad ? 24 : 58, y, { size: ipad ? 13 : 17, weight: 600, color: '#000', align: ipad ? 'left' : 'center' });
+  const rx = w - (ipad ? 24 : 34);
+  ctx.fillStyle = '#000'; ctx.strokeStyle = '#000';
+  ctx.globalAlpha = 0.4; ctx.lineWidth = 1; rr(rx - 26, y - 11, 25, 12.5, 4); ctx.stroke(); ctx.globalAlpha = 1;
+  rr(rx - 24, y - 9, 21, 8.5, 2.5); ctx.fill();
+  ctx.globalAlpha = 0.4; rr(rx + 0.5, y - 6.5, 1.8, 4, 1); ctx.fill(); ctx.globalAlpha = 1;
+  const wx = rx - 42, wy = y - 1; ctx.lineCap = 'round';
+  for (const r of [11, 7]) { ctx.lineWidth = 2.2; ctx.beginPath(); ctx.arc(wx, wy, r, -Math.PI * 0.75, -Math.PI * 0.25); ctx.stroke(); }
+  ctx.beginPath(); ctx.moveTo(wx, wy); ctx.arc(wx, wy, 3.6, -Math.PI * 0.75, -Math.PI * 0.25); ctx.closePath(); ctx.fill();
+  if (!ipad) for (let i = 0; i < 4; i++) { rr(rx - 80 + i * 5, y - 3 - i * 2.6, 3.2, 4 + i * 2.6, 1); ctx.fill(); }
+}
+function glassBtn(x, y, r, name, color, fam) {
+  ctx.save(); shadow('rgba(0,0,0,0.10)', 12, 4);
+  ctx.fillStyle = 'rgba(255,255,255,0.9)'; circ(x, y, r); ctx.fill(); noShadow();
+  ctx.strokeStyle = 'rgba(0,0,0,0.06)'; ctx.lineWidth = 1; circ(x, y, r - 0.5); ctx.stroke();
+  ctx.restore();
+  icon(name, x, y, r * 1.15, color, fam);
+}
+function appBar(w, tab, fromTab, p) {
+  const st = D.st, cy = st + 22;
+  const g = ctx.createLinearGradient(0, 0, 0, st + 70);
+  g.addColorStop(0, 'rgba(255,255,255,0.95)'); g.addColorStop(1, 'rgba(255,255,255,0)');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, w, st + 70);
+  const titleOf = i => L.tabs[i];
+  ctx.save();
+  if (p < 1 && fromTab != null) { ctx.globalAlpha = 1 - p; txt(titleOf(fromTab), w / 2, cy + 8.5, { size: 24, weight: 700, color: C.green, align: 'center' }); }
+  ctx.globalAlpha = fromTab != null ? p : 1;
+  txt(titleOf(tab), w / 2, cy + 8.5, { size: 24, weight: 700, color: C.green, align: 'center' });
+  ctx.restore();
+  const helpA = tab === 2 ? (fromTab === 2 ? 1 - p : 0) : (fromTab === 2 ? p : 1);
+  const vibA = tab === 1 ? (fromTab != null && fromTab !== 1 ? p : 1) : (fromTab === 1 ? 1 - p : 0);
+  if (helpA > 0) { ctx.save(); ctx.globalAlpha = helpA; glassBtn(40, cy, 20, 'help_outline', C.green); ctx.restore(); }
+  if (vibA > 0) { ctx.save(); ctx.globalAlpha = vibA; glassBtn(w - 36, cy, 20, 'vibration', C.green); ctx.restore(); }
+}
+function tabBar(w, h, selF) {
+  const m = w > 600 ? 200 : 22, y = h - D.sb - 60, bw = w - 2 * m, bh = 60;
+  ctx.save(); shadow('rgba(30,70,50,0.16)', 26, 8);
+  ctx.fillStyle = 'rgba(255,255,255,0.8)'; rr(m, y, bw, bh, bh / 2); ctx.fill(); noShadow();
+  ctx.strokeStyle = 'rgba(0,0,0,0.05)'; ctx.lineWidth = 1; rr(m, y, bw, bh, bh / 2); ctx.stroke();
+  const cell = bw / 3;
+  ctx.fillStyle = 'rgba(80,159,117,0.14)'; rr(m + cell * selF + 5, y + 5, cell - 10, bh - 10, (bh - 10) / 2); ctx.fill();
+  ['bar_chart', 'remove_red_eye', 'settings'].forEach((n, i) => {
+    const a = clamp(1 - Math.abs(i - selF));
+    const col = a > 0.5 ? C.green : C.lg;
+    icon(n, m + cell * i + cell / 2, y + bh / 2, 26, col);
+  });
+  ctx.restore();
+  return { m, y, cell, bh };
+}
+function tabCenter(w, h, i) { const m = w > 600 ? 200 : 22, cell = (w - 2 * m) / 3; return [m + cell * i + cell / 2, h - D.sb - 30]; }
+function card(x, y, w, h) { ctx.save(); shadow('rgba(0,0,0,0.08)', 16, 6); ctx.fillStyle = '#fff'; rr(x, y, w, h, 24); ctx.fill(); ctx.restore(); }
+function button(cx, y, label) {
+  ctx.save(); shadow('rgba(0,0,0,0.15)', 10, 4);
+  ctx.fillStyle = C.green; rr(cx - 120, y, 240, 50, 25); ctx.fill(); ctx.restore();
+  txt(label, cx, y + 31, { size: 16, color: '#fff', align: 'center' });
+}
+
+// ---------- exercise tab ----------
+function exLayout(w, h) {
+  const top = D.st + 44 + 16, ctlTop = h - D.sb - 100 - 50, cueTop = ctlTop - 14 - 24;
+  return { top, ctlTop, cueTop };
+}
+// One page of the swiper. st: {mode, faceT, veil, digit, ringA, prog, cue, reps}
+function exPage(k, ox, w, h, st) {
+  const [title, desc, meta] = L.ex[k], cfg = EX[k], cx = w / 2 + ox;
+  const { top, ctlTop, cueTop } = exLayout(w, h);
+  let y = para([title], cx, top, 21, 26.25, { weight: 600, align: 'center' });
+  const train = st.mode !== 'idle';
+  ctx.save(); ctx.globalAlpha = lerp(1, 0.55, st.dim || 0);
+  y = para(wrap(desc, 14, 400, w - 48), cx, y + 8, 14, 19.6, { align: 'center' });
+  ctx.restore();
+  const pillTop = y + 10;
+  const pillA = 1 - (st.dim || 0);
+  if (pillA > 0) {
+    ctx.save(); ctx.globalAlpha = pillA;
+    const pw = tw(meta, 12.5, 600) + 24;
+    ctx.fillStyle = C.pale; rr(cx - pw / 2, pillTop, pw, 26, 13); ctx.fill();
+    txt(meta, cx, pillTop + 17.5, { size: 12.5, weight: 600, color: C.deep, align: 'center' });
+    ctx.restore();
+  }
+  const sy = (pillTop + 28 + cueTop) / 2;
+  if (st.ringA > 0) {
+    ctx.save(); ctx.globalAlpha = st.ringA;
+    ctx.strokeStyle = C.pale; ctx.lineWidth = 5; circ(cx, sy, 109.5); ctx.stroke();
+    if (st.prog > 0) { ctx.strokeStyle = C.green; ctx.lineCap = 'round'; ctx.beginPath(); ctx.arc(cx, sy, 109.5, -Math.PI / 2, -Math.PI / 2 + TAU * st.prog); ctx.stroke(); }
+    ctx.restore();
+  }
+  const veil = st.veil || 0;
+  ctx.save();
+  if (veil > 0) { ctx.filter = `blur(${10 * veil * D.S}px)`; ctx.globalAlpha = 1 - 0.75 * veil; }
+  drawSprite(cfg.sheet, train ? cfg.train : cfg.idle, st.faceT, cx, sy, 176);
+  ctx.restore();
+  if (veil > 0 && st.digit) { ctx.save(); ctx.globalAlpha = veil; txt(st.digit, cx, sy + 23, { size: 64, weight: 300, align: 'center' }); ctx.restore(); }
+  if (st.cue) {
+    ctx.save(); ctx.globalAlpha = st.cueA ?? 1;
+    txt(st.cue, cx, cueTop + 18, { size: 17, weight: st.cueGrey ? 400 : 600, color: st.cueGrey ? C.lg : C.deep, align: 'center' });
+    ctx.restore();
+  }
+  if (!train || st.mode === 'stopping') button(cx, ctlTop, L.start);
+  else {
+    glassBtn(cx - 98, ctlTop + 25, 22, 'pause', C.deep, 'Material Icons Round');
+    glassBtn(cx + 98, ctlTop + 25, 22, 'stop', C.deep, 'Material Icons Round');
+    txt(st.reps || '', cx, ctlTop + 30, { size: 15, weight: 600, align: 'center' });
+  }
+  return { sy, ctlTop, cueTop };
+}
+function exerciseTab(w, h, t) {
+  // swiper position
+  const pos = T.swipes.reduce((acc, s) => acc + E.inOut(seg(t, s, s + T.swipeLen)), 0);
+  const i = Math.floor(pos), f = pos - i;
+  let st;
+  if (t < T.veil) st = { mode: 'idle', faceT: (t % 4) };
+  else if (t < T.trainIn) {
+    const cover = seg(t, T.veil, T.veil + 0.2);
+    const cd = seg(t, T.veil + 0.2, T.trainIn);
+    st = { mode: 'count', faceT: 0, veil: cover * (1 - cd * 0.35), digit: cd < 0.55 ? '3' : '2', cue: L.getReady || (L === LANG.ru ? 'Приготовьтесь' : 'Get ready'), cueGrey: true, reps: L.repsOf(1, 3), dim: seg(t, T.veil, T.veil + 0.3) };
+  } else if (t < T.tapStop + 0.12) {
+    const ft = Math.max(0, t - T.trainT0);
+    const cueDown = ft >= 4.5;
+    const since = cueDown ? ft - 4.5 : ft;
+    st = { mode: 'train', faceT: ft, ringA: seg(t, T.trainIn, T.trainIn + 0.25), prog: ft / 9, cue: cueDown ? L.cueDown : L.cueUp, cueA: E.out(clamp(since / 0.2)), reps: L.repsOf(1, 3), dim: 1 };
+    if (t < T.trainT0) { const a = seg(t, T.trainIn, T.trainT0); st.veil = 1 - a; st.faceT = 0; }
+  } else {
+    const back = seg(t, T.tapStop + 0.12, T.idleBack + 0.2);
+    st = { mode: 'idle', faceT: (t - T.idleBack) % 4, ringA: 1 - back, prog: (T.tapStop - T.trainT0) / 9, dim: 1 - back };
+  }
+  appBg(w, h);
+  const pages = [];
+  for (const j of [i, i + 1]) {
+    if (j > 5) continue;
+    const ox = (j - pos) * w;
+    if (Math.abs(ox) >= w) continue;
+    const local = j === 0 ? st : { mode: 'idle', faceT: Math.max(0, t - (T.swipes[j - 1] ?? 0)) % (SPR ? SPR[EX[j].sheet].anims[EX[j].idle].dur : 4) };
+    pages.push(exPage(j, ox, w, h, local));
+  }
+  // pagination
+  const py = h - D.sb - 75;
+  let x = w / 2 - (5 * 6 + 16 + 6 * 10) / 2 + 5;
+  for (let j = 0; j < 6; j++) {
+    const a = clamp(1 - Math.abs(j - pos));
+    const dw = lerp(6, 16, a);
+    ctx.fillStyle = a > 0.5 ? C.green : j === 0 && t > T.trainIn ? C.deep : '#C9D3CD';
+    rr(x, py - 3, dw, 6, 3); ctx.fill();
+    x += dw + 10;
+  }
+  return exLayout(w, h);
+}
+
+// ---------- notifications tab ----------
+function iosSwitch(x, y) {
+  ctx.fillStyle = C.green; rr(x, y, 51, 31, 15.5); ctx.fill();
+  ctx.save(); shadow('rgba(0,0,0,0.2)', 4, 2); ctx.fillStyle = '#fff'; circ(x + 35.5, y + 15.5, 13.5); ctx.fill(); ctx.restore();
+}
+function notificationsTab(w, h, t) {
+  const n = L.n, x0 = 16, cw = w - 32, pad = 16, ix = x0 + pad, iw = cw - 2 * pad;
+  const p = E.out(seg(t, T.tapChip + 0.05, T.tapChip + 0.45));
+  appBg(w, h);
+  let y = D.st + 44 + 12;
+  card(x0, y, cw, 92);
+  para([n.title], ix, y + 14, 16.5, 20.6, { weight: 600 });
+  ctx.save(); ctx.globalAlpha = 1 - p; para([n.sum2, n.days], ix, y + 14 + 20.6 + 4, 13, 17.55, { color: C.lg }); ctx.restore();
+  ctx.save(); ctx.globalAlpha = p; para([n.sum3, n.days], ix, y + 14 + 20.6 + 4, 13, 17.55, { color: C.lg }); ctx.restore();
+  iosSwitch(x0 + cw - pad - 51, y + 46 - 15.5);
+  y += 92 + 12;
+  const mh = 14 + 44 + 16 + 17.5 + 8 + 38 + 16 + 17.5 + 4 + 38 + 16;
+  card(x0, y, cw, mh);
+  let yy = y + 14;
+  ctx.fillStyle = '#EEF3EF'; rr(ix, yy, iw, 44, 16); ctx.fill();
+  ctx.save(); shadow('rgba(0,0,0,0.08)', 6, 2); ctx.fillStyle = '#fff'; rr(ix + 4, yy + 4, iw / 2 - 4, 36, 12); ctx.fill(); ctx.restore();
+  txt(n.auto, ix + iw / 4, yy + 27, { size: 14.5, weight: 600, color: C.deep, align: 'center' });
+  txt(n.manual, ix + iw * 3 / 4, yy + 27, { size: 14.5, weight: 600, color: C.md, align: 'center' });
+  yy += 44 + 16;
+  yy = para([n.perDay], ix, yy, 14, 17.5, { weight: 600 }) + 8;
+  const chw = (iw - 16) / 3;
+  let chip3 = null;
+  for (let i = 0; i < 3; i++) {
+    const cx = ix + i * (chw + 8);
+    const sel = i === 1 ? 1 - p : i === 2 ? p : 0;
+    if (sel < 1) { ctx.strokeStyle = C.hair; ctx.lineWidth = 1.5; rr(cx + 0.75, yy + 0.75, chw - 1.5, 36.5, 11); ctx.stroke(); }
+    if (sel > 0) { ctx.save(); ctx.globalAlpha = sel; ctx.fillStyle = C.green; rr(cx, yy, chw, 38, 11); ctx.fill(); ctx.restore(); }
+    ctx.save(); ctx.globalAlpha = 1;
+    txt(String(i + 1), cx + chw / 2, yy + 24.5, { size: 16, weight: sel > 0.5 ? 600 : 400, color: sel > 0.5 ? '#fff' : C.md, align: 'center' });
+    ctx.restore();
+    if (i === 2) chip3 = [cx + chw / 2, yy + 19];
+  }
+  yy += 38 + 16;
+  yy = para([n.today], ix, yy, 14, 17.5, { weight: 600 }) + 4;
+  ctx.fillStyle = C.pale; rr(ix, yy + 9, iw, 4, 2); ctx.fill();
+  const tx = m => ix + iw * (m - 540) / 540;
+  // 2 a day: 12:00, 15:00  →  3 a day: 11:15, 13:30, 15:45 (autoReminderTimes); now is 14:00
+  const fmt = m => `${Math.floor(m / 60)}:${String(Math.round(m % 60)).padStart(2, '0')}`;
+  const from = [720, 900, 900], to = [675, 810, 945];
+  for (let i = 0; i < 3; i++) {
+    const m = lerp(from[i], to[i], p);
+    const a = i === 2 ? p : 1;
+    const passed = m <= 840;
+    const c = passed ? C.deep : C.green;
+    ctx.save(); ctx.globalAlpha = a;
+    ctx.fillStyle = c; circ(tx(m), yy + 11, 7); ctx.fill();
+    ctx.fillStyle = '#fff'; circ(tx(m), yy + 11, 5); ctx.fill();
+    ctx.fillStyle = c; circ(tx(m), yy + 11, 4); ctx.fill();
+    const label = fmt(p < 0.5 ? from[i] : to[i]);
+    txt(passed ? label + ' ✓' : label, tx(m), yy + 32, { size: 10, weight: 500, color: passed ? C.deep : C.md, align: 'center' });
+    ctx.restore();
+  }
+  txt('9:00', ix, yy + 32, { size: 10, color: C.lg });
+  txt('18:00', ix + iw, yy + 32, { size: 10, color: C.lg, align: 'right' });
+  y += mh + 12;
+  const wh = 14 + 17.5 + 10 + 42 + 4 + 43 + 44 + 12;
+  card(x0, y, cw, wh);
+  yy = para([n.workDays], ix, y + 14, 14, 17.5, { weight: 600 }) + 10;
+  const gap = (iw - 7 * 34) / 6;
+  L.days.forEach((d, i) => {
+    const sel = i < 5, cx = ix + i * (34 + gap) + 17;
+    ctx.fillStyle = sel ? C.green : 'rgba(0,0,0,0)'; circ(cx, yy + 17, 17); ctx.fill();
+    if (!sel) { ctx.strokeStyle = C.hair; ctx.lineWidth = 1.5; circ(cx, yy + 17, 16.25); ctx.stroke(); }
+    txt(d, cx, yy + 21.5, { size: d.length > 2 ? 11 : 12, weight: 600, color: sel ? '#fff' : C.lg, align: 'center' });
+  });
+  yy += 42 + 4;
+  txt(n.workHours, ix, yy + 26.5, { size: 15 });
+  txt('9:00 – 18:00', ix + iw - 24, yy + 26.5, { size: 14, color: C.lg, align: 'right' });
+  icon('chevron_right', ix + iw - 10, yy + 21.5, 20, C.lg);
+  yy += 43;
+  ctx.fillStyle = C.hair; ctx.fillRect(ix, yy, iw, 1);
+  txt(n.perDaySetup, ix, yy + 26.5, { size: 15, weight: 600, color: C.deep });
+  icon('expand_more', ix + iw - 10, yy + 21.5, 20, C.deep);
+  return { chip3, bottom: y + wh };
+}
+
+// ---------- statistics tab ----------
+function statsTab(w, h) {
+  const s = L.s, x0 = 16, cw = w - 32, pad = 16, ix = x0 + pad, iw = cw - 2 * pad;
+  appBg(w, h);
+  let y = D.st + 44 + 12;
+  const sh = 14 + 17.5 + 6 + 48 + 4 + 17.5 + 14 + 34 + 4 + 15 + 16;
+  card(x0, y, cw, sh);
+  let yy = para([s.streak], ix, y + 14, 14, 17.5, { weight: 600 }) + 6;
+  txt('12', ix, yy + 40, { size: 44, weight: 300, ls: -1 });
+  txt(s.inRow, ix + tw('12', 44, 300) + 4, yy + 40, { size: 16 });
+  yy += 52;
+  yy = para([s.best], ix, yy, 13, 17.5, { color: C.lg }) + 14;
+  const rcx = ix + iw - 28, rcy = y + 64;
+  ctx.lineWidth = 6; ctx.lineCap = 'round';
+  ctx.strokeStyle = '#F1F5F2'; circ(rcx, rcy, 25); ctx.stroke();
+  ctx.strokeStyle = C.green; ctx.beginPath(); ctx.arc(rcx, rcy, 25, -Math.PI / 2, -Math.PI / 2 + TAU * 2 / 7); ctx.stroke();
+  icon('remove_red_eye', rcx, rcy, 20, C.deep, 'Material Icons Outlined');
+  const colW = iw / 7;
+  L.days.forEach((d, i) => {
+    const cx = ix + colW * i + colW / 2, cy = yy + 17;
+    if (i < 2) { ctx.fillStyle = C.green; circ(cx, cy, 13); ctx.fill(); icon('check', cx, cy, 14, '#fff'); }
+    else if (i === 2) {
+      ctx.save(); circ(cx, cy, 13); ctx.clip(); ctx.fillStyle = C.green; ctx.fillRect(cx - 13, cy - 13, 13, 26); ctx.restore();
+      ctx.strokeStyle = C.green; ctx.lineWidth = 2; circ(cx, cy, 12); ctx.stroke(); circ(cx, cy, 16); ctx.stroke();
+    } else { ctx.strokeStyle = C.hair; ctx.lineWidth = 2; circ(cx, cy, 12); ctx.stroke(); }
+    txt(d, cx, yy + 49, { size: 12, color: C.lg, align: 'center' });
+  });
+  y += sh + 12;
+  const th = 14 + 17.5 + 10 + 36 + 10 + 17.5 + 16;
+  card(x0, y, cw, th);
+  para([s.today], ix, y + 14, 14, 17.5, { weight: 600 });
+  txt(s.plan, ix + iw, y + 27.5, { size: 13, color: C.lg, align: 'right' });
+  yy = y + 41.5;
+  const icons = [['swap_vert', 'Material Icons'], ['swap_horiz', 'Material Icons'], ['visibility_off', 'Material Icons Outlined'], ['remove_red_eye', 'Material Icons Outlined'], ['center_focus_strong', 'Material Icons Outlined'], ['back_hand', 'Material Icons Outlined']];
+  const chw = (iw - 30) / 6;
+  icons.forEach(([nm, fam], i) => {
+    const done = i < 4, cx = ix + i * (chw + 6);
+    ctx.fillStyle = done ? C.pale : 'rgba(0,0,0,0)'; rr(cx, yy, chw, 36, 10); ctx.fill();
+    ctx.strokeStyle = done ? C.green : C.hair; ctx.lineWidth = 1.5; rr(cx + 0.75, yy + 0.75, chw - 1.5, 34.5, 10); ctx.stroke();
+    icon(nm, cx + chw / 2, yy + 18, 18, done ? C.deep : C.lg, fam);
+  });
+  para([s.left], ix, yy + 46, 13, 17.5);
+  y += th + 12;
+  const cell = (iw - 30 - 24) / 7, rows = 5, mh = 14 + 17.5 + 10 + 15 + 4 + rows * (cell + 4) + 4 + 14 + 16;
+  card(x0, y, cw, mh);
+  para([s.month], ix, y + 14, 14, 17.5, { weight: 600 });
+  txt(s.monthSum, ix + iw, y + 27.5, { size: 13, color: C.lg, align: 'right' });
+  yy = y + 41.5;
+  L.days.forEach((d, i) => txt(d, ix + 30 + i * (cell + 4) + cell / 2, yy + 11, { size: 12, color: C.lg, align: 'center' }));
+  yy += 19;
+  const lvl = [0, 2, 3, 1, 3, 4, 0, 2, 3, 3, 1, 3, 3, 4, 2, 3, 3, 4, 3, 3, 2, 3, 2];
+  for (let r = 0; r < rows; r++) {
+    txt(`${Math.max(1, r * 7)}–${Math.min(30, r * 7 + 6)}`, ix, yy + cell / 2 + 4, { size: 12, color: C.lg });
+    for (let c = 0; c < 7; c++) {
+      const day = r * 7 + c;
+      if (day < 1 || day > 30) continue;
+      const cx = ix + 30 + c * (cell + 4);
+      ctx.fillStyle = day > 23 ? 'rgba(241,245,242,0.45)' : LV[lvl[day - 1]];
+      rr(cx, yy, cell, cell, 4); ctx.fill();
+      if (day === 23) { ctx.strokeStyle = C.deep; ctx.lineWidth = 2; rr(cx + 1, yy + 1, cell - 2, cell - 2, 4); ctx.stroke(); }
+    }
+    yy += cell + 4;
+  }
+  yy += 4;
+  const legW = tw(s.legend, 12) + 5 * 13 + 5 + tw('0', 12);
+  let lx = ix + iw - legW;
+  txt('0', lx, yy + 10.5, { size: 12, color: C.lg }); lx += tw('0', 12) + 4;
+  LV.forEach(c => { ctx.fillStyle = c; rr(lx, yy + 1, 10, 10, 2); ctx.fill(); lx += 13; });
+  txt(s.legend, lx + 1, yy + 10.5, { size: 12, color: C.lg });
+  return { bottom: y + mh };
+}
+
+// ---------- finish ----------
+function finishTab(w, h) {
+  const f = L.fin, cx = w / 2;
+  appBg(w, h);
+  let y = D.st + 52 + 18 + 30;
+  y = para([f.good], cx, y, 24, 30, { weight: 700, color: '#222', align: 'center' });
+  y = para(wrap(f.text, 20, 300, Math.min(w - 60, 520)), cx, y + 12, 20, 25, { weight: 300, color: '#333', align: 'center' });
+  if (IMG.finish_face) ctx.drawImage(IMG.finish_face, cx - 80, y + 16, 160, 160);
+  button(cx, h - D.sb - 94 - 50, f.cont);
+  return { faceBottom: y + 176 };
+}
+
+// ---------- overlays ----------
+function richLine(s, cx, y, size, color, acc) {
+  const parts = s.split('*').map((p, i) => ({ p, acc: i % 2 === 1 })).filter(x => x.p);
+  setFont(size, 800); ctx.letterSpacing = (-size * 0.01) + 'px';
+  const ws = parts.map(x => ctx.measureText(x.p).width);
+  let x = cx - ws.reduce((a, b) => a + b, 0) / 2;
+  ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+  parts.forEach((pt, i) => { ctx.fillStyle = pt.acc ? acc : color; ctx.fillText(pt.p, x, y); x += ws[i]; });
+  ctx.letterSpacing = '0px';
+  return ws.reduce((a, b) => a + b, 0);
+}
+function caption(lines, cx, cy, t, t0, t1) {
+  const a = E.out(seg(t, t0, t0 + 0.4)) * (1 - seg(t, t1 - 0.3, t1));
+  if (a <= 0) return;
+  const size = D.cap, lh = size * 1.18;
+  const w = Math.max(...lines.map(l => { setFont(size, 800); return ctx.measureText(l.replace(/\*/g, '')).width; })) + size * 1.4;
+  const h = lh * lines.length + size * 0.9;
+  ctx.save();
+  ctx.globalAlpha = a;
+  ctx.translate(cx, cy + (1 - a) * 14);
+  const sc = lerp(0.94, 1, E.back(seg(t, t0, t0 + 0.45)));
+  ctx.scale(sc, sc);
+  shadow('rgba(20,70,45,0.28)', 28, 10);
+  ctx.fillStyle = C.green; rr(-w / 2, -h / 2, w, h, size * 0.75); ctx.fill(); noShadow();
+  lines.forEach((l, i) => richLine(l, 0, -h / 2 + size * 0.45 + lh * i + size * 0.86, size, '#fff', '#0f3d25'));
+  ctx.restore();
+}
+function hotspot(x, y, t, t0) {
+  const p = seg(t, t0 - 0.12, t0 + 0.45);
+  if (p <= 0 || p >= 1) return;
+  const press = t < t0 ? seg(t, t0 - 0.12, t0) : 1;
+  const a = t < t0 ? press : 1 - seg(t, t0, t0 + 0.45);
+  ctx.save();
+  ctx.globalAlpha = a * 0.9;
+  ctx.fillStyle = 'rgba(80,159,117,0.22)'; circ(x, y, 24 * lerp(1.2, 0.9, press)); ctx.fill();
+  ctx.strokeStyle = 'rgba(80,159,117,0.9)'; ctx.lineWidth = 2.5; circ(x, y, 24 * lerp(1.2, 0.9, press)); ctx.stroke();
+  if (t > t0) { const r = seg(t, t0, t0 + 0.45); ctx.globalAlpha = (1 - r) * 0.7; ctx.lineWidth = 2; circ(x, y, 24 + r * 30); ctx.stroke(); }
+  ctx.restore();
+}
+function swipeSpot(w, y, t, t0) {
+  const p = seg(t, t0 - 0.08, t0 + T.swipeLen + 0.05);
+  if (p <= 0 || p >= 1) return;
+  const x = lerp(w * 0.78, w * 0.22, E.inOut(p));
+  const a = Math.sin(p * Math.PI);
+  ctx.save(); ctx.globalAlpha = a;
+  const g = ctx.createLinearGradient(x, 0, x + w * 0.25, 0);
+  g.addColorStop(0, 'rgba(80,159,117,0.35)'); g.addColorStop(1, 'rgba(80,159,117,0)');
+  ctx.fillStyle = g; rr(x, y - 20, w * 0.25, 40, 20); ctx.fill();
+  ctx.fillStyle = 'rgba(80,159,117,0.25)'; circ(x, y, 22); ctx.fill();
+  ctx.strokeStyle = 'rgba(80,159,117,0.9)'; ctx.lineWidth = 2.5; circ(x, y, 22); ctx.stroke();
+  ctx.restore();
+}
+function sparkle(x, y, r, a) {
+  ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = '#fff'; ctx.translate(x, y); ctx.beginPath();
+  for (let i = 0; i < 8; i++) { const rad = i % 2 ? r * 0.26 : r, an = i * Math.PI / 4 - Math.PI / 2; ctx[i ? 'lineTo' : 'moveTo'](Math.cos(an) * rad, Math.sin(an) * rad); }
+  ctx.closePath(); ctx.fill(); ctx.restore();
+}
+function endCard(w, h, t) {
+  const g = ctx.createRadialGradient(w / 2, h * 0.35, 30, w / 2, h * 0.55, h * 0.8);
+  g.addColorStop(0, '#62b58a'); g.addColorStop(1, '#2f7a55');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+  const p = E.back(seg(t, T.endCard + 0.1, T.endCard + 0.65));
+  const is = Math.min(w, h) * 0.34, cy = h * 0.4;
+  if (p > 0) {
+    ctx.save(); ctx.translate(w / 2, cy); ctx.scale(p, p);
+    shadow('rgba(0,40,20,0.35)', 40, 14);
+    ctx.fillStyle = '#fff'; rr(-is / 2, -is / 2, is, is, is * 0.225); ctx.fill(); noShadow();
+    ctx.save(); rr(-is / 2, -is / 2, is, is, is * 0.225); ctx.clip();
+    if (IMG.icon) ctx.drawImage(IMG.icon, -is / 2, -is / 2, is, is);
+    ctx.restore(); ctx.restore();
+  }
+  const ta = E.out(seg(t, T.endCard + 0.45, T.endCard + 0.9));
+  ctx.save(); ctx.globalAlpha = ta; ctx.translate(0, (1 - ta) * 16);
+  const s1 = D.cap * 1.5;
+  richLine('Eye Helper', w / 2, cy + is / 2 + s1 * 1.5, s1, '#fff', '#fff');
+  txt(L.tag, w / 2, cy + is / 2 + s1 * 1.5 + D.cap * 1.35, { size: D.cap * 0.8, color: 'rgba(255,255,255,0.9)', align: 'center', weight: 500 });
+  ctx.restore();
+  [[0.2, 0.28, 14], [0.8, 0.3, 11], [0.14, 0.52, 9], [0.86, 0.5, 15], [0.26, 0.7, 10], [0.76, 0.72, 9]].forEach(([sx, sy, r], j) => {
+    const sp = seg(t, T.endCard + 0.5 + j * 0.12, T.endCard + 1.3 + j * 0.12);
+    if (sp > 0) sparkle(sx * w, sy * h, r * (w / 440) * Math.sin(Math.min(1, sp) * Math.PI * 0.5 + 0.5), 0.85 * Math.min(1, sp * 2));
+  });
+}
+
+// ---------- frame ----------
+function scene(w, h, t) {
+  // Which tab body is showing, with a short crossfade between them.
+  const bodies = [
+    [0, T.tabNotif + 0.12, 'ex'], [T.tabNotif + 0.12, T.tabStats + 0.12, 'notif'],
+    [T.tabStats + 0.12, T.toFinish + 0.12, 'stats'], [T.toFinish + 0.12, 99, 'fin'],
+  ];
+  const draw = (k) => k === 'ex' ? exerciseTab(w, h, t) : k === 'notif' ? notificationsTab(w, h, t) : k === 'stats' ? statsTab(w, h) : finishTab(w, h);
+  let info = {};
+  for (let b = 0; b < bodies.length; b++) {
+    const [a, z, k] = bodies[b];
+    if (t >= a && t < z) {
+      info[k] = draw(k);
+      const prev = bodies[b - 1];
+      const fa = 1 - seg(t, a, a + 0.25);
+      if (prev && fa > 0) {
+        // previous body fading out on top
+        ctx.save(); ctx.globalAlpha = fa; info[prev[2]] = draw(prev[2]); ctx.restore();
+      }
+    }
+  }
+  statusBar(w);
+  // tab bar + app bar
+  let tab = 1, from = null, p = 1;
+  if (t >= T.tabNotif) { tab = 2; from = 1; p = seg(t, T.tabNotif + 0.05, T.tabNotif + 0.3); }
+  if (t >= T.tabStats) { tab = 0; from = 2; p = seg(t, T.tabStats + 0.05, T.tabStats + 0.3); }
+  if (t >= T.toFinish) { tab = 1; from = 0; p = seg(t, T.toFinish + 0.05, T.toFinish + 0.3); }
+  const selF = from == null ? tab : lerp(from, tab, E.inOut(p));
+  appBar(w, tab, from, p);
+  tabBar(w, h, selF);
+  return info;
+}
+function render(t) {
+  t = clamp(t, 0, DUR - 1e-4);
+  const S = D.S, w = D.sw, h = D.sh;
+  ctx.setTransform(S, 0, 0, S, 0, 0);
+  ctx.globalAlpha = 1; ctx.filter = 'none';
+  const info = scene(w, h, t);
+  const { ctlTop, cueTop } = exLayout(w, h);
+  // hotspots
+  hotspot(w / 2, ctlTop + 25, t, T.tapStart);
+  hotspot(w / 2 + 98, ctlTop + 25, t, T.tapStop);
+  T.swipes.forEach(s => swipeSpot(w, (D.st + 60 + cueTop) / 2 + 60, t, s));
+  hotspot(...tabCenter(w, h, 2), t, T.tabNotif);
+  if (info.notif?.chip3) hotspot(...info.notif.chip3, t, T.tapChip);
+  hotspot(...tabCenter(w, h, 0), t, T.tabStats);
+  // captions
+  // Exercise captions sit just above the cue line, clear of the ring on every page.
+  const capH = n => D.cap * 1.18 * n + D.cap * 0.9;
+  const exCapY = cueTop - 8 - capH(2) / 2;
+  caption(L.caps[0], w / 2, exCapY, t, ...CAPS[0]);
+  caption(L.caps[1], w / 2, exCapY, t, ...CAPS[1]);
+  caption(L.caps[2], w / 2, exCapY, t, ...CAPS[2]);
+  const nb = info.notif?.bottom ?? h * 0.7;
+  caption(L.caps[3], w / 2, nb + (h - D.sb - 60 - nb) / 2, t, ...CAPS[3]);
+  const sbm = info.stats?.bottom ?? (h - D.sb - 150);
+  caption(L.caps[4], w / 2, Math.min(sbm + 12 + capH(1) / 2, h - D.sb - 68 - capH(1) / 2), t, ...CAPS[4]);
+  caption(L.caps[5], w / 2, (info.fin?.faceBottom ?? h * 0.6) + (h - D.sb - 144 - (info.fin?.faceBottom ?? h * 0.6)) / 2, t, ...CAPS[5]);
+  // end card
+  const ea = seg(t, T.endCard, T.endCard + 0.4);
+  if (ea > 0) { ctx.save(); ctx.globalAlpha = ea; endCard(w, h, t); ctx.restore(); }
+  // fade in from white at the very start
+  if (t < 0.2) { ctx.fillStyle = `rgba(255,255,255,${1 - t / 0.2})`; ctx.fillRect(0, 0, w, h); }
+}
+
+// ======================= soundtrack =======================
+const mid = m => 440 * Math.pow(2, (m - 69) / 12);
+async function buildAudio() {
+  const SR = 48000;
+  const ac = new OfflineAudioContext(2, SR * DUR, SR);
+  const master = ac.createGain(); master.gain.setValueAtTime(0.0001, 0); master.gain.linearRampToValueAtTime(0.85, 0.3);
+  master.gain.setValueAtTime(0.85, DUR - 1.4); master.gain.linearRampToValueAtTime(0, DUR);
+  const comp = ac.createDynamicsCompressor(); comp.threshold.value = -16; comp.ratio.value = 4; comp.attack.value = 0.004; comp.release.value = 0.2;
+  master.connect(comp); comp.connect(ac.destination);
+  const noise = ac.createBuffer(1, SR * 2, SR);
+  { const d = noise.getChannelData(0); const R = rng(3); for (let i = 0; i < d.length; i++) d[i] = R() * 2 - 1; }
+  const imp = ac.createBuffer(2, SR * 2.4, SR);
+  for (let ch = 0; ch < 2; ch++) { const d = imp.getChannelData(ch); const R = rng(5 + ch); for (let i = 0; i < d.length; i++) d[i] = (R() * 2 - 1) * Math.pow(1 - i / d.length, 2.6); }
+  const rev = ac.createConvolver(); rev.buffer = imp;
+  const revG = ac.createGain(); revG.gain.value = 0.3; rev.connect(revG); revG.connect(master);
+  const out = (node, wet = 0) => { node.connect(master); if (wet) { const w = ac.createGain(); w.gain.value = wet; node.connect(w); w.connect(rev); } };
+  const env = (g, t, a, peak, d) => { g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(peak, t + a); g.gain.exponentialRampToValueAtTime(0.0001, t + a + d); };
+  function tone(t, f, dur, { type = 'sine', v = 0.2, a = 0.005, wet = 0, f2 } = {}) {
+    const o = ac.createOscillator(); o.type = type; o.frequency.setValueAtTime(f, t);
+    if (f2) o.frequency.exponentialRampToValueAtTime(f2, t + dur);
+    const g = ac.createGain(); env(g, t, a, v, dur); o.connect(g); out(g, wet); o.start(t); o.stop(t + a + dur + 0.05);
+  }
+  function nz(t, dur, type, freq, v, q = 1, wet = 0) {
+    const s = ac.createBufferSource(); s.buffer = noise; s.loop = true;
+    const f = ac.createBiquadFilter(); f.type = type; f.frequency.value = freq; f.Q.value = q;
+    const g = ac.createGain(); env(g, t, 0.002, v, dur);
+    s.connect(f); f.connect(g); out(g, wet); s.start(t, (t * 0.37) % 1.5); s.stop(t + dur + 0.05);
+  }
+  function kick(t, v = 0.75) {
+    const o = ac.createOscillator(), g = ac.createGain();
+    o.frequency.setValueAtTime(150, t); o.frequency.exponentialRampToValueAtTime(42, t + 0.12);
+    g.gain.setValueAtTime(v, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.4);
+    o.connect(g); g.connect(master); o.start(t); o.stop(t + 0.45);
+  }
+  function pad(t, dur, notes, v = 0.04, cutoff = 1400) {
+    const f = ac.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = cutoff; f.Q.value = 0.4;
+    const g = ac.createGain(); g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(v, t + 0.3);
+    g.gain.setValueAtTime(v, t + dur - 0.2); g.gain.linearRampToValueAtTime(0.0001, t + dur + 0.5);
+    f.connect(g); out(g, 0.8);
+    for (const m of notes) for (const d of [-7, 7]) { const o = ac.createOscillator(); o.type = 'sawtooth'; o.frequency.value = mid(m); o.detune.value = d; o.connect(f); o.start(t); o.stop(t + dur + 0.6); }
+  }
+  const pluck = (t, m, v = 0.06) => { tone(t, mid(m), 0.26, { type: 'triangle', v, wet: 0.5 }); tone(t, mid(m + 12), 0.1, { v: v * 0.3 }); };
+  const bell = (t, m, v = 0.1) => { tone(t, mid(m), 1.3, { v, wet: 0.9 }); tone(t, mid(m) * 2.76, 0.45, { v: v * 0.22, wet: 0.5 }); };
+  const click = t => { tone(t, 1800, 0.03, { v: 0.09 }); nz(t, 0.03, 'highpass', 3000, 0.06); };
+  const buzz = t => tone(t, 150, 0.12, { type: 'square', v: 0.03 });
+  function whoosh(t, dur, v = 0.12, from = 500, to = 5000) {
+    const s = ac.createBufferSource(); s.buffer = noise; s.loop = true;
+    const f = ac.createBiquadFilter(); f.type = 'bandpass'; f.Q.value = 1.3;
+    f.frequency.setValueAtTime(from, t); f.frequency.exponentialRampToValueAtTime(to, t + dur);
+    const g = ac.createGain(); g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(v, t + dur * 0.7); g.gain.linearRampToValueAtTime(0.0001, t + dur);
+    s.connect(f); f.connect(g); out(g, 0.3); s.start(t); s.stop(t + dur + 0.05);
+  }
+  // 120 bpm, 2 s bars
+  const CH = [[60, 64, 67, 71], [59, 62, 67, 74], [60, 64, 69, 72], [60, 65, 69, 72]];
+  const BASS = [36, 31, 33, 29];
+  for (let bar = 0; bar < 14; bar++) {
+    const t0 = bar * 2, c = bar % 4;
+    if (t0 >= T.endCard) break;
+    pad(t0, 2, CH[c], 0.035);
+    for (let e = 0; e < 8; e++) pluck(t0 + e * 0.25, CH[c][[0, 1, 2, 3, 2, 1, 2, 3][e]] + 12, t0 < 2 ? 0.035 : 0.05);
+    if (t0 >= 2) for (let b = 0; b < 4; b++) {
+      const tb = t0 + b * 0.5;
+      kick(tb, 0.6);
+      nz(tb + 0.25, 0.05, 'highpass', 8000, 0.05);
+      tone(tb + 0.25, mid(BASS[c]), 0.2, { type: 'triangle', v: 0.26 });
+      if (t0 >= 8 && (b === 1 || b === 3)) { nz(tb, 0.15, 'bandpass', 1600, 0.2, 0.9, 0.4); }
+    }
+  }
+  pad(T.endCard, DUR - T.endCard, [48, 60, 62, 64, 67, 71], 0.045, 1600);
+  [72, 76, 79, 83, 84].forEach((m, i) => bell(T.endCard + 0.1 + i * 0.14, m, 0.07));
+  // UI sounds
+  for (const tt of [T.tapStart, T.tapStop, T.tabNotif, T.tapChip, T.tabStats]) click(tt);
+  for (const s of T.swipes) whoosh(s, T.swipeLen + 0.05);
+  [T.trainT0, T.trainT0 + 4.5].forEach(buzz);
+  bell(T.veil + 0.2, 84, 0.05);
+  bell(T.tapChip + 0.05, 91, 0.06);
+  whoosh(T.endCard - 0.3, 0.5, 0.14, 300, 6000);
+  return ac.startRendering();
+}
+function wavBase64(buf) {
+  const n = buf.length, ch = buf.numberOfChannels, sr = buf.sampleRate;
+  const ab = new ArrayBuffer(44 + n * ch * 2), v = new DataView(ab);
+  const ws = (o, s) => { for (let i = 0; i < s.length; i++) v.setUint8(o + i, s.charCodeAt(i)); };
+  ws(0, 'RIFF'); v.setUint32(4, 36 + n * ch * 2, true); ws(8, 'WAVE'); ws(12, 'fmt ');
+  v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, ch, true); v.setUint32(24, sr, true);
+  v.setUint32(28, sr * ch * 2, true); v.setUint16(32, ch * 2, true); v.setUint16(34, 16, true); ws(36, 'data'); v.setUint32(40, n * ch * 2, true);
+  const data = [...Array(ch)].map((_, c) => buf.getChannelData(c));
+  let o = 44;
+  for (let i = 0; i < n; i++) for (let c = 0; c < ch; c++) { v.setInt16(o, clamp(data[c][i], -1, 1) * 0x7fff, true); o += 2; }
+  let bin = ''; const bytes = new Uint8Array(ab);
+  for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+  return btoa(bin);
+}
+
+// ======================= player =======================
+let audioBuf = null;
+const audioReady = buildAudio().then(b => (audioBuf = b));
+function setDevice(k) { D = DEV[k]; cv.width = D.W; cv.height = D.H; const st = document.getElementById('stage'); st.style.setProperty('--ar', `${D.H} / ${D.W}`); st.style.setProperty('--arw', `${D.W} / ${D.H}`); }
+window.renderFrame = t => render(t);
+window.setDevice = setDevice;
+window.setLang = l => { L = LANG[l] || LANG.ru; };
+window.exportWav = async () => wavBase64(await audioReady);
+window.whenReady = () => Promise.all([fontsReady, assetsReady, audioReady]).then(() => true);
+
+const bigPlay = document.getElementById('bigPlay'), playBtn = document.getElementById('playBtn');
+const seek = document.getElementById('seek'), timeEl = document.getElementById('time');
+let actx = null, src = null, playing = false, startAt = 0, offset = 0;
+const fmt = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+const now = () => (playing ? actx.currentTime - startAt : offset);
+async function play() {
+  await audioReady;
+  if (!actx) actx = new AudioContext();
+  await actx.resume();
+  if (offset >= DUR - 0.05) offset = 0;
+  src = actx.createBufferSource(); src.buffer = audioBuf; src.connect(actx.destination);
+  startAt = actx.currentTime - offset; src.start(0, offset);
+  playing = true; bigPlay.hidden = true; playBtn.textContent = '❚❚'; playBtn.setAttribute('aria-label', 'Pause');
+}
+function pause() { if (!playing) return; offset = now(); try { src.stop(); } catch (e) {} playing = false; playBtn.textContent = '▶'; playBtn.setAttribute('aria-label', 'Play'); }
+bigPlay.addEventListener('click', play);
+playBtn.addEventListener('click', () => (playing ? pause() : play()));
+seek.addEventListener('input', () => { const was = playing; pause(); offset = +seek.value; bigPlay.hidden = true; if (was) play(); else render(offset); });
+const toggle = (on, off) => { on.setAttribute('aria-pressed', 'true'); off.setAttribute('aria-pressed', 'false'); if (!playing) render(offset); };
+document.getElementById('dIphone').onclick = e => { setDevice('iphone'); toggle(e.currentTarget, document.getElementById('dIpad')); };
+document.getElementById('dIpad').onclick = e => { setDevice('ipad'); toggle(e.currentTarget, document.getElementById('dIphone')); };
+document.getElementById('lRu').onclick = e => { setLang('ru'); toggle(e.currentTarget, document.getElementById('lEn')); };
+document.getElementById('lEn').onclick = e => { setLang('en'); toggle(e.currentTarget, document.getElementById('lRu')); };
+function loop() {
+  let t = now();
+  if (playing && t >= DUR) { pause(); offset = DUR; t = DUR; bigPlay.hidden = false; }
+  if (playing) render(t);
+  seek.value = t; timeEl.textContent = `${fmt(Math.min(t, DUR))} / ${fmt(DUR)}`;
+  requestAnimationFrame(loop);
+}
+Promise.all([fontsReady, assetsReady]).then(() => { offset = 5; render(5); requestAnimationFrame(loop); });
+})();
+</script>

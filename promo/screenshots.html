@@ -1,0 +1,651 @@
+<meta charset="utf-8">
+<title>Eye Helper Screenshots</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Round">
+<style>
+  :root {
+    color-scheme: dark;
+    --ground: #07110c;
+    --ink: #e7f2ec;
+    --muted: #8aa596;
+    --green: #509f75;
+    --line: rgba(207, 233, 219, 0.14);
+    --chip: rgba(207, 233, 219, 0.08);
+  }
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "Fira Sans", system-ui, -apple-system, sans-serif;
+    padding-inline: 16px;
+    padding-block: 20px 40px;
+    box-sizing: border-box;
+  }
+  header {
+    max-width: 1400px; margin: 0 auto 18px;
+    display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; justify-content: space-between;
+  }
+  h1 { font-size: 20px; font-weight: 700; margin: 0; letter-spacing: 0.01em; }
+  h1 span { color: var(--muted); font-weight: 400; }
+  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 3px; background: var(--chip); }
+  .seg button {
+    border: 0; background: transparent; color: var(--muted); font: 600 13px/1 "Fira Sans", system-ui, sans-serif;
+    padding: 9px 14px; border-radius: 999px; cursor: pointer; letter-spacing: 0.03em;
+  }
+  .seg button[aria-pressed="true"] { background: var(--green); color: #fff; }
+  .seg button:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; }
+  .controls { display: flex; gap: 10px; flex-wrap: wrap; }
+  .grid {
+    max-width: 1400px; margin: 0 auto;
+    display: grid; gap: 18px;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+  .grid.ipad { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  figure { margin: 0; display: flex; flex-direction: column; gap: 8px; }
+  canvas { width: 100%; height: auto; display: block; border-radius: 12px; box-shadow: 0 0 0 1px var(--line), 0 16px 40px rgba(0,0,0,0.4); background: #fff; }
+  figcaption { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+  .note { max-width: 1400px; margin: 22px auto 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
+</style>
+
+<header>
+  <h1>Eye Helper <span>· App Store screenshots</span></h1>
+  <div class="controls">
+    <div class="seg" role="group" aria-label="Device">
+      <button id="dIphone" aria-pressed="true">iPhone 6.9″</button>
+      <button id="dIpad" aria-pressed="false">iPad 13″</button>
+    </div>
+    <div class="seg" role="group" aria-label="Language">
+      <button id="lRu" aria-pressed="true">RU</button>
+      <button id="lEn" aria-pressed="false">EN</button>
+    </div>
+  </div>
+</header>
+<div class="grid" id="grid"></div>
+<p class="note" id="note"></p>
+
+<script>
+(() => {
+const FONT = '"Fira Sans", system-ui, -apple-system, sans-serif';
+const C = {
+  green: '#509f75', deep: '#3B7D5A', mint: '#CFE9DB', md: '#626262', lg: '#88949C',
+  hair: '#E6ECE8', pale: '#E3F1E9', idle: '#F1F5F2', dark: '#1b2520',
+};
+const LV = ['#F1F5F2', '#B9DCC8', '#8CC5A5', '#63AB83', '#3B7D5A'];
+
+const DEV = {
+  iphone: { W: 1320, H: 2868, sw: 440, sh: 956, st: 62, sb: 34, pw: 900, bez: 27, rad: 0.155, island: true,
+    head: { y1: 300, y2: 432, size: 116, sub: 50, subY: 552, subLH: 66, subW: 1120 }, top: 800, label: '1320 × 2868' },
+  ipad: { W: 2064, H: 2752, sw: 820, sh: 1180, st: 24, sb: 20, pw: 1440, bez: 38, rad: 0.05, island: false,
+    head: { y1: 250, y2: 395, size: 132, sub: 58, subY: 512, subLH: 72, subW: 1760 }, top: 640, label: '2064 × 2752' },
+};
+
+const LANG = {
+  ru: {
+    slides: [
+      ['Отдых для глаз', '*за 5 минут* в день', 'Простые упражнения с персонажем, который показывает, что делать'],
+      ['*6 упражнений*', 'с анимацией', 'Повторяй за персонажем — он покажет, куда смотреть'],
+      ['Напомним', '*в рабочие часы*', 'Выбери дни и время — приложение подскажет, когда сделать перерыв'],
+      ['Серия, прогресс', '*и статистика*', 'Видно, как ты заботишься о глазах каждый день'],
+      ['*Пальминг*, фокусировка', 'и моргание', 'Для тех, кто весь день проводит за экраном'],
+      ['Маленькая победа', '*каждый день*', 'Закончи подход — и глаза скажут спасибо'],
+    ],
+    chips: ['6 упражнений', '5 минут в день'],
+    tabs: { ex: 'Упражнения', notif: 'Уведомления', stats: 'Статистика' },
+    ex: [
+      { t: 'Вертикальные движения', d: 'Поводите глазами снизу вверх и наоборот.', meta: '3 повтора · 27 с', img: 'firstImageFace1' },
+      { t: 'Горизонтальные движения', d: 'Поводите глазами слева направо и наоборот.', meta: '3 повтора · 27 с', img: 'firstImageFace1' },
+      { t: 'Пальминг', d: 'Потрите руки друг о друга до появления тепла. Приложите руки к глазам на 15 секунд (не давить). Подумайте о своей мечте.', meta: '3 повтора · 1 мин 15 с', img: 'firstImageFace6' },
+    ],
+    start: 'Начать', cueLeft: 'Смотрите влево', cueRub: 'Разогрейте руки', repsOf: (a, b) => `${a} из ${b}`,
+    n: {
+      title: 'Уведомления', sum: ['3 напоминания в день, 9:00–18:00', 'Будни'],
+      auto: 'По расписанию', manual: 'Своё время', perDay: 'Напоминаний в день', today: 'Сегодня, среда',
+      workDays: 'Рабочие дни', workHours: 'Рабочие часы', perDaySetup: 'Настроить по дням',
+      banner: ['Напоминание', 'Пора делать зарядку!'], now: 'сейчас',
+    },
+    days: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
+    s: {
+      streak: 'Серия', inRow: 'дней подряд', best: 'Лучшая — 21 день', today: 'Сегодня', plan: '1 из 3 подходов по плану',
+      left: 'Осталось: Фокусировка, Пальминг · 2 мин 15 с', month: 'Сентябрь', monthSum: '18 подходов · 1 ч 24 мин',
+      legend: '3+ подхода', week: 'Эта неделя', minEyes: 'мин для глаз', last: 'Прошлая — 1 ч 20 мин', delta: '+25 мин',
+    },
+    fin: { good: 'Отлично!', text: 'Вы выполнили упражнения. Повторяйте чаще и ваши глаза скажут вам спасибо!', cont: 'Продолжить' },
+  },
+  en: {
+    slides: [
+      ['Give your eyes', '*a 5-minute break*', 'Simple exercises with a character that shows you what to do'],
+      ['*6 exercises*,', 'fully animated', 'Follow the character — it shows you where to look'],
+      ['Reminders', '*during work hours*', "Pick your days and hours — we'll tell you when to take a break"],
+      ['Streaks, progress', '*and stats*', 'See how you care for your eyes, day by day'],
+      ['*Palming*, focusing', 'and blinking', 'Made for people who spend all day at a screen'],
+      ['A small win', '*every day*', 'Finish a set and your eyes will thank you'],
+    ],
+    chips: ['6 exercises', '5 minutes a day'],
+    tabs: { ex: 'Exercises', notif: 'Notifications', stats: 'Statistics' },
+    ex: [
+      { t: 'Vertical movements', d: 'Move your eyes up and down and back.', meta: '3 reps · 27 s', img: 'firstImageFace1' },
+      { t: 'Horizontal movements', d: 'Move your eyes left and right and back.', meta: '3 reps · 27 s', img: 'firstImageFace1' },
+      { t: 'Palming', d: 'Rub your hands together until they feel warm. Place them over your eyes for 15 seconds (without pressing). Think about your dream.', meta: '3 reps · 1 min 15 s', img: 'firstImageFace6' },
+    ],
+    start: 'Start', cueLeft: 'Look left', cueRub: 'Warm up your hands', repsOf: (a, b) => `${a} of ${b}`,
+    n: {
+      title: 'Notifications', sum: ['3 reminders a day, 9:00–18:00', 'Weekdays'],
+      auto: 'By schedule', manual: 'Custom times', perDay: 'Reminders per day', today: 'Today, Wednesday',
+      workDays: 'Working days', workHours: 'Working hours', perDaySetup: 'Set per day',
+      banner: ['Reminder', 'Time to do your eye exercises!'], now: 'now',
+    },
+    days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    s: {
+      streak: 'Streak', inRow: 'days in a row', best: 'Best — 21 days', today: 'Today', plan: '1 of 3 sets planned',
+      left: 'Left: Focusing, Palming · 2 min 15 s', month: 'September', monthSum: '18 sets · 1 h 24 min',
+      legend: '3+ sets', week: 'This week', minEyes: 'min for your eyes', last: 'Last week — 1 h 20 min', delta: '+25 min',
+    },
+    fin: { good: 'Great job!', text: "You've completed the exercises. Do them more often and your eyes will thank you!", cont: 'Continue' },
+  },
+};
+
+// ---------- assets ----------
+const IMG = {};
+const imgNames = ['firstImageFace1', 'firstImageFace3', 'firstImageFace4', 'firstImageFace5', 'firstImageFace6', 'finish_face'];
+const imagesReady = Promise.all(imgNames.map(n => new Promise(res => {
+  const im = new Image(); im.onload = () => { IMG[n] = im; res(); }; im.onerror = res; im.src = `assets/${n}.png`;
+})));
+const fontsReady = (async () => {
+  const l = [];
+  for (const w of [300, 400, 500, 600, 700, 800]) l.push(document.fonts.load(`${w} 40px "Fira Sans"`, 'AaЖж09'));
+  for (const f of ['Material Icons', 'Material Icons Outlined', 'Material Icons Round']) l.push(document.fonts.load(`24px "${f}"`, 'bar_chart'));
+  try { await Promise.all(l); await document.fonts.ready; } catch (e) { /* system fallback */ }
+})();
+
+// ---------- drawing primitives ----------
+let ctx;
+const TAU = Math.PI * 2;
+function rr(x, y, w, h, r) { ctx.beginPath(); ctx.roundRect(x, y, w, h, r); }
+function circ(x, y, r) { ctx.beginPath(); ctx.arc(x, y, r, 0, TAU); }
+function setFont(size, weight = 400) { ctx.font = `${weight} ${size}px ${FONT}`; }
+function txt(s, x, y, o = {}) {
+  setFont(o.size || 14, o.weight || 400);
+  ctx.letterSpacing = (o.ls || 0) + 'px';
+  ctx.textAlign = o.align || 'left';
+  ctx.textBaseline = 'alphabetic';
+  ctx.fillStyle = o.color || C.md;
+  ctx.fillText(s, x, y);
+  ctx.letterSpacing = '0px';
+}
+function tw(s, size, weight = 400) { setFont(size, weight); return ctx.measureText(s).width; }
+function wrap(s, size, weight, maxW) {
+  setFont(size, weight);
+  const out = []; let line = '';
+  for (const w of s.split(' ')) {
+    const t = line ? line + ' ' + w : w;
+    if (ctx.measureText(t).width > maxW && line) { out.push(line); line = w; } else line = t;
+  }
+  if (line) out.push(line);
+  return out;
+}
+// Lines of text laid out from a top edge, like Flutter's Text with `height`.
+function para(lines, x, top, size, lh, o = {}) {
+  lines.forEach((l, i) => txt(l, x, top + i * lh + (lh - size) / 2 + size * 0.8, { ...o, size }));
+  return top + lines.length * lh;
+}
+function icon(name, x, y, size, color, fam = 'Material Icons') {
+  ctx.font = `${size}px "${fam}"`;
+  ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+  ctx.fillStyle = color;
+  const m = ctx.measureText(name);
+  ctx.fillText(name, x, y + (m.actualBoundingBoxAscent - m.actualBoundingBoxDescent) / 2);
+}
+function shadow(color, blur, oy = 0) { ctx.shadowColor = color; ctx.shadowBlur = blur; ctx.shadowOffsetX = 0; ctx.shadowOffsetY = oy; }
+function noShadow() { ctx.shadowColor = 'transparent'; ctx.shadowBlur = 0; ctx.shadowOffsetY = 0; }
+function img(name, cx, cy, size) { const im = IMG[name]; if (im) ctx.drawImage(im, cx - size / 2, cy - size / 2, size, size); }
+
+// ---------- app chrome (points) ----------
+function appBg(w, h) {
+  ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, w, h);
+  const g = ctx.createLinearGradient(0, h, 0, h - 340);
+  g.addColorStop(0, C.mint); g.addColorStop(1, 'rgba(255,255,255,0)');
+  ctx.fillStyle = g; ctx.fillRect(0, h - 340, w, 340);
+}
+function statusBar(w, st, ipad) {
+  const y = ipad ? 17 : 36;
+  txt('9:41', ipad ? 24 : 58, y, { size: ipad ? 13 : 17, weight: 600, color: '#000', align: ipad ? 'left' : 'center' });
+  const rx = w - (ipad ? 24 : 34);
+  ctx.fillStyle = '#000';
+  // battery
+  ctx.globalAlpha = 0.4; ctx.strokeStyle = '#000'; ctx.lineWidth = 1; rr(rx - 26, y - 11, 25, 12.5, 4); ctx.stroke(); ctx.globalAlpha = 1;
+  rr(rx - 24, y - 9, 21, 8.5, 2.5); ctx.fill();
+  ctx.globalAlpha = 0.4; rr(rx + 0.5, y - 6.5, 1.8, 4, 1); ctx.fill(); ctx.globalAlpha = 1;
+  // wifi
+  const wx = rx - 42, wy = y - 1;
+  ctx.lineCap = 'round'; ctx.strokeStyle = '#000';
+  for (const [r, lw] of [[11, 2.2], [7, 2.2]]) { ctx.lineWidth = lw; ctx.beginPath(); ctx.arc(wx, wy, r, -Math.PI * 0.75, -Math.PI * 0.25); ctx.stroke(); }
+  ctx.beginPath(); ctx.moveTo(wx, wy); ctx.arc(wx, wy, 3.6, -Math.PI * 0.75, -Math.PI * 0.25); ctx.closePath(); ctx.fill();
+  if (!ipad) for (let i = 0; i < 4; i++) { rr(rx - 80 + i * 5, y - 3 - i * 2.6, 3.2, 4 + i * 2.6, 1); ctx.fill(); }
+}
+function glassBtn(x, y, r, name, color, fam) {
+  ctx.save(); shadow('rgba(0,0,0,0.10)', 12, 4);
+  ctx.fillStyle = 'rgba(255,255,255,0.9)'; circ(x, y, r); ctx.fill(); noShadow();
+  ctx.strokeStyle = 'rgba(0,0,0,0.06)'; ctx.lineWidth = 1; circ(x, y, r - 0.5); ctx.stroke();
+  const g = ctx.createLinearGradient(0, y - r, 0, y + r);
+  g.addColorStop(0, 'rgba(255,255,255,0.9)'); g.addColorStop(0.5, 'rgba(255,255,255,0)');
+  ctx.strokeStyle = g; ctx.lineWidth = 1.2; circ(x, y, r - 1.5); ctx.stroke();
+  ctx.restore();
+  icon(name, x, y, r * 1.15, color, fam);
+}
+function appBar(w, st, title, left, right) {
+  const g = ctx.createLinearGradient(0, 0, 0, st + 70);
+  g.addColorStop(0, 'rgba(255,255,255,0.95)'); g.addColorStop(1, 'rgba(255,255,255,0)');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, w, st + 70);
+  const cy = st + 22;
+  txt(title, w / 2, cy + 8.5, { size: 24, weight: 700, color: C.green, align: 'center' });
+  if (left) glassBtn(40, cy, 20, 'help_outline', C.green);
+  if (right) glassBtn(w - 36, cy, 20, 'vibration', C.green);
+}
+function tabBar(w, h, sb, sel) {
+  const m = w > 600 ? 120 : 22, y = h - sb - 60, bw = w - 2 * m, bh = 60;
+  ctx.save(); shadow('rgba(30,70,50,0.16)', 26, 8);
+  ctx.fillStyle = 'rgba(255,255,255,0.78)'; rr(m, y, bw, bh, bh / 2); ctx.fill(); noShadow();
+  ctx.strokeStyle = 'rgba(0,0,0,0.05)'; ctx.lineWidth = 1; rr(m, y, bw, bh, bh / 2); ctx.stroke();
+  const g = ctx.createLinearGradient(0, y, 0, y + bh);
+  g.addColorStop(0, 'rgba(255,255,255,1)'); g.addColorStop(0.45, 'rgba(255,255,255,0)');
+  ctx.strokeStyle = g; ctx.lineWidth = 1.5; rr(m + 1.5, y + 1.5, bw - 3, bh - 3, bh / 2 - 1.5); ctx.stroke();
+  const cell = bw / 3;
+  ctx.fillStyle = 'rgba(80,159,117,0.14)'; rr(m + cell * sel + 5, y + 5, cell - 10, bh - 10, (bh - 10) / 2); ctx.fill();
+  ['bar_chart', 'remove_red_eye', 'settings'].forEach((n, i) => icon(n, m + cell * i + cell / 2, y + bh / 2, 26, i === sel ? C.green : C.lg));
+  ctx.restore();
+}
+function card(x, y, w, h) {
+  ctx.save(); shadow('rgba(0,0,0,0.08)', 16, 6);
+  ctx.fillStyle = '#fff'; rr(x, y, w, h, 24); ctx.fill(); ctx.restore();
+}
+function button(cx, y, label, wBtn = 240) {
+  ctx.save(); shadow('rgba(0,0,0,0.15)', 10, 4);
+  ctx.fillStyle = C.green; rr(cx - wBtn / 2, y, wBtn, 50, 25); ctx.fill(); ctx.restore();
+  txt(label, cx, y + 31, { size: 16, color: '#fff', align: 'center' });
+}
+
+// ---------- screens (points) ----------
+function exerciseScreen(w, h, D, L, k, train) {
+  const ex = L.ex[k], st = D.st, sb = D.sb, cx = w / 2;
+  appBg(w, h); statusBar(w, st, !D.island);
+  const top = st + 44 + 16;
+  let y = para([ex.t], cx, top, 21, 26.25, { weight: 600, align: 'center' });
+  ctx.save(); ctx.globalAlpha = train ? 0.55 : 1;
+  y = para(wrap(ex.d, 14, 400, w - 48), cx, y + 8, 14, 19.6, { align: 'center' });
+  ctx.restore();
+  const pillTop = y + 10;
+  if (!train) {
+    const pw = tw(ex.meta, 12.5, 600) + 24;
+    ctx.fillStyle = C.pale; rr(cx - pw / 2, pillTop, pw, 26, 13); ctx.fill();
+    txt(ex.meta, cx, pillTop + 17.5, { size: 12.5, weight: 600, color: C.deep, align: 'center' });
+  }
+  const ctlTop = h - sb - 100 - 50, cueTop = ctlTop - 14 - 24;
+  const sy = (pillTop + 28 + cueTop) / 2;
+  if (train) {
+    ctx.strokeStyle = C.pale; ctx.lineWidth = 5; circ(cx, sy, 109.5); ctx.stroke();
+    ctx.strokeStyle = C.green; ctx.lineCap = 'round'; ctx.beginPath(); ctx.arc(cx, sy, 109.5, -Math.PI / 2, -Math.PI / 2 + TAU * train.prog); ctx.stroke();
+    txt(train.cue, cx, cueTop + 18, { size: 17, weight: 600, color: C.deep, align: 'center' });
+    glassBtn(cx - 98, ctlTop + 25, 22, 'pause', C.deep, 'Material Icons Round');
+    glassBtn(cx + 98, ctlTop + 25, 22, 'stop', C.deep, 'Material Icons Round');
+    txt(train.reps, cx, ctlTop + 30, { size: 15, weight: 600, align: 'center' });
+  } else {
+    button(cx, ctlTop, L.start);
+  }
+  img(ex.img, cx, sy, 176);
+  // pagination
+  const py = h - sb - 75;
+  const page = train ? train.page : k;
+  let x = cx - (5 * 6 + 16 + 6 * 10) / 2 + 5;
+  for (let i = 0; i < 6; i++) {
+    const dw = i === page ? 16 : 6;
+    ctx.fillStyle = i === page ? C.green : i < page ? C.deep : '#C9D3CD';
+    rr(x, py - 3, dw, 6, 3); ctx.fill();
+    x += dw + 10;
+  }
+  appBar(w, st, L.tabs.ex, true, true);
+  tabBar(w, h, sb, 1);
+}
+
+function iosSwitch(x, y) {
+  ctx.fillStyle = C.green; rr(x, y, 51, 31, 15.5); ctx.fill();
+  ctx.save(); shadow('rgba(0,0,0,0.2)', 4, 2); ctx.fillStyle = '#fff'; circ(x + 35.5, y + 15.5, 13.5); ctx.fill(); ctx.restore();
+}
+function notificationsScreen(w, h, D, L) {
+  const st = D.st, sb = D.sb, n = L.n, x0 = 16, cw = w - 32, pad = 16;
+  appBg(w, h); statusBar(w, st, !D.island);
+  let y = st + 44 + 12;
+  // master card
+  card(x0, y, cw, 92);
+  para([n.title], x0 + pad, y + 14, 16.5, 20.6, { weight: 600 });
+  para(n.sum, x0 + pad, y + 14 + 20.6 + 4, 13, 17.55, { color: C.lg });
+  iosSwitch(x0 + cw - pad - 51, y + 46 - 15.5);
+  y += 92 + 12;
+  // mode card
+  const mh = 14 + 44 + 16 + 17.5 + 8 + 38 + 16 + 17.5 + 4 + 38 + 16;
+  card(x0, y, cw, mh);
+  let yy = y + 14; const ix = x0 + pad, iw = cw - 2 * pad;
+  ctx.fillStyle = '#EEF3EF'; rr(ix, yy, iw, 44, 16); ctx.fill();
+  ctx.save(); shadow('rgba(0,0,0,0.08)', 6, 2); ctx.fillStyle = '#fff'; rr(ix + 4, yy + 4, iw / 2 - 4, 36, 12); ctx.fill(); ctx.restore();
+  txt(n.auto, ix + iw / 4, yy + 27, { size: 14.5, weight: 600, color: C.deep, align: 'center' });
+  txt(n.manual, ix + iw * 3 / 4, yy + 27, { size: 14.5, weight: 600, color: C.md, align: 'center' });
+  yy += 44 + 16;
+  yy = para([n.perDay], ix, yy, 14, 17.5, { weight: 600 }) + 8;
+  const chw = (iw - 16) / 3;
+  for (let i = 0; i < 3; i++) {
+    const sel = i === 2, cx = ix + i * (chw + 8);
+    ctx.fillStyle = sel ? C.green : 'rgba(0,0,0,0)'; rr(cx, yy, chw, 38, 11); ctx.fill();
+    if (!sel) { ctx.strokeStyle = C.hair; ctx.lineWidth = 1.5; rr(cx + 0.75, yy + 0.75, chw - 1.5, 36.5, 11); ctx.stroke(); }
+    txt(String(i + 1), cx + chw / 2, yy + 24.5, { size: 16, weight: sel ? 600 : 400, color: sel ? '#fff' : C.md, align: 'center' });
+  }
+  yy += 38 + 16;
+  yy = para([n.today], ix, yy, 14, 17.5, { weight: 600 }) + 4;
+  // timeline 9:00–18:00, reminders at 11:15, 13:30, 15:45; now 14:00
+  ctx.fillStyle = C.pale; rr(ix, yy + 9, iw, 4, 2); ctx.fill();
+  const tx = m => ix + iw * (m - 540) / 540;
+  [[675, '11:15', true], [810, '13:30', true], [945, '15:45', false]].forEach(([m, label, passed]) => {
+    const c = passed ? C.deep : C.green;
+    ctx.fillStyle = c; circ(tx(m), yy + 11, 7); ctx.fill();
+    ctx.fillStyle = '#fff'; circ(tx(m), yy + 11, 5); ctx.fill();
+    ctx.fillStyle = c; circ(tx(m), yy + 11, 4); ctx.fill();
+    txt(passed ? label + ' ✓' : label, tx(m), yy + 32, { size: 10, weight: 500, color: passed ? C.deep : C.md, align: 'center' });
+  });
+  txt('9:00', ix, yy + 32, { size: 10, color: C.lg });
+  txt('18:00', ix + iw, yy + 32, { size: 10, color: C.lg, align: 'right' });
+  y += mh + 12;
+  // working days card
+  const wh = 14 + 17.5 + 10 + 42 + 4 + 43 + 44 + 12;
+  card(x0, y, cw, wh);
+  yy = para([n.workDays], ix, y + 14, 14, 17.5, { weight: 600 }) + 10;
+  const gap = (iw - 7 * 34) / 6;
+  L.days.forEach((d, i) => {
+    const sel = i < 5, cx = ix + i * (34 + gap) + 17;
+    ctx.fillStyle = sel ? C.green : 'rgba(0,0,0,0)'; circ(cx, yy + 17, 17); ctx.fill();
+    if (!sel) { ctx.strokeStyle = C.hair; ctx.lineWidth = 1.5; circ(cx, yy + 17, 16.25); ctx.stroke(); }
+    txt(d, cx, yy + 21.5, { size: d.length > 2 ? 11 : 12, weight: 600, color: sel ? '#fff' : C.lg, align: 'center' });
+  });
+  yy += 42 + 4;
+  txt(n.workHours, ix, yy + 12 + 14.5, { size: 15 });
+  txt('9:00 – 18:00', ix + iw - 24, yy + 12 + 14.5, { size: 14, color: C.lg, align: 'right' });
+  icon('chevron_right', ix + iw - 10, yy + 21.5, 20, C.lg);
+  yy += 43;
+  ctx.fillStyle = C.hair; ctx.fillRect(ix, yy, iw, 1);
+  txt(n.perDaySetup, ix, yy + 12 + 14.5, { size: 15, weight: 600, color: C.deep });
+  icon('expand_more', ix + iw - 10, yy + 21.5, 20, C.deep);
+  appBar(w, st, L.tabs.notif, false, false);
+  tabBar(w, h, sb, 2);
+}
+
+function statsScreen(w, h, D, L) {
+  const st = D.st, sb = D.sb, s = L.s, x0 = 16, cw = w - 32, pad = 16, ix = x0 + pad, iw = cw - 2 * pad;
+  appBg(w, h); statusBar(w, st, !D.island);
+  let y = st + 44 + 12;
+  // streak
+  const sh = 14 + 17.5 + 6 + 48 + 4 + 17.5 + 14 + 34 + 4 + 15 + 16;
+  card(x0, y, cw, sh);
+  let yy = para([s.streak], ix, y + 14, 14, 17.5, { weight: 600 }) + 6;
+  txt('12', ix, yy + 40, { size: 44, weight: 300, ls: -1 });
+  txt(s.inRow, ix + tw('12', 44, 300) - 2 + 6, yy + 40, { size: 16 });
+  yy += 48 + 4;
+  yy = para([s.best], ix, yy, 13, 17.5, { color: C.lg }) + 14;
+  const rcx = ix + iw - 28, rcy = y + 14 + 50;
+  ctx.lineWidth = 6; ctx.lineCap = 'round';
+  ctx.strokeStyle = '#F1F5F2'; circ(rcx, rcy, 25); ctx.stroke();
+  ctx.strokeStyle = C.green; ctx.beginPath(); ctx.arc(rcx, rcy, 25, -Math.PI / 2, -Math.PI / 2 + TAU * 2 / 7); ctx.stroke();
+  icon('remove_red_eye', rcx, rcy, 20, C.deep, 'Material Icons Outlined');
+  const colW = iw / 7;
+  L.days.forEach((d, i) => {
+    const cx = ix + colW * i + colW / 2, cy = yy + 17;
+    if (i < 2) { ctx.fillStyle = C.green; circ(cx, cy, 13); ctx.fill(); icon('check', cx, cy, 14, '#fff'); }
+    else if (i === 2) {
+      ctx.save(); circ(cx, cy, 13); ctx.clip(); ctx.fillStyle = C.green; ctx.fillRect(cx - 13, cy - 13, 13, 26); ctx.restore();
+      ctx.strokeStyle = C.green; ctx.lineWidth = 2; circ(cx, cy, 12); ctx.stroke();
+      circ(cx, cy, 16); ctx.stroke();
+    } else { ctx.strokeStyle = C.hair; ctx.lineWidth = 2; circ(cx, cy, 12); ctx.stroke(); }
+    txt(d, cx, yy + 34 + 4 + 11, { size: 12, color: C.lg, align: 'center' });
+  });
+  y += sh + 12;
+  // today
+  const th = 14 + 17.5 + 10 + 36 + 10 + 17.5 + 16;
+  card(x0, y, cw, th);
+  para([s.today], ix, y + 14, 14, 17.5, { weight: 600 });
+  txt(s.plan, ix + iw, y + 14 + 13.5, { size: 13, color: C.lg, align: 'right' });
+  yy = y + 14 + 17.5 + 10;
+  const icons = [['swap_vert', 'Material Icons'], ['swap_horiz', 'Material Icons'], ['visibility_off', 'Material Icons Outlined'], ['remove_red_eye', 'Material Icons Outlined'], ['center_focus_strong', 'Material Icons Outlined'], ['back_hand', 'Material Icons Outlined']];
+  const chw = (iw - 30) / 6;
+  icons.forEach(([nm, fam], i) => {
+    const done = i < 4, cx = ix + i * (chw + 6);
+    ctx.fillStyle = done ? C.pale : 'rgba(0,0,0,0)'; rr(cx, yy, chw, 36, 10); ctx.fill();
+    ctx.strokeStyle = done ? C.green : C.hair; ctx.lineWidth = 1.5; rr(cx + 0.75, yy + 0.75, chw - 1.5, 34.5, 10); ctx.stroke();
+    icon(nm, cx + chw / 2, yy + 18, 18, done ? C.deep : C.lg, fam);
+  });
+  para([s.left], ix, yy + 36 + 10, 13, 17.5);
+  y += th + 12;
+  // month heatmap — September 2026 starts on a Tuesday; today is the 23rd
+  const cell = (iw - 30 - 24) / 7;
+  const rows = 5, mh = 14 + 17.5 + 10 + 15 + 4 + rows * (cell + 4) + 4 + 14 + 16;
+  card(x0, y, cw, mh);
+  para([s.month], ix, y + 14, 14, 17.5, { weight: 600 });
+  txt(s.monthSum, ix + iw, y + 14 + 13.5, { size: 13, color: C.lg, align: 'right' });
+  yy = y + 14 + 17.5 + 10;
+  L.days.forEach((d, i) => txt(d, ix + 30 + i * (cell + 4) + cell / 2, yy + 11, { size: 12, color: C.lg, align: 'center' }));
+  yy += 15 + 4;
+  const lvl = [0, 2, 3, 1, 3, 4, 0, 2, 3, 3, 1, 3, 3, 4, 2, 3, 3, 4, 3, 3, 2, 3, 2];
+  for (let r = 0; r < rows; r++) {
+    const first = Math.max(1, r * 7), last = Math.min(30, r * 7 + 6);
+    txt(`${first}–${last}`, ix, yy + cell / 2 + 4, { size: 12, color: C.lg });
+    for (let c = 0; c < 7; c++) {
+      const day = r * 7 + c;
+      if (day < 1 || day > 30) continue;
+      const cx = ix + 30 + c * (cell + 4);
+      if (day > 23) { ctx.fillStyle = 'rgba(241,245,242,0.45)'; }
+      else ctx.fillStyle = LV[lvl[day - 1]];
+      rr(cx, yy, cell, cell, 4); ctx.fill();
+      if (day === 23) { ctx.strokeStyle = C.deep; ctx.lineWidth = 2; rr(cx + 1, yy + 1, cell - 2, cell - 2, 4); ctx.stroke(); }
+    }
+    yy += cell + 4;
+  }
+  yy += 4;
+  const legW = tw(s.legend, 12) + 5 * 13 + 1 + 4 + tw('0', 12);
+  let lx = ix + iw - legW;
+  txt('0', lx, yy + 10.5, { size: 12, color: C.lg }); lx += tw('0', 12) + 4;
+  LV.forEach(c => { ctx.fillStyle = c; rr(lx, yy + 1, 10, 10, 2); ctx.fill(); lx += 13; });
+  txt(s.legend, lx + 1, yy + 10.5, { size: 12, color: C.lg });
+  y += mh + 12;
+  appBar(w, st, L.tabs.stats, true, false);
+  tabBar(w, h, sb, 0);
+}
+
+function finishScreen(w, h, D, L) {
+  const st = D.st, sb = D.sb, f = L.fin, cx = w / 2;
+  appBg(w, h); statusBar(w, st, !D.island);
+  let y = st + 52 + 18 + 60;
+  y = para([f.good], cx, y, 24, 30, { weight: 700, color: '#222', align: 'center' });
+  y = para(wrap(f.text, 20, 300, Math.min(w - 60, 520)), cx, y + 12, 20, 25, { weight: 300, color: '#333', align: 'center' });
+  img('finish_face', cx, y + 30 + 110, 220);
+  button(cx, h - sb - 94 - 50, f.cont);
+  appBar(w, st, L.tabs.ex, true, true);
+  tabBar(w, h, sb, 1);
+}
+
+// ---------- slide composition ----------
+function device(D, x, y, drawScreen, dark) {
+  const w = D.pw, sc = (w - 2 * D.bez) / D.sw, sw = D.sw * sc, sh = D.sh * sc, h = sh + 2 * D.bez, R = w * D.rad;
+  ctx.save();
+  shadow(dark ? 'rgba(0,30,15,0.45)' : 'rgba(25,80,50,0.28)', 120 * (w / 900), 50 * (w / 900));
+  ctx.fillStyle = '#0c100e'; rr(x, y, w, h, R); ctx.fill(); noShadow();
+  const g = ctx.createLinearGradient(x, y, x + w, y + h);
+  g.addColorStop(0, '#59615c'); g.addColorStop(0.5, '#2a302c'); g.addColorStop(1, '#4d5550');
+  ctx.strokeStyle = g; ctx.lineWidth = 5 * (w / 900); rr(x + 2.5, y + 2.5, w - 5, h - 5, R - 2); ctx.stroke();
+  if (D.island) {
+    ctx.fillStyle = '#2b312d';
+    rr(x - 6, y + 300, 8, 120, 4); ctx.fill(); rr(x - 6, y + 450, 8, 120, 4); ctx.fill(); rr(x + w - 2, y + 380, 8, 190, 4); ctx.fill();
+  }
+  ctx.save(); rr(x + D.bez, y + D.bez, sw, sh, R - D.bez); ctx.clip();
+  ctx.translate(x + D.bez, y + D.bez); ctx.scale(sc, sc);
+  drawScreen(D.sw, D.sh);
+  ctx.restore();
+  if (D.island) { ctx.fillStyle = '#000'; const iw = 125 * sc, ih = 37 * sc; rr(x + w / 2 - iw / 2, y + D.bez + 11 * sc, iw, ih, ih / 2); ctx.fill(); }
+  else { ctx.fillStyle = '#1b201d'; circ(x + w / 2, y + D.bez / 2, 6); ctx.fill(); }
+  ctx.restore();
+  return { x, y, w, h, sc };
+}
+function background(D, green) {
+  const { W, H } = D;
+  if (green) {
+    const g = ctx.createRadialGradient(W / 2, H * 0.3, 100, W / 2, H * 0.55, H * 0.8);
+    g.addColorStop(0, '#62b58a'); g.addColorStop(1, '#2f7a55');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  } else {
+    const g = ctx.createLinearGradient(0, 0, 0, H);
+    g.addColorStop(0, '#F3FAF6'); g.addColorStop(1, '#D3ECDF');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  }
+  const blobs = [[0.12, 0.2, 0.55], [0.95, 0.45, 0.6], [0.1, 0.85, 0.5]];
+  for (const [bx, by, br] of blobs) {
+    const r = br * W, g = ctx.createRadialGradient(bx * W, by * H, 0, bx * W, by * H, r);
+    g.addColorStop(0, green ? 'rgba(255,255,255,0.14)' : 'rgba(255,255,255,0.8)'); g.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  }
+}
+function lineWidth(s, size) {
+  setFont(size, 800); ctx.letterSpacing = (-size * 0.015) + 'px';
+  const w = ctx.measureText(s.replace(/\*/g, '')).width; ctx.letterSpacing = '0px'; return w;
+}
+function richLine(s, cx, y, size, color, acc) {
+  const parts = s.split('*').map((p, i) => ({ p, acc: i % 2 === 1 })).filter(x => x.p);
+  setFont(size, 800); ctx.letterSpacing = (-size * 0.015) + 'px';
+  const ws = parts.map(x => ctx.measureText(x.p).width);
+  let x = cx - ws.reduce((a, b) => a + b, 0) / 2;
+  ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+  parts.forEach((pt, i) => { ctx.fillStyle = pt.acc ? acc : color; ctx.fillText(pt.p, x, y); x += ws[i]; });
+  ctx.letterSpacing = '0px';
+}
+function headline(D, sl, green) {
+  const hd = D.head, cx = D.W / 2;
+  const col = green ? '#fff' : C.dark, acc = green ? '#0f3d25' : C.deep;
+  // One size for both lines, shrunk only if the longer line would crowd the edges.
+  const size = Math.min(hd.size, hd.size * (D.W * 0.86) / Math.max(lineWidth(sl[0], hd.size), lineWidth(sl[1], hd.size)));
+  richLine(sl[0], cx, hd.y1, size, col, acc);
+  richLine(sl[1], cx, hd.y2, size, col, acc);
+  // Balanced wrap: narrow the measure as far as it goes without adding a line.
+  let lines = wrap(sl[2], hd.sub, 400, hd.subW);
+  for (let mw = hd.subW; lines.length > 1 && mw > hd.subW * 0.4; mw -= 10) {
+    const next = wrap(sl[2], hd.sub, 400, mw);
+    if (next.length > lines.length) break;
+    lines = next;
+  }
+  lines.forEach((l, i) => txt(l, cx, hd.subY + i * hd.subLH, { size: hd.sub, color: green ? 'rgba(255,255,255,0.9)' : '#4d6357', align: 'center' }));
+}
+function chip(x, y, k, name, label, anchor) {
+  const hgt = 116 * k, fs = 40 * k, pad = 26 * k, ic = 72 * k;
+  const w = pad + ic + 20 * k + tw(label, fs, 600) + pad * 1.3;
+  const x0 = anchor === 'right' ? x - w : x;
+  ctx.save(); shadow('rgba(0,40,20,0.28)', 40 * k, 16 * k);
+  ctx.fillStyle = '#fff'; rr(x0, y, w, hgt, hgt / 2); ctx.fill(); ctx.restore();
+  ctx.fillStyle = C.pale; circ(x0 + pad + ic / 2 - 6 * k, y + hgt / 2, ic / 2); ctx.fill();
+  icon(name, x0 + pad + ic / 2 - 6 * k, y + hgt / 2, 40 * k, C.deep);
+  txt(label, x0 + pad + ic + 14 * k, y + hgt / 2 + fs * 0.36, { size: fs, weight: 600, color: C.dark });
+}
+function bubble(cx, cy, r, name, k) {
+  ctx.save(); shadow('rgba(25,80,50,0.25)', 40 * k, 14 * k);
+  ctx.fillStyle = '#fff'; circ(cx, cy, r); ctx.fill(); ctx.restore();
+  ctx.strokeStyle = C.pale; ctx.lineWidth = 6 * k; circ(cx, cy, r - 3 * k); ctx.stroke();
+  ctx.save(); circ(cx, cy, r - 6 * k); ctx.clip(); img(name, cx, cy, r * 1.75); ctx.restore();
+}
+function sparkle(x, y, r, a) {
+  ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = '#fff'; ctx.translate(x, y); ctx.beginPath();
+  for (let i = 0; i < 8; i++) { const rad = i % 2 ? r * 0.26 : r, an = i * Math.PI / 4 - Math.PI / 2; ctx[i ? 'lineTo' : 'moveTo'](Math.cos(an) * rad, Math.sin(an) * rad); }
+  ctx.closePath(); ctx.fill(); ctx.restore();
+}
+function banner(x, y, w, k, L) {
+  const h = 176 * k, r = 52 * k;
+  ctx.save(); shadow('rgba(0,30,15,0.30)', 60 * k, 24 * k);
+  ctx.fillStyle = 'rgba(255,255,255,0.97)'; rr(x, y, w, h, r); ctx.fill(); ctx.restore();
+  const is = 96 * k, ix = x + 32 * k, iy = y + (h - is) / 2;
+  ctx.fillStyle = '#fff'; rr(ix, iy, is, is, 24 * k); ctx.fill();
+  ctx.strokeStyle = 'rgba(0,0,0,0.1)'; ctx.lineWidth = 2 * k; rr(ix, iy, is, is, 24 * k); ctx.stroke();
+  img('firstImageFace5', ix + is / 2, iy + is / 2, is * 1.25);
+  const tx = ix + is + 28 * k;
+  txt('EYE HELPER', tx, y + 58 * k, { size: 26 * k, weight: 600, color: '#6b7670', ls: 1.2 * k });
+  txt(L.n.now, x + w - 36 * k, y + 58 * k, { size: 26 * k, color: '#8a948f', align: 'right' });
+  txt(L.n.banner[0], tx, y + 104 * k, { size: 34 * k, weight: 600, color: '#101512' });
+  txt(L.n.banner[1], tx, y + 146 * k, { size: 34 * k, color: '#27302b' });
+}
+
+function renderSlide(c, devKey, lang, i) {
+  const D = DEV[devKey], L = LANG[lang];
+  c.width = D.W; c.height = D.H;
+  ctx = c.getContext('2d');
+  const k = D.W / 1320;
+  const green = i === 0 || i === 5;
+  background(D, green);
+  headline(D, L.slides[i], green);
+  const px = (D.W - D.pw) / 2, py = D.top;
+  const screens = [
+    (w, h) => exerciseScreen(w, h, D, L, 0, null),
+    (w, h) => exerciseScreen(w, h, D, L, 1, { prog: 0.62, cue: L.cueLeft, reps: L.repsOf(2, 3), page: 1 }),
+    (w, h) => notificationsScreen(w, h, D, L),
+    (w, h) => statsScreen(w, h, D, L),
+    (w, h) => exerciseScreen(w, h, D, L, 2, { prog: 0.34, cue: L.cueRub, reps: L.repsOf(1, 3), page: 5 }),
+    (w, h) => finishScreen(w, h, D, L),
+  ];
+  const ph = device(D, px, py, screens[i], green);
+  const ipad = !D.island;
+  if (i === 0) {
+    chip(px - 70 * k, py + ph.h * 0.3, k, 'visibility', L.chips[0]);
+    chip(px + ph.w + 70 * k, py + ph.h * 0.66, k, 'schedule', L.chips[1], 'right');
+  } else if (i === 1) {
+    const r = (ipad ? 118 : 118) * k;
+    const off = ipad ? -20 * k : 10 * k;
+    bubble(px + off, py + ph.h * 0.38, r, 'firstImageFace3', k);
+    bubble(px + off - 20 * k, py + ph.h * 0.62, r * 0.9, 'firstImageFace4', k);
+    bubble(px + ph.w - off, py + ph.h * 0.46, r, 'firstImageFace5', k);
+    bubble(px + ph.w - off + 20 * k, py + ph.h * 0.7, r * 0.9, 'firstImageFace6', k);
+  } else if (i === 2) {
+    const bw = Math.min(ph.w + 110 * k, D.W - 80 * k), bx = (D.W - bw) / 2;
+    banner(bx, py + (ipad ? 150 : 175) * k, bw, k * (ipad ? 1.25 : 1), L);
+  } else if (i === 4) {
+    const r = (ipad ? 190 : 210) * k, bx = px + (ipad ? -10 : 20) * k, by = py + ph.h * 0.63;
+    ctx.save(); shadow('rgba(25,80,50,0.3)', 60 * k, 20 * k);
+    ctx.fillStyle = '#fff'; circ(bx, by, r); ctx.fill(); ctx.restore();
+    ctx.strokeStyle = C.green; ctx.lineWidth = 10 * k; circ(bx, by, r - 5 * k); ctx.stroke();
+    ctx.save(); circ(bx, by, r - 10 * k); ctx.clip(); img('firstImageFace6', bx, by + 10 * k, r * 2.1); ctx.restore();
+  } else if (i === 5) {
+    [[0.14, 0.24, 36], [0.86, 0.3, 28], [0.1, 0.52, 22], [0.9, 0.6, 38], [0.18, 0.78, 26], [0.84, 0.86, 22]]
+      .forEach(([sx, sy, r], j) => sparkle(sx * D.W, D.top + sy * ph.h, r * k * (ipad ? 1.3 : 1), 0.85 - j * 0.06));
+  }
+}
+
+// ---------- page ----------
+window.renderSlide = renderSlide;
+window.whenReady = () => Promise.all([fontsReady, imagesReady]);
+
+let dev = 'iphone', lang = 'ru';
+const grid = document.getElementById('grid');
+const note = document.getElementById('note');
+const btns = { iphone: dIphone, ipad: dIpad, ru: lRu, en: lEn };
+function draw() {
+  grid.className = 'grid' + (dev === 'ipad' ? ' ipad' : '');
+  grid.innerHTML = '';
+  for (let i = 0; i < 6; i++) {
+    const fig = document.createElement('figure');
+    const c = document.createElement('canvas');
+    c.setAttribute('aria-label', `Screenshot ${i + 1}: ${LANG[lang].slides[i].slice(0, 2).join(' ').replace(/\*/g, '')}`);
+    renderSlide(c, dev, lang, i);
+    const cap = document.createElement('figcaption');
+    cap.textContent = `${i + 1} / 6 · ${DEV[dev].label}`;
+    fig.append(c, cap); grid.append(fig);
+  }
+  for (const [key, b] of Object.entries(btns)) b.setAttribute('aria-pressed', String(key === dev || key === lang));
+  note.textContent = dev === 'iphone'
+    ? 'iPhone 6.9″ (1320 × 2868) — App Store Connect scales these down for every smaller iPhone.'
+    : 'iPad 13″ (2064 × 2752) — required because the app runs on iPad.';
+}
+dIphone.onclick = () => { dev = 'iphone'; draw(); };
+dIpad.onclick = () => { dev = 'ipad'; draw(); };
+lRu.onclick = () => { lang = 'ru'; draw(); };
+lEn.onclick = () => { lang = 'en'; draw(); };
+window.whenReady().then(draw);
+})();
+</script>

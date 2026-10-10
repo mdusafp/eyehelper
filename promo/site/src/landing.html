@@ -1,0 +1,804 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Eye Helper — Eye Exercises &amp; Eye Yoga for Screen Breaks (iPhone, iPad)</title>
+<meta name="description" content="Six short guided eye exercises for people who spend the day at a screen. An animated character shows every move, reminders arrive during your work hours, streaks turn eye breaks into a habit. Free on the App Store.">
+<meta name="keywords" content="eye exercises, eye yoga, eye strain, screen break, eye workout, palming, blinking exercise, eye care app, зарядка для глаз, упражнения для глаз, гимнастика для глаз">
+<link rel="canonical" href="https://dglfactor.tech/eyehelper/">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#509f75">
+<meta name="apple-itunes-app" content="app-id=1559208484">
+<meta name="author" content="dglfactor">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Eye Helper">
+<meta property="og:url" content="https://dglfactor.tech/eyehelper/">
+<meta property="og:title" content="Eye Helper — give your eyes a 5-minute break">
+<meta property="og:description" content="Six short guided eye exercises with an animated character, reminders during work hours and streaks. Free for iPhone and iPad.">
+<meta property="og:image" content="https://dglfactor.tech/eyehelper/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Eye Helper — give your eyes a 5-minute break">
+<meta name="twitter:description" content="Six short guided eye exercises with an animated character. Free for iPhone and iPad.">
+<meta name="twitter:image" content="https://dglfactor.tech/eyehelper/og.jpg">
+
+<link rel="icon" type="image/png" href="{{ICON}}">
+<link rel="apple-touch-icon" href="{{ICON}}">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Fira+Sans+Condensed:wght@800;900&display=swap">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "MobileApplication",
+  "name": "Eye Helper",
+  "alternateName": ["Eye Helper: Eye Exercises", "Eye Helper: зарядка для глаз"],
+  "description": "Six short guided eye exercises for people who spend the day at a screen, with an animated character, reminders during work hours and streaks.",
+  "operatingSystem": "iOS 15.0 or later",
+  "applicationCategory": "HealthApplication",
+  "applicationSubCategory": "Eye exercises",
+  "inLanguage": ["en", "ru"],
+  "url": "https://dglfactor.tech/eyehelper/",
+  "downloadUrl": "https://apps.apple.com/app/id1559208484",
+  "installUrl": "https://apps.apple.com/app/id1559208484",
+  "image": "https://dglfactor.tech/eyehelper/og.jpg",
+  "author": { "@type": "Organization", "name": "dglfactor", "url": "https://dglfactor.tech/" },
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "How long does a set of exercises take?", "acceptedAnswer": { "@type": "Answer", "text": "About five minutes for all six exercises. Each one shows how many repetitions it has and how long it takes." } },
+    { "@type": "Question", "name": "Is Eye Helper free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. The app is free; a small ad appears on some screens, and the exercises themselves are never interrupted." } },
+    { "@type": "Question", "name": "Is it a medical treatment?", "acceptedAnswer": { "@type": "Answer", "text": "No. The exercises are for general wellness and relaxation, not a treatment. Check with a doctor or eye-care professional before starting, especially if you have an eye condition." } },
+    { "@type": "Question", "name": "Which devices does it run on?", "acceptedAnswer": { "@type": "Answer", "text": "iPhone and iPad with iOS 15 or later, in English and Russian." } }
+  ]
+}
+</script>
+
+<style>
+:root {
+  --paper: #f3f9f5;
+  --paper-2: #e6f3eb;
+  --mint: #cfe9db;
+  --green: #509f75;
+  --deep: #2f7a55;
+  --night: #0f2419;
+  --ink: #42210b;
+  --text: #15201a;
+  --muted: #53665b;
+  --line: rgba(21, 32, 26, 0.1);
+  --card: #ffffff;
+  --radius: 28px;
+  --wrap: 1180px;
+  --font: "Fira Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --display: "Fira Sans Condensed", "Fira Sans", system-ui, sans-serif;
+  color-scheme: light;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--paper); color: var(--text);
+  font: 400 18px/1.55 var(--font);
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+img, video, svg { max-width: 100%; display: block; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--green); outline-offset: 3px; border-radius: 8px; }
+.wrap { width: 100%; max-width: var(--wrap); margin: 0 auto; padding-inline: max(20px, env(safe-area-inset-left)); }
+html[data-lang="en"] .ru, html[data-lang="ru"] .en { display: none !important; }
+h1, h2, h3 { text-wrap: balance; margin: 0; }
+p { margin: 0; text-wrap: pretty; }
+.eyebrow { font: 600 13px/1 var(--font); letter-spacing: 0.14em; text-transform: uppercase; color: var(--deep); }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------- header ---------- */
+.top {
+  position: sticky; top: 0; z-index: 20;
+  backdrop-filter: saturate(1.4) blur(16px); -webkit-backdrop-filter: saturate(1.4) blur(16px);
+  background: rgba(243, 249, 245, 0.78); border-bottom: 1px solid transparent;
+  transition: border-color .3s;
+}
+.top.scrolled { border-bottom-color: var(--line); }
+.top .wrap { display: flex; align-items: center; gap: 18px; height: 66px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 700; font-size: 19px; }
+.brand img { width: 34px; height: 34px; border-radius: 9px; box-shadow: 0 2px 8px rgba(0,0,0,.12); }
+.nav { display: flex; gap: 22px; margin-left: auto; font-size: 15px; font-weight: 500; }
+.nav a { text-decoration: none; color: var(--muted); }
+.nav a:hover { color: var(--text); }
+.lang {
+  display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 3px; background: #fff;
+}
+.lang button {
+  border: 0; background: transparent; font: 600 12.5px/1 var(--font); letter-spacing: .06em;
+  padding: 7px 10px; border-radius: 999px; color: var(--muted); cursor: pointer;
+}
+.lang button[aria-pressed="true"] { background: var(--green); color: #fff; }
+.top .get { display: none; }
+
+/* ---------- hero ---------- */
+.hero { position: relative; padding: 56px 0 40px; overflow: hidden; }
+.hero::before {
+  content: ""; position: absolute; inset: -20% -10% auto -10%; height: 120%;
+  background:
+    radial-gradient(40% 50% at 85% 35%, rgba(80,159,117,.28), transparent 70%),
+    radial-gradient(35% 45% at 10% 80%, rgba(207,233,219,.9), transparent 70%);
+  z-index: -1;
+}
+.hero .wrap { display: grid; grid-template-columns: 1.1fr .9fr; gap: 40px; align-items: center; }
+.hero h1 {
+  font: 900 clamp(46px, 7.2vw, 96px)/.95 var(--display); letter-spacing: -0.02em; margin: 18px 0 22px;
+}
+.hero h1 em { font-style: normal; color: var(--green); position: relative; white-space: nowrap; }
+.hero h1 em::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: .02em; height: .12em; border-radius: 99px;
+  background: var(--mint); z-index: -1;
+}
+.lead { font-size: clamp(18px, 2vw, 21px); color: var(--muted); max-width: 34em; }
+.cta { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 22px; margin-top: 30px; }
+.badge { display: inline-block; transition: transform .2s; }
+.badge:hover { transform: translateY(-2px); }
+.badge svg { height: 56px; width: auto; }
+.cta small { color: var(--muted); font-size: 14.5px; line-height: 1.35; }
+.facts { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 34px; padding: 0; list-style: none; }
+.facts li {
+  background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px 8px 10px;
+  font-size: 14.5px; font-weight: 500; display: inline-flex; align-items: center; gap: 8px;
+}
+.facts li b { display: inline-grid; place-items: center; min-width: 26px; height: 26px; padding: 0 6px; border-radius: 99px; background: var(--mint); color: var(--deep); font-size: 13px; }
+
+.stage { position: relative; justify-self: center; width: min(360px, 82vw); }
+.phone {
+  position: relative; border-radius: 52px; padding: 11px; background: #0f1411;
+  box-shadow: 0 50px 90px -30px rgba(20,70,45,.45), 0 0 0 1.5px #3a423d inset;
+  aspect-ratio: 9 / 19.5;
+}
+.phone video, .phone img.poster { width: 100%; height: 100%; object-fit: cover; border-radius: 42px; background: #fff; }
+.phone::after { content: ""; position: absolute; top: 22px; left: 50%; transform: translateX(-50%); width: 30%; height: 26px; border-radius: 20px; background: #000; }
+.float { position: absolute; width: 96px; height: 96px; border-radius: 50%; background: #fff; box-shadow: 0 18px 40px -12px rgba(20,70,45,.35); display: grid; place-items: center; animation: bob 6s ease-in-out infinite; }
+.float img { width: 88%; }
+.f1 { left: -56px; top: 18%; }
+.f2 { right: -48px; top: 42%; animation-delay: -2s; width: 84px; height: 84px; }
+.f3 { left: -30px; bottom: 12%; animation-delay: -4s; width: 78px; height: 78px; }
+@keyframes bob { 50% { transform: translateY(-12px); } }
+
+/* ---------- sections ---------- */
+section { padding: clamp(72px, 10vw, 128px) 0; }
+.sec-head { max-width: 760px; margin-bottom: 44px; }
+.sec-head h2 { font: 900 clamp(38px, 5.4vw, 68px)/.98 var(--display); letter-spacing: -.015em; margin: 14px 0 16px; }
+.sec-head p { color: var(--muted); font-size: 19px; }
+
+/* try it */
+.try { background: var(--night); color: #eaf5ee; position: relative; overflow: hidden; }
+.try .eyebrow { color: #8fd3ad; }
+.try .sec-head p { color: #a9c4b4; }
+.try-box { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; column-gap: 40px; align-items: center; }
+.try-box .arena { grid-column: 1; grid-row: 1 / span 2; scroll-margin-top: 82px; }
+.try-box .try-text { grid-column: 2; grid-row: 1; align-self: end; }
+.try-box .try-action { grid-column: 2; grid-row: 2; align-self: start; }
+.arena {
+  position: relative; aspect-ratio: 1; border-radius: 36px;
+  background: #eef7f1;
+  box-shadow: 0 30px 80px -30px rgba(0,0,0,.6);
+  overflow: hidden; touch-action: none;
+}
+.arena svg.face { position: absolute; inset: 0; margin: auto; width: 62%; height: auto; }
+.dot {
+  position: absolute; width: 26px; height: 26px; margin: -13px 0 0 -13px; border-radius: 50%;
+  background: var(--green); box-shadow: 0 0 0 8px rgba(80,159,117,.18), 0 0 0 18px rgba(80,159,117,.08);
+  left: 50%; top: 50%; opacity: 0; transition: opacity .3s;
+}
+.arena.running .dot { opacity: 1; }
+.ring { position: absolute; inset: 14px; pointer-events: none; }
+.ring circle { fill: none; stroke-width: 5; }
+.ring circle.disc { fill: #fff; stroke: none; }
+.panel h3 { font: 800 clamp(28px, 3vw, 38px)/1.05 var(--display); margin-bottom: 12px; }
+.cue { font: 800 clamp(34px, 4vw, 52px)/1 var(--display); color: #8fd3ad; min-height: 1.1em; margin: 28px 0 8px; }
+.cue-sub { color: #a9c4b4; min-height: 1.6em; }
+.btn {
+  display: inline-flex; align-items: center; gap: 10px; border: 0; cursor: pointer;
+  background: var(--green); color: #fff; font: 600 17px/1 var(--font); padding: 16px 26px; border-radius: 999px;
+  box-shadow: 0 12px 30px -10px rgba(80,159,117,.8); margin-top: 26px; transition: transform .2s, background .2s;
+}
+.btn:hover { transform: translateY(-2px); background: #5cae83; }
+.btn.ghost { background: transparent; color: #cfe9db; box-shadow: inset 0 0 0 1.5px rgba(207,233,219,.4); }
+
+/* exercises */
+.grid6 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.ex {
+  background: var(--card); border-radius: var(--radius); padding: 26px 26px 28px; border: 1px solid var(--line);
+  display: grid; grid-template-rows: auto auto 1fr; gap: 10px; transition: transform .25s, box-shadow .25s;
+}
+.ex:hover { transform: translateY(-4px); box-shadow: 0 24px 50px -24px rgba(20,70,45,.35); }
+.ex .pic { width: 124px; height: 124px; border-radius: 50%; background: var(--paper-2); display: grid; place-items: center; margin-bottom: 8px; }
+.ex .pic { position: relative; }
+.ex .pic img { width: 92%; }
+.ex .pic canvas { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 50%; }
+.ex .pic.live img { visibility: hidden; }
+.ex h3 { font: 700 21px/1.2 var(--font); }
+.ex p { color: var(--muted); font-size: 16px; }
+.ex .meta { font: 600 13px/1 var(--font); color: var(--deep); background: var(--paper-2); border-radius: 99px; padding: 7px 11px; justify-self: start; align-self: end; margin-top: 6px; }
+
+/* feature rows */
+.feature { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+.feature + .feature { margin-top: clamp(72px, 9vw, 120px); }
+.feature.flip .visual { order: -1; }
+.feature ul { list-style: none; padding: 0; margin: 22px 0 0; display: grid; gap: 12px; }
+.feature li { display: grid; grid-template-columns: 28px 1fr; gap: 12px; color: var(--muted); }
+.feature li::before { content: ""; width: 22px; height: 22px; margin-top: 3px; border-radius: 50%; background: var(--mint) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='%232f7a55' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/16px no-repeat; }
+.visual { background: var(--card); border-radius: 36px; border: 1px solid var(--line); padding: 28px; box-shadow: 0 30px 70px -40px rgba(20,70,45,.45); }
+.days { display: flex; justify-content: space-between; gap: 6px; margin: 6px 0 22px; }
+.days span { flex: 1; max-width: 46px; aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center; font: 600 13px/1 var(--font); border: 1.5px solid #e6ece8; color: #88949c; }
+.days span.on { background: var(--green); border-color: var(--green); color: #fff; }
+.tl { position: relative; height: 70px; margin: 8px 6px 0; }
+.tl .track { position: absolute; left: 0; right: 0; top: 14px; height: 6px; border-radius: 3px; background: var(--paper-2); }
+.tl .now { position: absolute; top: 4px; width: 2px; height: 26px; background: #e46b5d; border-radius: 1px; }
+.tl .pin { position: absolute; top: 7px; width: 20px; height: 20px; margin-left: -10px; border-radius: 50%; background: var(--green); border: 3px solid #fff; box-shadow: 0 0 0 2px var(--green); }
+.tl .pin.done { background: var(--deep); box-shadow: 0 0 0 2px var(--deep); }
+.tl .lbl { position: absolute; top: 40px; transform: translateX(-50%); font: 500 13px/1 var(--font); color: var(--muted); white-space: nowrap; }
+.tl .lbl.edge { transform: none; color: #9aa6a0; }
+.tl .lbl.edge.r { right: 0; left: auto; }
+.notif { display: flex; gap: 14px; align-items: center; margin-top: 20px; padding: 14px 16px; border-radius: 20px; background: var(--paper); border: 1px solid var(--line); }
+.notif img { width: 42px; height: 42px; border-radius: 10px; }
+.notif b { display: block; font-size: 15px; }
+.notif span { color: var(--muted); font-size: 14.5px; }
+.vt { font: 600 14px/1 var(--font); color: var(--muted); margin-bottom: 14px; display: flex; justify-content: space-between; }
+.streak { display: flex; align-items: baseline; gap: 10px; margin-bottom: 20px; }
+.streak strong { font: 300 64px/1 var(--font); letter-spacing: -2px; }
+.heat { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+.heat i { aspect-ratio: 1; border-radius: 7px; background: #f1f5f2; }
+.heat i.l1 { background: #b9dcc8; } .heat i.l2 { background: #8cc5a5; } .heat i.l3 { background: #63ab83; } .heat i.l4 { background: #3b7d5a; }
+.heat i.today { box-shadow: inset 0 0 0 2.5px #3b7d5a; }
+.heat i.future { background: rgba(241,245,242,.5); }
+
+/* gallery */
+.gallery {
+  display: grid; grid-auto-flow: column; grid-auto-columns: min(300px, 70vw); gap: 20px;
+  overflow-x: auto; scroll-snap-type: x mandatory; padding: 6px 20px 26px; margin: 0 -20px;
+  scrollbar-width: thin;
+}
+.gallery img { width: 100%; height: auto; border-radius: 26px; scroll-snap-align: center; box-shadow: 0 24px 50px -28px rgba(20,70,45,.5); }
+
+/* faq */
+.faq { display: grid; gap: 12px; max-width: 860px; }
+.faq details { background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 4px 24px; }
+.faq summary { cursor: pointer; list-style: none; font: 600 19px/1.35 var(--font); padding: 18px 0; display: flex; justify-content: space-between; gap: 16px; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; font: 300 28px/1 var(--font); color: var(--green); transition: transform .25s; }
+.faq details[open] summary::after { transform: rotate(45deg); }
+.faq details p { color: var(--muted); padding-bottom: 20px; }
+
+/* final */
+.final { text-align: center; background: linear-gradient(180deg, var(--paper), var(--mint)); }
+.final .mascot { width: 168px; height: 168px; margin: 0 auto 30px; border-radius: 26%; background: #fff; box-shadow: 0 24px 50px -18px rgba(20,70,45,.4), 0 0 0 1px rgba(21,32,26,.05); display: grid; place-items: center; overflow: hidden; }
+.final .mascot img { width: 92%; }
+.final h2 { font: 900 clamp(42px, 6.4vw, 84px)/.96 var(--display); letter-spacing: -.02em; }
+.final p { color: var(--muted); font-size: 19px; margin: 18px auto 0; max-width: 32em; }
+.final .cta { justify-content: center; }
+.note { font-size: 14px; color: var(--muted); max-width: 760px; margin: 50px auto 0; line-height: 1.5; }
+
+footer { background: var(--night); color: #a9c4b4; padding: 44px 0 calc(44px + env(safe-area-inset-bottom)); font-size: 15px; }
+footer .wrap { display: flex; flex-wrap: wrap; gap: 14px 28px; align-items: center; justify-content: space-between; }
+footer a { color: #eaf5ee; text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+footer nav { display: flex; gap: 22px; flex-wrap: wrap; }
+
+.reveal { opacity: 1; transform: none; }
+.js .reveal.pending { opacity: 0; transform: translateY(24px); }
+.js .reveal { transition: opacity .7s ease, transform .7s ease; }
+
+@media (max-width: 960px) {
+  .try-box { grid-template-columns: 1fr; grid-template-rows: none; row-gap: 26px; }
+  .try-box .arena, .try-box .try-text, .try-box .try-action { grid-column: 1; grid-row: auto; }
+  .try-box .try-text { order: 1; } .try-box .arena { order: 2; } .try-box .try-action { order: 3; }
+  .try-action .cue { margin-top: 0; }
+  .try-action .btn { margin-top: 14px; }
+  .hero .wrap, .try-box, .feature { grid-template-columns: 1fr; }
+  .feature.flip .visual { order: 0; }
+  .grid6 { grid-template-columns: 1fr 1fr; }
+  .nav { display: none; }
+  .top .get { display: inline-flex; margin-left: auto; }
+  .top .get svg { height: 36px; width: auto; }
+  .hero { padding-top: 30px; }
+  .stage { margin-top: 10px; }
+}
+@media (max-width: 560px) {
+  body { font-size: 17px; }
+  .grid6 { grid-template-columns: 1fr; }
+  .float { display: none; }
+  .top .lang { margin-left: 0; }
+  .brand span { display: none; }
+  .visual { padding: 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+</style>
+</head>
+<body>
+
+<header class="top" id="top">
+  <div class="wrap">
+    <a class="brand" href="#" aria-label="Eye Helper"><img src="{{ICON}}" alt="" width="34" height="34"><span>Eye Helper</span></a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#try"><span class="en">Try it</span><span class="ru">Попробовать</span></a>
+      <a href="#exercises"><span class="en">Exercises</span><span class="ru">Упражнения</span></a>
+      <a href="#reminders"><span class="en">Reminders</span><span class="ru">Напоминания</span></a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a class="get" href="https://apps.apple.com/app/id1559208484" aria-label="Download on the App Store">{{BADGE}}</a>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" data-set-lang="en" aria-pressed="true">EN</button>
+      <button type="button" data-set-lang="ru" aria-pressed="false">RU</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero" aria-labelledby="h1">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow"><span class="en">Eye exercises for iPhone &amp; iPad</span><span class="ru">Зарядка для глаз на iPhone и iPad</span></p>
+        <h1 id="h1">
+          <span class="en">Give your eyes a <em>5-minute</em> break</span>
+          <span class="ru">Отдых для глаз за <em>5&nbsp;минут</em></span>
+        </h1>
+        <p class="lead">
+          <span class="en">Six short guided exercises for people who spend the day at a screen. A friendly character shows every move — you just follow along.</span>
+          <span class="ru">Шесть коротких упражнений для тех, кто весь день за экраном. Весёлый персонаж показывает каждое движение — просто повторяйте за ним.</span>
+        </p>
+        <div class="cta">
+          <a class="badge" href="https://apps.apple.com/app/id1559208484" aria-label="Download Eye Helper on the App Store">{{BADGE}}</a>
+          <small><span class="en">Free · iPhone &amp; iPad · iOS 15+</span><span class="ru">Бесплатно · iPhone и iPad · iOS 15+</span></small>
+        </div>
+        <ul class="facts">
+          <li><b>6</b><span class="en">guided exercises</span><span class="ru">упражнений с анимацией</span></li>
+          <li><b>≈5</b><span class="en">minutes a set</span><span class="ru">минут на подход</span></li>
+          <li><b>3×</b><span class="en">reminders at work</span><span class="ru">напоминания в рабочие часы</span></li>
+          <li><b>12</b><span class="en">day streaks &amp; stats</span><span class="ru">дней подряд — серии и статистика</span></li>
+        </ul>
+      </div>
+      <div class="stage">
+        <div class="phone">
+          <video class="en" autoplay muted loop playsinline preload="metadata" poster="{{POSTER_EN}}" aria-label="Eye Helper app preview" src="{{VIDEO_EN}}"></video>
+          <video class="ru" muted loop playsinline preload="none" poster="{{POSTER_RU}}" aria-label="Превью приложения Eye Helper" data-src="{{VIDEO_RU}}"></video>
+        </div>
+        <div class="float f1"><img src="{{FACE5}}" alt="" width="84" height="84"></div>
+        <div class="float f2"><img src="{{FACE4}}" alt="" width="74" height="74"></div>
+        <div class="float f3"><img src="{{FACE3}}" alt="" width="68" height="68"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRY IT -->
+  <section class="try" id="try" aria-labelledby="try-h">
+    <div class="wrap">
+      <div class="try-box">
+        <div class="arena" id="arena">
+          <svg class="ring" viewBox="0 0 100 100" aria-hidden="true">
+            <circle class="disc" cx="50" cy="50" r="47"></circle>
+            <circle cx="50" cy="50" r="47" stroke="rgba(80,159,117,.15)"></circle>
+            <circle id="ringFill" cx="50" cy="50" r="47" stroke="#509f75" stroke-linecap="round" stroke-dasharray="295.3" stroke-dashoffset="295.3" transform="rotate(-90 50 50)"></circle>
+          </svg>
+          <svg class="face" id="face" viewBox="-160 -120 320 260" aria-hidden="true">
+            <g id="eyeL" transform="translate(-80 0)">
+              <path d="M-54 8 A54 54 0 0 1 22 -48" fill="none" stroke="#42210b" stroke-width="4" stroke-linecap="round"></path>
+              <g class="pupil"><ellipse rx="36" ry="36" fill="#42210b"></ellipse><circle cx="13" cy="-16" r="10" fill="#fff"></circle><circle cx="22" cy="-3" r="3.6" fill="#fff"></circle></g>
+            </g>
+            <g id="eyeR" transform="translate(80 0)">
+              <path d="M-22 -48 A54 54 0 0 1 54 8" fill="none" stroke="#42210b" stroke-width="4" stroke-linecap="round"></path>
+              <g class="pupil"><ellipse rx="36" ry="36" fill="#42210b"></ellipse><circle cx="13" cy="-16" r="10" fill="#fff"></circle><circle cx="22" cy="-3" r="3.6" fill="#fff"></circle></g>
+            </g>
+            <ellipse cx="-104" cy="52" rx="17" ry="6" fill="#c1272d" opacity=".75"></ellipse>
+            <ellipse cx="104" cy="52" rx="17" ry="6" fill="#c1272d" opacity=".75"></ellipse>
+            <path id="mouth" d="M-20 78 C-9 84 -5 86 0 83 C5 86 9 84 20 78 C22 98 11 104 0 104 C-11 104 -22 98 -20 78 Z" fill="#42210b"></path>
+            <ellipse cx="0" cy="100" rx="14" ry="7" fill="#c1272d"></ellipse>
+          </svg>
+          <div class="dot" id="dot"></div>
+        </div>
+        <div class="panel try-text">
+          <p class="eyebrow"><span class="en">Try it right here</span><span class="ru">Попробуйте прямо здесь</span></p>
+          <h2 id="try-h" class="sec-title" style="font:900 clamp(38px,5.4vw,68px)/.98 var(--display);letter-spacing:-.015em;margin:14px 0 16px">
+            <span class="en">Follow the dot. Keep your head still.</span>
+            <span class="ru">Следите за точкой. Голова неподвижна.</span>
+          </h2>
+          <p style="color:#a9c4b4;font-size:19px"><span class="en">A 20-second taste of the app: up and down, then left and right — the same moves the character shows you in Eye Helper.</span><span class="ru">20 секунд из приложения: вверх-вниз, затем влево-вправо — те же движения, которые показывает персонаж в Eye Helper.</span></p>
+        </div>
+        <div class="panel try-action">
+          <p class="cue" id="cue" aria-live="polite"></p>
+          <p class="cue-sub" id="cueSub"></p>
+          <button class="btn" id="tryBtn" type="button">
+            <svg width="16" height="18" viewBox="0 0 16 18" aria-hidden="true"><path d="M2 1.5 L14.5 9 L2 16.5 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+            <span class="en">Start 20 seconds</span><span class="ru">Начать — 20 секунд</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXERCISES -->
+  <section id="exercises" aria-labelledby="ex-h">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="eyebrow"><span class="en">Six exercises · about five minutes</span><span class="ru">Шесть упражнений · около пяти минут</span></p>
+        <h2 id="ex-h"><span class="en">A tiny workout for the muscles that stare all day</span><span class="ru">Маленькая тренировка для мышц, которые весь день смотрят в экран</span></h2>
+        <p><span class="en">Every exercise is animated — the character moves its eyes, squeezes, blinks and covers its eyes with warm palms, and you repeat.</span><span class="ru">Каждое упражнение анимировано: персонаж водит глазами, жмурится, моргает и закрывает глаза тёплыми ладонями, а вы повторяете.</span></p>
+      </div>
+      <div class="grid6">
+        <article class="ex reveal"><div class="pic" data-sheet="lrtbFaceSprites" data-anim="fastTopBot"><img src="{{FACE1}}" alt="" width="96" height="96"></div>
+          <h3><span class="en">Vertical movements</span><span class="ru">Вертикальные движения</span></h3>
+          <p><span class="en">Move your eyes up and down and back.</span><span class="ru">Поводите глазами снизу вверх и наоборот.</span></p>
+          <span class="meta"><span class="en">3 reps · 27 s</span><span class="ru">3 повтора · 27 с</span></span></article>
+        <article class="ex reveal"><div class="pic" data-sheet="lrtbFaceSprites" data-anim="fastLeftRight"><img src="{{FACE1}}" alt="" width="96" height="96"></div>
+          <h3><span class="en">Horizontal movements</span><span class="ru">Горизонтальные движения</span></h3>
+          <p><span class="en">Move your eyes left and right and back.</span><span class="ru">Поводите глазами слева направо и наоборот.</span></p>
+          <span class="meta"><span class="en">3 reps · 27 s</span><span class="ru">3 повтора · 27 с</span></span></article>
+        <article class="ex reveal"><div class="pic" data-sheet="screwUpSprites" data-anim="screwUp"><img src="{{FACE3}}" alt="" width="96" height="96"></div>
+          <h3><span class="en">Eye squeezing</span><span class="ru">Зажмуривания</span></h3>
+          <p><span class="en">Squeeze your eyes shut for 10 seconds, then relax them without opening.</span><span class="ru">Крепко зажмурьтесь на 10 секунд, затем расслабьте глаза, не открывая.</span></p>
+          <span class="meta"><span class="en">3 reps · 54 s</span><span class="ru">3 повтора · 54 с</span></span></article>
+        <article class="ex reveal"><div class="pic" data-sheet="blinkingSprites" data-anim="blinkingFast"><img src="{{FACE4}}" alt="" width="96" height="96"></div>
+          <h3><span class="en">Blinking</span><span class="ru">Моргание</span></h3>
+          <p><span class="en">Blink quickly — it refreshes eyes that forget to blink at a screen.</span><span class="ru">Быстро поморгайте — за экраном мы моргаем заметно реже.</span></p>
+          <span class="meta"><span class="en">3 reps · 36 s</span><span class="ru">3 повтора · 36 с</span></span></article>
+        <article class="ex reveal"><div class="pic" data-sheet="farSeeingSprites" data-anim="farSeeing"><img src="{{FACE5}}" alt="" width="96" height="96"></div>
+          <h3><span class="en">Focusing</span><span class="ru">Фокусировка</span></h3>
+          <p><span class="en">Focus on something near for 10 seconds, then on something far away.</span><span class="ru">Сфокусируйтесь на ближнем предмете 10 секунд, затем на дальнем.</span></p>
+          <span class="meta"><span class="en">3 reps · 1 min</span><span class="ru">3 повтора · 1 мин</span></span></article>
+        <article class="ex reveal"><div class="pic" data-sheet="palmingSprites" data-anim="palming"><img src="{{FACE6}}" alt="" width="96" height="96"></div>
+          <h3><span class="en">Palming</span><span class="ru">Пальминг</span></h3>
+          <p><span class="en">Rub your hands until warm and rest them over closed eyes for 15 seconds.</span><span class="ru">Разотрите ладони до тепла и приложите к закрытым глазам на 15 секунд.</span></p>
+          <span class="meta"><span class="en">3 reps · 1 min 15 s</span><span class="ru">3 повтора · 1 мин 15 с</span></span></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="reminders" style="background:#fff" aria-labelledby="rem-h">
+    <div class="wrap">
+      <div class="feature reveal">
+        <div>
+          <p class="eyebrow"><span class="en">Reminders</span><span class="ru">Напоминания</span></p>
+          <h2 id="rem-h" style="font:900 clamp(38px,5.4vw,68px)/.98 var(--display);letter-spacing:-.015em;margin:14px 0 16px"><span class="en">It nudges you while you work</span><span class="ru">Напомнит, пока вы работаете</span></h2>
+          <p style="color:var(--muted);font-size:19px"><span class="en">Tell the app your working days and hours — reminders spread evenly through the day, never at night or on your days off.</span><span class="ru">Укажите рабочие дни и часы — напоминания равномерно распределятся по дню и не придут ночью или в выходной.</span></p>
+          <ul>
+            <li><span class="en">One, two or three reminders a day</span><span class="ru">Одно, два или три напоминания в день</span></li>
+            <li><span class="en">Different hours for different days, if you need them</span><span class="ru">Разные часы для разных дней, если нужно</span></li>
+            <li><span class="en">Or pick your own exact times</span><span class="ru">Или своё точное время</span></li>
+          </ul>
+        </div>
+        <div class="visual" aria-hidden="true">
+          <div class="vt"><span><span class="en">Working days</span><span class="ru">Рабочие дни</span></span></div>
+          <div class="days">
+            <span class="on"><span class="en">M</span><span class="ru">Пн</span></span><span class="on"><span class="en">T</span><span class="ru">Вт</span></span><span class="on"><span class="en">W</span><span class="ru">Ср</span></span><span class="on"><span class="en">T</span><span class="ru">Чт</span></span><span class="on"><span class="en">F</span><span class="ru">Пт</span></span><span><span class="en">S</span><span class="ru">Сб</span></span><span><span class="en">S</span><span class="ru">Вс</span></span>
+          </div>
+          <div class="vt"><span><span class="en">Today</span><span class="ru">Сегодня</span></span><span>9:00 – 18:00</span></div>
+          <div class="tl">
+            <div class="track"></div>
+            <div class="pin done" style="left:25%"></div><div class="pin done" style="left:50%"></div><div class="now" style="left:55.5%"></div><div class="pin" style="left:75%"></div>
+            <span class="lbl edge">9:00</span><span class="lbl" style="left:25%">11:15 ✓</span><span class="lbl" style="left:50%">13:30 ✓</span><span class="lbl" style="left:75%">15:45</span><span class="lbl edge r">18:00</span>
+          </div>
+          <div class="notif"><img src="{{ICON}}" alt="" width="42" height="42"><div><b><span class="en">Reminder</span><span class="ru">Напоминание</span></b><span class="en">Time to do your eye exercises!</span><span class="ru">Пора делать зарядку!</span></div></div>
+        </div>
+      </div>
+
+      <div class="feature flip reveal" id="progress">
+        <div>
+          <p class="eyebrow"><span class="en">Progress</span><span class="ru">Прогресс</span></p>
+          <h2 style="font:900 clamp(38px,5.4vw,68px)/.98 var(--display);letter-spacing:-.015em;margin:14px 0 16px"><span class="en">Watch the habit grow</span><span class="ru">Привычка, которую видно</span></h2>
+          <p style="color:var(--muted);font-size:19px"><span class="en">A streak of days, today's set at a glance and a calendar that fills up in greens — small wins that keep you coming back.</span><span class="ru">Серия дней, сегодняшний подход одним взглядом и календарь, который заполняется зелёным, — маленькие победы, к которым хочется возвращаться.</span></p>
+          <ul>
+            <li><span class="en">Current and best streak</span><span class="ru">Текущая и лучшая серия</span></li>
+            <li><span class="en">What's left for today and how long it takes</span><span class="ru">Что осталось на сегодня и сколько это займёт</span></li>
+            <li><span class="en">Minutes for your eyes, week over week</span><span class="ru">Минуты для глаз — неделя к неделе</span></li>
+          </ul>
+        </div>
+        <div class="visual" aria-hidden="true">
+          <div class="vt"><span><span class="en">Streak</span><span class="ru">Серия</span></span><span><span class="en">Best — 21 days</span><span class="ru">Лучшая — 21 день</span></span></div>
+          <div class="streak"><strong>12</strong><span><span class="en">days in a row</span><span class="ru">дней подряд</span></span></div>
+          <div class="heat" id="heat"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section aria-labelledby="gal-h" style="padding-bottom:40px">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="eyebrow"><span class="en">Inside the app</span><span class="ru">Внутри приложения</span></p>
+        <h2 id="gal-h"><span class="en">Calm, clear, made for a quick break</span><span class="ru">Спокойно, понятно и быстро</span></h2>
+      </div>
+      <div class="gallery" tabindex="0" aria-label="Screenshots">
+        <img class="en" src="{{SHOT_EN_02}}" alt="Six animated exercises — follow the character" width="480" height="1043">
+        <img class="en" src="{{SHOT_EN_03}}" alt="Reminders during work hours" width="480" height="1043">
+        <img class="en" src="{{SHOT_EN_04}}" alt="Streaks, progress and stats" width="480" height="1043">
+        <img class="en" src="{{SHOT_EN_05}}" alt="Palming, focusing and blinking" width="480" height="1043">
+        <img class="ru" src="{{SHOT_RU_02}}" alt="Шесть упражнений с анимацией — повторяйте за персонажем" width="480" height="1043">
+        <img class="ru" src="{{SHOT_RU_03}}" alt="Напоминания в рабочие часы" width="480" height="1043">
+        <img class="ru" src="{{SHOT_RU_04}}" alt="Серия, прогресс и статистика" width="480" height="1043">
+        <img class="ru" src="{{SHOT_RU_05}}" alt="Пальминг, фокусировка и моргание" width="480" height="1043">
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" aria-labelledby="faq-h">
+    <div class="wrap">
+      <div class="sec-head reveal"><p class="eyebrow">FAQ</p><h2 id="faq-h"><span class="en">Good questions</span><span class="ru">Частые вопросы</span></h2></div>
+      <div class="faq">
+        <details class="reveal"><summary><span class="en">How long does a set of exercises take?</span><span class="ru">Сколько занимает один подход?</span></summary>
+          <p><span class="en">About five minutes for all six exercises. Each one shows how many repetitions it has and how long it takes.</span><span class="ru">Около пяти минут на все шесть упражнений. У каждого указано, сколько в нём повторов и сколько оно длится.</span></p></details>
+        <details class="reveal"><summary><span class="en">Is Eye Helper free?</span><span class="ru">Это бесплатно?</span></summary>
+          <p><span class="en">Yes. The app is free; a small ad appears on some screens, and the exercises themselves are never interrupted.</span><span class="ru">Да. Приложение бесплатное: на некоторых экранах есть небольшая реклама, а сами упражнения она никогда не прерывает.</span></p></details>
+        <details class="reveal"><summary><span class="en">Do I need anything to start?</span><span class="ru">Что нужно, чтобы начать?</span></summary>
+          <p><span class="en">Just your phone and a couple of minutes. Sit up straight, keep your head still and follow the character.</span><span class="ru">Только телефон и пара минут. Сядьте ровно, держите голову неподвижно и повторяйте за персонажем.</span></p></details>
+        <details class="reveal"><summary><span class="en">Is it a medical treatment?</span><span class="ru">Это лечение?</span></summary>
+          <p><span class="en">No. The exercises are for general wellness and relaxation, not a treatment. Check with a doctor or eye-care professional before starting, especially if you have an eye condition.</span><span class="ru">Нет. Упражнения — для общего самочувствия и расслабления, а не лечение. Перед началом проконсультируйтесь с врачом, особенно если у вас есть заболевания глаз.</span></p></details>
+        <details class="reveal"><summary><span class="en">Which devices and languages?</span><span class="ru">На каких устройствах и языках?</span></summary>
+          <p><span class="en">iPhone and iPad with iOS 15 or later, in English and Russian.</span><span class="ru">iPhone и iPad с iOS 15 и новее, на русском и английском.</span></p></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final" aria-labelledby="final-h">
+    <div class="wrap">
+      <div class="mascot"><img src="{{FINISH}}" alt="" width="154" height="154"></div>
+      <h2 id="final-h"><span class="en">Your eyes worked all day.<br>Give them five minutes.</span><span class="ru">Глаза работали весь день.<br>Подарите им пять минут.</span></h2>
+      <p><span class="en">Download Eye Helper and take your first eye break today.</span><span class="ru">Скачайте Eye Helper и сделайте первый перерыв для глаз уже сегодня.</span></p>
+      <div class="cta"><a class="badge" href="https://apps.apple.com/app/id1559208484" aria-label="Download Eye Helper on the App Store">{{BADGE}}</a></div>
+      <p class="note"><span class="en">Eye Helper is designed for general wellness and relaxation. It is not a medical device and is not intended to diagnose, treat, cure or prevent any condition.</span><span class="ru">Eye Helper создан для общего хорошего самочувствия и расслабления. Это не медицинское изделие, и оно не предназначено для диагностики, лечения или профилактики заболеваний.</span></p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="year">2026</span> <a href="https://dglfactor.tech/">dglfactor.tech</a></span>
+    <nav aria-label="Footer">
+      <a href="https://dglfactor.tech/eyehelper/policy.html"><span class="en">Privacy Policy</span><span class="ru">Политика конфиденциальности</span></a>
+      <a href="mailto:eyehelper@dglfactor.tech"><span class="en">Contact</span><span class="ru">Связаться</span></a>
+      <a href="https://apps.apple.com/app/id1559208484">App Store</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const root = document.documentElement;
+  root.classList.add('js');
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // ---------- language ----------
+  const buttons = document.querySelectorAll('[data-set-lang]');
+  function setLang(l, save) {
+    root.dataset.lang = l; root.lang = l;
+    buttons.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.setLang === l)));
+    if (save) { try { localStorage.setItem('eh-lang', l); } catch (e) {} }
+    const vids = document.querySelectorAll('.phone video');
+    vids.forEach(v => {
+      const on = v.classList.contains(l);
+      if (on) {
+        if (!v.src && v.dataset.src) v.src = v.dataset.src;
+        const p = v.play(); if (p && p.catch) p.catch(() => {});
+      } else v.pause();
+    });
+    document.getElementById('cue').textContent = '';
+    document.getElementById('cueSub').textContent = '';
+  }
+  buttons.forEach(b => b.addEventListener('click', () => setLang(b.dataset.setLang, true)));
+  let saved = null; try { saved = localStorage.getItem('eh-lang'); } catch (e) {}
+  const q = new URLSearchParams(location.search).get('lang');
+  const pref = q || saved || ((navigator.language || 'en').toLowerCase().startsWith('ru') ? 'ru' : 'en');
+  setLang(pref === 'ru' ? 'ru' : 'en', false);
+
+  // ---------- header ----------
+  const top = document.getElementById('top');
+  addEventListener('scroll', () => top.classList.toggle('scrolled', scrollY > 8), { passive: true });
+
+  // ---------- heatmap (a month, Monday-first) ----------
+  const heat = document.getElementById('heat');
+  const levels = [ -1, 0, 2, 3, 1, 3, 4, 0, 2, 3, 3, 1, 3, 3, 4, 2, 3, 3, 4, 3, 3, 2, 3, 2 ];
+  for (let d = 0; d < 35; d++) {
+    const i = document.createElement('i');
+    if (d === 0) i.style.visibility = 'hidden';
+    else if (d > 30) i.style.visibility = 'hidden';
+    else if (d > 23) i.className = 'future';
+    else { const l = levels[d]; if (l > 0) i.className = 'l' + l; if (d === 23) i.classList.add('today'); }
+    heat.appendChild(i);
+  }
+
+  // ---------- reveal on scroll (content is visible without JS) ----------
+  const els = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const io = new IntersectionObserver(entries => entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.remove('pending'); io.unobserve(e.target); }
+    }), { rootMargin: '0px 0px -8% 0px' });
+    els.forEach(el => { if (el.getBoundingClientRect().top > innerHeight) { el.classList.add('pending'); io.observe(el); } });
+  }
+
+  // ---------- the mascot: eyes follow the pointer, or the dot during the exercise ----------
+  const arena = document.getElementById('arena');
+  const face = document.getElementById('face');
+  const pupils = [...face.querySelectorAll('.pupil')];
+  const dot = document.getElementById('dot');
+  const ringFill = document.getElementById('ringFill');
+  const cue = document.getElementById('cue'), cueSub = document.getElementById('cueSub');
+  const btn = document.getElementById('tryBtn');
+  let target = { x: 0, y: 0 }, look = { x: 0, y: 0 }, running = false, t0 = 0, blinkAt = performance.now() + 2500;
+
+  function lookAt(clientX, clientY) {
+    const r = face.getBoundingClientRect();
+    const dx = clientX - (r.left + r.width / 2), dy = clientY - (r.top + r.height * 0.46);
+    const d = Math.hypot(dx, dy) || 1, k = Math.min(1, d / 260);
+    target = { x: dx / d * k, y: dy / d * k };
+  }
+  addEventListener('pointermove', e => { if (!running) lookAt(e.clientX, e.clientY); }, { passive: true });
+
+  const T = {
+    en: { up: 'Look up', down: 'Look down', left: 'Look left', right: 'Look right', ready: 'Get ready…', done: 'Nice! That’s one exercise.', doneSub: 'The app has five more — about five minutes a day.', again: 'Try again', start: 'Start 20 seconds' },
+    ru: { up: 'Смотрите вверх', down: 'Смотрите вниз', left: 'Смотрите влево', right: 'Смотрите вправо', ready: 'Приготовьтесь…', done: 'Отлично! Это одно упражнение.', doneSub: 'В приложении ещё пять — около пяти минут в день.', again: 'Ещё раз', start: 'Начать — 20 секунд' },
+  };
+  // 20 s: 2 s ready, then 4 legs of 4.5 s with the dot holding at each end.
+  const LEGS = [['up', 0, -1], ['down', 0, 1], ['left', -1, 0], ['right', 1, 0]];
+  const DUR = 20;
+  function lang() { return root.dataset.lang === 'ru' ? 'ru' : 'en'; }
+  function setBtn(key) {
+    const L = T[lang()];
+    btn.querySelector('.en').textContent = T.en[key];
+    btn.querySelector('.ru').textContent = T.ru[key];
+  }
+  btn.addEventListener('click', () => {
+    if (running) return;
+    running = true; t0 = performance.now(); arena.classList.add('running'); btn.disabled = true; btn.style.opacity = .5;
+    // On a phone the button sits under the face: scroll so the face and the cue are both on screen.
+    const r = arena.getBoundingClientRect();
+    if (r.top < 70 || r.bottom > innerHeight - 90) {
+      arena.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+    }
+  });
+
+  function frame(now) {
+    const L = T[lang()];
+    let dotPos = null;
+    if (running) {
+      const t = (now - t0) / 1000;
+      const p = Math.min(1, t / DUR);
+      ringFill.setAttribute('stroke-dashoffset', String(295.3 * (1 - p)));
+      if (t < 2) { cue.textContent = L.ready; cueSub.textContent = ''; dotPos = { x: 0, y: 0 }; }
+      else if (t < DUR) {
+        const lt = t - 2, leg = Math.min(3, Math.floor(lt / 4.5)), lp = (lt - leg * 4.5) / 4.5;
+        const [key, dx, dy] = LEGS[leg];
+        // out, hold, back
+        const s = lp < 0.3 ? easeInOut(lp / 0.3) : lp < 0.75 ? 1 : 1 - easeInOut((lp - 0.75) / 0.25);
+        dotPos = { x: dx * s, y: dy * s };
+        cue.textContent = L[key]; cueSub.textContent = '';
+      } else {
+        running = false; arena.classList.remove('running'); btn.disabled = false; btn.style.opacity = 1;
+        cue.textContent = L.done; cueSub.textContent = L.doneSub; setBtn('again');
+        ringFill.setAttribute('stroke-dashoffset', '295.3');
+        target = { x: 0, y: 0 };
+      }
+      if (dotPos) {
+        dot.style.left = (50 + dotPos.x * 38) + '%';
+        dot.style.top = (50 + dotPos.y * 38) + '%';
+        target = { x: dotPos.x, y: dotPos.y };
+      }
+    }
+    look.x += (target.x - look.x) * 0.18;
+    look.y += (target.y - look.y) * 0.18;
+    // blink every few seconds
+    let blink = 0;
+    const bt = now - blinkAt;
+    if (bt > 0 && bt < 180) blink = Math.sin(bt / 180 * Math.PI);
+    else if (bt >= 180) blinkAt = now + 2600 + Math.random() * 2600;
+    pupils.forEach(g => g.setAttribute('transform', `translate(${look.x * 18} ${look.y * 16}) scale(1 ${Math.max(0.08, 1 - blink)})`));
+    requestAnimationFrame(frame);
+  }
+  const easeInOut = x => x < .5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2;
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) requestAnimationFrame(frame);
+})();
+</script>
+
+<script>
+// Exercise faces: the app's own sprite atlases and keyframes, drawn the way
+// its _SpritePainter does, looping the idle animation of each exercise.
+(() => {
+  const SPR = {{SPRITES_JSON}};
+  const ATLAS_SRC = {{ATLASES_JSON}};
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const clamp = v => Math.min(1, Math.max(0, v));
+  function valueAt(keys, t) {
+    if (!keys.length) return 0;
+    if (t <= keys[0][0]) return keys[0][1];
+    for (let i = 0; i < keys.length - 1; i++) {
+      const a = keys[i], b = keys[i + 1];
+      if (t < b[0]) return (a[2] || b[0] === a[0]) ? a[1] : a[1] + (b[1] - a[1]) * (t - a[0]) / (b[0] - a[0]);
+    }
+    return keys[keys.length - 1][1];
+  }
+  const contains = (o, i) => o[0] <= i[0] + 1 && o[1] <= i[1] + 1 && o[2] >= i[2] - 1 && o[3] >= i[3] - 1;
+  function draw(ctx, sh, atlas, anim, time, size) {
+    const [bw, bh] = sh.board, fit = Math.min(size / bw, size / bh), Ls = sh.layers;
+    ctx.save();
+    ctx.translate((size - bw * fit) / 2, (size - bh * fit) / 2); ctx.scale(fit, fit);
+    const tr = Ls.map(l => [...l.tr]), op = Ls.map(l => l.opacity);
+    const an = sh.anims[anim];
+    if (an) for (const tk of an.tracks) {
+      const v = valueAt(tk.keys, time);
+      if (tk.prop === 'posX') tr[tk.layer][0] = v; else if (tk.prop === 'posY') tr[tk.layer][1] = v; else op[tk.layer] = v;
+    }
+    const wt = [], ws = [], wo = [];
+    Ls.forEach((l, i) => {
+      const p = l.parent;
+      if (p == null) { wt[i] = tr[i]; ws[i] = l.scale; wo[i] = op[i]; }
+      else { wt[i] = [wt[p][0] + tr[i][0] * ws[p], wt[p][1] + tr[i][1] * ws[p]]; ws[i] = ws[p] * l.scale; wo[i] = wo[p] * op[i]; }
+    });
+    const order = Ls.map((_, i) => i).sort((a, b) => Ls[a].order - Ls[b].order);
+    const dsts = {};
+    for (const i of order) if (Ls[i].kind === 'image' && wo[i] > 0) { const l = Ls[i].local, t = wt[i], s = ws[i]; dsts[i] = [t[0] + l[0] * s, t[1] + l[1] * s, t[0] + l[2] * s, t[1] + l[3] * s]; }
+    const through = (i, r) => { let f = 1; for (let k = order.indexOf(i) + 1; k < order.length; k++) { const a = dsts[order[k]]; if (a && contains(a, r)) f *= 1 - clamp(wo[order[k]]); } return f; };
+    for (const i of order) {
+      const l = Ls[i]; let o = clamp(wo[i]); if (o <= 0) continue;
+      if (l.kind === 'image') {
+        const d = dsts[i]; o *= through(i, d); if (o <= 0.002) continue;
+        ctx.globalAlpha = o;
+        ctx.drawImage(atlas, l.src[0], l.src[1], l.src[2] - l.src[0], l.src[3] - l.src[1], d[0], d[1], d[2] - d[0], d[3] - d[1]);
+      } else {
+        const t = wt[i], s = ws[i], w = l.size[0] * s, h = l.size[1] * s, r = [t[0] - w / 2, t[1] - h / 2, t[0] + w / 2, t[1] + h / 2];
+        o *= through(i, r); if (o <= 0.002) continue;
+        ctx.globalAlpha = o * l.alpha; ctx.fillStyle = l.color; ctx.fillRect(r[0], r[1], w, h);
+      }
+    }
+    ctx.restore(); ctx.globalAlpha = 1;
+  }
+  const atlases = {};
+  const load = k => atlases[k] || (atlases[k] = new Promise(res => { const im = new Image(); im.onload = () => res(im); im.onerror = () => res(null); im.src = ATLAS_SRC[k]; }));
+  const cards = [];
+  document.querySelectorAll('.pic[data-sheet]').forEach(pic => {
+    const sheet = SPR[pic.dataset.sheet]; if (!sheet) return;
+    const key = sheet.atlas.split('/').pop().replace('.png', '');
+    load(key).then(atlas => {
+      if (!atlas) return;
+      const cv = document.createElement('canvas'), dpr = Math.min(2, devicePixelRatio || 1), size = pic.clientWidth || 104;
+      cv.width = cv.height = Math.round(size * dpr);
+      pic.appendChild(cv); pic.classList.add('live');
+      const ctx = cv.getContext('2d'); ctx.scale(dpr, dpr);
+      // the face sits a little inside the circle, like the 176-in-224 stage in the app
+      const c = { pic, ctx, sheet, atlas, anim: pic.dataset.anim, size, pad: size * (key === 'lrtbFace' ? 0.07 : -0.04), t0: performance.now() + Math.random() * 800, visible: false };
+      cards.push(c);
+      render(c, reduce ? 0.35 : 0);
+      if ('IntersectionObserver' in window) new IntersectionObserver(es => es.forEach(e => (c.visible = e.isIntersecting))).observe(pic);
+      else c.visible = true;
+    });
+  });
+  function render(c, time) {
+    c.ctx.clearRect(0, 0, c.size, c.size);
+    c.ctx.save(); c.ctx.translate(c.pad, c.pad);
+    draw(c.ctx, c.sheet, c.atlas, c.anim, time, c.size - 2 * c.pad);
+    c.ctx.restore();
+  }
+  if (!reduce) (function loop(now) {
+    for (const c of cards) if (c.visible) {
+      const dur = c.sheet.anims[c.anim].dur;
+      render(c, ((now - c.t0) / 1000 % dur + dur) % dur);
+    }
+    requestAnimationFrame(loop);
+  })(performance.now());
+})();
+</script>
+</body>
+</html>

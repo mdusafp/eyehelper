@@ -1,0 +1,16 @@
+{
+  "locale": "en-GB",
+  "appInfo": {
+    "name": "Eye Helper: Eye Exercises",
+    "subtitle": "Eye Yoga for Tired Eyes",
+    "privacyPolicyUrl": "https://dglfactor.tech/eyehelper/policy.html"
+  },
+  "version": {
+    "description": "Eye Helper is a set of short guided eye exercises for people who spend the day at a screen. A friendly animated character shows every movement — just follow along.\n\n• 6 exercises, about 5 minutes in total: vertical and horizontal eye movements, eye squeezing, blinking, near-and-far focusing and palming\n• Reminders during your working hours — choose your working days, hours and how many reminders a day\n• Streaks, today's progress and a monthly calendar that help turn eye breaks into a habit\n\nTake a short break for your eyes a few times a day, let the muscles that tire from hours of screen time relax, and get back to work refreshed.\n\nImportant: these exercises are for general wellness and relaxation. They are not a medical treatment and are not intended to diagnose, cure or prevent any condition. Please check with a doctor or eye-care professional before starting, especially if you have an existing eye condition.",
+    "keywords": "strain,care,rest,relax,vision,sight,training,screen,break,blink,palming,focus,reminder,fatigue,work",
+    "promotionalText": "Six short eye exercises with an animated guide, reminders during your work hours and streaks that turn eye breaks into a habit.",
+    "whatsNew": "A big update:\n• Fresh new design\n• Smooth animated exercises with a progress ring and on-screen cues\n• Redesigned reminders: working days, working hours and reminders per day\n• New statistics: streaks, today's progress and a monthly calendar\n• The app is now available in English",
+    "marketingUrl": "https://dglfactor.tech/eyehelper/",
+    "supportUrl": "https://dglfactor.tech/eyehelper/"
+  }
+}
